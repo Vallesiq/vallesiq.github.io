@@ -84,13 +84,14 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .filt i{font-style:normal;opacity:.75;font-variant-numeric:tabular-nums}
 .sync{margin:0;font-size:12px;color:var(--muted)}
 .backup{font-size:13px;color:var(--muted);max-width:62ch}
-.backup summary{cursor:pointer;font-weight:500;color:var(--muted);font-size:12px;width:max-content;max-width:100%}
+.backup summary{cursor:pointer;font-weight:600;color:var(--blue);width:max-content;max-width:100%}
 .backup[open]{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .backup p{margin:8px 0;line-height:1.5}
 .backup .bk-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
 .backup textarea{box-sizing:border-box;width:100%;min-height:64px;font:12px ui-monospace,Menlo,monospace;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
 .backup button{font:600 13px var(--display);color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
 .bk-msg{font-weight:600;color:var(--ink)}
+.backup b{color:var(--ink)}
 .empty{margin:0;color:var(--muted);font-size:14px}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgb(0 0 0 / .12);
   padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
@@ -173,16 +174,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     </div>
   </div>
   <p class="sync" id="sync">Отметки пока хранятся только на этом устройстве.</p>
-  <nav id="nav" aria-label="Карточки"></nav>
-  <main class="decks" id="decks"></main>
-  <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <details class="backup" id="backup">
     <summary>Копия отметок</summary>
-    <p>На крайний случай. «Скопировать» сохраняет отметки текстом, например в Заметки. Если браузер их стёр, вставь этот текст в поле и нажми «Восстановить».</p>
+    <p>Отметки хранятся только в этом телефоне. Копия нужна в двух случаях: <b>меняешь телефон</b> или <b>чистишь данные браузера</b>. Перед этим нажми «Скопировать» и сохрани текст в Заметки. Потом открой страницу на новом месте, вставь текст в поле и нажми «Восстановить». В остальное время сюда заходить не нужно.</p>
     <div class="bk-row"><button id="bk-copy">Скопировать</button><span class="bk-msg" id="bk-msg" aria-live="polite"></span></div>
     <textarea id="bk-in" placeholder="Сюда вставь сохранённую копию"></textarea>
     <div class="bk-row"><button id="bk-load">Восстановить</button></div>
   </details>
+  <details class="backup wish" id="wish" hidden>
+    <summary>Хочу добавить</summary>
+    <p>Напиши, что добавить: слово, тему, правило, ссылку на ролик. Кнопка откроет Telegram с этим текстом, выбери брата и отправь.</p>
+    <textarea id="wish-in" placeholder="Например: слова про погоду, или как сказать «я опоздаю»"></textarea>
+    <div class="bk-row"><button id="wish-send">Отправить в Telegram</button><span class="bk-msg" id="wish-msg" aria-live="polite"></span></div>
+  </details>
+  <nav id="nav" aria-label="Карточки"></nav>
+  <main class="decks" id="decks"></main>
+  <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <div class="sheet" id="sheet" hidden role="region" aria-label="Отметка слова">
     <span class="sw" id="sw"></span>
     <div class="sb">
@@ -761,6 +768,17 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   }));
   document.getElementById('sx').addEventListener('click',()=>{sheet.hidden=true; cur=null});
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); sheet.hidden=true; cur=null; applyFilter()}));
+  // wishes from the sister's copy go out through Telegram's share sheet (her page has no storage of its own)
+  if(AUDIENCE==='sister'){
+    const wish=document.getElementById('wish'), win=document.getElementById('wish-in'), wmsg=document.getElementById('wish-msg');
+    wish.hidden=false;
+    document.getElementById('wish-send').addEventListener('click',()=>{
+      const t=win.value.trim(); if(!t){wmsg.textContent='Сначала напиши, что добавить'; return}
+      const url='https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent('Хочу в карточки: '+t);
+      const a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
+      wmsg.textContent='Открываю Telegram…';
+    });
+  }
   // backup for viewers without an account: progress lives only in this browser
   const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
   document.getElementById('bk-copy').addEventListener('click',()=>{
