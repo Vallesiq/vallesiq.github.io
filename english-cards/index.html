@@ -84,7 +84,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .filt i{font-style:normal;opacity:.75;font-variant-numeric:tabular-nums}
 .sync{margin:0;font-size:12px;color:var(--muted)}
 .backup{font-size:13px;color:var(--muted);max-width:62ch}
-.backup summary{cursor:pointer;font-weight:600;color:var(--blue);width:max-content;max-width:100%}
+.backup summary{cursor:pointer;font-weight:500;color:var(--muted);font-size:12px;width:max-content;max-width:100%}
 .backup[open]{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .backup p{margin:8px 0;line-height:1.5}
 .backup .bk-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
@@ -173,16 +173,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     </div>
   </div>
   <p class="sync" id="sync">Отметки пока хранятся только на этом устройстве.</p>
+  <nav id="nav" aria-label="Карточки"></nav>
+  <main class="decks" id="decks"></main>
+  <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <details class="backup" id="backup">
     <summary>Копия отметок</summary>
-    <p>Без аккаунта отметки живут в памяти браузера, и браузер может её очистить. Раз в неделю нажми «Скопировать» и сохрани текст в Заметки. Пропали отметки: вставь текст в поле и нажми «Восстановить».</p>
+    <p>На крайний случай. «Скопировать» сохраняет отметки текстом, например в Заметки. Если браузер их стёр, вставь этот текст в поле и нажми «Восстановить».</p>
     <div class="bk-row"><button id="bk-copy">Скопировать</button><span class="bk-msg" id="bk-msg" aria-live="polite"></span></div>
     <textarea id="bk-in" placeholder="Сюда вставь сохранённую копию"></textarea>
     <div class="bk-row"><button id="bk-load">Восстановить</button></div>
   </details>
-  <nav id="nav" aria-label="Карточки"></nav>
-  <main class="decks" id="decks"></main>
-  <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <div class="sheet" id="sheet" hidden role="region" aria-label="Отметка слова">
     <span class="sw" id="sw"></span>
     <div class="sb">
