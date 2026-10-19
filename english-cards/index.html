@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="English">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>English Icon Cards</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: poster-like cards in a responsive grid, blue line icons, black caps labels, Russian under each word */
+:root{
+  --bg:#F2F4FA; --card:#FFFFFF; --ink:#15171D; --muted:#687087;
+  --blue:#1F5BFF; --soft:#E2E9FF; --line:#DCE2F0;
+  --warn-bg:#FFF2E2; --warn-fg:#7A4410; --ok:#138A50; --warn:#E07A10;
+  --display:"Montserrat", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D111C; --card:#161B2B; --ink:#ECEEF5; --muted:#9AA2B8;
+  --blue:#7D9DFF; --soft:#25315A; --line:#262E45;
+  --warn-bg:#352616; --warn-fg:#F2C690; --ok:#5CD39A; --warn:#F2A65A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D111C; --card:#161B2B; --ink:#ECEEF5; --muted:#9AA2B8;
+  --blue:#7D9DFF; --soft:#25315A; --line:#262E45;
+  --warn-bg:#352616; --warn-fg:#F2C690; --ok:#5CD39A; --warn:#F2A65A; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--display)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 120px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:22px}
+
+header h1{margin:0;font-size:clamp(28px,6vw,44px);font-weight:800;color:var(--blue);letter-spacing:-.01em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.5;max-width:62ch}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;flex-wrap:wrap;max-width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{font:600 13px var(--display);color:var(--muted);background:none;border:0;border-radius:7px;padding:8px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--blue);color:var(--card)}
+.reset{font:600 13px var(--display);color:var(--blue);background:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.reset[hidden],.deck[hidden],nav a[hidden]{display:none!important}
+.seg.big button{font-size:14px;font-weight:700;padding:9px 16px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+nav{display:flex;flex-wrap:wrap;gap:6px}
+nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
+
+.decks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:18px;align-items:start}
+.deck{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;gap:18px;min-width:0;scroll-margin-top:16px}
+.deck h2{margin:0;text-align:center;font-size:clamp(24px,5vw,32px);font-weight:800;color:var(--blue);line-height:1.1;text-wrap:balance}
+.deck h2 small{display:block;margin-top:6px;font-size:13px;font-weight:600;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 8px}
+.grid.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.grid.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ico.w{width:124px;height:62px}
+@media (max-width:560px){.grid.c4{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.spk{position:absolute;top:2px;right:4px;width:14px;height:14px;color:var(--muted);opacity:.7}
+.spk *{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.row .spk{top:auto;right:6px}
+.speaking .spk{color:var(--blue);opacity:1}
+.speaking{background:var(--soft)}
+.note b.say{color:var(--blue);cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.nosound{margin:0;color:var(--warn-fg);background:var(--warn-bg);border-radius:8px;padding:8px 12px;font-size:13px}
+[data-st="learn"]{--st:var(--blue)} [data-st="repeat"]{--st:var(--warn)} [data-st="known"]{--st:var(--ok)}
+.tile[data-st]::before,.row[data-st]::before{content:"";position:absolute;top:5px;left:6px;width:9px;height:9px;border-radius:50%;background:var(--st)}
+.fo{display:none!important}
+.prog{text-align:center;font-size:12px;font-weight:600;color:var(--muted);margin-top:-10px}
+.filt button{display:inline-flex;align-items:center;gap:6px}
+.filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
+.filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
+.filt i{font-style:normal;opacity:.75;font-variant-numeric:tabular-nums}
+.sync{margin:0;font-size:12px;color:var(--muted)}
+.backup{font-size:13px;color:var(--muted);max-width:62ch}
+.backup summary{cursor:pointer;font-weight:600;color:var(--blue);width:max-content;max-width:100%}
+.backup[open]{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.backup p{margin:8px 0;line-height:1.5}
+.backup .bk-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.backup textarea{box-sizing:border-box;width:100%;min-height:64px;font:12px ui-monospace,Menlo,monospace;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+.backup button{font:600 13px var(--display);color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.bk-msg{font-weight:600;color:var(--ink)}
+.empty{margin:0;color:var(--muted);font-size:14px}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgb(0 0 0 / .12);
+  padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;align-items:center;justify-content:center;gap:8px 12px;flex-wrap:wrap}
+.sheet[hidden]{display:none!important}
+.sw{font-weight:800;text-transform:uppercase;font-size:14px;min-width:0;overflow-wrap:anywhere;flex:1 1 100%;text-align:center}
+.sb{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.sb button,.sx{font:700 13px var(--display);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:8px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.sb button[data-st]::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--st)}
+.sb button[aria-pressed="true"]{border-color:var(--st);box-shadow:inset 0 0 0 1.5px var(--st)}
+.sx{color:var(--muted);font-weight:600}
+#sx{position:absolute;top:6px;right:max(10px, env(safe-area-inset-right, 0px));border:0;background:none;padding:6px 8px}
+@media (min-width:700px){.sw{flex:0 1 auto}}
+.tile{all:unset;position:relative;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;cursor:pointer;border-radius:10px;padding:4px 2px;min-width:0}
+.tile:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.en{font-weight:800;font-size:clamp(11.5px,3.2vw,15px);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);line-height:1.2;overflow-wrap:anywhere}
+.c4 .en{font-size:clamp(10.5px,2.9vw,13.5px);letter-spacing:0}
+.ru{font-weight:500;font-size:clamp(11.5px,3vw,13px);color:var(--muted);line-height:1.3}
+
+.ico{width:64px;height:64px;max-width:100%;overflow:visible}
+.ico *{fill:none;stroke:var(--blue);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ico .f{fill:var(--blue)}
+.ico .k{stroke:var(--ink)}
+.ico .bg{fill:var(--card)}
+.ico .s{fill:var(--soft);stroke:none}
+.ico .d{stroke-dasharray:4 5}
+.ico .sep{stroke:var(--line);stroke-width:2}
+.ico .t{fill:var(--blue);stroke:none;font-family:var(--display);font-weight:800;text-anchor:middle}
+
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{all:unset;position:relative;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:10px 4px;border-top:1px solid var(--line);cursor:pointer;min-width:0}
+.row:first-child{border-top:0}
+.row:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+.row .ico{width:132px;height:48px;flex:none}
+.row .txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.row .en{font-size:clamp(12px,3.3vw,15px)}
+@media (max-width:440px){.row{flex-direction:column;align-items:flex-start;gap:8px}}
+
+.note{background:var(--warn-bg);color:var(--warn-fg);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.55}
+.note b{font-weight:800}
+
+/* hide modes: the hidden side becomes a soft bar, tap to reveal */
+.hide-ru .tile:not(.open) .ru,.hide-ru .row:not(.open) .ru,
+.hide-en .tile:not(.open) .en,.hide-en .row:not(.open) .en{color:transparent;background:var(--soft);border-radius:4px}
+@media (prefers-reduced-motion:no-preference){.en,.ru{transition:color .15s,background .15s}}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <h1>English Icon Cards</h1>
+    <p>Картинка, слово, перевод. Нажми на слово: оно прозвучит и откроет закрытую сторону. Синие подчёркнутые фразы в оранжевых плашках тоже нажимаются. Оранжевая плашка: то, на чём ошибаются русские.</p>
+  </header>
+  <div class="bar">
+    <div class="seg big" role="group" aria-label="Раздел">
+      <button id="g-words" data-group="words" aria-pressed="true">Слова</button>
+      <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
+    </div>
+    <div class="seg" role="group" aria-label="Скорость голоса" id="speed">
+      <button id="s-1" data-rate="0.95" aria-pressed="true">Голос: обычно</button>
+      <button id="s-2" data-rate="0.6" aria-pressed="false">Медленно</button>
+    </div>
+  </div>
+  <p class="nosound" id="nosound" hidden>Этот браузер не умеет озвучивать текст. Открой страницу в Safari или Chrome.</p>
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Режим">
+      <button id="m-all" data-mode="all" aria-pressed="true">Всё видно</button>
+      <button id="m-ru" data-mode="hide-ru" aria-pressed="false">Закрыть перевод</button>
+      <button id="m-en" data-mode="hide-en" aria-pressed="false">Закрыть английский</button>
+    </div>
+    <button class="reset" id="reset" hidden>Закрыть заново</button>
+  </div>
+  <div class="bar">
+    <div class="seg filt" role="group" aria-label="Показать" id="filt">
+      <button data-f="all" aria-pressed="true">Все <i id="c-all"></i></button>
+      <button data-f="new" aria-pressed="false">Новые <i id="c-new"></i></button>
+      <button data-f="learn" data-st="learn" aria-pressed="false">Учу <i id="c-learn"></i></button>
+      <button data-f="repeat" data-st="repeat" aria-pressed="false">Повторить <i id="c-repeat"></i></button>
+      <button data-f="known" data-st="known" aria-pressed="false">Знаю <i id="c-known"></i></button>
+    </div>
+  </div>
+  <p class="sync" id="sync">Отметки пока хранятся только на этом устройстве.</p>
+  <details class="backup" id="backup">
+    <summary>Копия отметок</summary>
+    <p>Без аккаунта отметки живут в памяти браузера, и браузер может её очистить. Раз в неделю нажми «Скопировать» и сохрани текст в Заметки. Пропали отметки: вставь текст в поле и нажми «Восстановить».</p>
+    <div class="bk-row"><button id="bk-copy">Скопировать</button><span class="bk-msg" id="bk-msg" aria-live="polite"></span></div>
+    <textarea id="bk-in" placeholder="Сюда вставь сохранённую копию"></textarea>
+    <div class="bk-row"><button id="bk-load">Восстановить</button></div>
+  </details>
+  <nav id="nav" aria-label="Карточки"></nav>
+  <main class="decks" id="decks"></main>
+  <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
+  <div class="sheet" id="sheet" hidden role="region" aria-label="Отметка слова">
+    <span class="sw" id="sw"></span>
+    <div class="sb">
+      <button data-st="learn" aria-pressed="false">Учу</button>
+      <button data-st="repeat" aria-pressed="false">Повторить</button>
+      <button data-st="known" aria-pressed="false">Знаю</button>
+      <button data-st="" aria-pressed="false" class="sx">Снять</button>
+    </div>
+    <button class="sx" id="sx" aria-label="Закрыть">✕</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---------- icon helpers ----------
+  const ball = (x,y,r=7)=>`<circle class="f" cx="${x}" cy="${y}" r="${r}"/>`;
+  const FACE = `<circle cx="32" cy="32" r="22"/>`;
+  const EYES = (y=28)=>`<circle class="f" cx="25" cy="${y}" r="2.3"/><circle class="f" cx="39" cy="${y}" r="2.3"/>`;
+  const SMILE = `<path d="M23 37q9 9 18 0"/>`;
+  const LINE = `<path class="k" d="M6 42h52"/><path class="k" d="M32 35v14"/>`; // timeline, tick = now
+  const arrowR = (x1,x2,y)=>`<path d="M${x1} ${y}H${x2}m-6-6l6 6-6 6"/>`;
+  const arrowL = (x1,x2,y)=>`<path d="M${x1} ${y}H${x2}m6-6l-6 6 6 6"/>`;
+  const ME = `<circle cx="14" cy="22" r="6"/><path d="M4 48c0-9 4.5-15 10-15s10 6 10 15"/>`;
+  const CAL = (label)=>`<rect x="12" y="14" width="40" height="38" rx="4"/><path d="M12 24h40M22 9v9M42 9v9"/><text class="t" x="32" y="44" font-size="${label.length>2?13:17}">${label}</text>`;
+  const METER = n=>[0,1,2,3,4].map(i=>{const h=10+i*7, x=8+i*10;return `<rect ${i<n?'class="f"':''} x="${x}" y="${52-h}" width="6" height="${h}" rx="1.5"/>`}).join('');
+  const CAR = `<path d="M6 44v-9l9-11h24l11 11h8v9z"/><circle class="bg" cx="18" cy="45" r="5"/><circle class="bg" cx="46" cy="45" r="5"/>`;
+  const star = (cx,cy,r)=>{let p=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;p.push((cx+rr*Math.cos(a)).toFixed(1)+' '+(cy+rr*Math.sin(a)).toFixed(1))}return `<path class="f" d="M${p.join('L')}z"/>`};
+  const cross = x=>`<path d="M${x-6} 16l12 12M${x+6} 16l-12 12"/>`;
+  // numbers
+  const BIG = (txt)=>`<text class="t" x="60" y="32" font-size="${txt.length>9?14:txt.length>6?17:21}">${txt}</text>`;
+  const PAIR = (a,sa,b,sb)=>`<text class="t" x="28" y="26" font-size="21">${a}</text><text class="t" x="28" y="44" font-size="9.5">${sa}</text><path class="k" d="M56 14v24"/><text class="t" x="88" y="26" font-size="21">${b}</text><text class="t" x="88" y="44" font-size="9.5">${sb}</text>`;
+  const ORD = (n,suf)=>`<circle cx="32" cy="32" r="24"/><text class="t" x="31" y="40" font-size="${String(n).length>1?19:22}">${n}<tspan font-size="11" dy="-9">${suf}</tspan></text>`;
+  const PIE = d=>`<circle cx="32" cy="32" r="22"/><path class="f" d="${d}"/>`;
+  const clock = (h,m,shade)=>{
+    const pt=(deg,r)=>[(32+r*Math.sin(deg*Math.PI/180)).toFixed(1),(32-r*Math.cos(deg*Math.PI/180)).toFixed(1)];
+    let s='';
+    if(shade==='past'){const [x,y]=pt(m*6,18);s=`<path class="s" d="M32 32V14A18 18 0 ${m*6>180?1:0} 1 ${x} ${y}z"/>`}
+    if(shade==='to'){const [x,y]=pt(m*6,18);s=`<path class="s" d="M32 32L${x} ${y}A18 18 0 ${360-m*6>180?1:0} 1 32 14z"/>`}
+    const [hx,hy]=pt(((h%12)+m/60)*30,11),[mx,my]=pt(m*6,17);
+    return `<circle cx="32" cy="32" r="22"/>`+s+`<circle class="f" cx="32" cy="12.5" r="1.6"/><path d="M32 32L${hx} ${hy}" stroke-width="3.4"/><path d="M32 32L${mx} ${my}"/><circle class="f" cx="32" cy="32" r="2.2"/>`;
+  };
+  const THICK = (x1,x2)=>`<path d="M${x1} 42H${x2}" stroke-width="6"/>`;
+  // his original eight
+  const GLASS = y=>{let w='';if(y!==undefined){const xl=(16+(y-10)*4/44).toFixed(1),xr=(48-(y-10)*4/44).toFixed(1);w=`<path class="f" d="M${xl} ${y}H${xr}L44 54H20z"/>`}return w+`<path d="M16 10h32l-4 44H20z"/>`};
+  const PCT = p=>{if(p>=100)return `<circle class="f" cx="32" cy="32" r="22"/>`;if(p<=0)return `<circle cx="32" cy="32" r="22"/>`;
+    const a=p*3.6*Math.PI/180,x=(32+22*Math.sin(a)).toFixed(1),y=(32-22*Math.cos(a)).toFixed(1);
+    return `<circle cx="32" cy="32" r="22"/><path class="f" d="M32 32V10A22 22 0 ${p>50?1:0} 1 ${x} ${y}z"/>`};
+  const DOTS = (xs,ys,r,fill=[])=>{let s='',i=0;ys.forEach(y=>xs.forEach(x=>{s+=`<circle ${fill.includes(i)?'class="f" ':''}cx="${x}" cy="${y}" r="${r}"/>`;i++}));return s};
+  const FOUR=[11,25,39,53];
+  const man = x=>`<circle class="k" cx="${x}" cy="24" r="4"/><path class="k" d="M${x-6} 44c0-7 2.7-11 6-11s6 4 6 11"/>`;
+  const thing = x=>`<rect class="k" x="${x-5}" y="28" width="10" height="10" rx="2"/>`;
+  const pin = x=>`<path class="k" d="M${x} 44s-6-7-6-12a6 6 0 0 1 12 0c0 5-6 12-6 12z"/>`;
+  const SAAN = (fn,mode)=>{const items=FOUR.map(fn).join('');
+    if(mode==='every')return items+`<ellipse cx="32" cy="33" rx="31" ry="18"/>`;
+    if(mode==='some')return items+`<ellipse cx="53" cy="33" rx="9" ry="16"/>`;
+    if(mode==='any')return items+FOUR.map(x=>`<ellipse class="d" cx="${x}" cy="33" rx="7.5" ry="15"/>`).join('');
+    return items+`<path d="M2 34h60"/>`};
+  // possessives: people glyph + object, then the object alone in a thought bubble
+  const OBJ = {
+    book:(x,y)=>`<rect x="${x-6}" y="${y-9}" width="12" height="18" rx="1.5"/><path d="M${x-2} ${y-4}h4"/>`,
+    pack:(x,y)=>`<rect x="${x-7}" y="${y-6}" width="14" height="15" rx="4"/><path d="M${x-3} ${y-6}v-3h6v3M${x-4} ${y+2}h8"/>`,
+    wallet:(x,y)=>`<rect x="${x-9}" y="${y-6}" width="18" height="13" rx="2"/><path d="M${x+3} ${y-2}h6v5h-6z"/>`,
+    bag:(x,y)=>`<path d="M${x-8} ${y-3}h16l-2 12h-12zM${x-4} ${y-3}a4 4 0 0 1 8 0"/>`,
+    house:(x,y)=>`<path d="M${x-9} ${y-1}l9-8 9 8M${x-7} ${y-2}v11h14v-11"/>`,
+    gift:(x,y)=>`<rect x="${x-8}" y="${y-3}" width="16" height="12" rx="1"/><path d="M${x-9} ${y-7}h18v4h-18zM${x} ${y-7}v16"/>`};
+  const folks = n=>{const xs=n===1?[22]:n===2?[16,28]:[10,22,34];return xs.map(x=>`<circle class="k" cx="${x}" cy="17" r="4"/><path class="k" d="M${x-6} 37c0-7 2.7-11 6-11s6 4 6 11"/>`).join('')};
+  const POSS = (n,o,you)=>(you?`<path class="k" d="M2 24h5m-3-3l3 3-3 3"/>`:'')+folks(n)+`<path class="k" d="M42 24h5"/>`+OBJ[o](58,24)+`<path class="k" d="M73 8v32"/><circle cx="84" cy="38" r="1.8"/><circle cx="88" cy="32" r="2.4"/><ellipse cx="104" cy="22" rx="15" ry="14"/>`+OBJ[o](104,22);
+  // opposites: two 64-wide halves
+  const PAIRW = (a,b)=>a+`<path class="sep" d="M64 14v36"/><g transform="translate(64 0)">${b}</g>`;
+  const SUN = `<circle cx="32" cy="32" r="10"/><path d="M32 8v6M32 50v6M8 32h6M50 32h6M15 15l4 4M45 45l4 4M49 15l-4 4M19 45l-4 4"/>`;
+  const SPK = `<path d="M8 26h8l12-10v32l-12-10H8z"/>`;
+  const SHIRT = `<path d="M22 14l-12 8 5 9 6-3v24h22V28l6 3 5-9-12-8c-1 4-5 6-10 6s-9-2-10-6z"/>`;
+  const TAG = (t,fs=14)=>`<path d="M20 16l12-8 12 8v38H20z"/><circle cx="32" cy="17" r="2.5"/><text class="t" x="32" y="41" font-size="${fs}">${t}</text>`;
+  const RECEIPT = `<path d="M16 8h32v48l-4-3-4 3-4-3-4 3-4-3-4 3-4-3-4 3z"/>`;
+
+  // ---------- decks ----------
+  const DECKS = [
+  // ===== его восемь картинок, пересобранные =====
+  {id:'quantity', title:'Quantity Words', ru:'Сколько', cols:4, tiles:[
+    ['SOME','несколько, немного', DOTS([],[],0)+`<circle cx="18" cy="16" r="4.5"/><circle cx="46" cy="16" r="4.5"/><circle class="f" cx="32" cy="26" r="4.5"/><circle class="f" cx="12" cy="34" r="4.5"/><circle class="f" cx="52" cy="34" r="4.5"/><circle cx="30" cy="42" r="4.5"/><circle cx="16" cy="52" r="4.5"/><circle cx="48" cy="52" r="4.5"/>`],
+    ['MANY','много (штук)', DOTS([14,26,38,50],[14,26,38,50],4.5)],
+    ['MUCH','много (не штук)', GLASS(22)],
+    ['A LOT OF','много (чего угодно)', DOTS([7,17,27,37,47,57],[7,17,27,37,47,57],3.6)],
+    ['A FEW','несколько (хватает)', DOTS([11,25,39,53],[32],5.5)],
+    ['FEW','мало (почти нет)', DOTS([20,44],[32],5.5)],
+    ['A LITTLE','немного', GLASS(44)],
+    ['LITTLE','мало, чуть-чуть', GLASS(51)],
+    ['ENOUGH','достаточно', GLASS(22)+`<path class="k d" d="M12 22h40"/>`],
+    ['TOO MANY','слишком много (штук)', `<path d="M12 32h40l-5 22H17z"/>`+DOTS([18,28,38,48],[26],5)+DOTS([23,33,43],[17],5)+DOTS([33],[8],5)+`<circle cx="8" cy="52" r="4.5"/><circle cx="57" cy="52" r="4.5"/>`],
+    ['TOO MUCH','слишком много', GLASS(10)+`<path class="f" d="M46 10q8 0 7 12q-1 4 1 9q-4 2-5-3q-1-6-3-8z"/><path class="f" d="M44 56q8-3 14 0q-6 3-14 0z"/>`],
+    ['NONE','ни одного, нисколько', `<circle cx="32" cy="32" r="22"/><path d="M24 24l16 16M40 24L24 40"/>`],
+  ], note:'<b>MANY, A FEW, FEW</b> с тем, что считается: views, people. <b>MUCH, A LITTLE, LITTLE</b> с тем, что не считается: time, money, water. <b>A few</b> = немного, но хватает, <b>few</b> = мало, почти нет. В утверждении говорят <b>a lot of time</b>, а much оставляют для вопросов и «не»: not much time.'},
+
+  {id:'frequency', title:'Frequency Adverbs', ru:'Как часто', tiles:[
+    ['ALWAYS','всегда · 100%', PCT(100)],
+    ['USUALLY','обычно · 80%', PCT(80)],
+    ['FREQUENTLY','часто (формально) · 70%', PCT(70)],
+    ['OFTEN','часто · 60%', PCT(60)],
+    ['SOMETIMES','иногда · 40%', PCT(40)],
+    ['OCCASIONALLY','время от времени · 30%', PCT(30)],
+    ['RARELY','редко · 20%', PCT(20)],
+    ['SELDOM','редко (книжно) · 10%', PCT(10)],
+    ['NEVER','никогда · 0%', PCT(0)],
+  ], note:'Место: перед глаголом, но после am / is / are: <b>I usually wake up at 8</b>, <b>I\'m always tired</b>. Проценты условные: often и frequently почти синонимы. Seldom книжное, вслух говорят <b>rarely</b> или <b>hardly ever</b>. <b>Never</b> уже с «не»: I never drink coffee.'},
+
+  {id:'somebody', title:'Some · Any · Every · No', ru:'Кто, что, где', cols:4, tiles:[
+    ['EVERYBODY','все', SAAN(man,'every')],
+    ['SOMEBODY','кто-то', SAAN(man,'some')],
+    ['ANYBODY','кто угодно; кто-нибудь?', SAAN(man,'any')],
+    ['NOBODY','никто', SAAN(man,'no')],
+    ['EVERYTHING','всё', SAAN(thing,'every')],
+    ['SOMETHING','что-то', SAAN(thing,'some')],
+    ['ANYTHING','что угодно; что-нибудь?', SAAN(thing,'any')],
+    ['NOTHING','ничего', SAAN(thing,'no')],
+    ['EVERYWHERE','везде', SAAN(pin,'every')],
+    ['SOMEWHERE','где-то', SAAN(pin,'some')],
+    ['ANYWHERE','где угодно; где-нибудь?', SAAN(pin,'any')],
+    ['NOWHERE','нигде', SAAN(pin,'no')],
+  ], note:'<b>ANY</b> в вопросах и с not: Is anybody here? I don\'t know anybody. В утверждении any = «любой»: Ask anybody. <b>NO</b> уже «не»: <b>Nobody came</b>, I know nothing (не «I don\'t know nothing»). <b>Everybody is</b>, не are: это единственное число.'},
+
+  {id:'questions', title:'Question Words', ru:'Вопросы', cols:4, tiles:[
+    ['WHO','кто', `<circle cx="32" cy="22" r="10"/><path d="M14 54c0-12 8-20 18-20s18 8 18 20"/>`],
+    ['WHAT','что', `<path d="M14 26l18-9 18 9v20l-18 9-18-9zM14 26l18 9 18-9M32 35v20"/><text class="t" x="56" y="14" font-size="15">?</text>`],
+    ['WHERE','где, куда', `<path d="M32 46s14-14 14-24a14 14 0 0 0-28 0c0 10 14 24 14 24z"/>`+ball(32,22,5)+`<ellipse class="k" cx="32" cy="52" rx="14" ry="4"/>`],
+    ['WHEN','когда', clock(4,0)],
+    ['WHY','почему', `<circle cx="14" cy="32" r="10"/><text class="t" x="14" y="38" font-size="15">?</text>`+arrowR(27,39,32)+`<path d="M46 36a9 9 0 1 1 12 0c-1.5 1.5-2 3-2 5h-8c0-2-.5-3.5-2-5zM48 46h8"/>`],
+    ['HOW','как', `<circle cx="8" cy="32" r="6.5"/><circle cx="32" cy="32" r="6.5"/><circle cx="56" cy="32" r="6.5"/><path class="k" d="M17 32h6M41 32h6"/>`],
+    ['WHICH','который (из)', `<circle class="k" cx="9" cy="32" r="7"/><circle cx="32" cy="32" r="9"/><path d="M27 32l4 4 6-7"/><circle class="k" cx="55" cy="32" r="7"/>`],
+    ['WHOSE','чей', `<circle cx="14" cy="22" r="6"/><path d="M4 46c0-9 4.5-14 10-14s10 5 10 14"/><path class="k" d="M28 34h6"/>`+OBJ.pack(48,34)],
+    ['HOW MANY','сколько (штук)', DOTS([20,32,44],[24,40],5)],
+    ['HOW MUCH','сколько (стоит, не штук)', GLASS(26)+`<text class="t" x="58" y="38" font-size="16">$</text>`],
+    ['HOW LONG','как долго, какой длины', `<path class="k" d="M8 18h48M8 13v10M56 13v10"/><rect x="6" y="30" width="52" height="14" rx="2"/><path d="M14 30v5M22 30v7M30 30v5M38 30v7M46 30v5"/>`],
+    ['HOW OFTEN','как часто', `<path d="M48 22a18 18 0 1 0 2 16" class="d"/><path d="M50 12v12H38"/>`],
+  ], note:'Порядок: слово + <b>do / does / did</b> + кто + глагол: <b>Where do you live? What did he say?</b> Без do с is и can: Where is it? Если who или what сами подлежащее, do не нужен: <b>Who called? What happened?</b> Сколько стоит: <b>How much is it?</b>'},
+
+  {id:'possessive', title:'My · Mine', ru:'Чьё: перед предметом и вместо него', rows:[
+    ['MY · MINE','мой: my book · it\'s mine', POSS(1,'book')],
+    ['YOUR · YOURS','твой, ваш: your bag · is it yours?', POSS(1,'pack',true)],
+    ['HIS · HIS','его: his wallet · it\'s his', POSS(1,'wallet')],
+    ['HER · HERS','её: her bag · it\'s hers', POSS(1,'bag')],
+    ['OUR · OURS','наш: our house · it\'s ours', POSS(2,'house')],
+    ['THEIR · THEIRS','их: their gift · it\'s theirs', POSS(3,'gift')],
+  ], note:'Первое слово стоит <b>перед предметом</b>: my phone. Второе <b>заменяет его</b>: this phone is mine (не «mine phone»). <b>ITS</b> без апострофа = его о вещи или животном: its tail. <b>IT\'S</b> = it is. В комментах носители путают your / you\'re и their / they\'re / there, у нас такого быть не должно.'},
+
+  {id:'opposites', title:'Opposites', ru:'Противоположности', wide:true, tiles:[
+    ['HOT · COLD','горячий · холодный', PAIRW(SUN,`<path d="M32 12v40M15 22l34 20M49 22L15 42M27 14l5 4 5-4M27 50l5-4 5 4"/>`)],
+    ['FULL · EMPTY','полный · пустой', PAIRW(GLASS(18),GLASS())],
+    ['TALL · SHORT','высокий · низкий (рост)', PAIRW(`<path d="M32 16v36M20 54h24"/><circle cx="32" cy="12" r="5"/>`,`<path d="M32 40v12M20 54h24"/><circle cx="32" cy="36" r="5"/>`)],
+    ['NEAR · FAR','близко · далеко', PAIRW(`<circle cx="23" cy="32" r="9"/><circle cx="41" cy="32" r="9"/>`,`<circle cx="9" cy="32" r="7"/><path class="d" d="M18 32h28"/><circle cx="55" cy="32" r="7"/>`)],
+    ['EARLY · LATE','рано · поздно', PAIRW(clock(7,0),clock(11,30))],
+    ['CLEAN · DIRTY','чистый · грязный', PAIRW(SHIRT+star(54,12,5)+star(9,50,4),SHIRT+ball(28,36,3.5)+ball(37,44,2.5)+ball(33,26,2))],
+    ['EASY · HARD','лёгкий · трудный', PAIRW(`<path d="M8 46h40"/>`+ball(8,46,4)+`<path d="M48 46V24l12 6-12 6"/>`,`<path d="M10 54h8V44h9V34h9V24h9"/>`+ball(10,54,4)+`<path d="M45 24V8l12 6-12 6"/>`)],
+    ['FAST · SLOW','быстрый · медленный', PAIRW(`<path class="k" d="M6 24h12M2 32h14M6 40h12"/>`+arrowR(22,58,32),`<circle cx="28" cy="38" r="11"/><path d="M28 38a4 4 0 1 1 4-4M16 50h36q6 0 6-8v-8M54 34l-3-8M58 34l3-8"/>`)],
+    ['LOUD · QUIET','громкий · тихий', PAIRW(SPK+`<path d="M34 24q5 8 0 16M40 18q9 14 0 28M46 12q13 20 0 40"/>`,SPK+`<path d="M34 26q4 6 0 12"/>`)],
+    ['SAME · DIFFERENT','одинаковый · разный', PAIRW(`<circle cx="20" cy="32" r="11"/><circle cx="46" cy="32" r="11"/>`,`<circle cx="20" cy="32" r="11"/><path d="M46 20l12 22H34z"/>`)],
+  ], note:'<b>SHORT</b> = и «низкий» о росте, и «короткий». О предметах и цифрах «низкий» это <b>low</b>: low price. <b>HARD</b> ещё и «твёрдый». Ложный друг: <b>LATE</b> = поздно, <b>LATELY</b> = в последнее время.'},
+
+  {id:'money', title:'Money Words', ru:'Деньги и покупки', tiles:[
+    ['CHEAP','дешёвый', TAG('$')],
+    ['EXPENSIVE','дорогой', TAG('$$$',11)],
+    ['FREE','бесплатно', `<rect x="14" y="28" width="36" height="24" rx="2"/><path d="M11 20h42v8H11zM32 20v32M32 20q-10-10-13-3q2 3 13 3q11 0 13-3q-3-7-13 3"/>`],
+    ['SALE','распродажа', TAG('%')],
+    ['DISCOUNT','скидка', `<text class="t k-t" x="32" y="22" font-size="14" style="fill:var(--muted)">$50</text><path class="k" d="M18 17h28"/><path d="M32 28v8m-4-4l4 4 4-4"/><text class="t" x="32" y="54" font-size="17">$30</text>`],
+    ['PRICE','цена', `<path class="k" d="M18 8v10M46 8v10"/><rect x="6" y="18" width="52" height="28" rx="3"/><text class="t" x="32" y="37" font-size="13">$9.99</text>`],
+    ['COST','стоить, стоимость', `<ellipse cx="24" cy="46" rx="14" ry="5"/><ellipse cx="24" cy="38" rx="14" ry="5"/><ellipse cx="24" cy="30" rx="14" ry="5"/><circle class="bg" cx="46" cy="40" r="11"/><text class="t" x="46" y="45" font-size="13">$</text>`],
+    ['CASH','наличные', `<rect x="6" y="18" width="52" height="28" rx="3"/><circle cx="32" cy="32" r="8"/><text class="t" x="32" y="37" font-size="12">$</text>`],
+    ['CARD','карта', `<rect x="6" y="16" width="52" height="34" rx="5"/><rect x="12" y="22" width="10" height="8" rx="1.5"/><path d="M12 40h20"/><circle cx="44" cy="40" r="4"/><circle cx="50" cy="40" r="4"/>`],
+    ['BILL · CHECK','счёт в кафе', RECEIPT+`<text class="t" x="32" y="26" font-size="13">$</text><path d="M22 34h20M22 41h14"/>`, 'bill. check'],
+    ['TIP','чаевые', `<path d="M18 16h28v5l4 6v25a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V27l4-6z"/><text class="t" x="32" y="44" font-size="10">TIPS</text>`],
+    ['CHANGE','сдача, мелочь', `<circle cx="22" cy="34" r="10"/><text class="t" x="22" y="39" font-size="12">$</text><circle cx="45" cy="38" r="7"/><text class="t" x="45" y="42" font-size="10">¢</text><path d="M14 18a20 20 0 0 1 30-4m0-6v6h-6"/>`],
+    ['REFUND','возврат денег', `<rect x="8" y="10" width="28" height="40" rx="2"/><text class="t" x="22" y="27" font-size="12">$</text><path d="M14 36h16M14 42h12M58 44a14 14 0 0 0-14-14h-6m5-5l-5 5 5 5"/>`],
+    ['RECEIPT','чек', RECEIPT+`<path d="M22 18h20M22 25h14"/><text class="t" x="32" y="42" font-size="9">PAID</text>`],
+    ['BUCK','бакс (доллар)', `<rect x="6" y="18" width="52" height="28" rx="3"/><text class="t" x="32" y="38" font-size="15">$1</text>`],
+  ], note:'В кафе: <b>Can I get the check, please?</b> (в США check, в Европе bill). Сколько стоит: <b>How much is it?</b>, it costs $5. <b>Keep the change</b> = сдачи не надо. <b>FREE</b> ещё и «свободный»: Are you free tonight? <b>Ten bucks</b> = десять баксов.'},
+
+  // ===== новые =====
+  {id:'place', title:'Prepositions of Place', ru:'Где находится', tiles:[
+    ['IN','в, внутри', `<path d="M12 22v28h40V22"/>`+ball(32,42)],
+    ['ON','на', `<rect x="14" y="32" width="36" height="20" rx="2"/>`+ball(32,24)],
+    ['UNDER','под', `<path d="M8 20h48M14 20v30M50 20v30"/>`+ball(32,43)],
+    ['NEXT TO','рядом с', `<rect x="8" y="24" width="26" height="28" rx="2"/>`+ball(46,45)],
+    ['BETWEEN','между', `<rect x="4" y="26" width="15" height="26" rx="2"/><rect x="45" y="26" width="15" height="26" rx="2"/>`+ball(32,45)],
+    ['BEHIND','за, позади', ball(45,26,9)+`<rect class="bg" x="12" y="26" width="32" height="26" rx="2"/>`],
+    ['IN FRONT OF','перед', `<rect x="22" y="12" width="30" height="28" rx="2"/>`+ball(28,44,9)],
+    ['ABOVE','над (не касаясь)', `<rect x="14" y="40" width="36" height="14" rx="2"/>`+ball(32,14)+`<path class="d" d="M32 24v10"/>`],
+    ['OPPOSITE','напротив', `<path class="k" d="M2 26h60M2 40h60"/><path class="k d" d="M4 33h56"/><rect x="24" y="6" width="16" height="14" rx="2"/>`+ball(32,52,6)],
+  ], note:'<b>Транспорт.</b> Куда можно встать в полный рост, там <b>on</b>: on the bus, on the plane, get on the train. В легковую <b>in</b>: in the car, in a taxi, get in the car.'},
+
+  {id:'time', title:'At · On · In', ru:'Предлоги времени', tiles:[
+    ['AT 7:00','в семь (точное время)', `<circle cx="32" cy="32" r="22"/><path d="M32 32V15M32 32l-6 10"/>`, 'at seven'],
+    ['AT NIGHT','ночью', `<path d="M38 10a22 22 0 1 0 16 34a17 17 0 0 1-16-34z"/>`],
+    ['ON MONDAY','в понедельник (день)', CAL('MON')],
+    ['ON MAY 5','пятого мая (дата)', CAL('5'), 'on May fifth'],
+    ['ON THE WEEKEND','на выходных (в США)', `<rect x="6" y="16" width="52" height="32" rx="4"/><path d="M6 26h52"/>`+[12,19,26,33,40].map(x=>`<circle cx="${x}" cy="37" r="2.4"/>`).join('')+`<circle class="f" cx="47" cy="37" r="3"/><circle class="f" cx="54" cy="37" r="3"/>`],
+    ['IN THE MORNING','утром', `<path class="k" d="M6 46h52"/><path d="M20 46a12 12 0 0 1 24 0M32 26v-8M17 32l-5-5M47 32l5-5"/>`],
+    ['IN OCTOBER','в октябре (месяц)', CAL('OCT')],
+    ['IN 2026','в 2026 году', `<rect x="6" y="18" width="52" height="28" rx="4"/><text class="t" x="32" y="38" font-size="16">2026</text>`, 'in twenty twenty-six'],
+    ['IN SUMMER','летом (сезон)', `<circle cx="32" cy="32" r="10"/><path d="M32 8v6M32 50v6M8 32h6M50 32h6M15 15l4 4M45 45l4 4M49 15l-4 4M19 45l-4 4"/>`],
+  ], note:'<b>Чем точнее, тем короче слово:</b> IN (месяц, год, сезон) → ON (день, дата) → AT (час). Исключения запомнить парой: <b>at night</b>, но <b>in the morning / in the evening</b>.'},
+
+  {id:'feelings', title:'Feelings', ru:'Чувства и состояния', cols:4, tiles:[
+    ['HAPPY','счастлив, рад', FACE+EYES()+SMILE],
+    ['SAD','грустно', FACE+EYES()+`<path d="M24 44q8-7 16 0"/>`],
+    ['ANGRY','злой, злюсь', FACE+`<path d="M20 21l8 4M44 21l-8 4"/>`+EYES(29)+`<path d="M25 43q7-5 14 0"/>`],
+    ['SCARED','страшно, напуган', FACE+`<circle cx="25" cy="27" r="4.5"/><circle cx="39" cy="27" r="4.5"/><circle class="f" cx="25" cy="27" r="1.6"/><circle class="f" cx="39" cy="27" r="1.6"/><path d="M23 43l3-3 3 3 3-3 3 3 3-3 3 3"/>`],
+    ['SURPRISED','удивлён', FACE+`<path d="M20 20q5-4 10 0M34 20q5-4 10 0"/>`+EYES()+`<circle cx="32" cy="42" r="4.5"/>`],
+    ['TIRED','устал', FACE+`<path d="M21 29q4 3 8 0M35 29q4 3 8 0M27 42h10"/><text class="t" x="52" y="16" font-size="13">z</text><text class="t" x="59" y="8" font-size="9">z</text>`],
+    ['BORED','мне скучно', FACE+`<path d="M21 26h8M35 26h8"/>`+EYES(29)+`<path d="M26 42h12"/>`],
+    ['NERVOUS','нервничаю', FACE+EYES()+`<path d="M23 42l3-3 3 3 3-3 3 3 3-3 3 3"/><path class="f" d="M51 10q5 7 0 10q-5-3 0-10z"/>`],
+    ['PROUD','горжусь', FACE+`<path d="M21 29q4-4 8 0M35 29q4-4 8 0"/>`+SMILE+star(53,10,6)],
+    ['CONFUSED','не понимаю', FACE+`<path d="M21 23l7-1M36 20q4-3 8 0"/>`+EYES()+`<path d="M25 43l14-3"/><text class="t" x="55" y="16" font-size="16">?</text>`],
+    ['EMBARRASSED','неловко, стыдно', `<ellipse class="s" cx="21" cy="37" rx="5" ry="3"/><ellipse class="s" cx="43" cy="37" rx="5" ry="3"/>`+FACE+EYES(31)+`<path d="M28 43q4 3 8 0"/>`],
+    ['RELIEVED','облегчение, отпустило', FACE+`<path d="M21 28q4 3 8 0M35 28q4 3 8 0"/>`+SMILE+`<path d="M2 40h5M1 46h6"/>`],
+  ], note:'<b>I\'m bored</b> = мне скучно. <b>I\'m boring</b> = я скучный, зануда. Так же interested / interesting, excited / exciting, tired / tiring: <b>-ed</b> про то, что ты чувствуешь, <b>-ing</b> про то, что это чувство вызывает.'},
+
+  {id:'compare', title:'Good · Better · Best', ru:'Сравнение', rows:[
+    ['BIG → BIGGER → THE BIGGEST','большой → больше → самый большой', `<circle cx="14" cy="24" r="6"/><circle cx="48" cy="24" r="11"/><circle class="f" cx="98" cy="24" r="17"/>`],
+    ['FAST → FASTER → THE FASTEST','быстрый → быстрее → самый быстрый', arrowR(4,18,24)+arrowR(32,60,24)+arrowR(74,116,24)],
+    ['GOOD → BETTER → THE BEST','хороший → лучше → лучший', star(14,22,8)+star(42,22,8)+star(58,22,8)+star(82,22,8)+star(98,22,8)+star(114,22,8)],
+    ['BAD → WORSE → THE WORST','плохой → хуже → худший', cross(14)+cross(42)+cross(58)+cross(82)+cross(98)+cross(114)],
+    ['FAR → FARTHER → THE FARTHEST','далеко → дальше → дальше всех', `<path class="k" d="M4 4v40"/><path d="M4 10h24M4 24h56M4 38h108"/>`+ball(28,10,3.5)+ball(60,24,3.5)+ball(112,38,3.5)],
+    ['EXPENSIVE → MORE EXPENSIVE → THE MOST EXPENSIVE','дорогой → дороже → самый дорогой', `<rect x="4" y="12" width="20" height="24" rx="4"/><rect x="36" y="12" width="30" height="24" rx="4"/><rect x="76" y="12" width="42" height="24" rx="4"/><text class="t" x="14" y="29" font-size="14">$</text><text class="t" x="51" y="29" font-size="14">$$</text><text class="t" x="97" y="29" font-size="14">$$$</text>`],
+  ], note:'Сравниваем через <b>than</b>: faster than me. Никогда не <b>more faster</b>, одного способа хватает. Длинные слова (три слога и больше) не меняются, перед ними встаёт <b>more / the most</b>.'},
+
+  {id:'modals', title:'Can · Must · Should', ru:'Могу, должен, стоит', tiles:[
+    ['CAN','могу, умею', `<circle cx="20" cy="20" r="7"/><path d="M8 50c0-10 5-17 12-17s12 7 12 17"/><path d="M38 32l6 6 12-12"/>`],
+    ["CAN'T",'не могу, не умею', `<circle cx="20" cy="20" r="7"/><path d="M8 50c0-10 5-17 12-17s12 7 12 17"/><path d="M40 24l14 14M54 24L40 38"/>`],
+    ['SHOULD','стоит, лучше бы (совет)', `<path d="M24 36a13 13 0 1 1 16 0c-2 2-3 4-3 7H27c0-3-1-5-3-7z"/><path d="M27 49h10M29 55h6"/>`],
+    ['MUST','обязан, точно надо', `<path d="M32 8L57 52H7z"/><path d="M32 24v14"/><circle class="f" cx="32" cy="45" r="2.3"/>`],
+    ['HAVE TO','приходится, надо', `<rect x="14" y="8" width="36" height="48" rx="4"/><path d="M21 20l3 3 6-6M35 20h9M21 33l3 3 6-6M35 33h9M35 46h9"/><rect x="21" y="42" width="8" height="8" rx="1.5"/>`],
+    ['MIGHT','может быть (50 на 50)', `<circle cx="32" cy="32" r="21"/><path class="f" d="M32 11a21 21 0 0 1 0 42z"/>`],
+    ["MUSTN'T",'нельзя, запрещено', `<circle cx="32" cy="32" r="21"/><path d="M17 17l30 30"/>`],
+    ["DON'T HAVE TO",'не обязательно', `<path d="M32 56V36M32 36L14 18M32 36l18-18"/><path d="M8 12l3 3 6-6M44 12l3 3 6-6"/>`],
+    ["I'D LIKE",'я бы хотел (вежливо)', `<path d="M14 26h30v14a10 10 0 0 1-10 10h-10a10 10 0 0 1-10-10z"/><path d="M44 30h4a5 5 0 0 1 0 10h-4M23 20q-3-4 0-8M33 20q-3-4 0-8"/>`],
+  ], note:'<b>MUSTN\'T</b> = нельзя. <b>DON\'T HAVE TO</b> = не обязательно, можно не делать. По-русски похоже, по смыслу противоположно. В США вместо must чаще говорят <b>have to</b>, а в кафе вместо I want: <b>I\'d like a coffee</b>.'},
+
+  {id:'timewords', title:'Time Words', ru:'Когда', cols:4, tiles:[
+    ['YESTERDAY','вчера', `<rect class="f" x="4" y="20" width="16" height="22" rx="3"/><rect x="24" y="20" width="16" height="22" rx="3"/><rect x="44" y="20" width="16" height="22" rx="3"/>`],
+    ['TODAY','сегодня', `<rect x="4" y="20" width="16" height="22" rx="3"/><rect class="f" x="24" y="20" width="16" height="22" rx="3"/><rect x="44" y="20" width="16" height="22" rx="3"/>`],
+    ['TOMORROW','завтра', `<rect x="4" y="20" width="16" height="22" rx="3"/><rect x="24" y="20" width="16" height="22" rx="3"/><rect class="f" x="44" y="20" width="16" height="22" rx="3"/>`],
+    ['NOW','сейчас', LINE+ball(32,42,6)],
+    ['JUST','только что', LINE+ball(25,42,5)+`<path d="M24 30q4-6 8 0"/>`],
+    ['AGO','назад (2 days ago)', LINE+arrowL(30,12,26)+ball(12,42,5)],
+    ['SOON','скоро', LINE+arrowR(34,44,26)+ball(42,42,5)],
+    ['LATER','позже', LINE+arrowR(34,56,26)+ball(54,42,5)],
+    ['ALREADY','уже', LINE+ball(16,42,5)+`<path d="M10 26l4 4 8-8"/>`],
+    ['NOT YET','ещё нет', LINE+`<path class="d" d="M34 42h10"/><circle class="bg" cx="50" cy="42" r="5"/>`],
+    ['STILL','всё ещё', LINE+`<path d="M14 42h26" stroke-width="7"/><path d="M46 36l6 6-6 6"/>`],
+    ['AGAIN','снова', `<path d="M48 40a17 17 0 1 1-2-17"/><path d="M48 12v12H36"/>`],
+  ], note:'<b>AGO</b> всегда после срока: two days ago, не «ago two days». <b>JUST</b> и <b>ALREADY</b> в американском живут с простым прошедшим: I just ate, I already saw it.'},
+
+  {id:'taxi', title:'Directions', ru:'Такси и дорога', tiles:[
+    ['TURN LEFT','поверните налево', `<path d="M40 56V30a6 6 0 0 0-6-6H14m8-8l-8 8 8 8"/>`],
+    ['TURN RIGHT','поверните направо', `<path d="M24 56V30a6 6 0 0 1 6-6h20m-8-8l8 8-8 8"/>`],
+    ['GO STRAIGHT','прямо', `<path d="M32 56V10m-9 9l9-9 9 9"/>`],
+    ['TURN AROUND','развернитесь', `<path d="M44 56V26a12 12 0 0 0-24 0v24m-8-8l8 8 8-8"/>`],
+    ['STOP HERE','остановите здесь', `<path d="M32 58s17-17 17-30a17 17 0 0 0-34 0c0 13 17 30 17 30z"/>`+ball(32,28,6)],
+    ['PULL OVER','прижмитесь к обочине', `<path class="k" d="M54 4v56"/><rect x="18" y="30" width="16" height="24" rx="5"/><path d="M26 24q2-12 18-14m-6-5l6 5-5 6"/>`],
+    ['AT THE CORNER','на углу', `<path class="k" d="M6 20h26a8 8 0 0 1 8 8v30"/>`+ball(32,30,6)],
+    ['TRAFFIC LIGHTS','светофор', `<rect x="21" y="5" width="22" height="50" rx="7"/><circle cx="32" cy="17" r="5"/><circle cx="32" cy="30" r="5"/><circle class="f" cx="32" cy="43" r="5"/>`],
+    ['INTERSECTION','перекрёсток', `<path class="k" d="M22 4v18H4M42 4v18h18M22 60V42H4M42 60V42h18"/><path class="d" d="M32 6v52M6 32h52"/>`],
+  ], note:'Голое <b>Stop here</b> звучит как приказ. Вежливо: <b>Can you stop here, please?</b> / <b>Could you turn left at the lights?</b>'},
+
+  {id:'linking', title:'Linking Words', ru:'Связки (для плашек тоже)', tiles:[
+    ['AND','и', `<circle cx="14" cy="32" r="8"/><circle cx="50" cy="32" r="8"/><path d="M32 25v14M25 32h14"/>`],
+    ['OR','или', `<path d="M6 32h18l14-14h18M24 32l14 14h18"/>`],
+    ['BUT','но', `<path d="M6 44h24q10 0 10-10V12m-8 8l8-8 8 8"/>`],
+    ['SO','поэтому, так что', `<circle cx="12" cy="32" r="7"/>`+arrowR(23,41,32)+`<circle class="f" cx="52" cy="32" r="7"/>`],
+    ['BECAUSE','потому что', `<circle class="f" cx="12" cy="32" r="7"/>`+arrowL(41,23,32)+`<circle cx="52" cy="32" r="7"/>`],
+    ['IF','если', `<path d="M32 8l22 24-22 24-22-24z"/><text class="t" x="32" y="39" font-size="18">?</text>`],
+    ['THEN','потом, затем', `<circle cx="14" cy="32" r="10"/><circle cx="50" cy="32" r="10"/>`+arrowR(27,38,32)+`<text class="t" x="14" y="37" font-size="13">1</text><text class="t" x="50" y="37" font-size="13">2</text>`],
+    ['UNTIL','пока не, до', arrowR(6,44,32)+`<path class="k" d="M52 12v40" stroke-width="4"/>`],
+    ['SUDDENLY','вдруг, внезапно', `<path class="f" d="M37 5L17 35h13l-5 24 22-33H34z"/>`],
+  ], note:'<b>BUT THEN</b> = «но тут…», готовый поворот в плашке. <b>SO</b> и <b>BECAUSE</b> зеркальны: I was tired, so I slept = I slept because I was tired.'},
+
+  {id:'intensity', title:'How Much?', ru:'Сила: от «совсем нет» до «очень»', tiles:[
+    ['NOT AT ALL','совсем нет', METER(0)],
+    ['A BIT','чуть-чуть', METER(1)],
+    ['KIND OF','вроде, типа', METER(2)],
+    ['PRETTY','довольно (pretty good)', METER(3)],
+    ['VERY','очень', METER(4)],
+    ['EXTREMELY','крайне, жутко', METER(5)],
+  ], note:'<b>SO</b> + слово-признак: so cute. <b>SUCH</b> + предмет: such a cute dog. <b>PRETTY</b> перед прилагательным значит «довольно», а не «красивый»: pretty bad = довольно плохо.'},
+
+  {id:'moving', title:'Go · Come · Bring', ru:'Движение: от меня и ко мне', tiles:[
+    ['GO','идти, ехать (туда)', ME+arrowR(30,58,34)],
+    ['COME','прийти (сюда, ко мне)', ME+arrowL(58,30,34)],
+    ['COME BACK','вернуться', ME+`<path d="M30 30h16a10 10 0 0 1 0 20H36"/><path d="M36 24l-6 6 6 6"/>`],
+    ['BRING','принести (сюда)', ME+`<rect x="46" y="27" width="13" height="13" rx="2"/>`+arrowL(42,28,34)],
+    ['TAKE','взять, унести (туда)', ME+`<rect x="28" y="27" width="13" height="13" rx="2"/>`+arrowR(44,60,34)],
+    ['LEAVE','уйти, уехать', `<rect x="8" y="10" width="22" height="44" rx="2"/><circle class="f" cx="25" cy="33" r="1.8"/>`+arrowR(34,58,32)],
+    ['ARRIVE','прибыть, приехать', arrowR(4,36,42)+`<path d="M46 54V10l14 7-14 7"/>`],
+    ['GET IN','сесть (в машину)', CAR+`<path d="M30 4v14m-5-5l5 5 5-5"/>`],
+    ['GET OUT','выйти (из машины)', CAR+`<path d="M30 18V4m-5 5l5-5 5 5"/>`],
+  ], note:'<b>COME</b> и <b>BRING</b> ведут к говорящему, <b>GO</b> и <b>TAKE</b> от него. Стучат в дверь: <b>I\'m coming!</b> (иду к тебе), не I\'m going.'},
+
+  // ===== Числа =====
+  {id:'teens', group:'num', title:'13 or 30?', ru:'Главная ловушка на слух', rows:[
+    ['THIRTEEN · THIRTY','тринадцать · тридцать', PAIR('13','thir·TEEN','30','THIR·ty')],
+    ['FOURTEEN · FORTY','четырнадцать · сорок (пишется без u)', PAIR('14','four·TEEN','40','FOR·ty')],
+    ['FIFTEEN · FIFTY','пятнадцать · пятьдесят', PAIR('15','fif·TEEN','50','FIF·ty')],
+    ['SIXTEEN · SIXTY','шестнадцать · шестьдесят', PAIR('16','six·TEEN','60','SIX·ty')],
+    ['SEVENTEEN · SEVENTY','семнадцать · семьдесят', PAIR('17','seven·TEEN','70','SEVEN·ty')],
+    ['EIGHTEEN · EIGHTY','восемнадцать · восемьдесят', PAIR('18','eigh·TEEN','80','EIGH·ty')],
+    ['NINETEEN · NINETY','девятнадцать · девяносто', PAIR('19','nine·TEEN','90','NINE·ty')],
+  ], note:'<b>-TEEN</b> длинное и под ударением, его слышно. <b>-TY</b> короткое, в США t звучит почти как «д»: thirty ≈ «сёди». Не расслышал, переспроси: <b>Thirteen or thirty? One-three or three-zero?</b>'},
+
+  {id:'bignum', group:'num', title:'Big Numbers', ru:'Сотни, тысячи, миллионы', rows:[
+    ['A HUNDRED','сто', BIG('100')],
+    ['A THOUSAND · 1K','тысяча', BIG('1,000'), 'a thousand. one K'],
+    ['TEN THOUSAND · 10K','десять тысяч', BIG('10,000'), 'ten thousand. ten K'],
+    ['A HUNDRED THOUSAND · 100K','сто тысяч', BIG('100,000'), 'a hundred thousand. a hundred K'],
+    ['A MILLION · 1M','миллион', BIG('1,000,000'), 'a million'],
+    ['A BILLION · 1B','миллиард (не «биллион»)', BIG('1,000,000,000'), 'a billion'],
+  ], note:'После числа <b>-s нет</b>: two hundred, five thousand, three million (не hundreds). <b>-S</b> только без числа: hundreds of comments, millions of views. <b>Запятая</b> делит тысячи: 1,500 = полторы тысячи.'},
+
+  {id:'sayit', group:'num', title:'How To Say It', ru:'Как числа читают вслух', rows:[
+    ['ONE POINT FIVE K · FIFTEEN HUNDRED','полторы тысячи', BIG('1.5K'), 'one point five K. fifteen hundred'],
+    ['TWO POINT THREE MILLION','два и три десятых миллиона', BIG('2.3M'), 'two point three million'],
+    ['TWELVE FIFTY','тысяча двести пятьдесят (разговорно)', BIG('1,250')],
+    ['A HUNDRED (AND) FIVE','сто пять, в США and часто опускают', BIG('105')],
+    ['POINT FIVE · HALF','ноль целых пять, половина', BIG('0.5')],
+    ['TWO-OH-FIVE','комната, автобус, телефон: 0 = «oh»', BIG('205'), 'two oh five'],
+  ], note:'<b>Дробь через точку</b>: 2.5 = two point five. Запятая только делит тысячи, перепутаешь, и 2,5 прочтут как две с половиной тысячи. Ноль: в счёте <b>zero</b>, в номерах <b>oh</b>, в счёте матча <b>nothing</b>.'},
+
+  {id:'ordinals', group:'num', title:'First · Second · Third', ru:'Порядковые: какой по счёту', tiles:[
+    ['FIRST','первый', ORD(1,'st')],
+    ['SECOND','второй', ORD(2,'nd')],
+    ['THIRD','третий', ORD(3,'rd')],
+    ['FOURTH','четвёртый', ORD(4,'th')],
+    ['FIFTH','пятый (ve → f)', ORD(5,'th')],
+    ['NINTH','девятый (без e)', ORD(9,'th')],
+    ['TWELFTH','двенадцатый', ORD(12,'th')],
+    ['TWENTIETH','двадцатый (y → ie)', ORD(20,'th')],
+    ['TWENTY-FIRST','двадцать первый', ORD(21,'st')],
+  ], note:'Окончания: <b>1st, 2nd, 3rd</b>, дальше <b>-th</b>. Но 11th, 12th, 13th тоже -th. Даты читают порядковыми: <b>October nineteenth</b>, не October nineteen.'},
+
+  {id:'parts', group:'num', title:'Half · Quarter · Percent', ru:'Части и количество', tiles:[
+    ['HALF','половина', PIE('M32 10a22 22 0 0 1 0 44z')],
+    ['A THIRD','треть', PIE('M32 32V10A22 22 0 0 1 51.1 43z')],
+    ['A QUARTER','четверть', PIE('M32 32V10A22 22 0 0 1 54 32z')],
+    ['THREE QUARTERS','три четверти', PIE('M32 32V10A22 22 0 1 1 10 32z')],
+    ['10 PERCENT','десять процентов', PIE('M32 32V10A22 22 0 0 1 44.9 14.2z'), 'ten percent'],
+    ['A COUPLE','пара, парочка', ball(21,32)+ball(43,32)],
+    ['A DOZEN','дюжина, 12', [14,26,38,50].map(x=>[20,32,44].map(y=>`<circle cx="${x}" cy="${y}" r="4.5"/>`).join('')).join('')],
+    ['TWICE','дважды (twice a day)', `<text class="t" x="32" y="41" font-size="25">2×</text>`],
+    ['DOUBLE','двойной, удвоить', `<rect x="4" y="25" width="14" height="14" rx="2"/>`+arrowR(22,36,32)+`<rect class="f" x="44" y="14" width="14" height="14" rx="2"/><rect class="f" x="44" y="36" width="14" height="14" rx="2"/>`],
+  ], note:'Полчаса = <b>half an hour</b> (артикль после half). <b>Percent</b> без -s: 50 percent. <b>A couple</b> в разговоре значит «пару, несколько»: a couple of days.'},
+
+  {id:'math', group:'num', title:'Plus · Minus · Equals', ru:'Знаки и счёт', tiles:[
+    ['PLUS','плюс', `<path d="M32 14v36M14 32h36"/>`],
+    ['MINUS','минус', `<path d="M14 32h36"/>`],
+    ['TIMES','умножить на (2 times 3)', `<path d="M19 19l26 26M45 19L19 45"/>`],
+    ['DIVIDED BY','разделить на', `<path d="M14 32h36"/>`+ball(32,19,3.5)+ball(32,45,3.5)],
+    ['EQUALS','равно (или просто is)', `<path d="M14 25h36M14 39h36"/>`],
+    ['POINT','точка в дроби (2.5)', `<text class="t" x="18" y="42" font-size="24">2</text>`+ball(32,40,3.5)+`<text class="t" x="46" y="42" font-size="24">5</text>`],
+    ['ZERO','ноль', `<ellipse cx="32" cy="32" rx="14" ry="20"/>`],
+    ['SQUARED','в квадрате', `<text class="t" x="28" y="44" font-size="28">x<tspan font-size="15" dy="-14">2</tspan></text>`],
+    ['HASHTAG','решётка (в США ещё pound)', `<path d="M26 12l-4 40M42 12l-4 40M14 24h38M12 40h38"/>`],
+  ], note:'Вслух пример читают так: <b>two plus two is four</b>, <b>three times five equals fifteen</b>. На кнопках телефона <b>#</b> называют pound, а в соцсетях hashtag.'},
+
+  {id:'clock', group:'num', title:'What Time Is It?', ru:'Время на часах', tiles:[
+    ["O'CLOCK",'ровно (3:00 three o\'clock)', clock(3,0)],
+    ['TEN PAST','десять минут (3:10)', clock(3,10,'past')],
+    ['QUARTER PAST','четверть (3:15)', clock(3,15,'past')],
+    ['HALF PAST','половина (3:30 half past three)', clock(3,30,'past')],
+    ['TWENTY TO','без двадцати (3:40)', clock(3,40,'to')],
+    ['QUARTER TO','без четверти (3:45)', clock(3,45,'to')],
+    ['NOON','полдень', `<circle cx="32" cy="32" r="13"/><path d="M32 6v6M32 52v6M6 32h6M52 32h6M14 14l4 4M46 46l4 4M50 14l-4 4M18 46l-4 4"/><text class="t" x="32" y="37" font-size="12">12</text>`],
+    ['MIDNIGHT','полночь', `<path d="M38 10a22 22 0 1 0 16 34a17 17 0 0 1-16-34z"/><text class="t" x="28" y="38" font-size="12">12</text>`],
+    ['A.M. · P.M.','до полудня · после', `<text class="t" x="32" y="26" font-size="15">AM</text><path class="k" d="M12 32h40"/><text class="t" x="32" y="52" font-size="15">PM</text>`, 'A M. P M'],
+  ], note:'<b>Half past three</b> это 3:30, а не «половина третьего»: русские ошибаются на час. В США чаще говорят цифрами: <b>three thirty</b>, <b>four forty-five</b>. <b>O\'clock</b> только с ровным часом.'},
+
+  {id:'dates', group:'num', title:'Years · Dates · Age', ru:'Годы, даты, возраст', rows:[
+    ['NINETEEN NINETY-FIVE','1995: год читают парами цифр', BIG('1995')],
+    ['TWO THOUSAND FIVE','2000–2009 читают через thousand', BIG('2005')],
+    ['TWENTY TWENTY-SIX','с 2010 снова парами', BIG('2026')],
+    ['THE NINETIES','девяностые', BIG("the '90s")],
+    ['OCTOBER NINETEENTH','19 октября: в США месяц идёт первым', BIG('10/19')],
+    ["I'M THIRTY-ONE",'мне 31 (не «I have 31 years»)', BIG("I'm 31")],
+  ], note:'В США дата пишется <b>месяц/день</b>: 05/06 это 6 мая, а не 5 июня. Возраст через <b>be</b>: I\'m 31, she\'s 25. «I have 31 years» носитель не поймёт.'},
+
+  {id:'approx', group:'num', title:'About · Over · Almost', ru:'Примерно, больше, меньше', tiles:[
+    ['EXACTLY','ровно, точно', LINE+`<path d="M32 12v14m-5-5l5 5 5-5"/>`+ball(32,42,5)],
+    ['ABOUT · AROUND','около, примерно', `<rect class="s" x="18" y="33" width="28" height="18" rx="5"/>`+LINE+`<text class="t" x="32" y="26" font-size="22">~</text>`],
+    ['ALMOST','почти', LINE+arrowR(12,26,24)+ball(26,42,5)],
+    ['OVER · MORE THAN','больше, свыше', LINE+THICK(37,54)+`<path d="M52 34l8 8-8 8"/><circle class="bg" cx="32" cy="42" r="5"/>`],
+    ['UNDER · LESS THAN','меньше, до', LINE+THICK(10,27)+`<path d="M12 34l-8 8 8 8"/><circle class="bg" cx="32" cy="42" r="5"/>`],
+    ['AT LEAST','как минимум', LINE+THICK(32,54)+`<path d="M52 34l8 8-8 8"/>`+ball(32,42,5)],
+    ['UP TO','до (максимум)', LINE+THICK(10,32)+`<path d="M12 34l-8 8 8 8"/>`+ball(32,42,5)],
+    ['BETWEEN … AND','от … до', LINE+THICK(18,46)+ball(18,42,5)+ball(46,42,5), 'between ten and twenty'],
+    ['-ISH','где-то (sevenish)', `<text class="t" x="32" y="40" font-size="19">7ish</text>`, 'sevenish'],
+  ], note:'В плашках: <b>over 2 million views</b> = больше двух миллионов, <b>almost a million</b> = почти миллион. Сравни на картинках: пустой кружок значит, что само число не входит (over, under), закрашенный значит входит (at least, up to).'},
+
+  {id:'abbr', group:'num', title:'K · M · 24/7', ru:'Сокращения и где их видишь', rows:[
+    ['10K · TEN K','десять тысяч: просмотры, подписчики, зарплата ($80K a year)', BIG('10K'), '10K. ten K. ten thousand'],
+    ['2.5M · TWO POINT FIVE MILLION','миллион: просмотры, деньги (в финансах пишут MM)', BIG('2.5M'), 'two point five million'],
+    ['1B · A BILLION','миллиард: новости, компании (ещё пишут bn)', BIG('$1B'), 'one billion dollars'],
+    ['#1 · NUMBER ONE','номер: топы, чарты (то же No. 1)', BIG('#1'), 'number one'],
+    ['2X · TWO X','вдвое: скорость видео 2x, «2x the views»', BIG('2x'), 'two x. twice'],
+    ['24/7 · TWENTY-FOUR SEVEN','круглосуточно: вывески, «grinding 24/7»', BIG('24/7'), 'twenty-four seven'],
+    ['50/50 · FIFTY-FIFTY','пополам, шансы пятьдесят на пятьдесят', BIG('50/50'), 'fifty-fifty'],
+    ['10/10 · TEN OUT OF TEN','оценка в комментах: «10/10 would watch again»', BIG('10/10'), 'ten out of ten'],
+    ['1V1 · ONE V ONE','один на один: игры, спорт, драки', BIG('1v1'), 'one v one'],
+    ['9 TO 5 · NINE TO FIVE','офисная работа: «quit my 9 to 5»', BIG('9-5'), 'nine to five'],
+    ['IN HIS 20s · TWENTIES','ему двадцать с чем-то: «a guy in his 20s»', BIG('20s'), 'in his twenties'],
+  ], note:'<b>K</b> идёт от kilo: 10K = десять тысяч. Читают буквой (<b>ten K</b>) или полностью. <b>M</b> = миллион. Одна <b>K</b> в переписке значит «ок», и часто сухо, с обидой.'},
+
+  {id:'short', group:'num', title:'Grand · Mil · Bucks', ru:'Как говорят коротко, в жизни', rows:[
+    ['FIFTEEN HUNDRED · ONE POINT FIVE K','1.5K, полностью one thousand five hundred: оба коротких нормальны', BIG('1.5K'), 'fifteen hundred. one point five K'],
+    ['TWENTY-FIVE HUNDRED · TWO AND A HALF GRAND','$2,500: деньги считают сотнями или «grand»', BIG('$2,500'), 'twenty-five hundred. two and a half grand'],
+    ['FIVE GRAND','$5,000: grand = тысяча долларов, только про деньги', BIG('$5,000'), 'five grand'],
+    ['A HUNDRED K · A HUNDRED GRAND','100K: подписчики только K, деньги K или grand', BIG('100K'), 'a hundred K. a hundred grand'],
+    ['ONE POINT TWO MIL','1.2M: mil вместо million, про просмотры и деньги', BIG('1.2M'), 'one point two mil'],
+    ['HALF A MIL','$500,000: полмиллиона', BIG('$500K'), 'half a mil'],
+    ['FOUR NINETY-NINE','$4.99: dollars и cents выбрасывают', BIG('$4.99'), 'four ninety-nine'],
+    ['TWENTY BUCKS','$20: buck = доллар, разговорно', BIG('$20'), 'twenty bucks'],
+    ['TWO THIRTY','2:30: время просто цифрами', BIG('2:30'), 'two thirty'],
+    ['POINT FIVE','0.5: ноль впереди обычно не произносят', BIG('0.5'), 'point five'],
+  ], note:'<b>One point five K</b> не считается длинным, про просмотры так и говорят. Про деньги чаще <b>fifteen hundred</b>: тысячи до 10 000 удобно читать сотнями (<b>twelve hundred</b>, <b>thirty-five hundred</b>). <b>Grand</b> и <b>mil</b> разговорные: так говорят вслух и пишут в комментах.'},
+
+  {id:'units', group:'num', title:'MPH · LBS · °F', ru:'Американские меры: в роликах и комментах', rows:[
+    ['60 MPH · MILES PER HOUR','≈ 97 км/ч: регистраторы, байки, штрафы', BIG('60 mph'), 'sixty miles per hour'],
+    ['5 MI · FIVE MILES','≈ 8 км (1 миля ≈ 1.6 км)', BIG('5 mi'), 'five miles'],
+    ['6′2″ · SIX FOOT TWO','рост ≈ 188 см: ′ фут 30 см, ″ дюйм 2.5 см', BIG('6′2″'), 'six foot two'],
+    ['180 LBS · POUNDS','вес ≈ 82 кг (1 lb ≈ 0.45 кг)', BIG('180 lbs'), 'a hundred eighty pounds'],
+    ['90°F · NINETY DEGREES','≈ 32 °C, жара (32 °F = 0 °C)', BIG('90°F'), 'ninety degrees'],
+    ['16 OZ · SIXTEEN OUNCES','≈ 450 г или мл: стаканы, стейки', BIG('16 oz'), 'sixteen ounces'],
+    ['$3 A GALLON','галлон ≈ 3.8 л: цена бензина', BIG('$3/gal'), 'three dollars a gallon'],
+  ], note:'Прикидка в уме: <b>mph × 1.6</b> = км/ч, <b>lbs ÷ 2.2</b> = кг, <b>(°F − 32) ÷ 1.8</b> = °C. Рост читают <b>six foot two</b>: foot, а не feet. Американец считает в милях: 120 км/ч ему ничего не скажет, для него это <b>75 mph</b>.'},
+
+  {id:'chat', group:'num', title:'2 · 4 · GR8', ru:'Цифры вместо слов в комментах', tiles:[
+    ['TO · TOO','2 = to, too (me 2)', `<text class="t" x="32" y="42" font-size="30">2</text>`, 'to. too'],
+    ['FOR','4 = for (4 real)', `<text class="t" x="32" y="42" font-size="30">4</text>`, 'for'],
+    ['BEFORE','B4 = before', `<text class="t" x="32" y="40" font-size="22">B4</text>`, 'before'],
+    ['GREAT','GR8 = great', `<text class="t" x="32" y="40" font-size="20">GR8</text>`, 'great'],
+    ['LATER','L8R = later', `<text class="t" x="32" y="40" font-size="20">L8R</text>`, 'later'],
+    ['TOMORROW','2MRW = tomorrow', `<text class="t" x="32" y="39" font-size="15">2MRW</text>`, 'tomorrow'],
+    ['NO ONE','NO1 = no one', `<text class="t" x="32" y="40" font-size="20">NO1</text>`, 'no one'],
+    ['KEEP IT 100','100 = честно, по-настоящему', `<text class="t" x="32" y="40" font-size="22">100</text><path d="M14 46h36M14 50h36"/>`, 'keep it one hundred'],
+    ['OK','K = ок (часто сухо)', `<text class="t" x="32" y="42" font-size="30">K</text>`, 'okay'],
+  ], note:'Это чтобы понимать комменты. В своих плашках я бы так не писал: <b>2</b> и <b>4</b> вместо слов выглядят как спам и читаются медленнее. <b>Keep it 100</b> = будь честен, говори как есть.'},
+  ];
+
+  // ---------- render ----------
+  const speakText = (en,say)=>(say || en.replace(/[→·]/g,', ').replace(/…/g,' ').toLowerCase()).replace(/"/g,'&quot;');
+  const SPK_ICON = `<svg class="spk" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5q1.5 2.5 0 5"/></svg>`;
+  const svg = (inner, vb='0 0 64 64', cls='') => `<svg class="ico${cls}" viewBox="${vb}" aria-hidden="true">${inner}</svg>`;
+  const decksEl = document.getElementById('decks'), navEl = document.getElementById('nav');
+  decksEl.innerHTML = DECKS.map(d=>{
+    const body = d.rows
+      ? `<div class="rows">${d.rows.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
+      : `<div class="grid${d.cols===4?' c4':d.wide?' c2':''}">${d.tiles.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${d.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${body}<div class="note">${d.note}</div></section>`;
+  }).join('');
+  navEl.innerHTML = DECKS.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
+
+  // ---------- filter (hoisted: setGroup calls it before progress code runs) ----------
+  var curGroup = 'words', filter = 'all';
+  function applyFilter(){
+    const f = filter || 'all', g = curGroup || 'words';
+    const cnt = {all:0,new:0,learn:0,repeat:0,known:0};
+    document.querySelectorAll('.deck').forEach(d=>{
+      const items=[...d.querySelectorAll('.tile,.row')], inG=d.dataset.group===g;
+      let shown=0, known=0;
+      items.forEach(t=>{const s=t.dataset.st||'new'; if(inG){cnt.all++; cnt[s]++}
+        if(s==='known') known++; const out=f!=='all' && s!==f; t.classList.toggle('fo',out); if(!out) shown++});
+      d.hidden = !inG || !shown;
+      d.querySelector('.prog').textContent = known ? `знаю ${known} из ${items.length}` : `${items.length} слов`;
+    });
+    document.querySelectorAll('nav a').forEach(a=>{a.hidden=document.getElementById(a.getAttribute('href').slice(1)).hidden});
+    Object.keys(cnt).forEach(k=>{const el=document.getElementById('c-'+k); if(el) el.textContent=cnt[k]});
+    const empty=document.getElementById('empty'); if(empty) empty.hidden=!!document.querySelector('.deck:not([hidden])');
+  }
+
+  // ---------- groups: words / numbers ----------
+  const gbtns = [...document.querySelectorAll('[data-group]')].filter(b=>b.tagName==='BUTTON');
+  function setGroup(g){
+    curGroup = g; applyFilter();
+    gbtns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.group===g)));
+    try{localStorage.setItem('cards-group',g)}catch(e){}
+  }
+  gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
+  const fromHash = DECKS.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
+  let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
+  setGroup(fromHash ? (fromHash.group||'words') : (g0==='num'?'num':'words'));
+
+  // ---------- modes ----------
+  const root = document.getElementById('app'), reset = document.getElementById('reset');
+  const btns = [...document.querySelectorAll('button[data-mode]')];
+  function setMode(m){
+    root.classList.remove('hide-ru','hide-en');
+    if(m!=='all') root.classList.add(m);
+    btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.mode===m)));
+    reset.hidden = m==='all';
+    closeAll();
+    try{localStorage.setItem('cards-mode',m)}catch(e){}
+  }
+  function closeAll(){document.querySelectorAll('.open').forEach(t=>t.classList.remove('open'))}
+  btns.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+  reset.addEventListener('click',closeAll);
+  decksEl.addEventListener('click',e=>{
+    const b=e.target.closest('.note b.say'); if(b){speak(b.textContent,b);return}
+    const t=e.target.closest('.tile,.row'); if(!t) return;
+    t.classList.toggle('open'); speak(t.dataset.say,t); openSheet(t);
+  });
+
+  // ---------- voice ----------
+  const TTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  let rate = 0.95, voice = null;
+  function pickVoice(){
+    if(!TTS) return;
+    const vs = speechSynthesis.getVoices().filter(v=>/^en[-_]US/i.test(v.lang));
+    const pref = ['Samantha','Google US English','Microsoft Aria','Microsoft Jenny','Alex','Ava','Allison'];
+    // a downloaded Premium / Enhanced voice sounds far less robotic, so it wins over everything
+    voice = vs.find(v=>/premium/i.test(v.name)) || vs.find(v=>/enhanced|natural|neural/i.test(v.name))
+      || pref.map(n=>vs.find(v=>v.name.includes(n))).find(Boolean) || vs.find(v=>v.localService) || vs[0] || null;
+  }
+  function speak(text,el){
+    if(!TTS||!text) return;
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang='en-US'; u.rate=rate; if(voice) u.voice=voice;
+      if(el){el.classList.add('speaking'); const off=()=>el.classList.remove('speaking'); u.onend=off; u.onerror=off; setTimeout(off,6000)}
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  if(TTS){pickVoice(); try{speechSynthesis.addEventListener('voiceschanged',pickVoice)}catch(e){}}
+  else{document.getElementById('nosound').hidden=false; document.getElementById('speed').hidden=true; document.querySelectorAll('.spk').forEach(s=>s.remove())}
+  // English bold phrases inside notes become tappable
+  document.querySelectorAll('.note b').forEach(b=>{ if(/[a-z]/i.test(b.textContent) && !/[а-яё]/i.test(b.textContent)) b.classList.add('say') });
+  const sbtns=[...document.querySelectorAll('button[data-rate]')];
+  function setRate(r){rate=r; sbtns.forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.rate===r))); try{localStorage.setItem('cards-rate',String(r))}catch(e){}}
+  sbtns.forEach(b=>b.addEventListener('click',()=>{setRate(+b.dataset.rate); speak(rate<0.8?'slowly':'normal speed')}));
+  try{const r=+localStorage.getItem('cards-rate'); if(r===0.6||r===0.95) setRate(r)}catch(e){}
+  let saved='all'; try{saved=localStorage.getItem('cards-mode')||'all'}catch(e){}
+  if(['all','hide-ru','hide-en'].includes(saved)) setMode(saved);
+
+  // ---------- progress: learn / repeat / known ----------
+  // kept in the account (db, owner-only) so phone and computer see the same marks; local copy as fallback
+  var prog = {}, ref = null, saveT = null, cur = null;
+  try{prog = JSON.parse(localStorage.getItem('cards-progress')||'{}') || {}}catch(e){}
+  const sheet = document.getElementById('sheet'), sw = document.getElementById('sw'), syncEl = document.getElementById('sync');
+  const sheetBtns = [...sheet.querySelectorAll('.sb button')];
+  const fbtns = [...document.querySelectorAll('#filt button')];
+  const allItems = [...document.querySelectorAll('.tile,.row')];
+  function paint(){
+    allItems.forEach(t=>{const s=(prog[t.dataset.id]||{}).s; if(s) t.dataset.st=s; else delete t.dataset.st});
+    applyFilter(); if(cur) markSheet();
+  }
+  function localSave(){try{localStorage.setItem('cards-progress',JSON.stringify(prog))}catch(e){}}
+  function save(){
+    localSave();
+    if(!ref) return;
+    clearTimeout(saveT);
+    saveT = setTimeout(()=>{saveT=null; ref.set({m:prog, updated:Date.now()}).catch(()=>{ref=null; setSync(false)})}, 700);
+  }
+  function setSync(ok){
+    syncEl.textContent = ok ? 'Отметки сохраняются в аккаунте: одни и те же на всех устройствах, у каждого свои.' : 'Отметки пока хранятся только на этом устройстве. Войди в аккаунт Claude, чтобы они не потерялись.';
+    document.getElementById('backup').hidden = ok;
+  }
+  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; sheet.hidden=false; markSheet()}
+  function markSheet(){const s=cur.dataset.st||''; sheetBtns.forEach(b=>b.setAttribute('aria-pressed', String(!!s && b.dataset.st===s)))}
+  sheetBtns.forEach(b=>b.addEventListener('click',()=>{
+    if(!cur) return;
+    const id=cur.dataset.id, s=b.dataset.st;
+    if(s) prog[id]={s, t:Date.now()}; else delete prog[id];
+    save(); paint();
+    if(filter!=='all' && (cur.dataset.st||'new')!==filter){sheet.hidden=true; cur=null}
+  }));
+  document.getElementById('sx').addEventListener('click',()=>{sheet.hidden=true; cur=null});
+  fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); sheet.hidden=true; cur=null; applyFilter()}));
+  // backup for viewers without an account: progress lives only in this browser
+  const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
+  document.getElementById('bk-copy').addEventListener('click',()=>{
+    const txt='EIC1:'+JSON.stringify(Object.fromEntries(Object.entries(prog).map(([k,v])=>[k,v.s])));
+    const done=()=>{bkMsg.textContent='Скопировано. Отметок: '+Object.keys(prog).length};
+    const fallback=()=>{bkIn.value=txt; bkIn.focus(); bkIn.select(); bkMsg.textContent='Текст в поле ниже: выдели и скопируй'};
+    try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
+  });
+  document.getElementById('bk-load').addEventListener('click',()=>{
+    try{
+      const raw=bkIn.value.trim().replace(/^EIC1:/,''); const o=JSON.parse(raw); const next={};
+      Object.entries(o).forEach(([k,v])=>{const st=typeof v==='string'?v:(v&&v.s); if(['learn','repeat','known'].includes(st)) next[k]={s:st,t:Date.now()}});
+      prog=next; save(); paint(); bkIn.value=''; bkMsg.textContent='Восстановлено. Отметок: '+Object.keys(next).length;
+    }catch(e){bkMsg.textContent='Не похоже на копию отметок. Вставь текст целиком, он начинается с EIC1:'}
+  });
+  paint();
+  // ask the browser not to evict local marks (matters for the standalone copy without an account)
+  try{navigator.storage && navigator.storage.persist && navigator.storage.persist()}catch(e){}
+  (async()=>{
+    try{
+      if(!window.claude || !window.claude.use) return;
+      const db = await window.claude.use('db'); if(!db) return;
+      // each signed-in person keeps marks in their own private subtree (him and his sister)
+      const user = await window.claude.use('user');
+      const uid = user ? await user.id() : null;
+      ref = db.doc(uid ? 'data/users/'+uid+'/progress' : 'progress/state');
+      // one-time move of his marks from the old owner-only document
+      if(uid && await user.isOwner()){
+        try{
+          const [mine, old] = await Promise.all([ref.get(), db.doc('progress/state').get()]);
+          const om = old.exists ? (old.data()||{}).m : null;
+          if(!mine.exists && om){prog = Object.assign(JSON.parse(JSON.stringify(om)), prog); await ref.set({m:prog, updated:Date.now()})}
+        }catch(e){}
+      }
+      ref.onSnapshot(snap=>{
+        if(saveT || snap.metadata.hasPendingWrites) return;
+        const m = snap.exists ? (snap.data()||{}).m : null;
+        if(m){prog = JSON.parse(JSON.stringify(m)); localSave(); paint(); setSync(true)}
+        else if(Object.keys(prog).length){ref.set({m:prog, updated:Date.now()}).then(()=>setSync(true)).catch(()=>{ref=null; setSync(false)})}
+        else setSync(true);
+      }, ()=>{ref=null; setSync(false)});
+    }catch(e){ref=null}
+  })();
+})();
+</script>
+
+</body>
+</html>
