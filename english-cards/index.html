@@ -714,7 +714,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   }
   function pickVoice(){
     if(!TTS) return;
-    const vs = speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang))
+    // Apple's novelty (Bells, Bubbles, Organ...) and old Eloquence voices are jokes, not teachers
+    const vs = speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang) && !/speech\.synthesis\.voice|eloquence/i.test(v.voiceURI||''))
       .sort((a,b)=>(/^en[-_]us/i.test(b.lang)-/^en[-_]us/i.test(a.lang)) || a.name.localeCompare(b.name));
     let saved=''; try{saved=localStorage.getItem('cards-voice')||''}catch(e){}
     voice = (saved && vs.find(v=>v.voiceURI===saved)) || autoVoice(vs);
