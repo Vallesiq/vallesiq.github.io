@@ -707,7 +707,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const vtag = v => (v.name+' '+(v.voiceURI||'')).toLowerCase();
   function autoVoice(vs){
     const us = vs.filter(v=>/^en[-_]us/i.test(v.lang));
-    const pref = ['evan','эван','ava','zoe','samantha','google us english','microsoft aria','microsoft jenny','alex','allison'];
+    const pref = ['zoe','зои','evan','эван','ava','samantha','google us english','microsoft aria','microsoft jenny','alex','allison'];
     // a downloaded Premium / Enhanced voice sounds far less robotic, so it wins over everything
     return us.find(v=>/premium|премиум/.test(vtag(v))) || us.find(v=>/enhanced|улучш|natural|neural/.test(vtag(v)))
       || pref.map(n=>us.find(v=>vtag(v).includes(n))).find(Boolean) || us.find(v=>v.localService) || us[0] || vs[0] || null;
