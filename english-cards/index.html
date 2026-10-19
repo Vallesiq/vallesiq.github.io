@@ -628,17 +628,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ];
 
   // ---------- render ----------
-  const speakText = (en,say)=>(say || en.replace(/[→·]/g,', ').replace(/…/g,' ').toLowerCase()).replace(/"/g,'&quot;');
+  const speakText = (en,say)=>((say && typeof say==='object' ? say.say : say) || en.replace(/[→·]/g,', ').replace(/…/g,' ').toLowerCase()).replace(/"/g,'&quot;');
   const SPK_ICON = `<svg class="spk" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5q1.5 2.5 0 5"/></svg>`;
   const svg = (inner, vb='0 0 64 64', cls='') => `<svg class="ico${cls}" viewBox="${vb}" aria-hidden="true">${inner}</svg>`;
   const decksEl = document.getElementById('decks'), navEl = document.getElementById('nav');
-  decksEl.innerHTML = DECKS.map(d=>{
+  // who sees what: a deck or a single word can carry only:'me' or only:'sister'; no mark = both.
+  // A word marks it in its 4th field: ['WORD','перевод', icon, {only:'sister', say:'...'}]
+  const AUDIENCE = 'sister'; // the GitHub Pages build switches this to 'sister'
+  const forMe = o => !o || !o.only || o.only===AUDIENCE;
+  const SHOWN = DECKS.filter(forMe).map(d=>{const k=d.rows?'rows':'tiles'; return Object.assign({}, d, {[k]: d[k].filter(t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null))})}).filter(d=>(d.rows||d.tiles).length);
+  decksEl.innerHTML = SHOWN.map(d=>{
     const body = d.rows
       ? `<div class="rows">${d.rows.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${d.cols===4?' c4':d.wide?' c2':''}">${d.tiles.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${d.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
     return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${body}<div class="note">${d.note}</div></section>`;
   }).join('');
-  navEl.innerHTML = DECKS.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
+  navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
   // ---------- filter (hoisted: setGroup calls it before progress code runs) ----------
   var curGroup = 'words', filter = 'all';
@@ -666,7 +671,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     try{localStorage.setItem('cards-group',g)}catch(e){}
   }
   gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
-  const fromHash = DECKS.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
+  const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
   let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
   setGroup(fromHash ? (fromHash.group||'words') : (g0==='num'?'num':'words'));
 
