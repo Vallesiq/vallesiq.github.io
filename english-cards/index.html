@@ -181,12 +181,6 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     <textarea id="bk-in" placeholder="Сюда вставь сохранённую копию"></textarea>
     <div class="bk-row"><button id="bk-load">Восстановить</button></div>
   </details>
-  <details class="backup wish" id="wish" hidden>
-    <summary>Хочу добавить</summary>
-    <p>Напиши, что добавить: слово, тему, правило, ссылку на ролик. Кнопка откроет Telegram с этим текстом, выбери брата и отправь.</p>
-    <textarea id="wish-in" placeholder="Например: слова про погоду, или как сказать «я опоздаю»"></textarea>
-    <div class="bk-row"><button id="wish-send">Отправить в Telegram</button><span class="bk-msg" id="wish-msg" aria-live="polite"></span></div>
-  </details>
   <nav id="nav" aria-label="Карточки"></nav>
   <main class="decks" id="decks"></main>
   <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
@@ -768,17 +762,6 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   }));
   document.getElementById('sx').addEventListener('click',()=>{sheet.hidden=true; cur=null});
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); sheet.hidden=true; cur=null; applyFilter()}));
-  // wishes from the sister's copy go out through Telegram's share sheet (her page has no storage of its own)
-  if(AUDIENCE==='sister'){
-    const wish=document.getElementById('wish'), win=document.getElementById('wish-in'), wmsg=document.getElementById('wish-msg');
-    wish.hidden=false;
-    document.getElementById('wish-send').addEventListener('click',()=>{
-      const t=win.value.trim(); if(!t){wmsg.textContent='Сначала напиши, что добавить'; return}
-      const url='https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent('Хочу в карточки: '+t);
-      const a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove();
-      wmsg.textContent='Открываю Telegram…';
-    });
-  }
   // backup for viewers without an account: progress lives only in this browser
   const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
   document.getElementById('bk-copy').addEventListener('click',()=>{
