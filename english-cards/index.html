@@ -90,6 +90,12 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .kn-more[hidden]{display:none!important}
 .deck:not(.showkn) .step.allkn>.note{display:none}
 .deck.done{order:1}
+/* dialog rows: what you hear on top, your answer below in bold */
+.row.tk{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 26px 12px 4px}
+.tk .q{font-weight:600;font-size:14px;color:var(--muted);line-height:1.3}
+.tk .sit{font-weight:500;font-size:13px;color:var(--muted);font-style:italic}
+.tk .en{text-transform:none;letter-spacing:0;font-size:clamp(14px,3.8vw,16px);margin-top:6px}
+.tk .ru{font-size:12.5px}
 .filt button{display:inline-flex;align-items:center;gap:6px}
 .filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
 .filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
@@ -161,6 +167,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   <div class="bar">
     <div class="seg big" role="group" aria-label="Раздел">
       <button id="g-words" data-group="words" aria-pressed="true">Слова</button>
+      <button id="g-talk" data-group="talk" aria-pressed="false">Разговор</button>
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
       <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
     </div>
@@ -279,7 +286,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // ---------- decks ----------
   const DECKS = [
   // ===== разговор: когда не понял или забыл слово =====
-  {id:'rescue', title:'Say That Again?', ru:'Не понял, забыл слово, нужно время', tiles:[
+  {id:'rescue', group:'talk', title:'Say That Again?', ru:'Не понял, забыл слово, нужно время', tiles:[
     ['SORRY?','что-что? (не расслышал)', BUBBLE('?',22)],
     ['SAY THAT AGAIN?','повторите?', `<path d="M48 40a17 17 0 1 1-2-17"/><path d="M48 12v12H36"/><text class="t" x="31" y="38" font-size="15">?</text>`, 'could you say that again?'],
     ['SLOWER, PLEASE','помедленнее, пожалуйста', `<circle cx="28" cy="38" r="11"/><path d="M28 38a4 4 0 1 1 4-4M16 50h36q6 0 6-8v-8M54 34l-3-8M58 34l3-8"/>`, 'could you speak slower, please?'],
@@ -294,8 +301,77 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ["I'M STILL LEARNING",'я ещё учу английский', `<path d="M8 16q12-4 24 4q12-8 24-4v34q-12-4-24 4q-12-8-24-4zM32 20v34"/>`, "I'm still learning English"],
   ], note:'Переспрашивать нормально, носители делают это постоянно. <b>Sorry?</b> с вопросом в голосе вежливее, чем <b>What?</b>. Забыл слово, не замолкай, опиши его: <b>the thing for opening bottles</b>. <b>Like</b> и <b>I mean</b> дают пару секунд подумать, так тянут время все. Скажи прямо: <b>I\'m still learning English, could you speak slower?</b> После этого с тобой начнут говорить проще.'},
 
+  // ===== Разговор: тебе говорят, ты отвечаешь =====
+  {id:'smalltalk', group:'talk', talk:true, title:'Small Talk', ru:'Тебя спрашивают: что ответить', rows:[
+    ['How are you?','Как дела?','Good, thanks. And you?','Хорошо, спасибо. А ты?'],
+    ['How\'s it going?','Как оно?','Not bad. You?','Неплохо. А у тебя?'],
+    ['What\'s up?','Как жизнь? Что нового?','Not much. Just working.','Да ничего. Работаю.'],
+    ['Where are you from?','Откуда ты?','I\'m from Russia. I live in Tbilisi now.','Я из России, сейчас живу в Тбилиси.'],
+    ['What do you do?','Кем работаешь?','I make videos for YouTube.','Делаю ролики для YouTube.'],
+    ['How long have you been here?','Давно ты здесь?','About a year.','Где-то год.'],
+    ['Do you like it here?','Тебе тут нравится?','Yeah, I love it. The food is great.','Да, очень. Еда отличная.'],
+    ['Your English is good!','У тебя хороший английский!','Thanks, I\'m still learning.','Спасибо, я ещё учу.'],
+    ['Nice to meet you.','Приятно познакомиться.','Nice to meet you too.','Взаимно.'],
+    ['Have a good one!','Хорошего дня!','You too!','И тебе!'],
+  ], note:'На <b>How are you?</b> не рассказывают, как дела на самом деле: это приветствие, хватает <b>Good, you?</b>. <b>What do you do?</b> = кем работаешь. «Что ты сейчас делаешь» это <b>What are you doing?</b>. Ответ можно расширить одной фразой, и разговор пойдёт сам: <b>I make videos for YouTube, short ones.</b>'},
+
+  {id:'everyday', group:'talk', talk:true, title:'Everyday Phrases', ru:'Короткие фразы на каждый день', rows:[
+    ['(нужно пройти или обратиться)','','Excuse me.','Извините, можно?'],
+    ['(толкнул кого-то)','','Oh, sorry!','Ой, простите!'],
+    ['(тебе говорят спасибо)','','No problem. / You\'re welcome.','Не за что.'],
+    ['(перед тобой извиняются)','','No worries.','Ничего страшного.'],
+    ['(сам ошибся)','','My bad.','Моя ошибка, виноват.'],
+    ['(соглашаешься)','','Sure. / Sounds good.','Конечно. / Звучит хорошо, давай.'],
+    ['(у тебя так же)','','Me too.','Я тоже.'],
+    ['(у тебя тоже нет)','','Me neither.','Я тоже нет.'],
+    ['(не знаешь точно)','','I\'m not sure.','Не уверен.'],
+    ['(ответ зависит)','','It depends.','Смотря как, зависит.'],
+    ['(тебя ждут, а ты не спешишь)','','No rush. Take your time.','Не спешите.'],
+    ['(уходишь)','','I gotta go. See you!','Мне пора. Увидимся!'],
+  ], note:'<b>Me too</b> на утверждение, <b>me neither</b> на отрицание: I don\'t like it. — <b>Me neither.</b> <b>No worries</b> и <b>no problem</b> звучат теплее, чем you\'re welcome. <b>My bad</b> разговорное, с друзьями и в зале, с врачом лучше <b>sorry</b>.'},
+
+  {id:'cafe', group:'talk', talk:true, title:'At The Café', ru:'Кафе: заказать и ответить', rows:[
+    ['Hi, what can I get you?','Здравствуйте, что вам?','Can I get a latte, please?','Можно латте?'],
+    ['What size?','Какой размер?','Medium, please.','Средний.'],
+    ['Hot or iced?','Горячий или со льдом?','Iced, please.','Со льдом.'],
+    ['Any milk?','Какое молоко?','Oat milk, please.','Овсяное.'],
+    ['For here or to go?','Здесь или с собой?','To go, please.','С собой.'],
+    ['Anything else?','Что-то ещё?','No, that\'s it, thanks.','Нет, это всё, спасибо.'],
+    ['Name for the order?','Имя на заказ?','Val. V-A-L.','Вэл, по буквам ви-эй-эл.'],
+    ['(не знаешь, что взять)','','What do you recommend?','Что посоветуете?'],
+    ['(хочешь счёт)','','Can I get the check, please?','Можно счёт?'],
+    ['How was everything?','Как вам всё?','Great, thank you!','Отлично, спасибо!'],
+  ], note:'Вместо <b>I want</b> говорят <b>Can I get…</b> или <b>I\'ll have…</b>: I want звучит грубо. <b>To go</b> = с собой, в Европе ещё <b>take away</b>. <b>That\'s it</b> = это всё. Имя на стакане проще продиктовать по буквам.'},
+
+  {id:'store', group:'talk', talk:true, title:'At The Store', ru:'Магазин и касса', rows:[
+    ['Can I help you?','Вам помочь?','I\'m just looking, thanks.','Я просто смотрю, спасибо.'],
+    ['(ищешь товар)','','Excuse me, where can I find water?','Извините, где найти воду?'],
+    ['(нужен другой размер)','','Do you have this in a bigger size?','Есть на размер больше?'],
+    ['(хочешь примерить)','','Can I try it on?','Можно примерить?'],
+    ['Do you need a bag?','Пакет нужен?','No, I\'m good, thanks.','Нет, не надо, спасибо.'],
+    ['Cash or card?','Наличные или карта?','Card, please.','Картой.'],
+    ['You can tap right here.','Приложите вот сюда.','Okay, thanks.','Хорошо, спасибо.'],
+    ['Do you want the receipt?','Чек нужен?','No, thanks.','Нет, спасибо.'],
+    ['Do you have our card?','У вас есть наша карта?','No, I don\'t.','Нет.'],
+    ['(что-то не так в чеке)','','Sorry, I think there\'s a mistake.','Извините, кажется, тут ошибка.'],
+    ['(хочешь вернуть товар)','','Can I return this? I have the receipt.','Можно вернуть? Чек есть.'],
+  ], note:'<b>I\'m good</b> на предложение = «нет, спасибо, не надо». <b>Tap</b> = приложить карту, <b>insert</b> = вставить. <b>Try on</b> про одежду: можно примерить. Про еду просто <b>try</b>: Can I try it? = можно попробовать?'},
+
+  {id:'choice', group:'talk', talk:true, title:'Making A Choice', ru:'Как выбрать и сказать, что хочешь', rows:[
+    ['Which one would you like?','Какой хотите?','This one, please.','Вот этот, пожалуйста.'],
+    ['(показываешь на дальний)','','That one, on the left.','Вон тот, слева.'],
+    ['Small or large?','Маленький или большой?','I\'ll take the large one.','Возьму большой.'],
+    ['(тебе всё равно)','','Either is fine.','Любой подойдёт.'],
+    ['(не нравится ни один)','','Neither, thanks.','Ни один, спасибо.'],
+    ['(не понимаешь, чем отличаются)','','What\'s the difference?','А в чём разница?'],
+    ['(нужно подумать)','','Let me think for a second.','Дайте секунду подумать.'],
+    ['(дороговато)','','Do you have anything cheaper?','Есть что-нибудь подешевле?'],
+    ['(передумал)','','Actually, can I change my order?','Вообще-то, можно поменять заказ?'],
+    ['Is that okay?','Так нормально?','Perfect, thanks.','Идеально, спасибо.'],
+  ], note:'<b>This</b> рядом с тобой, <b>that</b> подальше. <b>Either</b> = любой из двух, <b>neither</b> = ни один. <b>Actually</b> = «вообще-то», а не «актуально»: так начинают, когда передумал или поправляешь. <b>One</b> заменяет предмет: <b>the large one</b>, не просто the large.'},
+
   // ===== спортзал =====
-  {id:'gym', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
+  {id:'gym', group:'talk', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
     ['ARE YOU USING THIS?','вы этим пользуетесь?', DB+`<text class="t" x="32" y="16" font-size="15">?</text>`],
     ['CAN I WORK IN?','можно подход, пока вы отдыхаете?', `<path d="M8 22h40m-6-6l6 6-6 6M56 42H16m6-6l-6 6 6 6"/>`, 'mind if I work in?'],
     ['HOW MANY SETS LEFT?','сколько подходов осталось?', DOTS([12,24,36,48],[34],5,[0,1])+`<text class="t" x="56" y="18" font-size="15">?</text>`],
@@ -309,6 +385,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['HOW MUCH IS A MEMBERSHIP?','сколько стоит абонемент?', `<rect x="6" y="16" width="52" height="34" rx="5"/><text class="t" x="32" y="39" font-size="13">$ / mo</text>`],
     ['IS THERE A LOCKER?','есть шкафчик?', `<rect x="16" y="6" width="32" height="52" rx="3"/><path d="M22 14h20M22 20h20"/><circle class="f" cx="42" cy="36" r="2.2"/>`],
   ], note:'Тренажёр занят, человек отдыхает между подходами: <b>Are you using this?</b> или <b>Mind if I work in?</b> = можно я сделаю подход, пока вы отдыхаете. Ответ <b>Go ahead</b>. Закончил и уступаешь: <b>All yours</b>. <b>Spot me</b> = подстрахуй на жиме. О боли просто: <b>my shoulder hurts</b>, <b>my back hurts</b>, hurts с -s.', steps:[
+    {title:'Тебя спрашивают', ru:'Что ответить', open:true, talk:true, rows:[
+    ['Are you using this?','Вы этим пользуетесь?','Yeah, two more sets. / No, go ahead.','Да, ещё два подхода. / Нет, пожалуйста.'],
+    ['Mind if I work in?','Можно мне подход, пока вы отдыхаете?','Sure, go ahead.','Конечно, давай.'],
+    ['How many sets do you have left?','Сколько подходов осталось?','Just one more.','Ещё один.'],
+    ['Are you done with this?','Ты закончил с этим?','Yeah, all yours.','Да, бери.'],
+    ['Is anyone using this?','Тут кто-нибудь занимается?','I think it\'s free.','Кажется, свободно.'],
+    ['Can you spot me?','Подстрахуешь?','Sure. How many reps?','Конечно. Сколько повторов?'],
+    ['Do you need a hand?','Помочь?','No, I\'m good, thanks.','Нет, справлюсь, спасибо.'],
+    ['How long have you been training?','Давно тренируешься?','Not long, a few months.','Недавно, пару месяцев.'],
+    ], note:'<b>I\'m good</b> = нет, спасибо, справляюсь, а не «мне хорошо». <b>All yours</b> = свободно, бери. Длинных ответов в зале никто не ждёт: <b>Sure</b>, <b>one more</b>, <b>go ahead</b> хватает.'},
     {title:'Снаряды и упражнения', ru:'Как называется то, что делаешь', tiles:[
     ['DUMBBELL','гантель', DB],
     ['BARBELL','штанга', `<path d="M4 32h56"/><rect x="10" y="20" width="6" height="24" rx="2"/><rect x="48" y="20" width="6" height="24" rx="2"/><rect x="4" y="24" width="5" height="16" rx="1"/><rect x="55" y="24" width="5" height="16" rx="1"/>`],
@@ -760,15 +846,19 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
   // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
   const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
-  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide}};
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
-  const bodyOf = (p,d)=> p.kind==='rows'
+  // talk:true rows are [heard, its translation, your answer, its translation]; a heard line in (brackets) is a situation in Russian
+  const talkRow = (d,[q,qru,a,aru])=>{const sit=/^\(/.test(q), say=((sit?'':q+' ... ')+a).replace(/"/g,'&quot;');
+    return `<button class="row tk" data-id="${d.id}|${a.replace(/"/g,'')}" data-say="${say}"><span class="txt">${sit?`<span class="sit">${q}</span>`:`<span class="q">${q}</span><span class="ru">${qru}</span>`}<span class="en">${a}</span><span class="ru">${aru}</span></span>${SPK_ICON}</button>`};
+  const bodyOf = (p,d)=> p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
+    : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
-    const steps = d.parts.map((p,i)=>`<div class="step">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
@@ -803,7 +893,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       d.querySelectorAll('.step.locked .lock').forEach(b=>{b.textContent=`Открыть сейчас · ${b.parentNode.querySelector('.sh').dataset.n} слов`});
       d.classList.toggle('done', !locked && total>0 && known===total);
       d.hidden = !inG || !shown;
-      d.querySelector('.prog').textContent = (known ? `знаю ${known} из ${total}` : `${total} слов`) + (locked ? ' · следующая ступень откроется на 80% «Знаю»' : '');
+      d.querySelector('.prog').textContent = (known ? `знаю ${known} из ${total}` : `${total} ${d.dataset.unit||'слов'}`) + (locked ? ' · следующая ступень откроется на 80% «Знаю»' : '');
     });
     document.querySelectorAll('nav a').forEach(a=>{a.hidden=document.getElementById(a.getAttribute('href').slice(1)).hidden});
     Object.keys(cnt).forEach(k=>{const el=document.getElementById('c-'+k); if(el) el.textContent=cnt[k]});
@@ -820,7 +910,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
   const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
   let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
-  setGroup(fromHash ? (fromHash.group||'words') : (['num','work'].includes(g0)?g0:'words'));
+  setGroup(fromHash ? (fromHash.group||'words') : (['num','work','talk'].includes(g0)?g0:'words'));
 
   // ---------- modes ----------
   const root = document.getElementById('app'), reset = document.getElementById('reset');
