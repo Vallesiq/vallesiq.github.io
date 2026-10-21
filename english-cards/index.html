@@ -79,6 +79,17 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .tile[data-st]::before,.row[data-st]::before{content:"";position:absolute;top:5px;left:6px;width:9px;height:9px;border-radius:50%;background:var(--st)}
 .fo{display:none!important}
 .prog{text-align:center;font-size:12px;font-weight:600;color:var(--muted);margin-top:-10px}
+/* steps: level 2+ of the same topic; known words fold into one line */
+.step{display:flex;flex-direction:column;gap:14px;min-width:0}
+.step+.step{border-top:1px dashed var(--line);padding-top:16px}
+.sh{font-size:13px;font-weight:700;color:var(--blue);text-align:center}
+.sh small{display:block;margin-top:3px;font-weight:500;color:var(--muted)}
+.step.locked>:not(.sh):not(.lock),.step:not(.locked)>.lock{display:none!important}
+.kn-more,.lock{font:600 13px var(--display);color:var(--ok);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 12px;cursor:pointer;align-self:center}
+.lock{color:var(--blue)}
+.kn-more[hidden]{display:none!important}
+.deck:not(.showkn) .step.allkn>.note{display:none}
+.deck.done{order:1}
 .filt button{display:inline-flex;align-items:center;gap:6px}
 .filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
 .filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
@@ -145,7 +156,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 <div class="wrap" id="app">
   <header>
     <h1>English Icon Cards</h1>
-    <p>Картинка, слово, перевод. Нажми на слово: оно прозвучит, откроет закрытую сторону, а снизу появятся отметки «Учу / Повторить / Знаю». Синие подчёркнутые фразы в оранжевых плашках тоже нажимаются. Оранжевая плашка: то, на чём ошибаются русские.</p>
+    <p>Картинка, слово, перевод. Нажми на слово: оно прозвучит, откроет закрытую сторону, а снизу появятся отметки «Учу / Повторить / Знаю». Синие подчёркнутые фразы в оранжевых плашках тоже нажимаются. Оранжевая плашка: то, на чём ошибаются русские. Слова с «Знаю» сворачиваются в строку под карточкой. Отметил «Знаю» 80% слов, и в той же теме открывается следующая ступень.</p>
   </header>
   <div class="bar">
     <div class="seg big" role="group" aria-label="Раздел">
@@ -217,7 +228,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const cross = x=>`<path d="M${x-6} 16l12 12M${x+6} 16l-12 12"/>`;
   // numbers
   const BIG = (txt)=>`<text class="t" x="60" y="32" font-size="${txt.length>9?14:txt.length>6?17:21}">${txt}</text>`;
-  const PAIR = (a,sa,b,sb)=>`<text class="t" x="28" y="26" font-size="21">${a}</text><text class="t" x="28" y="44" font-size="9.5">${sa}</text><path class="k" d="M56 14v24"/><text class="t" x="88" y="26" font-size="21">${b}</text><text class="t" x="88" y="44" font-size="9.5">${sb}</text>`;
+  const PAIR = (a,sa,b,sb,fs=21)=>`<text class="t" x="28" y="26" font-size="${fs}">${a}</text><text class="t" x="28" y="44" font-size="9.5">${sa}</text><path class="k" d="M56 14v24"/><text class="t" x="88" y="26" font-size="${fs}">${b}</text><text class="t" x="88" y="44" font-size="9.5">${sb}</text>`;
   const ORD = (n,suf)=>`<circle cx="32" cy="32" r="24"/><text class="t" x="31" y="40" font-size="${String(n).length>1?19:22}">${n}<tspan font-size="11" dy="-9">${suf}</tspan></text>`;
   const PIE = d=>`<circle cx="32" cy="32" r="22"/><path class="f" d="${d}"/>`;
   const clock = (h,m,shade)=>{
@@ -305,7 +316,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['SOMEWHERE','где-то', SAAN(pin,'some')],
     ['ANYWHERE','где угодно; где-нибудь?', SAAN(pin,'any')],
     ['NOWHERE','нигде', SAAN(pin,'no')],
-  ], note:'<b>ANY</b> в вопросах и с not: Is anybody here? I don\'t know anybody. В утверждении any = «любой»: Ask anybody. <b>NO</b> уже «не»: <b>Nobody came</b>, I know nothing (не «I don\'t know nothing»). <b>Everybody is</b>, не are: это единственное число.'},
+  ], note:'<b>ANY</b> в вопросах и с not: Is anybody here? I don\'t know anybody. В утверждении any = «любой»: Ask anybody. <b>NO</b> уже «не»: <b>Nobody came</b>, I know nothing (не «I don\'t know nothing»). <b>Everybody is</b>, не are: это единственное число.', steps:[
+    {title:'-one, else, any-', ru:'Как это звучит в живой речи', tiles:[
+    ['SOMEONE','кто-то (= somebody)', SAAN(man,'some')],
+    ['ANYONE','кто угодно; кто-нибудь? (= anybody)', SAAN(man,'any')],
+    ['NO ONE','никто (= nobody)', SAAN(man,'no')],
+    ['SOMEONE ELSE','кто-то другой', FOUR.map(man).join('')+`<path d="M4 14l14 34"/><ellipse cx="53" cy="33" rx="9" ry="16"/>`],
+    ['EVERYONE ELSE','все остальные', FOUR.map(man).join('')+`<path d="M4 14l14 34"/><ellipse cx="39" cy="33" rx="23" ry="17"/>`],
+    ['SOMETHING ELSE','что-то другое', FOUR.map(thing).join('')+`<path d="M4 18l14 30"/><ellipse cx="53" cy="33" rx="9" ry="16"/>`],
+    ['ANYTHING ELSE?','что-нибудь ещё?', SAAN(thing,'any')+`<text class="t" x="32" y="13" font-size="13">?</text>`],
+    ['NOTHING ELSE','больше ничего', FOUR.map(thing).join('')+`<ellipse cx="11" cy="33" rx="7.5" ry="15"/><path d="M21 33h40"/>`],
+    ['ANYWAY','короче, ладно; всё равно', `<path d="M6 44q6-22 12 0t12 0"/>`+arrowR(34,58,44)],
+    ['SOMEHOW','как-то, каким-то образом', `<path class="d" d="M10 50C18 18 30 54 36 30S50 18 54 12"/>`+ball(10,50,4)+ball(54,12,4)],
+    ['ANYTIME','в любое время; обращайся', clock(10,10)+`<circle class="d" cx="32" cy="32" r="29"/>`],
+    ['EVERY DAY · EVERYDAY','каждый день · повседневный', CAL('1–31'), 'every day. everyday'],
+    ], note:'<b>-ONE</b> и <b>-BODY</b> одно и то же: someone = somebody. <b>No one</b> пишется раздельно. <b>ELSE</b> ставится после слова: <b>something else</b>, не «else something». Кассир спрашивает <b>Anything else?</b>, отвечают <b>No, that\'s it</b>. На «спасибо» говорят <b>Anytime!</b>, то есть «обращайся». <b>Every day</b> раздельно = каждый день: I post every day. <b>Everyday</b> слитно = повседневный: everyday clothes. <b>Anyway</b> в речи = «короче, ладно», так меняют тему.'},
+  ]},
 
   {id:'questions', title:'Question Words', ru:'Вопросы', cols:4, tiles:[
     ['WHO','кто', `<circle cx="32" cy="22" r="10"/><path d="M14 54c0-12 8-20 18-20s18 8 18 20"/>`],
@@ -492,7 +518,17 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['SEVENTEEN · SEVENTY','семнадцать · семьдесят', PAIR('17','seven·TEEN','70','SEVEN·ty')],
     ['EIGHTEEN · EIGHTY','восемнадцать · восемьдесят', PAIR('18','eigh·TEEN','80','EIGH·ty')],
     ['NINETEEN · NINETY','девятнадцать · девяносто', PAIR('19','nine·TEEN','90','NINE·ty')],
-  ], note:'<b>-TEEN</b> длинное и под ударением, его слышно. <b>-TY</b> короткое, в США t звучит почти как «д»: thirty ≈ «сёди». Не расслышал, переспроси: <b>Thirteen or thirty? One-three or three-zero?</b>'},
+  ], note:'<b>-TEEN</b> длинное и под ударением, его слышно. <b>-TY</b> короткое, в США t звучит почти как «д»: thirty ≈ «сёди». Не расслышал, переспроси: <b>Thirteen or thirty? One-three or three-zero?</b>', steps:[
+    {title:'Цены и возраст', ru:'Где эта ловушка встречается в жизни', rows:[
+    ['$13.99 · $30.99','цена: тринадцать или тридцать долларов', PAIR('$13.99','thir·TEEN','$30.99','THIR·ty',13), 'thirteen ninety-nine. thirty ninety-nine'],
+    ['FORTY-FIVE','сорок пять: десятки и единицы через дефис', BIG('45')],
+    ['TEENAGER','подросток: только от 13 до 19', BIG('13–19')],
+    ['A 17-YEAR-OLD','семнадцатилетний (-яя)', BIG('17 y/o'), 'a seventeen-year-old'],
+    ['IN HIS THIRTIES','ему за тридцать (30–39)', BIG('30–39'), 'in his thirties'],
+    ['EARLY · LATE TWENTIES','чуть за двадцать · под тридцать', PAIR('21–23','EARLY','27–29','LATE',14), 'early twenties. late twenties'],
+    ['ONE-THREE · THREE-OH','переспросить по цифрам', PAIR('13','one-three','30','three-oh'), 'one three. three oh'],
+    ], note:'Цену говорят без dollars и cents: <b>thirteen ninety-nine</b>. Возраст в плашке: <b>a 17-year-old girl</b>, через дефисы и без -s. Но отдельно: <b>she is 17 years old</b>, с -s. <b>Teenager</b> только 13–19: двенадцатилетний это <b>a kid</b>. <b>In her twenties</b> = ей 20–29, early и late уточняют начало и конец.'},
+  ]},
 
   {id:'bignum', group:'num', title:'Big Numbers', ru:'Сотни, тысячи, миллионы', rows:[
     ['A HUNDRED','сто', BIG('100')],
@@ -640,12 +676,18 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // A word marks it in its 4th field: ['WORD','перевод', icon, {only:'sister', say:'...'}]
   const AUDIENCE = 'sister'; // the GitHub Pages build switches this to 'sister'
   const forMe = o => !o || !o.only || o.only===AUDIENCE;
-  const SHOWN = DECKS.filter(forMe).map(d=>{const k=d.rows?'rows':'tiles'; return Object.assign({}, d, {[k]: d[k].filter(t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null))})}).filter(d=>(d.rows||d.tiles).length);
+  // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
+  // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
+  const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide}};
+  const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
+  const bodyOf = (p,d)=> p.kind==='rows'
+      ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
+      : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>10)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
   decksEl.innerHTML = SHOWN.map(d=>{
-    const body = d.rows
-      ? `<div class="rows">${d.rows.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
-      : `<div class="grid${d.cols===4?' c4':d.wide?' c2':''}">${d.tiles.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${d.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>10)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${body}<div class="note">${d.note}</div></section>`;
+    const many = d.parts.length>1;
+    const steps = d.parts.map((p,i)=>`<div class="step">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
@@ -655,12 +697,32 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     const f = filter || 'all', g = curGroup || 'words';
     const cnt = {all:0,new:0,learn:0,repeat:0,known:0};
     document.querySelectorAll('.deck').forEach(d=>{
-      const items=[...d.querySelectorAll('.tile,.row')], inG=d.dataset.group===g;
-      let shown=0, known=0;
-      items.forEach(t=>{const s=t.dataset.st||'new'; if(inG){cnt.all++; cnt[s]++}
-        if(s==='known') known++; const out=f!=='all' && s!==f; t.classList.toggle('fo',out); if(!out) shown++});
+      const inG=d.dataset.group===g, showKn=d.classList.contains('showkn');
+      let shown=0, known=0, total=0, locked=0, prevOk=true;
+      d.querySelectorAll('.step').forEach(st=>{
+        const items=[...st.querySelectorAll('.tile,.row')];
+        const k=items.filter(t=>t.dataset.st==='known').length;
+        // open: first step, opened by hand, already has marks, or the step before is 80% known
+        const open = prevOk || st.classList.contains('force') || items.some(t=>t.dataset.st);
+        st.classList.toggle('locked', !open);
+        st.classList.toggle('allkn', open && k===items.length);
+        prevOk = open && k >= items.length*0.8;
+        if(!open){locked++; st.querySelector('.sh').dataset.n = items.length; st.classList.toggle('fo', f!=='all'); if(f==='all') shown++; return}
+        let here=0;
+        total+=items.length; known+=k;
+        items.forEach(t=>{const s=t.dataset.st||'new'; if(inG){cnt.all++; cnt[s]++}
+          const out = f==='all' ? (s==='known' && !showKn) : s!==f;
+          t.classList.toggle('fo',out); if(!out) here++});
+        const more=st.querySelector('.kn-more');
+        more.hidden = f!=='all' || !k;
+        more.textContent = showKn ? 'Свернуть знакомые' : (k===items.length ? `Знаю все ${k} · показать` : `Знаю ${k} · показать`);
+        if(f==='all' && k) here++;
+        st.classList.toggle('fo', !here); shown+=here;
+      });
+      d.querySelectorAll('.step.locked .lock').forEach(b=>{b.textContent=`Открыть сейчас · ${b.parentNode.querySelector('.sh').dataset.n} слов`});
+      d.classList.toggle('done', !locked && total>0 && known===total);
       d.hidden = !inG || !shown;
-      d.querySelector('.prog').textContent = known ? `знаю ${known} из ${items.length}` : `${items.length} слов`;
+      d.querySelector('.prog').textContent = (known ? `знаю ${known} из ${total}` : `${total} слов`) + (locked ? ' · следующая ступень откроется на 80% «Знаю»' : '');
     });
     document.querySelectorAll('nav a').forEach(a=>{a.hidden=document.getElementById(a.getAttribute('href').slice(1)).hidden});
     Object.keys(cnt).forEach(k=>{const el=document.getElementById('c-'+k); if(el) el.textContent=cnt[k]});
@@ -695,6 +757,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   reset.addEventListener('click',closeAll);
   decksEl.addEventListener('click',e=>{
     const b=e.target.closest('.note b.say'); if(b){speak(b.textContent,b);return}
+    const km=e.target.closest('.kn-more'); if(km){km.closest('.deck').classList.toggle('showkn'); applyFilter(); return}
+    const lk=e.target.closest('.lock'); if(lk){lk.parentNode.classList.add('force'); applyFilter(); return}
     const t=e.target.closest('.tile,.row'); if(!t) return;
     t.classList.toggle('open'); speak(t.dataset.say,t); openSheet(t);
   });
