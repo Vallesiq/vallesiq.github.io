@@ -106,6 +106,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .pv .ex{font-weight:600;font-size:14px;color:var(--ink);margin-top:6px;line-height:1.35}
 .pv .ru{font-size:12.5px}
 .pv .no{font-size:12.5px;color:var(--warn-fg);margin-top:3px}
+.pv .lit{font-size:12px;color:var(--muted);font-style:italic}
 .filt button{display:inline-flex;align-items:center;gap:6px}
 .filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
 .filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
@@ -181,7 +182,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .note b{font-weight:800}
 
 /* hide modes: the hidden side becomes a soft bar, tap to reveal */
-.hide-ru .tile:not(.open) .ru,.hide-ru .row:not(.open) .ru,
+.hide-ru .tile:not(.open) .ru,.hide-ru .row:not(.open) .ru,.hide-ru .row:not(.open) .lit,
 .hide-en .tile:not(.open) .en,.hide-en .row:not(.open) .en,.hide-en .row:not(.open) .ex,.hide-en .row:not(.open) .no s{color:transparent;background:var(--soft);border-radius:4px}
 @media (prefers-reduced-motion:no-preference){.en,.ru{transition:color .15s,background .15s}}
 </style>
@@ -398,6 +399,35 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['(передумал)','','Actually, can I change my order?','Вообще-то, можно поменять заказ?'],
     ['Is that okay?','Так нормально?','Perfect, thanks.','Идеально, спасибо.'],
   ], note:'<b>This</b> рядом с тобой, <b>that</b> подальше. <b>Either</b> = любой из двух, <b>neither</b> = ни один. <b>Actually</b> = «вообще-то», а не «актуально»: так начинают, когда передумал или поправляешь. <b>One</b> заменяет предмет: <b>the large one</b>, не просто the large.'},
+
+  // ===== устойчивые выражения =====
+  {id:'idioms', group:'talk', idiom:true, title:'Piece Of Cake', ru:'Устойчивые выражения: так говорят каждый день', rows:[
+    ['piece of cake','проще простого','кусок торта','This exercise is a piece of cake.','Это упражнение проще простого.'],
+    ['no big deal','ничего страшного, пустяки','не большое дело','Sorry I\'m late. — No big deal.','Извини, опоздал. — Ничего страшного.'],
+    ['on my way','уже иду, уже еду','на моём пути','I\'m on my way!','Уже еду!'],
+    ['hit the gym','сходить в зал','ударить зал','I\'m gonna hit the gym after work.','После работы пойду в зал.'],
+    ['call it a day','на сегодня хватит, закругляемся','назвать это днём','We\'re tired. Let\'s call it a day.','Мы устали. На сегодня хватит.'],
+    ['under the weather','неважно себя чувствую, приболел','под погодой','I\'m a bit under the weather today.','Я сегодня что-то приболел.'],
+    ['hang in there','держись','повисни там','Hang in there, it gets better.','Держись, дальше будет легче.'],
+    ['break the ice','разрядить обстановку, начать разговор','разбить лёд','A joke helps break the ice.','Шутка помогает разрядить обстановку.'],
+    ['give it a shot','попробовать','дать выстрел','Never tried it? Give it a shot.','Никогда не пробовал? Попробуй.'],
+    ['get the hang of it','наловчиться, освоиться','поймать висение','Don\'t worry, you\'ll get the hang of it.','Не переживай, наловчишься.'],
+    ['it is what it is','что есть, то есть','','I lost the file. Oh well, it is what it is.','Я потерял файл. Ну что ж, что есть, то есть.'],
+    ['long story short','короче говоря','длинную историю коротко','Long story short, we missed the flight.','Короче, мы опоздали на самолёт.'],
+  ], note:'Такие выражения нельзя переводить по словам: смысл у целой фразы, а не у отдельных слов. «Кусок торта» по-английски значит «проще простого». Поэтому учи выражение целиком, как одно слово, и сразу запоминай пример, в котором оно звучит.', steps:[
+    {title:'Чуть реже, но тоже ходовые', ru:'Слышишь не каждый день, но регулярно', idiom:true, rows:[
+    ['cost an arm and a leg','стоит бешеных денег','стоит руки и ноги','That phone cost an arm and a leg.','Этот телефон стоил бешеных денег.'],
+    ['once in a blue moon','очень редко, раз в сто лет','раз при синей луне','I eat fast food once in a blue moon.','Фастфуд ем раз в сто лет.'],
+    ['on the same page','понимаем одинаково, договорились','на одной странице','Let\'s make sure we\'re on the same page.','Давай убедимся, что мы друг друга поняли.'],
+    ['the last straw','последняя капля','последняя соломинка','That was the last straw.','Это была последняя капля.'],
+    ['a no-brainer','тут и думать нечего','без мозгов','Free coffee? That\'s a no-brainer.','Бесплатный кофе? Тут и думать нечего.'],
+    ['keep an eye on','присмотреть за','держать глаз на','Can you keep an eye on my bag?','Присмотрите за моей сумкой?'],
+    ['easier said than done','легко сказать','легче сказать, чем сделать','Sleep eight hours? Easier said than done.','Спать восемь часов? Легко сказать.'],
+    ['no pain, no gain','без труда не будет результата','нет боли, нет роста','Last set. No pain, no gain!','Последний подход. Без труда результата не будет!'],
+    ['practice makes perfect','повторение мать учения','практика делает идеальным','Keep going. Practice makes perfect.','Продолжай. Повторение мать учения.'],
+    ['better late than never','лучше поздно, чем никогда','','You finally started? Better late than never!','Наконец начал? Лучше поздно, чем никогда!'],
+    ], note:'Пословицы в нашем смысле американцы почти не говорят. Исключение эти четыре короткие фразы, они звучат в обычной речи постоянно: <b>no pain, no gain</b> (особенно в зале), <b>practice makes perfect</b>, <b>better late than never</b>, <b>easier said than done</b>.'},
+  ]},
 
   // ===== спортзал =====
   {id:'gym', group:'talk', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
@@ -751,6 +781,19 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['NOT ME CRYING','а я тут плачу (шутливо)', FACE+EYES()+`<path d="M24 42q8-6 16 0"/><path class="f" d="M22 34q3 6 0 8q-3-2 0-8z"/>`],
     ['LMAO','ржу (laughing my ass off)', FACE+`<path d="M20 26q4-4 8 0M36 26q4-4 8 0"/><path class="f" d="M21 36h22q-2 12-11 12t-11-12z"/>`],
   ], note:'<b>W</b> и <b>L</b> пришли из игр: <b>huge W</b> = большая победа, <b>took an L</b> = облажался. <b>Fr</b> и <b>no cap</b> = «реально, без шуток». <b>Entitled</b> частое слово под конфликтами на дороге: <b>so entitled</b> = наглый, думает, что ему можно всё. <b>Wholesome</b> и <b>not me crying</b> пишут под добрыми роликами, это soromagic. Карточка для понимания комментов и их тона.'},
+
+  {id:'idioms-video', group:'work', idiom:true, title:'Out Of Nowhere', ru:'Выражения из роликов и комментов', rows:[
+    ['out of nowhere','откуда ни возьмись','из ниоткуда','The car came out of nowhere.','Машина вылетела откуда ни возьмись.'],
+    ['close call','едва пронесло','близкий звонок','That was a close call!','Едва пронесло!'],
+    ['dodged a bullet','легко отделался, повезло избежать','увернулся от пули','He dodged a bullet there.','Ему тут сильно повезло.'],
+    ['in the nick of time','в последний момент','в зарубку времени','He stopped in the nick of time.','Он затормозил в последний момент.'],
+    ['that escalated quickly','быстро накалилось','это быстро обострилось','Well, that escalated quickly.','Ну, это быстро накалилось.'],
+    ['lost it','сорвался, психанул','потерял это','The driver totally lost it.','Водитель совсем психанул.'],
+    ['what are the odds','какова вероятность, ну надо же','каковы шансы','Same car, same street. What are the odds?','Та же машина, та же улица. Ну надо же!'],
+    ['you can\'t make this up','такое не придумаешь','ты не можешь это выдумать','You can\'t make this stuff up.','Такое нарочно не придумаешь.'],
+    ['made my day','поднял настроение на весь день','сделал мой день','This video made my day.','Этот ролик поднял мне настроение.'],
+    ['faith in humanity restored','вера в людей вернулась','вера в человечество восстановлена','That kid... faith in humanity restored.','Этот ребёнок... вера в людей вернулась.'],
+  ], note:'Это то, что чаще всего пишут под роликами вроде lastbiker и soromagic. Первые пять про дорогу и опасность, последние два про добрые ролики. Зная их, ты понимаешь комменты и чувствуешь, на что люди реагируют.'},
 
   // ===== Числа =====
   {id:'teens', group:'num', title:'13 or 30?', ru:'Главная ловушка на слух', rows:[
@@ -2428,6 +2471,582 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 "like": "<b>apologize for<\/b> = извиниться за, официально, в письмах. В жизни говорят <b>sorry<\/b>.",
 "reg": "нейтрально",
 "no": ""
+},
+"idioms|piece of cake": {
+"when": "Когда что-то сделать очень легко. Говорят и про задачу, и про экзамен, и про упражнение.",
+"gr": "",
+"ex": [
+[
+"The test was a piece of cake.",
+"Тест был проще простого.",
+"быт"
+],
+[
+"Editing this? Piece of cake.",
+"Смонтировать это? Легко.",
+"работа"
+]
+],
+"like": "<b>easy<\/b> = легко, просто, обычное слово. <b>no sweat<\/b> = без проблем, легко, ещё разговорнее: Can you help? — No sweat.",
+"reg": "разговорно"
+},
+"idioms|no big deal": {
+"when": "В ответ на извинение или когда что-то не важно. Снимает напряжение.",
+"gr": "",
+"ex": [
+[
+"It's no big deal, don't worry.",
+"Это ерунда, не переживай.",
+"быт"
+],
+[
+"Missing one workout is no big deal.",
+"Пропустить одну тренировку не страшно.",
+"зал"
+]
+],
+"like": "<b>no worries<\/b> = не переживай, ответ на «извини» и «спасибо». <b>a big deal<\/b> без no = что-то важное: It's a big deal for me = для меня это важно.",
+"reg": "разговорно"
+},
+"idioms|on my way": {
+"when": "Ты уже вышел и идёшь или едешь. Пишут в сообщениях, часто сокращают до <b>omw<\/b>.",
+"gr": "on my way <b>to<\/b> + место: on my way to work. Домой без to: <b>on my way home<\/b>.",
+"ex": [
+[
+"On my way, see you in 10.",
+"Еду, буду через 10 минут.",
+"быт"
+],
+[
+"I'm on my way to the gym.",
+"Я иду в зал.",
+"зал"
+]
+],
+"like": "<b>on the way<\/b> = по дороге: I'll buy coffee on the way = куплю кофе по дороге. <b>in the way<\/b> = мешаешь, стоишь на пути: You're in the way.",
+"reg": "разговорно"
+},
+"idioms|hit the gym": {
+"when": "Сходить в зал, позаниматься. Hit тут значит «пойти и сделать», а не «ударить».",
+"gr": "",
+"ex": [
+[
+"Wanna hit the gym tomorrow?",
+"Пойдём завтра в зал?",
+"зал"
+],
+[
+"Let's hit the beach.",
+"Давай махнём на пляж.",
+"быт"
+]
+],
+"like": "<b>go to the gym<\/b> = то же самое, нейтрально. <b>work out<\/b> = тренироваться: I work out three times a week. Hit работает и с другими местами: <b>hit the road<\/b> = отправиться в путь, <b>hit the bed<\/b> = завалиться спать.",
+"reg": "разговорно"
+},
+"idioms|call it a day": {
+"when": "Когда пора заканчивать работу или дело на сегодня. Предлагают обычно вслух: <b>Let's call it a day<\/b>.",
+"gr": "",
+"ex": [
+[
+"I'm done editing, I'll call it a day.",
+"Я закончил монтировать, на сегодня всё.",
+"работа"
+],
+[
+"Three hours of training. Let's call it a day.",
+"Три часа тренировки. Закругляемся.",
+"зал"
+]
+],
+"like": "<b>call it a night<\/b> = то же самое, но вечером, когда идёшь спать. <b>that's it for today<\/b> = на сегодня всё, без идиомы.",
+"reg": "разговорно"
+},
+"idioms|under the weather": {
+"when": "Когда приболел, слабость, не очень хорошо себя чувствуешь. Мягче, чем sick.",
+"gr": "",
+"ex": [
+[
+"I can't come, I'm under the weather.",
+"Не смогу прийти, приболел.",
+"быт"
+],
+[
+"Feeling a little under the weather today.",
+"Сегодня что-то нехорошо.",
+"зал"
+]
+],
+"like": "<b>sick<\/b> = болен, прямо и серьёзнее. <b>not feeling well<\/b> = плохо себя чувствую, нейтрально, подходит и для врача.",
+"reg": "разговорно"
+},
+"idioms|hang in there": {
+"when": "Поддержать человека в трудный момент: не сдавайся, потерпи.",
+"gr": "",
+"ex": [
+[
+"Hang in there, bro.",
+"Держись, бро.",
+"комменты"
+],
+[
+"Two more weeks. Hang in there!",
+"Ещё две недели. Держись!",
+"быт"
+]
+],
+"like": "<b>stay strong<\/b> = будь сильным, держись, чуть серьёзнее. <b>don't give up<\/b> = не сдавайся. <b>you got this<\/b> = ты справишься, бодрое.",
+"reg": "разговорно"
+},
+"idioms|break the ice": {
+"when": "Начать разговор с незнакомыми, снять неловкость в начале.",
+"gr": "",
+"ex": [
+[
+"I asked about his dog to break the ice.",
+"Спросил про его собаку, чтобы начать разговор.",
+"быт"
+],
+[
+"Good music breaks the ice.",
+"Хорошая музыка разряжает обстановку.",
+"быт"
+]
+],
+"like": "<b>an icebreaker<\/b> = фраза или игра для знакомства: a good icebreaker. <b>small talk<\/b> = лёгкий разговор ни о чём, о погоде и делах.",
+"reg": "разговорно"
+},
+"idioms|give it a shot": {
+"when": "Предложить попробовать то, что человек раньше не делал или боится.",
+"gr": "",
+"ex": [
+[
+"I've never edited like this, but I'll give it a shot.",
+"Никогда так не монтировал, но попробую.",
+"работа"
+],
+[
+"Give it a shot, it's free.",
+"Попробуй, это бесплатно.",
+"магазин"
+]
+],
+"like": "<b>give it a try<\/b> = то же самое, чуть нейтральнее. <b>try<\/b> = попробовать, обычное слово.",
+"reg": "разговорно"
+},
+"idioms|get the hang of it": {
+"when": "Когда сначала не получается, а потом привыкаешь и начинает выходить.",
+"gr": "Часто в -ing: <b>I'm getting the hang of it<\/b> = у меня начинает получаться.",
+"ex": [
+[
+"I'm getting the hang of DaVinci.",
+"Я начинаю осваивать DaVinci.",
+"работа"
+],
+[
+"After a week you'll get the hang of it.",
+"Через неделю наловчишься.",
+"зал"
+]
+],
+"like": "<b>get used to<\/b> = привыкнуть: I'm getting used to the city. Get the hang of it про умение, get used to про привычку.",
+"reg": "разговорно"
+},
+"idioms|it is what it is": {
+"when": "Когда ничего не изменить и остаётся принять. Звучит спокойно, иногда устало.",
+"gr": "",
+"ex": [
+[
+"The video flopped. It is what it is.",
+"Ролик не зашёл. Ну что ж.",
+"работа"
+],
+[
+"Traffic again? It is what it is.",
+"Опять пробка? Ничего не поделаешь.",
+"быт"
+]
+],
+"like": "<b>oh well<\/b> = ну что ж, ладно, короче. <b>whatever<\/b> = да всё равно, звучит грубее, с раздражением.",
+"reg": "разговорно"
+},
+"idioms|long story short": {
+"when": "Чтобы пропустить подробности и сразу сказать главное.",
+"gr": "",
+"ex": [
+[
+"Long story short, I quit my job.",
+"Короче, я уволился.",
+"быт"
+],
+[
+"Long story short, he got caught.",
+"Короче, его поймали.",
+"работа"
+]
+],
+"like": "<b>anyway<\/b> = в общем, короче, когда возвращаешься к главному. <b>to make a long story short<\/b> = полная форма того же.",
+"reg": "разговорно"
+},
+"idioms|cost an arm and a leg": {
+"when": "Когда что-то стоит очень дорого.",
+"gr": "",
+"ex": [
+[
+"Rent here costs an arm and a leg.",
+"Аренда здесь стоит бешеных денег.",
+"быт"
+],
+[
+"That camera cost me an arm and a leg.",
+"Эта камера обошлась мне в целое состояние.",
+"работа"
+]
+],
+"like": "<b>expensive<\/b> = дорогой, обычное слово. <b>a rip-off<\/b> = развод, обдираловка: Ten dollars for coffee? What a rip-off!",
+"reg": "разговорно"
+},
+"idioms|once in a blue moon": {
+"when": "Когда что-то бывает очень-очень редко.",
+"gr": "",
+"ex": [
+[
+"He posts once in a blue moon.",
+"Он выкладывает раз в сто лет.",
+"работа"
+],
+[
+"I drink once in a blue moon.",
+"Выпиваю очень редко.",
+"быт"
+]
+],
+"like": "<b>rarely<\/b> и <b>hardly ever<\/b> = редко и почти никогда, без образа. Blue moon звучит веселее.",
+"reg": "разговорно"
+},
+"idioms|on the same page": {
+"when": "Когда все одинаково понимают план или задачу.",
+"gr": "",
+"ex": [
+[
+"Are we on the same page?",
+"Мы друг друга поняли?",
+"работа"
+],
+[
+"We're finally on the same page.",
+"Наконец мы понимаем друг друга.",
+"быт"
+]
+],
+"like": "<b>agree<\/b> = соглашаться. <b>see eye to eye<\/b> = сходиться во взглядах: We don't see eye to eye = мы не сходимся.",
+"reg": "разговорно"
+},
+"idioms|the last straw": {
+"when": "Последнее событие, после которого терпение кончилось.",
+"gr": "",
+"ex": [
+[
+"Being late again was the last straw.",
+"Опоздание снова стало последней каплей.",
+"быт"
+],
+[
+"That comment was the last straw.",
+"Этот коммент стал последней каплей.",
+"комменты"
+]
+],
+"like": "<b>enough is enough<\/b> = хватит, с меня довольно. <b>I'm done<\/b> = с меня хватит, я всё.",
+"reg": "разговорно"
+},
+"idioms|a no-brainer": {
+"when": "Когда решение очевидно, думать не нужно.",
+"gr": "",
+"ex": [
+[
+"Fifty percent off? No-brainer.",
+"Скидка пятьдесят процентов? Тут и думать нечего.",
+"магазин"
+],
+[
+"It's a no-brainer, take the job.",
+"Даже не думай, соглашайся на работу.",
+"работа"
+]
+],
+"like": "<b>obvious<\/b> = очевидно. <b>easy choice<\/b> = лёгкий выбор, без идиомы.",
+"reg": "разговорно"
+},
+"idioms|keep an eye on": {
+"when": "Присмотреть, последить за чем-то, пока тебя нет.",
+"gr": "keep an eye <b>on<\/b> + что/кого. Отдельно без on: <b>Keep an eye out<\/b> = будь начеку, высматривай.",
+"ex": [
+[
+"Keep an eye on the time.",
+"Следи за временем.",
+"быт"
+],
+[
+"Keep an eye on your form.",
+"Следи за техникой.",
+"зал"
+]
+],
+"like": "<b>watch<\/b> = смотреть, присматривать: Can you watch my bag? Почти то же. <b>look after<\/b> = заботиться, присматривать за ребёнком или животным.",
+"reg": "разговорно"
+},
+"idioms|easier said than done": {
+"when": "Когда совет звучит просто, а сделать трудно.",
+"gr": "",
+"ex": [
+[
+"Just stop worrying? Easier said than done.",
+"Просто не переживать? Легко сказать.",
+"быт"
+],
+[
+"Wake up at six? Easier said than done.",
+"Вставать в шесть? Легко сказать.",
+"быт"
+]
+],
+"like": "<b>it's not that easy<\/b> = это не так просто, без пословицы.",
+"reg": "нейтрально"
+},
+"idioms|no pain, no gain": {
+"when": "В зале и когда что-то даётся тяжело: без усилий не будет результата.",
+"gr": "",
+"ex": [
+[
+"My legs are dead. No pain, no gain.",
+"Ноги отваливаются. Без труда никак.",
+"зал"
+],
+[
+"Hard week, but no pain, no gain.",
+"Тяжёлая неделя, но без этого никак.",
+"работа"
+]
+],
+"like": "<b>hard work pays off<\/b> = упорный труд окупается, звучит серьёзнее. Внимание: если болит сустав или плечо, это не «no pain, no gain», это повод остановиться.",
+"reg": "нейтрально"
+},
+"idioms|practice makes perfect": {
+"when": "Когда учишься и надо повторять, чтобы получилось.",
+"gr": "",
+"ex": [
+[
+"My English is bad. — Practice makes perfect.",
+"У меня плохой английский. — Практика всё решит.",
+"быт"
+],
+[
+"Tenth video today. Practice makes perfect.",
+"Десятый ролик за день. Повторение мать учения.",
+"работа"
+]
+],
+"like": "<b>keep practicing<\/b> = продолжай тренироваться, без пословицы.",
+"reg": "нейтрально"
+},
+"idioms|better late than never": {
+"when": "Когда кто-то сделал что-то с опозданием, но всё же сделал.",
+"gr": "",
+"ex": [
+[
+"Started the gym at thirty? Better late than never.",
+"Начал ходить в зал в тридцать? Лучше поздно, чем никогда.",
+"зал"
+],
+[
+"Here's your money. — Better late than never!",
+"Вот твои деньги. — Лучше поздно, чем никогда!",
+"быт"
+]
+],
+"like": "<b>finally<\/b> = наконец-то, просто и коротко.",
+"reg": "нейтрально"
+},
+"idioms-video|out of nowhere": {
+"when": "Когда что-то появилось внезапно, без предупреждения. Главная фраза дорожных роликов.",
+"gr": "",
+"ex": [
+[
+"A deer jumped out of nowhere.",
+"Олень выскочил откуда ни возьмись.",
+"работа"
+],
+[
+"He came out of nowhere!",
+"Он появился из ниоткуда!",
+"комменты"
+]
+],
+"like": "<b>suddenly<\/b> = вдруг, обычное слово. <b>out of the blue<\/b> = неожиданно, но про события и новости: He called me out of the blue.",
+"reg": "разговорно"
+},
+"idioms-video|close call": {
+"when": "Когда авария или беда почти случилась, но пронесло.",
+"gr": "",
+"ex": [
+[
+"Wow, close call for the biker.",
+"Ух, байкеру сильно повезло.",
+"комменты"
+],
+[
+"That was too close.",
+"Это было слишком близко.",
+"работа"
+]
+],
+"like": "<b>near miss<\/b> = едва не столкнулись, так говорят про машины и самолёты. <b>that was close<\/b> = чуть не случилось, короче.",
+"reg": "разговорно"
+},
+"idioms-video|dodged a bullet": {
+"when": "Избежал чего-то плохого, часто случайно. Ещё про неудачные отношения, которые не начались.",
+"gr": "",
+"ex": [
+[
+"You dodged a bullet, bro.",
+"Тебе повезло, бро.",
+"комменты"
+],
+[
+"Glad I didn't buy that car. Dodged a bullet.",
+"Хорошо, что не купил ту машину. Пронесло.",
+"быт"
+]
+],
+"like": "<b>lucky<\/b> = повезло: He was lucky. <b>got away with it<\/b> = сошло с рук, это про того, кто виноват и не попался.",
+"reg": "разговорно"
+},
+"idioms-video|in the nick of time": {
+"when": "Успел в самый последний момент.",
+"gr": "",
+"ex": [
+[
+"The brakes worked in the nick of time.",
+"Тормоза сработали в последний момент.",
+"работа"
+],
+[
+"I made it to the bus in the nick of time.",
+"Успел на автобус в последний момент.",
+"быт"
+]
+],
+"like": "<b>just in time<\/b> = как раз вовремя, проще и чаще. <b>at the last second<\/b> = в последнюю секунду.",
+"reg": "нейтрально"
+},
+"idioms-video|that escalated quickly": {
+"when": "Шутливо, когда ссора или ситуация резко вышла из-под контроля.",
+"gr": "Escalate = обостряться, нарастать. В роликах почти всегда прошедшее: escalated.",
+"ex": [
+[
+"From a honk to a fight. That escalated quickly.",
+"От гудка до драки. Быстро накалилось.",
+"комменты"
+],
+[
+"Well, that escalated quickly.",
+"Ну, это быстро вышло из-под контроля.",
+"работа"
+]
+],
+"like": "<b>got out of hand<\/b> = вышло из-под контроля, без шутки.",
+"reg": "разговорно"
+},
+"idioms-video|lost it": {
+"when": "Человек сорвался: начал кричать, злиться или смеяться без остановки.",
+"gr": "Lose = терять, прошедшее <b>lost<\/b>. Полностью: <b>He lost his temper<\/b> = вышел из себя.",
+"ex": [
+[
+"When he saw the car, he lost it.",
+"Когда он увидел машину, он психанул.",
+"работа"
+],
+[
+"I lost it at the end.",
+"В конце я угорал.",
+"комменты"
+]
+],
+"like": "<b>snapped<\/b> = сорвался резко, взорвался. <b>freaked out<\/b> = испугался, запаниковал. Lost it бывает и про злость, и про смех, смысл видно из ситуации.",
+"reg": "разговорно"
+},
+"idioms-video|what are the odds": {
+"when": "Когда совпадение кажется почти невозможным.",
+"gr": "",
+"ex": [
+[
+"Two crashes in one day. What are the odds?",
+"Две аварии за день. Ну надо же!",
+"комменты"
+],
+[
+"We met again! What are the odds?",
+"Мы снова встретились! Вот это совпадение!",
+"быт"
+]
+],
+"like": "<b>what a coincidence<\/b> = какое совпадение, проще. <b>odds<\/b> = шансы: the odds are low = шансы малы.",
+"reg": "разговорно"
+},
+"idioms-video|you can't make this up": {
+"when": "Когда история настолько странная, что в неё сложно поверить.",
+"gr": "",
+"ex": [
+[
+"The thief called the police himself. You can't make this up.",
+"Вор сам вызвал полицию. Такое не придумаешь.",
+"комменты"
+],
+[
+"You can't make this stuff up.",
+"Такое нарочно не придумаешь.",
+"работа"
+]
+],
+"like": "<b>unbelievable<\/b> = невероятно. <b>make up<\/b> = выдумать: He made it up = он это выдумал.",
+"reg": "разговорно"
+},
+"idioms-video|made my day": {
+"when": "Когда что-то сильно подняло настроение.",
+"gr": "",
+"ex": [
+[
+"Your comment made my day.",
+"Твой коммент поднял мне настроение.",
+"комменты"
+],
+[
+"That dog made my day.",
+"Эта собака сделала мой день.",
+"комменты"
+]
+],
+"like": "<b>cheered me up<\/b> = развеселил, когда было грустно. <b>wholesome<\/b> = добрый, тёплый, про сам ролик.",
+"reg": "разговорно"
+},
+"idioms-video|faith in humanity restored": {
+"when": "Под роликами, где человек сделал что-то доброе для незнакомого.",
+"gr": "",
+"ex": [
+[
+"He gave his jacket to a stranger. Faith in humanity restored.",
+"Он отдал куртку незнакомцу. Вера в людей вернулась.",
+"комменты"
+],
+[
+"This made me cry. Faith in humanity restored.",
+"Я аж заплакал. Вера в людей вернулась.",
+"комменты"
+]
+],
+"like": "<b>wholesome<\/b> = добрый, тёплый ролик. <b>not all heroes wear capes<\/b> = не все герои носят плащи, тоже под добрыми поступками.",
+"reg": "разговорно"
 }
 };
 
@@ -2443,7 +3062,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
   // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
   const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
-  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':p.idiom?'idiom':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
   // talk:true rows are [heard, its translation, your answer, its translation]; a heard line in (brackets) is a situation in Russian
   const talkRow = (d,[q,qru,a,aru])=>{const sit=/^\(/.test(q), say=((sit?'':q+' ... ')+a).replace(/"/g,'&quot;');
@@ -2452,7 +3071,10 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const prepRow = (d,[ph,pr,ru,ex,exru,no])=>{
     const hi = pr ? ph.replace(new RegExp('\\b('+pr+')\\b','g'),'<b>$1</b>') : ph+'<i class="np">без предлога</i>';
     return `<button class="row pv" data-id="${d.id}|${ph}" data-say="${(ph+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${hi}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">не так: <s>${no}</s></span>`:''}</span>${SPK_ICON}</button>`};
-  const bodyOf = (p,d)=> p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
+  // idiom:true rows are [phrase, что значит, дословно ('' if nothing funny), example, its translation]
+  const idiomRow = (d,[ph,ru,lit,ex,exru])=>`<button class="row pv" data-id="${d.id}|${ph.replace(/"/g,'')}" data-say="${(ph+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${ph}</span><span class="ru">${ru}</span>${lit?`<span class="lit">дословно: ${lit}</span>`:''}<span class="ex">${ex}</span><span class="ru">${exru}</span></span>${SPK_ICON}</button>`;
+  const bodyOf = (p,d)=> p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
+    : p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
     : p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
     : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
@@ -2460,12 +3082,13 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
     if(p.kind==='prep'){const [ph,,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,ru,ex:[[ex,exru,'']],no,d,p}}
+    else if(p.kind==='idiom'){const [ph,ru,lit,ex,exru]=t; ITEMS[d.id+'|'+ph.replace(/"/g,'')]={en:ph,ru,lit,ex:[[ex,exru,'']],d,p}}
     else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
   })));
@@ -2476,6 +3099,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     const word = t.querySelector('.en').innerHTML.replace(/<i class="np">.*?<\/i>/,'');
     return `<div class="ph"><div><div class="pw">${word}</div><div class="pt">${it.ru}</div></div><button class="pspk" data-say="${t.dataset.say}">▶ Звук</button></div>`
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
+      + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
@@ -2484,7 +3108,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       + sec('Похожие слова: в чём разница', x.like)
       + sec('Правило темы', it.p.note || it.d.note)
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
-      + (x.m || it.p.kind==='talk' ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди, пока правило темы.</p>`);
+      + (x.m || x.when || it.p.kind==='talk' ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди, пока правило темы.</p>`);
   }
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
