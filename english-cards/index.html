@@ -162,6 +162,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     <div class="seg big" role="group" aria-label="Раздел">
       <button id="g-words" data-group="words" aria-pressed="true">Слова</button>
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
+      <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
     </div>
     <div class="seg" role="group" aria-label="Скорость голоса" id="speed">
       <button id="s-1" data-rate="0.95" aria-pressed="true">Голос: обычно</button>
@@ -271,10 +272,27 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const SPK = `<path d="M8 26h8l12-10v32l-12-10H8z"/>`;
   const SHIRT = `<path d="M22 14l-12 8 5 9 6-3v24h22V28l6 3 5-9-12-8c-1 4-5 6-10 6s-9-2-10-6z"/>`;
   const TAG = (t,fs=14)=>`<path d="M20 16l12-8 12 8v38H20z"/><circle cx="32" cy="17" r="2.5"/><text class="t" x="32" y="41" font-size="${fs}">${t}</text>`;
+  const BUBBLE = (t,fs=16)=>`<path d="M8 10h48v32H28l-12 10V42H8z"/>`+(t?`<text class="t" x="32" y="${31+fs/3}" font-size="${fs}">${t}</text>`:'');
   const RECEIPT = `<path d="M16 8h32v48l-4-3-4 3-4-3-4 3-4-3-4 3-4-3-4 3z"/>`;
 
   // ---------- decks ----------
   const DECKS = [
+  // ===== разговор: когда не понял или забыл слово =====
+  {id:'rescue', title:'Say That Again?', ru:'Не понял, забыл слово, нужно время', tiles:[
+    ['SORRY?','что-что? (не расслышал)', BUBBLE('?',22)],
+    ['SAY THAT AGAIN?','повторите?', `<path d="M48 40a17 17 0 1 1-2-17"/><path d="M48 12v12H36"/><text class="t" x="31" y="38" font-size="15">?</text>`, 'could you say that again?'],
+    ['SLOWER, PLEASE','помедленнее, пожалуйста', `<circle cx="28" cy="38" r="11"/><path d="M28 38a4 4 0 1 1 4-4M16 50h36q6 0 6-8v-8M54 34l-3-8M58 34l3-8"/>`, 'could you speak slower, please?'],
+    ['WHAT DOES … MEAN?','что значит …?', BUBBLE('abc?',13), 'what does it mean?'],
+    ['HOW DO YOU SAY …?','как сказать …?', BUBBLE('ру→en',11), 'how do you say it in English?'],
+    ['THE THING FOR …','такая штука для … (забыл слово)', `<rect x="14" y="18" width="36" height="32" rx="4"/><text class="t" x="32" y="41" font-size="18">?</text><path class="d" d="M8 12h48"/>`, 'the thing for opening bottles'],
+    ['I MEAN …','то есть, я имею в виду', BUBBLE('=',22), 'I mean'],
+    ['LIKE …','ну, типа (пауза подумать)', BUBBLE('…',22), 'like'],
+    ['HOLD ON','секунду, погоди', `<path d="M18 8h28M18 56h28M22 8v6l10 18-10 18v6M42 8v6L32 32l10 18v6"/>`, 'hold on a second'],
+    ['GOT IT','понял, ясно', `<circle cx="32" cy="32" r="22"/><path d="M22 32l7 7 14-14"/>`],
+    ['CAN YOU WRITE IT?','можете написать?', `<path d="M14 50l4-12 26-26 8 8-26 26zM40 16l8 8M14 50h36"/>`, 'can you write it down?'],
+    ["I'M STILL LEARNING",'я ещё учу английский', `<path d="M8 16q12-4 24 4q12-8 24-4v34q-12-4-24 4q-12-8-24-4zM32 20v34"/>`, "I'm still learning English"],
+  ], note:'Переспрашивать нормально, носители делают это постоянно. <b>Sorry?</b> с вопросом в голосе вежливее, чем <b>What?</b>. Забыл слово, не замолкай, опиши его: <b>the thing for opening bottles</b>. <b>Like</b> и <b>I mean</b> дают пару секунд подумать, так тянут время все. Скажи прямо: <b>I\'m still learning English, could you speak slower?</b> После этого с тобой начнут говорить проще.'},
+
   // ===== его восемь картинок, пересобранные =====
   {id:'quantity', title:'Quantity Words', ru:'Сколько', cols:4, tiles:[
     ['SOME','несколько, немного', DOTS([],[],0)+`<circle cx="18" cy="16" r="4.5"/><circle cx="46" cy="16" r="4.5"/><circle class="f" cx="32" cy="26" r="4.5"/><circle class="f" cx="12" cy="34" r="4.5"/><circle class="f" cx="52" cy="34" r="4.5"/><circle cx="30" cy="42" r="4.5"/><circle cx="16" cy="52" r="4.5"/><circle cx="48" cy="52" r="4.5"/>`],
@@ -509,6 +527,37 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['GET OUT','выйти (из машины)', CAR+`<path d="M30 18V4m-5 5l5-5 5 5"/>`],
   ], note:'<b>COME</b> и <b>BRING</b> ведут к говорящему, <b>GO</b> и <b>TAKE</b> от него. Стучат в дверь: <b>I\'m coming!</b> (иду к тебе), не I\'m going.'},
 
+  // ===== Каналы: плашки и комменты =====
+  {id:'road', group:'work', title:'Road Words', ru:'Дорога: lastbiker и комменты под ним', tiles:[
+    ['MERGE','перестроиться, влиться в поток', `<path d="M14 56V40l18-16V8M50 56V40L32 24"/><path d="M24 14l8-8 8 8"/>`],
+    ['CUT OFF','подрезать (he cut me off)', `<path class="k d" d="M32 4v56"/><rect x="38" y="34" width="14" height="22" rx="3"/><path d="M20 54V34q0-10 10-14l12-5m-7-4l7 4-4 7"/>`, 'cut off. he cut me off'],
+    ['BRAKE-CHECK','резко тормознуть назло тому, кто сзади', `<rect x="22" y="6" width="20" height="22" rx="4"/><rect x="22" y="38" width="20" height="22" rx="4"/><text class="t" x="52" y="22" font-size="16">!</text><path d="M32 30v6"/>`, 'brake check'],
+    ['TAILGATE','ехать впритык сзади', `<rect x="22" y="6" width="20" height="24" rx="4"/><rect x="22" y="33" width="20" height="24" rx="4"/>`],
+    ['SWERVE','резко вильнуть', `<path d="M32 58q0-14 12-20t-12-20V6m-6 6l6-6 6 6"/>`],
+    ['REAR-END','въехать в зад машины', `<rect x="4" y="24" width="24" height="18" rx="3"/><rect x="36" y="24" width="24" height="18" rx="3"/>`+star(32,33,8)],
+    ['RUN A RED LIGHT','проехать на красный (ran a red)', `<rect x="21" y="5" width="22" height="50" rx="7"/><circle class="f" cx="32" cy="17" r="5"/><circle cx="32" cy="30" r="5"/><circle cx="32" cy="43" r="5"/>`],
+    ['HIT AND RUN','сбил и уехал', star(16,32,10)+arrowR(30,58,32)],
+    ['ROAD RAGE','бешенство за рулём', FACE+`<path d="M20 21l8 4M44 21l-8 4"/>`+EYES(29)+`<path d="M25 43q7-5 14 0"/>`],
+    ['WHEELIE','езда на заднем колесе', `<circle cx="18" cy="46" r="10"/><circle cx="46" cy="22" r="10"/><path d="M18 46L46 22M28 38l-6-12h10"/>`],
+    ['INSTANT KARMA','мгновенная расплата', `<path d="M10 20h34a10 10 0 0 1 0 20H20m6-6l-6 6 6 6"/>`],
+    ['DASHCAM','видеорегистратор', `<rect x="10" y="20" width="44" height="28" rx="5"/><circle cx="32" cy="34" r="8"/><path d="M24 20l4-6h8l4 6"/>`],
+  ], note:'В плашках так и пишут: <b>He brake-checked the biker</b>, <b>She cut him off</b>, <b>Instant karma</b>. Прошедшее у этих глаголов неправильное: <b>cut</b> → cut (не cutted), <b>hit</b> → hit, <b>run</b> → <b>ran a red light</b>. <b>Rear-end</b> про удар в зад машины: <b>he rear-ended a truck</b>.'},
+
+  {id:'comments', group:'work', title:'Comment Talk', ru:'Как пишут в комментах', tiles:[
+    ['BRO · DUDE','бро, чувак', BUBBLE('bro',17), 'bro. dude'],
+    ['W · L','победа · провал', `<text class="t" x="15" y="42" font-size="26">W</text><path class="sep" d="M34 14v36"/><text class="t" x="50" y="42" font-size="26">L</text>`, 'W. L'],
+    ['FR','реально, серьёзно (for real)', BUBBLE('fr',20), 'for real'],
+    ['NO CAP','без обмана (cap = враньё)', `<path d="M12 40a18 14 0 0 1 36 0v4H12zM48 44h12"/><path d="M8 54L56 12"/>`, 'no cap'],
+    ['NAH','не, неа', BUBBLE('nah',17)],
+    ['WILD · INSANE','дико, жесть (восторг или шок)', BUBBLE('!!',22), 'wild. insane'],
+    ['ENTITLED','думает, что ему все должны', `<circle cx="32" cy="22" r="9"/><path d="M14 54c0-12 8-20 18-20s18 8 18 20"/><path class="f" d="M20 12l2-10 6 5 4-7 4 7 6-5 2 10z"/>`],
+    ['WHOLESOME','душевный, добрый (о ролике)', `<path d="M32 52S10 38 10 24a11 11 0 0 1 22-3a11 11 0 0 1 22 3c0 14-22 28-22 28z"/>`],
+    ['RESPECT','уважение (respect to this guy)', `<path d="M22 6l10 22 10-22"/><circle cx="32" cy="42" r="14"/><circle cx="32" cy="42" r="6"/>`],
+    ['THE REAL HERO','настоящий герой', `<path d="M32 6l20 8v14c0 14-10 23-20 28c-10-5-20-14-20-28V14z"/>`+star(32,30,10)],
+    ['NOT ME CRYING','а я тут плачу (шутливо)', FACE+EYES()+`<path d="M24 42q8-6 16 0"/><path class="f" d="M22 34q3 6 0 8q-3-2 0-8z"/>`],
+    ['LMAO','ржу (laughing my ass off)', FACE+`<path d="M20 26q4-4 8 0M36 26q4-4 8 0"/><path class="f" d="M21 36h22q-2 12-11 12t-11-12z"/>`],
+  ], note:'<b>W</b> и <b>L</b> пришли из игр: <b>huge W</b> = большая победа, <b>took an L</b> = облажался. <b>Fr</b> и <b>no cap</b> = «реально, без шуток». <b>Entitled</b> частое слово под конфликтами на дороге: <b>so entitled</b> = наглый, думает, что ему можно всё. <b>Wholesome</b> и <b>not me crying</b> пишут под добрыми роликами, это soromagic. Карточка для понимания комментов и их тона.'},
+
   // ===== Числа =====
   {id:'teens', group:'num', title:'13 or 30?', ru:'Главная ловушка на слух', rows:[
     ['THIRTEEN · THIRTY','тринадцать · тридцать', PAIR('13','thir·TEEN','30','THIR·ty')],
@@ -683,7 +732,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
   const bodyOf = (p,d)=> p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
-      : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>10)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
+      : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
@@ -739,7 +788,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
   const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
   let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
-  setGroup(fromHash ? (fromHash.group||'words') : (g0==='num'?'num':'words'));
+  setGroup(fromHash ? (fromHash.group||'words') : (['num','work'].includes(g0)?g0:'words'));
 
   // ---------- modes ----------
   const root = document.getElementById('app'), reset = document.getElementById('reset');
