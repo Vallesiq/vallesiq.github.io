@@ -67,9 +67,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .ico.w{width:124px;height:62px}
 @media (max-width:560px){.grid.c4{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
-.spk{position:absolute;top:2px;right:4px;width:14px;height:14px;color:var(--muted);opacity:.7}
+.spk{position:absolute;top:-6px;right:-4px;width:34px;height:34px;display:grid;place-items:center;color:var(--muted);opacity:.8;cursor:pointer}
+.spk svg{width:15px;height:15px}
 .spk *{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.row .spk{top:auto;right:6px}
+.row .spk{top:auto;right:0}
+.row.tk .spk,.row.pv .spk{top:4px}
 .speaking .spk{color:var(--blue);opacity:1}
 .speaking{background:var(--soft)}
 .note b.say{color:var(--blue);cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
@@ -96,6 +98,14 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .tk .sit{font-weight:500;font-size:13px;color:var(--muted);font-style:italic}
 .tk .en{text-transform:none;letter-spacing:0;font-size:clamp(14px,3.8vw,16px);margin-top:6px}
 .tk .ru{font-size:12.5px}
+/* preposition rows: phrase with the preposition in blue, example, the typical Russian mistake */
+.row.pv{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 26px 12px 4px}
+.pv .en{text-transform:none;letter-spacing:0;font-size:clamp(15px,4vw,17px)}
+.pv .en b{color:var(--blue)}
+.pv .np{font-style:normal;font-size:11px;font-weight:700;color:var(--warn-fg);background:var(--warn-bg);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.pv .ex{font-weight:600;font-size:14px;color:var(--ink);margin-top:6px;line-height:1.35}
+.pv .ru{font-size:12.5px}
+.pv .no{font-size:12.5px;color:var(--warn-fg);margin-top:3px}
 .filt button{display:inline-flex;align-items:center;gap:6px}
 .filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
 .filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
@@ -111,12 +121,29 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .bk-msg{font-weight:600;color:var(--ink)}
 .backup b{color:var(--ink)}
 .empty{margin:0;color:var(--muted);font-size:14px}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgb(0 0 0 / .12);
-  padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
-  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
-  display:flex;align-items:center;justify-content:center;gap:8px 12px;flex-wrap:wrap}
-.sheet[hidden]{display:none!important}
-.sw{font-weight:800;text-transform:uppercase;font-size:14px;min-width:0;overflow-wrap:anywhere;flex:1 1 100%;text-align:center}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);border-radius:18px 18px 0 0;box-shadow:0 -8px 24px rgb(0 0 0 / .16);
+  max-width:720px;margin:0 auto;max-height:86vh;display:flex;flex-direction:column}
+.sheet[hidden],.scrim[hidden]{display:none!important}
+.scrim{position:fixed;inset:0;z-index:19;background:rgb(0 0 0 / .35)}
+.pbody{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));display:flex;flex-direction:column;gap:14px}
+.pbar{display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);
+  padding:10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))}
+.sw{display:none}
+.ph{display:flex;align-items:flex-start;gap:12px;padding-right:34px}
+.pw{font-weight:800;font-size:clamp(20px,5.5vw,26px);color:var(--ink);line-height:1.15;overflow-wrap:anywhere}
+.pw b{color:var(--blue)}
+.pt{margin-top:4px;color:var(--muted);font-weight:600;font-size:14px}
+.pspk{flex:none;margin-left:auto;font:700 13px var(--display);color:var(--blue);background:var(--soft);border:0;border-radius:10px;padding:9px 12px;cursor:pointer}
+.ps h4{margin:0 0 5px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ps>div{font-size:14px;line-height:1.55;color:var(--ink)}
+.ps.gr>div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.ps.warn>div{background:var(--warn-bg);color:var(--warn-fg);border-radius:10px;padding:10px 12px}
+.ps b.say,.pex b.say{color:var(--blue);cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.pex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.pex li{display:flex;flex-direction:column;gap:2px}
+.pex i{font-style:normal;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.pex span{color:var(--muted);font-size:13px}
+.preg,.pmore{margin:0;font-size:12.5px;color:var(--muted)}
 .sb{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .sb button,.sx{font:700 13px var(--display);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:8px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .sb button[data-st]::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--st)}
@@ -155,14 +182,14 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 
 /* hide modes: the hidden side becomes a soft bar, tap to reveal */
 .hide-ru .tile:not(.open) .ru,.hide-ru .row:not(.open) .ru,
-.hide-en .tile:not(.open) .en,.hide-en .row:not(.open) .en{color:transparent;background:var(--soft);border-radius:4px}
+.hide-en .tile:not(.open) .en,.hide-en .row:not(.open) .en,.hide-en .row:not(.open) .ex,.hide-en .row:not(.open) .no s{color:transparent;background:var(--soft);border-radius:4px}
 @media (prefers-reduced-motion:no-preference){.en,.ru{transition:color .15s,background .15s}}
 </style>
 
 <div class="wrap" id="app">
   <header>
     <h1>English Icon Cards</h1>
-    <p>Картинка, слово, перевод. Нажми на слово: оно прозвучит, откроет закрытую сторону, а снизу появятся отметки «Учу / Повторить / Знаю». Синие подчёркнутые фразы в оранжевых плашках тоже нажимаются. Оранжевая плашка: то, на чём ошибаются русские. Слова с «Знаю» сворачиваются в строку под карточкой. Отметил «Знаю» 80% слов, и в той же теме открывается следующая ступень.</p>
+    <p>Картинка, слово, перевод. Нажми на слово, и откроется разбор: когда так говорят, с какими предлогами, примеры и отметки «Учу / Повторить / Знаю». Значок динамика озвучивает. Синие подчёркнутые фразы тоже озвучиваются. Оранжевая плашка: то, на чём ошибаются русские. Слова с «Знаю» сворачиваются в строку под карточкой. Отметил «Знаю» 80% слов, и в той же теме открывается следующая ступень.</p>
   </header>
   <div class="bar">
     <div class="seg big" role="group" aria-label="Раздел">
@@ -206,14 +233,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   <nav id="nav" aria-label="Карточки"></nav>
   <main class="decks" id="decks"></main>
   <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
-  <div class="sheet" id="sheet" hidden role="region" aria-label="Отметка слова">
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="sheet" id="sheet" hidden role="dialog" aria-label="Разбор слова">
+    <div class="pbody" id="pbody"></div>
     <span class="sw" id="sw"></span>
-    <div class="sb">
+    <div class="pbar"><div class="sb">
       <button data-st="learn" aria-pressed="false">Учу</button>
       <button data-st="repeat" aria-pressed="false">Повторить</button>
       <button data-st="known" aria-pressed="false">Знаю</button>
       <button data-st="" aria-pressed="false" class="sx">Снять</button>
-    </div>
+    </div></div>
     <button class="sx" id="sx" aria-label="Закрыть">✕</button>
   </div>
 </div>
@@ -549,6 +578,53 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['IN SUMMER','летом (сезон)', `<circle cx="32" cy="32" r="10"/><path d="M32 8v6M32 50v6M8 32h6M50 32h6M15 15l4 4M45 45l4 4M49 15l-4 4M19 45l-4 4"/>`],
   ], note:'<b>Чем точнее, тем короче слово:</b> IN (месяц, год, сезон) → ON (день, дата) → AT (час). Исключения запомнить парой: <b>at night</b>, но <b>in the morning / in the evening</b>.'},
 
+  // ===== предлоги, которые держатся за слово =====
+  {id:'prep-verbs', prep:true, title:'Listen To · Wait For', ru:'Глагол + предлог: люди и дела', rows:[
+    ['listen to','to','слушать','I listen to music at the gym.','Слушаю музыку в зале.','listen music'],
+    ['wait for','for','ждать (кого-то, что-то)','I\'m waiting for my friend.','Жду друга.','wait my friend'],
+    ['look at','at','смотреть на','Look at this video!','Посмотри на это видео!','look this video'],
+    ['look for','for','искать','I\'m looking for the bathroom.','Ищу туалет.','search the bathroom'],
+    ['talk to','to','говорить с','Can I talk to the manager?','Можно поговорить с менеджером?','talk the manager'],
+    ['ask for','for','попросить (что-то)','I asked for a discount.','Я попросил скидку.','asked a discount'],
+    ['agree with','with','соглашаться с','I agree with you.','Согласен с тобой.','I am agree with you'],
+    ['depend on','on','зависеть от','It depends on the price.','Зависит от цены.','depends from the price'],
+    ['worry about','about','переживать о','Don\'t worry about it.','Не переживай об этом.',''],
+    ['laugh at','at','смеяться над','Everybody laughed at the joke.','Все посмеялись над шуткой.','laughed about the joke'],
+    ['call','','звонить кому-то','Call me later.','Позвони мне позже.','call to me'],
+    ['answer','','отвечать на','Can you answer the phone?','Можешь ответить на звонок?','answer to the phone'],
+    ['discuss','','обсуждать','Let\'s discuss the price.','Давай обсудим цену.','discuss about the price'],
+  ], note:'Русский предлог почти никогда не подсказывает английский: ждать <b>кого</b> → <b>wait for</b>, зависеть <b>от</b> → <b>depend on</b>. Поэтому глагол учится сразу с предлогом, одним куском: не listen, а <b>listen to</b>. Бывает и наоборот: <b>call</b>, <b>answer</b>, <b>discuss</b> идут без предлога. <b>Ask</b> без for = спросить, <b>ask for</b> = попросить.'},
+
+  {id:'prep-places', prep:true, title:'Go To · Get On', ru:'Где и куда: in, at, on', rows:[
+    ['go to','to','идти, ехать куда-то','I go to the gym every day.','Хожу в зал каждый день.','go in the gym'],
+    ['go home','','идти домой','I\'m going home.','Иду домой.','go to home'],
+    ['arrive in · arrive at','in|at','приехать (в город · в место)','We arrived in Tbilisi. I arrived at the airport.','Мы приехали в Тбилиси. Я приехал в аэропорт.','arrive to Tbilisi'],
+    ['get to','to','добраться до','How do I get to the station?','Как добраться до вокзала?',''],
+    ['come from','from','быть родом из','I come from Russia.','Я из России.',''],
+    ['at home · at work','at','дома · на работе','I\'m at work right now.','Я сейчас на работе.','in work'],
+    ['on the street · in the city','on|in','на улице · в городе','He lives on Main Street, in the city center.','Он живёт на Мейн-стрит, в центре города.','in Main Street'],
+    ['get on · get off','on|off','сесть · выйти (автобус, метро, самолёт)','Get off at the next stop.','Выходи на следующей остановке.',''],
+    ['get in · get out of','in|out of','сесть · выйти (машина, такси)','Get in the car!','Садись в машину!','get on the car'],
+    ['on the phone','on','по телефону, говорит','Sorry, I\'m on the phone.','Извини, я разговариваю по телефону.',''],
+    ['on YouTube · on the internet','on','на YouTube · в интернете','I saw it on YouTube.','Я видел это на YouTube.','in YouTube'],
+    ['in the photo · in the video','in','на фото · в видео','Look at the guy in the video.','Посмотри на парня в видео.','on the video'],
+  ], note:'<b>IN</b> внутри: город, страна, машина, фото, видео. <b>AT</b> точка на карте: at home, at work, at the gym, at the airport. <b>ON</b> поверхность и линия: улица, автобус, телефон, YouTube. <b>Home</b> без to: go home, come home, get home. По-русски «на фото», а по-английски <b>in the photo</b>: человек внутри кадра.'},
+
+  {id:'prep-adj', prep:true, title:'Good At · Afraid Of', ru:'Какой ты: прилагательное + предлог', rows:[
+    ['good at','at','хорошо умеет','I\'m good at editing.','Я хорошо монтирую.','good in editing'],
+    ['bad at','at','плохо даётся','I\'m bad at names.','Я плохо запоминаю имена.',''],
+    ['afraid of','of','боится','She\'s afraid of dogs.','Она боится собак.','afraid from dogs'],
+    ['interested in','in','интересуется','I\'m interested in cars.','Мне интересны машины.','interested about cars'],
+    ['tired of','of','надоело, устал от','I\'m tired of waiting.','Надоело ждать.',''],
+    ['proud of','of','гордится','I\'m proud of you.','Горжусь тобой.',''],
+    ['angry at · angry with','at|with','злится на','Don\'t be angry at me.','Не злись на меня.','angry on me'],
+    ['married to','to','женат на, замужем за','He\'s married to a doctor.','Он женат на враче.','married with a doctor'],
+    ['similar to','to','похож на','It\'s similar to Russian food.','Похоже на русскую еду.','similar with'],
+    ['famous for','for','знаменит чем-то','Tbilisi is famous for its food.','Тбилиси славится едой.',''],
+    ['ready for','for','готов к','Are you ready for the trip?','Готов к поездке?',''],
+    ['sorry for · sorry about','for|about','извини за','Sorry for being late. Sorry about that.','Извини за опоздание. Извини за это.',''],
+  ], note:'После прилагательного предлог держится так же крепко, как после глагола: <b>good at</b>, <b>afraid of</b>, <b>interested in</b>. После любого предлога глагол берёт <b>-ing</b>: good at <b>editing</b>, tired of <b>waiting</b>, sorry for <b>being</b> late.'},
+
   {id:'feelings', title:'Feelings', ru:'Чувства и состояния', cols:4, tiles:[
     ['HAPPY','счастлив, рад', FACE+EYES()+SMILE],
     ['SAD','грустно', FACE+EYES()+`<path d="M24 44q8-7 16 0"/>`],
@@ -834,9 +910,1530 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Это чтобы понимать комменты. В своих плашках я бы так не писал: <b>2</b> и <b>4</b> вместо слов выглядят как спам и читаются медленнее. <b>Keep it 100</b> = будь честен, говори как есть.'},
   ];
 
+  // ---------- word breakdowns ----------
+  // INFO['deck|WORD'] = {m: что значит, when: когда говорят, gr: предлоги и грамматика, ex: [[en, ru, сфера]], no: ошибка русских, like: похожие, reg: как звучит}
+  // the panel shows what is here; a word without an entry falls back to its deck rule
+  const INFO = {
+"quantity|SOME": {
+"m": "несколько, немного; какой-то",
+"when": "В утверждениях и в вежливых просьбах и предложениях: <b>Can I have some water?<\/b> <b>Would you like some coffee?<\/b>",
+"gr": "some + штуки во множественном (<b>some friends<\/b>) или то, что не считается (<b>some water<\/b>). В просьбе-вопросе тоже some, а не any.",
+"ex": [
+[
+"I need some water.",
+"Мне нужно немного воды.",
+"зал"
+],
+[
+"Some people don't get the joke.",
+"Некоторые не понимают шутку.",
+"комменты"
+],
+[
+"Can I get some napkins?",
+"Можно салфетки?",
+"кафе"
+]
+],
+"no": "some в отрицании: <s>I don't have some<\/s> → <b>I don't have any<\/b>.",
+"like": "any (вопрос, «не») · a few / a little",
+"reg": "нейтрально"
+},
+"quantity|MANY": {
+"m": "много (штук)",
+"when": "С тем, что считается: views, people, times. Чаще в вопросах и с not. В утверждении живее звучит a lot of.",
+"gr": "many + множественное: <b>many views<\/b>. <b>how many<\/b> = сколько штук. <b>too many<\/b> = слишком много. <b>so many<\/b> = так много.",
+"ex": [
+[
+"How many sets left?",
+"Сколько подходов осталось?",
+"зал"
+],
+[
+"So many people missed this detail.",
+"Столько людей не заметили эту деталь.",
+"комменты"
+],
+[
+"There aren't many cafes here.",
+"Здесь немного кафе.",
+"быт"
+]
+],
+"no": "<s>many money<\/s>, <s>many time<\/s>: деньги и время не считаются поштучно, нужно much или a lot of.",
+"like": "much (не штуки) · a lot of · few",
+"reg": "нейтрально"
+},
+"quantity|MUCH": {
+"m": "много (не штук)",
+"when": "В вопросах и с «не»: <b>how much<\/b>, <b>not much<\/b>. В утверждении звучит книжно, там говорят a lot of.",
+"gr": "much + то, что не считается, без -s: <b>much time<\/b>, <b>much money<\/b>. <b>how much<\/b> = сколько (и «сколько стоит»). <b>too much<\/b> = слишком. <b>thank you very much<\/b>.",
+"ex": [
+[
+"How much is it?",
+"Сколько стоит?",
+"магазин"
+],
+[
+"I don't have much time today.",
+"Сегодня у меня мало времени.",
+"работа"
+],
+[
+"Don't eat too much before the gym.",
+"Не наедайся перед залом.",
+"зал"
+]
+],
+"no": "<s>I have much money<\/s>: так не говорят, нужно <b>a lot of money<\/b>.",
+"like": "a lot of · many (штуки) · little (мало)",
+"reg": "нейтрально"
+},
+"quantity|A LOT OF": {
+"m": "много, с чем угодно",
+"when": "Главное «много» в живой речи, в утверждении. Подходит и к штукам, и к неисчисляемому.",
+"gr": "a lot of + существительное: <b>a lot of views<\/b>, <b>a lot of time<\/b>. Без существительного просто a lot: <b>Thanks a lot<\/b>, <b>I train a lot<\/b>. Разговорно <b>lots of<\/b>.",
+"ex": [
+[
+"This video got a lot of views.",
+"Ролик набрал много просмотров.",
+"работа"
+],
+[
+"I sweat a lot at the gym.",
+"Я сильно потею в зале.",
+"зал"
+],
+[
+"Thanks a lot!",
+"Большое спасибо!",
+"быт"
+]
+],
+"no": "Потерять of: <s>a lot views<\/s> → <b>a lot of views<\/b>.",
+"like": "many · much · plenty of (полно)",
+"reg": "нейтрально"
+},
+"quantity|A FEW": {
+"m": "несколько (немного, но хватает)",
+"when": "Со штуками. Смысл хороший: есть, и этого достаточно.",
+"gr": "a few + множественное: <b>a few days<\/b>, <b>a few friends<\/b>. <b>quite a few<\/b> = довольно много.",
+"ex": [
+[
+"I'll be there in a few minutes.",
+"Буду через пару минут.",
+"быт"
+],
+[
+"Just a few more reps.",
+"Ещё пара повторов.",
+"зал"
+],
+[
+"A few people asked about the music.",
+"Несколько человек спросили про музыку.",
+"комменты"
+]
+],
+"no": "Забыть a: без него смысл меняется на «мало, почти нет».",
+"like": "few (мало) · a couple of (пара) · several (несколько)",
+"reg": "нейтрально"
+},
+"quantity|FEW": {
+"m": "мало, почти нет (штук)",
+"when": "Звучит грустно или книжно. В разговоре чаще <b>not many<\/b>.",
+"gr": "few + множественное: <b>few people<\/b>. <b>very few<\/b> = очень мало.",
+"ex": [
+[
+"Very few people noticed it.",
+"Очень мало кто заметил.",
+"комменты"
+],
+[
+"There are few good gyms near me.",
+"Рядом мало хороших залов.",
+"зал"
+],
+[
+"Few people here speak Russian.",
+"Здесь мало кто говорит по-русски.",
+"быт"
+]
+],
+"no": "Сказать few, имея в виду «несколько»: нужно <b>a few<\/b>.",
+"like": "a few (несколько) · not many · little (не штуки)",
+"reg": "нейтрально"
+},
+"quantity|A LITTLE": {
+"m": "немного (не штук); чуть-чуть",
+"when": "С тем, что не считается: вода, время, деньги. И перед прилагательным: <b>a little tired<\/b>.",
+"gr": "a little + неисчисляемое: <b>a little water<\/b>. a little + прилагательное: <b>a little cold<\/b>. Разговорно <b>a little bit<\/b>.",
+"ex": [
+[
+"I speak a little English.",
+"Я немного говорю по-английски.",
+"быт"
+],
+[
+"I'm a little tired today.",
+"Я сегодня немного устал.",
+"зал"
+],
+[
+"Can you turn it down a little?",
+"Можно чуть тише?",
+"быт"
+]
+],
+"no": "Со штуками нельзя: <s>a little friends<\/s> → <b>a few friends<\/b>.",
+"like": "a bit · a few (штуки) · little (мало)",
+"reg": "нейтрально"
+},
+"quantity|LITTLE": {
+"m": "мало (не штук); ещё «маленький»",
+"when": "Книжно, с оттенком «недостаточно». В разговоре чаще <b>not much<\/b>.",
+"gr": "little + неисчисляемое: <b>little time<\/b>, <b>very little<\/b>. Как прилагательное: <b>a little dog<\/b> = маленькая собачка.",
+"ex": [
+[
+"We have very little time.",
+"У нас очень мало времени.",
+"работа"
+],
+[
+"There's little difference.",
+"Разница небольшая.",
+"быт"
+],
+[
+"She has a little dog.",
+"У неё маленькая собачка.",
+"быт"
+]
+],
+"no": "Спутать little и a little: little = мало, a little = немного, хватает.",
+"like": "a little · not much · small",
+"reg": "нейтрально"
+},
+"quantity|ENOUGH": {
+"m": "достаточно; хватит",
+"when": "Хватает или не хватает чего-то. Отдельно: <b>That's enough!<\/b> = хватит!",
+"gr": "Перед существительным: <b>enough time<\/b>. После прилагательного: <b>big enough<\/b>, <b>good enough<\/b>. enough to + глагол: <b>old enough to drive<\/b>.",
+"ex": [
+[
+"That's enough for today.",
+"На сегодня хватит.",
+"зал"
+],
+[
+"Is it big enough?",
+"Достаточно большой?",
+"магазин"
+],
+[
+"I didn't get enough sleep.",
+"Я не выспался.",
+"быт"
+]
+],
+"no": "С прилагательным enough ставят после: <s>enough good<\/s> → <b>good enough<\/b>.",
+"like": "too much (перебор) · not enough (мало)",
+"reg": "нейтрально"
+},
+"quantity|TOO MANY": {
+"m": "слишком много (штук)",
+"when": "Перебор чего-то, что считается.",
+"gr": "too many + множественное: <b>too many ads<\/b>, <b>too many people<\/b>.",
+"ex": [
+[
+"There are too many ads in this video.",
+"В ролике слишком много рекламы.",
+"комменты"
+],
+[
+"Too many people at the gym tonight.",
+"Вечером в зале слишком много народу.",
+"зал"
+],
+[
+"I have too many tabs open.",
+"У меня открыто слишком много вкладок.",
+"работа"
+]
+],
+"no": "С неисчисляемым: <s>too many time<\/s> → <b>too much time<\/b>.",
+"like": "too much · so many (так много, без «плохо»)",
+"reg": "нейтрально"
+},
+"quantity|TOO MUCH": {
+"m": "слишком много (не штук); перебор",
+"when": "Деньги, время, сахар. И про ситуацию: <b>This is too much<\/b> = это уже слишком.",
+"gr": "too much + неисчисляемое: <b>too much sugar<\/b>. После глагола: <b>I ate too much<\/b>. Отдельно: <b>That's too much!<\/b>",
+"ex": [
+[
+"That's too much for a coffee.",
+"Дороговато для кофе.",
+"кафе"
+],
+[
+"Don't lift too much on day one.",
+"Не бери большой вес в первый день.",
+"зал"
+],
+[
+"This is too much, bro.",
+"Это уже перебор, бро.",
+"комменты"
+]
+],
+"no": "too вместо very: <s>too much beautiful<\/s> → <b>very beautiful<\/b>. Too значит «перебор, плохо».",
+"like": "too many · a lot (много, без «плохо»)",
+"reg": "нейтрально"
+},
+"quantity|NONE": {
+"m": "ни одного, нисколько",
+"when": "Ответ «ни одного» или «никто из»: <b>none of<\/b>.",
+"gr": "none of + the / my / us / them: <b>none of my friends<\/b>. Одним словом в ответе: <b>How many? — None.<\/b>",
+"ex": [
+[
+"How many sets left? — None, I'm done.",
+"Сколько подходов осталось? — Ни одного, я закончил.",
+"зал"
+],
+[
+"None of my friends speak English.",
+"Никто из моих друзей не говорит по-английски.",
+"быт"
+],
+[
+"None of this makes sense.",
+"Во всём этом нет смысла.",
+"комменты"
+]
+],
+"no": "Двойное «не»: <s>I don't have none<\/s> → <b>I don't have any<\/b> или <b>I have none<\/b>.",
+"like": "no (перед словом: no time) · nothing · nobody",
+"reg": "нейтрально"
+},
+"frequency|FREQUENTLY": {
+"m": "часто (официально)",
+"when": "В письмах, новостях, инструкциях. Вслух с людьми чаще <b>often<\/b>.",
+"gr": "Стоит перед глаголом: <b>It frequently happens<\/b>. Прилагательное <b>frequent<\/b> = частый: <b>frequent questions<\/b>.",
+"ex": [
+[
+"Frequently asked questions (FAQ)",
+"Часто задаваемые вопросы",
+"работа"
+],
+[
+"This frequently happens on highways.",
+"Такое часто бывает на трассах.",
+"работа"
+],
+[
+"I don't go there frequently.",
+"Я туда нечасто хожу.",
+"быт"
+]
+],
+"no": "В разговоре с друзьями frequently звучит как из учебника: скажи <b>often<\/b>.",
+"like": "often · a lot · regularly",
+"reg": "официально"
+},
+"frequency|OCCASIONALLY": {
+"m": "время от времени",
+"when": "Реже, чем sometimes. Нейтрально, чуть официально.",
+"gr": "Перед глаголом или в конце: <b>I occasionally drink coffee<\/b> = <b>I drink coffee occasionally<\/b>.",
+"ex": [
+[
+"I occasionally train at home.",
+"Иногда тренируюсь дома.",
+"зал"
+],
+[
+"I only drink occasionally.",
+"Выпиваю только изредка.",
+"быт"
+],
+[
+"He occasionally posts long videos.",
+"Он изредка выкладывает длинные ролики.",
+"работа"
+]
+],
+"no": "Написание: две c, одна s: occasionally.",
+"like": "sometimes · from time to time · once in a while",
+"reg": "нейтрально"
+},
+"frequency|RARELY": {
+"m": "редко",
+"when": "Главное живое «редко». В нём уже есть «почти нет», поэтому not не нужен.",
+"gr": "Перед глаголом, после am / is / are: <b>I rarely eat out<\/b>, <b>It's rarely busy<\/b>.",
+"ex": [
+[
+"I rarely miss a workout.",
+"Я редко пропускаю тренировку.",
+"зал"
+],
+[
+"This rarely happens.",
+"Такое редко бывает.",
+"комменты"
+],
+[
+"I rarely take taxis.",
+"Я редко езжу на такси.",
+"быт"
+]
+],
+"no": "Двойное «не»: <s>I don't rarely…<\/s>. Rarely уже отрицание.",
+"like": "hardly ever (почти никогда) · seldom (книжно) · not often",
+"reg": "нейтрально"
+},
+"frequency|SELDOM": {
+"m": "редко (книжно)",
+"when": "В книгах и статьях. В разговоре замени на <b>rarely<\/b> или <b>hardly ever<\/b>.",
+"gr": "Место как у rarely, перед глаголом: <b>He seldom speaks<\/b>.",
+"ex": [
+[
+"He seldom speaks.",
+"Он редко говорит.",
+"быт"
+],
+[
+"Such moments seldom happen.",
+"Такие моменты бывают редко.",
+"работа"
+],
+[
+"I hardly ever go to the gym on Sundays.",
+"По воскресеньям почти не хожу в зал.",
+"зал"
+]
+],
+"no": "Говорить seldom вслух: звучит старомодно.",
+"like": "rarely · hardly ever",
+"reg": "книжно"
+},
+"intensity|NOT AT ALL": {
+"m": "совсем нет; ещё «не за что»",
+"when": "Усиливает «не». И короткий ответ на спасибо или на «вы не против?».",
+"gr": "В конце фразы: <b>I'm not tired at all<\/b>. Ответом: <b>Do you mind? — Not at all.<\/b>",
+"ex": [
+[
+"I'm not tired at all.",
+"Я совсем не устал.",
+"зал"
+],
+[
+"Thanks! — Not at all.",
+"Спасибо! — Не за что.",
+"быт"
+],
+[
+"It's not fake at all.",
+"Это вовсе не фейк.",
+"комменты"
+]
+],
+"no": "at all без not в утверждении: <s>I like it at all<\/s>.",
+"like": "not really (не очень) · no way (ни за что)",
+"reg": "нейтрально"
+},
+"intensity|A BIT": {
+"m": "чуть-чуть, немного",
+"when": "Разговорное a little. Смягчает: <b>a bit expensive<\/b> = дороговато.",
+"gr": "a bit + прилагательное: <b>a bit cold<\/b>. a bit of + существительное: <b>a bit of time<\/b>. Ещё <b>a little bit<\/b>.",
+"ex": [
+[
+"It's a bit expensive.",
+"Дороговато.",
+"магазин"
+],
+[
+"Wait a bit.",
+"Подожди немного.",
+"быт"
+],
+[
+"My shoulder hurts a bit.",
+"Плечо немного болит.",
+"зал"
+]
+],
+"no": "Без of перед существительным: <s>a bit time<\/s> → <b>a bit of time<\/b>.",
+"like": "a little · kind of · slightly",
+"reg": "нейтрально"
+},
+"intensity|EXTREMELY": {
+"m": "крайне, очень-очень",
+"when": "Сильнее very. В разговоре ещё <b>super<\/b>, <b>so<\/b>, <b>insanely<\/b>.",
+"gr": "extremely + прилагательное: <b>extremely dangerous<\/b>. К глаголу не ставится.",
+"ex": [
+[
+"That was extremely dangerous.",
+"Это было крайне опасно.",
+"работа"
+],
+[
+"I'm extremely tired.",
+"Я жутко устал.",
+"зал"
+],
+[
+"It's extremely hot today.",
+"Сегодня ужасно жарко.",
+"быт"
+]
+],
+"no": "К глаголу: <s>I extremely like it<\/s> → <b>I really like it<\/b>.",
+"like": "very · super · incredibly",
+"reg": "нейтрально"
+},
+"intensity|KIND OF": {
+"m": "вроде, типа, слегка",
+"when": "Разговорное смягчение. Пишут ещё <b>kinda<\/b>.",
+"gr": "kind of + прилагательное или глагол: <b>kind of tired<\/b>, <b>I kind of like it<\/b>. Отдельно <b>a kind of<\/b> = вид, сорт.",
+"ex": [
+[
+"I'm kind of tired.",
+"Я что-то устал.",
+"зал"
+],
+[
+"It's kinda funny.",
+"Это вообще-то смешно.",
+"комменты"
+],
+[
+"I kind of like this place.",
+"Мне вроде нравится это место.",
+"быт"
+]
+],
+"no": "Спутать с a kind of: <b>a kind of coffee<\/b> = сорт кофе.",
+"like": "sort of · a bit · pretty",
+"reg": "разговорно"
+},
+"moving|BRING": {
+"m": "принести, привезти: сюда, к говорящему",
+"when": "Движение к тебе или туда, где идёт разговор.",
+"gr": "bring + что + to кому/куда: <b>bring me water<\/b>, <b>bring it to the gym<\/b>. Прошедшее <b>brought<\/b>.",
+"ex": [
+[
+"Can you bring me the check?",
+"Можете принести счёт?",
+"кафе"
+],
+[
+"Don't forget to bring a towel.",
+"Не забудь взять полотенце.",
+"зал"
+],
+[
+"She brought her dog.",
+"Она пришла с собакой.",
+"быт"
+]
+],
+"no": "bring про «отнести туда»: <s>Bring this to him<\/s> → <b>Take this to him<\/b>.",
+"like": "take (унести) · get (сходить и принести)",
+"reg": "нейтрально"
+},
+"moving|TAKE": {
+"m": "взять; унести, отвезти туда",
+"when": "Движение от тебя. И много устойчивых: <b>take a taxi<\/b>, <b>take a photo<\/b>, <b>it takes time<\/b>.",
+"gr": "take + что + to куда: <b>take it to the car<\/b>. Прошедшее <b>took<\/b>. <b>It takes<\/b> + время = занимает: <b>It takes 20 minutes<\/b>.",
+"ex": [
+[
+"I'll take the large one.",
+"Возьму большой.",
+"магазин"
+],
+[
+"Let's take a taxi.",
+"Давай возьмём такси.",
+"быт"
+],
+[
+"It takes time to see results.",
+"Чтобы был результат, нужно время.",
+"зал"
+]
+],
+"no": "take про «привезти мне»: <s>take me water<\/s> → <b>bring me water<\/b>.",
+"like": "bring · grab (взять, схватить)",
+"reg": "нейтрально"
+},
+"moving|LEAVE": {
+"m": "уйти, уехать; оставить",
+"when": "Уходишь откуда-то или оставляешь вещь.",
+"gr": "leave + место, без from: <b>leave the gym<\/b>. <b>leave for<\/b> + куда: <b>leave for work<\/b>. leave + вещь: <b>leave it at the door<\/b>. Прошедшее <b>left<\/b>.",
+"ex": [
+[
+"I'm leaving the gym now.",
+"Ухожу из зала.",
+"зал"
+],
+[
+"Leave it at the door, please.",
+"Оставьте у двери.",
+"доставка"
+],
+[
+"I left my phone at home.",
+"Забыл телефон дома.",
+"быт"
+]
+],
+"no": "Лишний from: <s>leave from the house<\/s> → <b>leave the house<\/b>.",
+"like": "go out · forget (забыть; но про место: I left it at home)",
+"reg": "нейтрально"
+},
+"moving|GET IN": {
+"m": "сесть (в машину, такси)",
+"when": "В маленькую машину, где не встаёшь в рост.",
+"gr": "<b>get in the car<\/b> или <b>get into the car<\/b>. Выйти: <b>get out of the car<\/b>, с of.",
+"ex": [
+[
+"Get in, I'll drive you.",
+"Садись, подвезу.",
+"быт"
+],
+[
+"He got in the taxi.",
+"Он сел в такси.",
+"быт"
+],
+[
+"Get in the car, now!",
+"Быстро в машину!",
+"работа"
+]
+],
+"no": "<s>get on the car<\/s>: on только про автобус, поезд, самолёт.",
+"like": "get on (автобус) · get out of",
+"reg": "нейтрально"
+},
+"moving|GET OUT": {
+"m": "выйти (из машины); вон!",
+"when": "Из машины, комнаты. Без места грубое «убирайся».",
+"gr": "get out of + место: <b>get out of the car<\/b>. Без места: <b>Get out!<\/b>",
+"ex": [
+[
+"He got out of the car and ran.",
+"Он вышел из машины и побежал.",
+"работа"
+],
+[
+"Get out of my way!",
+"Уйди с дороги!",
+"работа"
+],
+[
+"Let's get out of here.",
+"Пошли отсюда.",
+"быт"
+]
+],
+"no": "<s>get out from the car<\/s> → <b>get out of the car<\/b>.",
+"like": "get off (автобус) · leave",
+"reg": "нейтрально"
+},
+"math|PLUS": {
+"m": "плюс; к тому же",
+"when": "В счёте. И в речи «и ещё»: <b>Plus, it's cheap.<\/b>",
+"gr": "<b>two plus two is four<\/b>. В начале фразы с запятой: <b>Plus, …<\/b> = к тому же.",
+"ex": [
+[
+"Two plus three is five.",
+"Два плюс три пять.",
+"быт"
+],
+[
+"It's close. Plus, it's cheap.",
+"Близко. И ещё дёшево.",
+"быт"
+],
+[
+"That's $10 plus tax.",
+"10 долларов плюс налог.",
+"магазин"
+]
+],
+"no": "",
+"like": "and · also",
+"reg": "нейтрально"
+},
+"math|MINUS": {
+"m": "минус",
+"when": "В счёте и о недостатке: <b>the only minus<\/b>.",
+"gr": "<b>ten minus four is six<\/b>. Температура: <b>minus five<\/b>, в США чаще <b>five below<\/b>.",
+"ex": [
+[
+"Ten minus four is six.",
+"Десять минус четыре шесть.",
+"быт"
+],
+[
+"It was minus five this morning.",
+"Утром было минус пять.",
+"быт"
+],
+[
+"The only minus is the price.",
+"Единственный минус цена.",
+"магазин"
+]
+],
+"no": "",
+"like": "plus · downside (минус, недостаток)",
+"reg": "нейтрально"
+},
+"math|TIMES": {
+"m": "умножить на; раз",
+"when": "В счёте и «во столько раз»: <b>three times more<\/b>.",
+"gr": "<b>three times five is fifteen<\/b>. Раз в период без in: <b>three times a week<\/b>.",
+"ex": [
+[
+"Three times four is twelve.",
+"Три на четыре двенадцать.",
+"быт"
+],
+[
+"I train three times a week.",
+"Тренируюсь три раза в неделю.",
+"зал"
+],
+[
+"It got ten times more views.",
+"Набрал в десять раз больше просмотров.",
+"работа"
+]
+],
+"no": "<s>three times in a week<\/s> → <b>three times a week<\/b>.",
+"like": "once (раз) · twice (дважды)",
+"reg": "нейтрально"
+},
+"math|DIVIDED BY": {
+"m": "разделить на",
+"when": "В счёте. Делить что-то на части: <b>divide into<\/b>. Счёт в кафе делят словом <b>split<\/b>.",
+"gr": "<b>ten divided by two is five<\/b>. <b>divide it into three parts<\/b>.",
+"ex": [
+[
+"Ten divided by two is five.",
+"Десять разделить на два пять.",
+"быт"
+],
+[
+"Let's split the bill.",
+"Давай разделим счёт.",
+"кафе"
+],
+[
+"Divide the video into three parts.",
+"Раздели ролик на три части.",
+"работа"
+]
+],
+"no": "<s>divided on two<\/s> → <b>divided by two<\/b>.",
+"like": "split (разделить, разговорно)",
+"reg": "нейтрально"
+},
+"math|EQUALS": {
+"m": "равно",
+"when": "В формуле. В речи чаще просто <b>is<\/b>.",
+"gr": "<b>Two plus two equals four<\/b>, с -s. Или <b>Two plus two is four<\/b>.",
+"ex": [
+[
+"Two plus two equals four.",
+"Два плюс два равно четыре.",
+"быт"
+],
+[
+"One sale equals one dollar.",
+"Одна продажа это доллар.",
+"работа"
+],
+[
+"Hard work equals results.",
+"Труд даёт результат.",
+"зал"
+]
+],
+"no": "Без -s: <s>two plus two equal four<\/s> → <b>equals<\/b>.",
+"like": "is · makes",
+"reg": "нейтрально"
+},
+"math|SQUARED": {
+"m": "в квадрате",
+"when": "В счёте. Квадратные метры называются иначе: <b>square meters<\/b>.",
+"gr": "<b>five squared is twenty-five<\/b>. В кубе: <b>cubed<\/b>.",
+"ex": [
+[
+"Five squared is twenty-five.",
+"Пять в квадрате двадцать пять.",
+"быт"
+],
+[
+"The apartment is 50 square meters.",
+"Квартира 50 квадратных метров.",
+"быт"
+],
+[
+"E equals mc squared.",
+"E равно mc в квадрате.",
+"быт"
+]
+],
+"no": "<s>squared meters<\/s> → <b>square meters<\/b>.",
+"like": "cubed (в кубе)",
+"reg": "нейтрально"
+},
+"prep-verbs|listen to": {
+"m": "слушать что-то или кого-то",
+"when": "Музыка, подкаст, человек, совет. Когда есть что слушать, нужен to.",
+"gr": "listen <b>to<\/b> + что/кого: <b>listen to music<\/b>, <b>listen to me<\/b>. Без объекта to не нужен: <b>Listen!<\/b> <b>I'm listening.<\/b>",
+"ex": [
+[
+"Listen to me, bro.",
+"Послушай меня, бро.",
+"быт"
+],
+[
+"What are you listening to?",
+"Что слушаешь?",
+"зал"
+]
+],
+"like": "hear (слышать, без to: I can't hear you)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|wait for": {
+"m": "ждать кого-то или что-то",
+"when": "Человека, автобус, заказ, ответ.",
+"gr": "wait <b>for<\/b> + кого/что: <b>wait for the bus<\/b>. Без объекта просто <b>wait<\/b>: <b>Wait here.<\/b> Ждать, чтобы кто-то сделал: <b>wait for him to call<\/b>. <b>Wait for it<\/b> = жди, сейчас будет.",
+"ex": [
+[
+"Wait for it…",
+"Жди, сейчас будет…",
+"работа"
+],
+[
+"I'm waiting for my order.",
+"Жду свой заказ.",
+"кафе"
+]
+],
+"like": "expect (ожидать, рассчитывать, без for)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|look at": {
+"m": "смотреть на что-то",
+"when": "Перевести взгляд на конкретное. Смотреть фильм или ролик это <b>watch<\/b>.",
+"gr": "look <b>at<\/b> + что: <b>look at this<\/b>. Без объекта: <b>Look!<\/b> Выглядеть: <b>you look tired<\/b> (без at).",
+"ex": [
+[
+"Look at his face!",
+"Посмотри на его лицо!",
+"комменты"
+],
+[
+"Don't look at me like that.",
+"Не смотри на меня так.",
+"быт"
+]
+],
+"like": "watch (смотреть видео, матч) · see (видеть)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|look for": {
+"m": "искать",
+"when": "Ищешь то, что потерял или чего не можешь найти.",
+"gr": "look <b>for<\/b> + что: <b>look for my keys<\/b>. Найти: <b>find<\/b> (без предлога).",
+"ex": [
+[
+"What are you looking for?",
+"Что ищете?",
+"магазин"
+],
+[
+"I'm looking for a good gym.",
+"Ищу хороший зал.",
+"зал"
+]
+],
+"like": "find (найти) · search (обыскивать: search the room, search for = искать)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|talk to": {
+"m": "говорить с кем-то",
+"when": "Обратиться к человеку, поговорить. В США так же часто <b>talk with<\/b>.",
+"gr": "talk <b>to<\/b> / <b>with<\/b> + кого. talk <b>about<\/b> + что: <b>talk about the price<\/b>.",
+"ex": [
+[
+"Who were you talking to?",
+"С кем ты говорил?",
+"быт"
+],
+[
+"Let's talk about it later.",
+"Давай поговорим об этом позже.",
+"работа"
+]
+],
+"like": "speak to (чуть официальнее) · tell (сказать кому-то, без to: tell me)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|ask for": {
+"m": "попросить что-то",
+"when": "Просишь вещь или помощь. Без for ask значит «спросить».",
+"gr": "ask <b>for<\/b> + что: <b>ask for help<\/b>. ask + кого + <b>for<\/b> + что: <b>ask him for money<\/b>. Спросить: <b>ask a question<\/b>, <b>ask him<\/b>.",
+"ex": [
+[
+"Can I ask for the check?",
+"Можно попросить счёт?",
+"кафе"
+],
+[
+"Don't be afraid to ask for help.",
+"Не бойся просить помощи.",
+"зал"
+]
+],
+"like": "ask (спросить) · request (запросить, официально)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|agree with": {
+"m": "соглашаться с",
+"when": "С человеком или мнением.",
+"gr": "agree <b>with<\/b> + кого/что. agree <b>to<\/b> + предложение, условие: <b>agree to the price<\/b>. Глагол, без am: <b>I agree<\/b>.",
+"ex": [
+[
+"I totally agree.",
+"Полностью согласен.",
+"комменты"
+],
+[
+"He agreed to the deal.",
+"Он согласился на сделку.",
+"работа"
+]
+],
+"like": "disagree (не согласен)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|depend on": {
+"m": "зависеть от",
+"when": "Ответ «смотря как»: <b>It depends.<\/b>",
+"gr": "depend <b>on<\/b> + что. Отдельно в ответе: <b>It depends.<\/b> Полагаться на: <b>count on me<\/b>, <b>rely on<\/b>.",
+"ex": [
+[
+"It depends on the weather.",
+"Зависит от погоды.",
+"быт"
+],
+[
+"Results depend on sleep.",
+"Результат зависит от сна.",
+"зал"
+]
+],
+"like": "rely on (полагаться на) · count on",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|worry about": {
+"m": "переживать о, беспокоиться",
+"when": "Про человека, деньги, будущее.",
+"gr": "worry <b>about<\/b> + кого/что. <b>Don't worry<\/b> без объекта. Прилагательное: <b>worried about<\/b>.",
+"ex": [
+[
+"I'm worried about my shoulder.",
+"Переживаю за плечо.",
+"зал"
+],
+[
+"No need to worry.",
+"Не о чем переживать.",
+"быт"
+]
+],
+"like": "care about (не всё равно) · stress about (разговорно)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|laugh at": {
+"m": "смеяться над",
+"when": "Над шуткой или над человеком (насмешка).",
+"gr": "laugh <b>at<\/b> + кого/что. Просто смеяться: <b>laugh<\/b>. Ржать: <b>crack up<\/b>.",
+"ex": [
+[
+"Everyone laughed at him.",
+"Все над ним смеялись.",
+"комменты"
+],
+[
+"I couldn't stop laughing.",
+"Я не мог перестать смеяться.",
+"быт"
+]
+],
+"like": "smile at (улыбнуться кому-то) · make fun of (высмеивать)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-verbs|call": {
+"m": "звонить кому-то",
+"when": "Звонок по телефону. Ещё «называть»: <b>call me Val<\/b>.",
+"gr": "call + кого, <b>без предлога<\/b>: <b>call me<\/b>, <b>call the police<\/b>. <b>call back<\/b> = перезвонить.",
+"ex": [
+[
+"I'll call you back.",
+"Я перезвоню.",
+"быт"
+],
+[
+"Someone call 911!",
+"Кто-нибудь, звоните 911!",
+"работа"
+]
+],
+"like": "text (написать сообщение: text me) · ring (британское)",
+"reg": "нейтрально",
+"no": "<s>call to me<\/s> → <b>call me<\/b>. По-русски «звонить <b>кому<\/b>», а по-английски без to."
+},
+"prep-verbs|answer": {
+"m": "отвечать на",
+"when": "На вопрос, звонок, сообщение.",
+"gr": "answer + что/кого, <b>без предлога<\/b>: <b>answer the question<\/b>, <b>answer me<\/b>. Существительное с to: <b>the answer to the question<\/b>.",
+"ex": [
+[
+"He didn't answer my message.",
+"Он не ответил на моё сообщение.",
+"быт"
+],
+[
+"Answer me!",
+"Ответь мне!",
+"быт"
+]
+],
+"like": "reply (ответить на письмо: reply to the message, с to)",
+"reg": "нейтрально",
+"no": "<s>answer to the phone<\/s> → <b>answer the phone<\/b>. Но <b>reply to<\/b> с предлогом."
+},
+"prep-verbs|discuss": {
+"m": "обсуждать",
+"when": "Цену, план, ролик.",
+"gr": "discuss + что, <b>без about<\/b>: <b>discuss the plan<\/b>. С about нужен talk: <b>talk about the plan<\/b>.",
+"ex": [
+[
+"We need to discuss the price.",
+"Надо обсудить цену.",
+"работа"
+],
+[
+"Let's discuss it tomorrow.",
+"Обсудим завтра.",
+"работа"
+]
+],
+"like": "talk about (разговорно)",
+"reg": "чуть официально",
+"no": ""
+},
+"prep-places|go to": {
+"m": "идти, ехать куда-то",
+"when": "В любое место, кроме home и there.",
+"gr": "go <b>to<\/b> + место: <b>go to the gym<\/b>, <b>go to work<\/b>. Без to: <b>go home<\/b>, <b>go there<\/b>, <b>go downtown<\/b>. Заняться: <b>go shopping<\/b>, <b>go running<\/b>.",
+"ex": [
+[
+"Let's go to the beach.",
+"Поехали на пляж.",
+"быт"
+],
+[
+"I'm going to the store.",
+"Иду в магазин.",
+"магазин"
+]
+],
+"like": "come to (прийти сюда) · get to (добраться)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|go home": {
+"m": "идти домой",
+"when": "Home работает как наречие «домой», поэтому без to.",
+"gr": "<b>go home<\/b>, <b>come home<\/b>, <b>get home<\/b>. Дома: <b>at home<\/b> (тут предлог есть).",
+"ex": [
+[
+"I got home late.",
+"Я поздно вернулся домой.",
+"быт"
+],
+[
+"Go home, you're tired.",
+"Иди домой, ты устал.",
+"зал"
+]
+],
+"like": "at home (дома)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|arrive in · arrive at": {
+"m": "приехать, прибыть",
+"when": "<b>in<\/b> большое место: город, страна. <b>at<\/b> точка: аэропорт, зал, отель.",
+"gr": "arrive <b>in<\/b> Tbilisi, arrive <b>at<\/b> the airport. Никогда arrive to. Домой: <b>arrive home<\/b>.",
+"ex": [
+[
+"The order arrived.",
+"Заказ пришёл.",
+"доставка"
+],
+[
+"What time do we arrive?",
+"Во сколько приезжаем?",
+"быт"
+]
+],
+"like": "get to (добраться, разговорно) · reach (достичь, без предлога)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|get to": {
+"m": "добраться до",
+"when": "Как доехать, сколько ехать.",
+"gr": "get <b>to<\/b> + место. Без to: <b>get home<\/b>, <b>get there<\/b>, <b>get here<\/b>.",
+"ex": [
+[
+"How long does it take to get there?",
+"Сколько туда добираться?",
+"быт"
+],
+[
+"Text me when you get home.",
+"Напиши, как доберёшься.",
+"быт"
+]
+],
+"like": "arrive · reach",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|come from": {
+"m": "быть родом из; прийти откуда",
+"when": "Откуда человек или откуда что-то взялось.",
+"gr": "come <b>from<\/b> + место. Вопрос: <b>Where do you come from?<\/b> = <b>Where are you from?<\/b>",
+"ex": [
+[
+"Where does this sound come from?",
+"Откуда этот звук?",
+"работа"
+],
+[
+"This video comes from Brazil.",
+"Это видео из Бразилии.",
+"работа"
+]
+],
+"like": "be from (быть из)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|at home · at work": {
+"m": "дома · на работе",
+"when": "Точка, где ты находишься.",
+"gr": "<b>at home<\/b>, <b>at work<\/b>, <b>at school<\/b>, <b>at the gym<\/b>. Внутри здания подчёркнуто: <b>in the house<\/b>.",
+"ex": [
+[
+"I'm at the gym.",
+"Я в зале.",
+"зал"
+],
+[
+"I work at home.",
+"Работаю дома.",
+"работа"
+]
+],
+"like": "in the office (в офисе, внутри)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|on the street · in the city": {
+"m": "на улице · в городе",
+"when": "Улица это линия, поэтому on. Город это пространство, поэтому in.",
+"gr": "<b>on<\/b> + улица: on Main Street. <b>in<\/b> + город, район, страна. Точный адрес: <b>at<\/b> 5 Main Street.",
+"ex": [
+[
+"There's a cafe on this street.",
+"На этой улице есть кафе.",
+"быт"
+],
+[
+"I live in Tbilisi.",
+"Живу в Тбилиси.",
+"быт"
+]
+],
+"like": "outside (на улице, снаружи: it's cold outside)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|get on · get off": {
+"m": "сесть · выйти (автобус, метро, самолёт)",
+"when": "Транспорт, где встаёшь в рост.",
+"gr": "get <b>on<\/b> the bus, get <b>off<\/b> the bus. В транспорте: <b>on<\/b> the bus, <b>on<\/b> the plane.",
+"ex": [
+[
+"I'm on the bus.",
+"Я в автобусе.",
+"быт"
+],
+[
+"Where do I get off?",
+"Где мне выходить?",
+"быт"
+]
+],
+"like": "get in · get out of (машина)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|get in · get out of": {
+"m": "сесть · выйти (машина, такси)",
+"when": "Маленький транспорт, где сидишь.",
+"gr": "get <b>in<\/b> the car, get <b>out of<\/b> the car. В машине: <b>in<\/b> the car.",
+"ex": [
+[
+"He got out of the car and ran.",
+"Он выскочил из машины и побежал.",
+"работа"
+],
+[
+"I'm in the taxi.",
+"Я в такси.",
+"быт"
+]
+],
+"like": "get on · get off (автобус)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|on the phone": {
+"m": "по телефону",
+"when": "Разговариваешь прямо сейчас. Способ связи тоже: <b>by phone<\/b>.",
+"gr": "<b>on the phone<\/b> = говорит по телефону. <b>on my phone<\/b> = в моём телефоне. <b>by phone<\/b> = по телефону как способ.",
+"ex": [
+[
+"I watched it on my phone.",
+"Смотрел на телефоне.",
+"работа"
+],
+[
+"Can we talk on the phone?",
+"Можем поговорить по телефону?",
+"быт"
+]
+],
+"like": "on a call (на звонке)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|on YouTube · on the internet": {
+"m": "на YouTube · в интернете",
+"when": "Сайты, соцсети, ТВ, радио: всё on.",
+"gr": "<b>on<\/b> YouTube, <b>on<\/b> TikTok, <b>on<\/b> Instagram, <b>on<\/b> TV, <b>on<\/b> the internet, <b>online<\/b>.",
+"ex": [
+[
+"I post on YouTube every day.",
+"Выкладываю на YouTube каждый день.",
+"работа"
+],
+[
+"It's all over TikTok.",
+"Это по всему TikTok.",
+"комменты"
+]
+],
+"like": "online (в сети)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-places|in the photo · in the video": {
+"m": "на фото · в видео",
+"when": "Человек внутри кадра. По-русски «на фото», по-английски in.",
+"gr": "<b>in<\/b> the photo, <b>in<\/b> the video, <b>in<\/b> the picture, <b>in<\/b> the movie. Камера тоже: <b>caught on camera<\/b> (тут on).",
+"ex": [
+[
+"The guy in the red shirt.",
+"Парень в красной футболке.",
+"работа"
+],
+[
+"Caught on camera.",
+"Попало на камеру.",
+"работа"
+]
+],
+"like": "on camera (на камеру)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|good at": {
+"m": "хорошо умеет, силён в",
+"when": "Навык, который у тебя получается.",
+"gr": "good <b>at<\/b> + что / глагол-ing: <b>good at editing<\/b>. Полезно для кого-то: <b>good for you<\/b>. Добрый к: <b>good to me<\/b>.",
+"ex": [
+[
+"He's really good at driving.",
+"Он отлично водит.",
+"работа"
+],
+[
+"You're good at this!",
+"У тебя получается!",
+"зал"
+]
+],
+"like": "bad at · great at",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|bad at": {
+"m": "плохо даётся",
+"when": "Навык не получается.",
+"gr": "bad <b>at<\/b> + что / -ing. Вредно для: <b>bad for<\/b>: <b>bad for your back<\/b>.",
+"ex": [
+[
+"I'm bad at cooking.",
+"Я плохо готовлю.",
+"быт"
+],
+[
+"Sugar is bad for you.",
+"Сахар вредный.",
+"зал"
+]
+],
+"like": "good at · terrible at",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|afraid of": {
+"m": "боится",
+"when": "Страх перед чем-то.",
+"gr": "afraid <b>of<\/b> + что / -ing: <b>afraid of heights<\/b>, <b>afraid of losing<\/b>. Разговорно <b>scared of<\/b>.",
+"ex": [
+[
+"I'm scared of heights.",
+"Боюсь высоты.",
+"быт"
+],
+[
+"Don't be afraid of mistakes.",
+"Не бойся ошибок.",
+"быт"
+]
+],
+"like": "scared of · terrified of (в ужасе)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|interested in": {
+"m": "интересуется",
+"when": "Хобби, тема, предложение.",
+"gr": "interested <b>in<\/b> + что / -ing. Про само дело <b>interesting<\/b> (без предлога): <b>the video is interesting<\/b>.",
+"ex": [
+[
+"Are you interested in a membership?",
+"Хотите абонемент?",
+"зал"
+],
+[
+"I'm interested in learning English.",
+"Хочу выучить английский.",
+"быт"
+]
+],
+"like": "into (разговорно: I'm into cars)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|tired of": {
+"m": "надоело, устал от",
+"when": "Надоело морально. Физически устал от: <b>tired from<\/b>.",
+"gr": "tired <b>of<\/b> + что / -ing = надоело. tired <b>from<\/b> + что = устал физически: <b>tired from the gym<\/b>.",
+"ex": [
+[
+"I'm tired from the workout.",
+"Устал после тренировки.",
+"зал"
+],
+[
+"I'm sick of this.",
+"Меня это достало.",
+"быт"
+]
+],
+"like": "sick of (достало, разговорно) · fed up with",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|proud of": {
+"m": "гордится",
+"when": "Человеком или результатом.",
+"gr": "proud <b>of<\/b> + кого/что / -ing.",
+"ex": [
+[
+"I'm proud of this video.",
+"Горжусь этим роликом.",
+"работа"
+],
+[
+"Your mom would be proud of you.",
+"Мама бы тобой гордилась.",
+"комменты"
+]
+],
+"like": "ashamed of (стыдно за)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|angry at · angry with": {
+"m": "злится на",
+"when": "На человека. В США чаще at, в Британии with. За что: <b>about<\/b>.",
+"gr": "angry <b>at<\/b> / <b>with<\/b> + кого. angry <b>about<\/b> + что: <b>angry about the price<\/b>. Разговорно <b>mad at<\/b>.",
+"ex": [
+[
+"Why are you mad at me?",
+"Почему ты на меня злишься?",
+"быт"
+],
+[
+"He got angry about nothing.",
+"Он разозлился на пустом месте.",
+"работа"
+]
+],
+"like": "mad at (разговорно) · upset (расстроен)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|married to": {
+"m": "женат на, замужем за",
+"when": "Про супруга. Жениться: <b>get married<\/b>, <b>marry<\/b> (без предлога).",
+"gr": "be married <b>to<\/b> + кого. Жениться на: <b>marry her<\/b>, без to. Пожениться: <b>get married<\/b>.",
+"ex": [
+[
+"They got married last year.",
+"Они поженились в прошлом году.",
+"быт"
+],
+[
+"Will you marry me?",
+"Выйдешь за меня?",
+"комменты"
+]
+],
+"like": "engaged to (помолвлен с)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|similar to": {
+"m": "похож на",
+"when": "Вещи похожи по сути. Человек похож внешне: <b>look like<\/b>.",
+"gr": "similar <b>to<\/b> + что. Внешне: <b>he looks like his dad<\/b>.",
+"ex": [
+[
+"This is similar to that video.",
+"Похоже на тот ролик.",
+"работа"
+],
+[
+"You look like your brother.",
+"Ты похож на брата.",
+"быт"
+]
+],
+"like": "different from (отличается) · the same as (такой же как)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|famous for": {
+"m": "знаменит чем-то",
+"when": "За что известен.",
+"gr": "famous <b>for<\/b> + что / -ing. Известен как: <b>famous as<\/b> + роль.",
+"ex": [
+[
+"This street is famous for its cafes.",
+"Эта улица славится кафе.",
+"быт"
+],
+[
+"He's famous for his crazy stunts.",
+"Он известен безумными трюками.",
+"работа"
+]
+],
+"like": "known for (то же, проще)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|ready for": {
+"m": "готов к",
+"when": "К событию. Готов что-то сделать: <b>ready to<\/b> + глагол.",
+"gr": "ready <b>for<\/b> + что: <b>ready for the gym<\/b>. ready <b>to<\/b> + глагол: <b>ready to go<\/b>.",
+"ex": [
+[
+"Ready to go?",
+"Готов идти?",
+"быт"
+],
+[
+"I'm not ready for this.",
+"Я к этому не готов.",
+"комменты"
+]
+],
+"like": "prepared for (подготовлен)",
+"reg": "нейтрально",
+"no": ""
+},
+"prep-adj|sorry for · sorry about": {
+"m": "извини за",
+"when": "Извиниться за поступок или за неприятность.",
+"gr": "sorry <b>for<\/b> + -ing: <b>sorry for being late<\/b>. sorry <b>about<\/b> + что: <b>sorry about that<\/b>. Жаль кого-то: <b>I feel sorry for him<\/b>.",
+"ex": [
+[
+"Sorry about the noise.",
+"Извините за шум.",
+"быт"
+],
+[
+"I feel sorry for the dog.",
+"Мне жаль собаку.",
+"комменты"
+]
+],
+"like": "apologize for (извиняться, официально)",
+"reg": "нейтрально",
+"no": ""
+}
+};
+
   // ---------- render ----------
   const speakText = (en,say)=>((say && typeof say==='object' ? say.say : say) || en.replace(/[→·]/g,', ').replace(/…/g,' ').toLowerCase()).replace(/"/g,'&quot;');
-  const SPK_ICON = `<svg class="spk" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5q1.5 2.5 0 5"/></svg>`;
+  const SPK_ICON = `<span class="spk" role="button" aria-label="Озвучить"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5q1.5 2.5 0 5"/></svg></span>`;
   const svg = (inner, vb='0 0 64 64', cls='') => `<svg class="ico${cls}" viewBox="${vb}" aria-hidden="true">${inner}</svg>`;
   const decksEl = document.getElementById('decks'), navEl = document.getElementById('nav');
   // who sees what: a deck or a single word can carry only:'me' or only:'sister'; no mark = both.
@@ -846,20 +2443,49 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
   // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
   const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
-  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
   // talk:true rows are [heard, its translation, your answer, its translation]; a heard line in (brackets) is a situation in Russian
   const talkRow = (d,[q,qru,a,aru])=>{const sit=/^\(/.test(q), say=((sit?'':q+' ... ')+a).replace(/"/g,'&quot;');
     return `<button class="row tk" data-id="${d.id}|${a.replace(/"/g,'')}" data-say="${say}"><span class="txt">${sit?`<span class="sit">${q}</span>`:`<span class="q">${q}</span><span class="ru">${qru}</span>`}<span class="en">${a}</span><span class="ru">${aru}</span></span>${SPK_ICON}</button>`};
-  const bodyOf = (p,d)=> p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
+  // prep:true rows are [phrase, its prepositions as 'to' or 'on|off' ('' = none), перевод, example, its translation, typical mistake]
+  const prepRow = (d,[ph,pr,ru,ex,exru,no])=>{
+    const hi = pr ? ph.replace(new RegExp('\\b('+pr+')\\b','g'),'<b>$1</b>') : ph+'<i class="np">без предлога</i>';
+    return `<button class="row pv" data-id="${d.id}|${ph}" data-say="${(ph+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${hi}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">не так: <s>${no}</s></span>`:''}</span>${SPK_ICON}</button>`};
+  const bodyOf = (p,d)=> p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
+    : p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
     : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
+  // every word's raw data by its data-id, for the breakdown panel
+  const ITEMS = {};
+  SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
+    if(p.kind==='prep'){const [ph,,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,ru,ex:[[ex,exru,'']],no,d,p}}
+    else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
+    else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
+  })));
+  function detailHTML(t){
+    const id=t.dataset.id, it=ITEMS[id]; if(!it) return '';
+    const x=INFO[id]||{}, sec=(h,c,cls='')=>c?`<section class="ps ${cls}"><h4>${h}</h4><div>${c}</div></section>`:'';
+    const seen=new Set(), exs=(x.ex||[]).concat(it.ex||[]).filter(e=>e[0] && !seen.has(e[0]) && seen.add(e[0]));
+    const word = t.querySelector('.en').innerHTML.replace(/<i class="np">.*?<\/i>/,'');
+    return `<div class="ph"><div><div class="pw">${word}</div><div class="pt">${it.ru}</div></div><button class="pspk" data-say="${t.dataset.say}">▶ Звук</button></div>`
+      + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
+      + sec('Что значит', x.m!==it.ru && x.m)
+      + sec('Когда так говорят', x.when)
+      + sec('Предлоги и грамматика', x.gr, 'gr')
+      + sec('Примеры', exs.length ? `<ul class="pex">${exs.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span></li>`).join('')}</ul>` : '')
+      + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : ''), 'warn')
+      + sec('Похожие и противоположные', x.like)
+      + sec('Правило темы', it.p.note || it.d.note)
+      + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
+      + (x.m || it.p.kind==='talk' ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди, пока правило темы.</p>`);
+  }
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
   // ---------- filter (hoisted: setGroup calls it before progress code runs) ----------
@@ -931,7 +2557,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     const km=e.target.closest('.kn-more'); if(km){km.closest('.deck').classList.toggle('showkn'); applyFilter(); return}
     const lk=e.target.closest('.lock'); if(lk){lk.parentNode.classList.add('force'); applyFilter(); return}
     const t=e.target.closest('.tile,.row'); if(!t) return;
-    t.classList.toggle('open'); speak(t.dataset.say,t); openSheet(t);
+    if(e.target.closest('.spk')){speak(t.dataset.say,t); return}
+    t.classList.add('open'); openSheet(t);
   });
 
   // ---------- voice ----------
@@ -990,7 +2617,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // kept in the account (db, owner-only) so phone and computer see the same marks; local copy as fallback
   var prog = {}, ref = null, saveT = null, cur = null;
   try{prog = JSON.parse(localStorage.getItem('cards-progress')||'{}') || {}}catch(e){}
-  const sheet = document.getElementById('sheet'), sw = document.getElementById('sw'), syncEl = document.getElementById('sync');
+  const sheet = document.getElementById('sheet'), pbody = document.getElementById('pbody'), scrim = document.getElementById('scrim'), sw = document.getElementById('sw'), syncEl = document.getElementById('sync');
   const sheetBtns = [...sheet.querySelectorAll('.sb button')];
   const fbtns = [...document.querySelectorAll('#filt button')];
   const allItems = [...document.querySelectorAll('.tile,.row')];
@@ -1009,17 +2636,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     syncEl.textContent = ok ? 'Отметки сохраняются в аккаунте: одни и те же на всех устройствах, у каждого свои.' : 'Отметки пока хранятся только на этом устройстве. Войди в аккаунт Claude, чтобы они не потерялись.';
     document.getElementById('backup').hidden = ok;
   }
-  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; sheet.hidden=false; markSheet()}
+  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; pbody.innerHTML=detailHTML(t); pbody.scrollTop=0;
+    pbody.querySelectorAll('b').forEach(b=>{ if(/[a-z]/i.test(b.textContent) && !/[а-яё]/i.test(b.textContent)) b.classList.add('say') });
+    sheet.hidden=false; scrim.hidden=false; markSheet()}
+  function hideSheet(){sheet.hidden=true; scrim.hidden=true}
   function markSheet(){const s=cur.dataset.st||''; sheetBtns.forEach(b=>b.setAttribute('aria-pressed', String(!!s && b.dataset.st===s)))}
   sheetBtns.forEach(b=>b.addEventListener('click',()=>{
     if(!cur) return;
     const id=cur.dataset.id, s=b.dataset.st;
     if(s) prog[id]={s, t:Date.now()}; else delete prog[id];
     save(); paint();
-    if(filter!=='all' && (cur.dataset.st||'new')!==filter){sheet.hidden=true; cur=null}
+    if(filter!=='all' && (cur.dataset.st||'new')!==filter){hideSheet(); cur=null}
   }));
-  document.getElementById('sx').addEventListener('click',()=>{sheet.hidden=true; cur=null});
-  fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); sheet.hidden=true; cur=null; applyFilter()}));
+  document.getElementById('sx').addEventListener('click',()=>{hideSheet(); cur=null});
+  scrim.addEventListener('click',()=>{hideSheet(); cur=null});
+  pbody.addEventListener('click',e=>{const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
+  fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); hideSheet(); cur=null; applyFilter()}));
   // backup for viewers without an account: progress lives only in this browser
   const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
   document.getElementById('bk-copy').addEventListener('click',()=>{
