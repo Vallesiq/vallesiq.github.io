@@ -121,6 +121,21 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .opts summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--blue);width:max-content;max-width:100%}
 .ohint{margin:6px 0 0;font-size:12px;color:var(--muted)}
 .opts[open]{display:flex;flex-direction:column;gap:10px}
+.tpill{position:fixed;right:16px;bottom:16px;z-index:15;display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 14px;box-shadow:0 4px 14px rgb(0 0 0 / .14);font:700 15px var(--display);color:var(--ink)}
+.tpill[hidden]{display:none}
+.tpill button{font:700 13px var(--display);color:var(--blue);background:var(--soft);border:0;border-radius:999px;padding:7px 11px;cursor:pointer}
+.tpill.done{border-color:var(--blue)}
+.tpill.done #tclock{color:var(--blue)}
+.hsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hsum div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center}
+.hsum b{display:block;font:800 20px var(--display);color:var(--blue)}
+.hsum span{font-size:12px;color:var(--muted)}
+.hall{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
+.hdays{display:flex;flex-direction:column;gap:5px;font-size:13px}
+.hday{display:grid;grid-template-columns:58px 1fr;gap:2px 8px;align-items:center}
+.hday small{grid-column:2;color:var(--muted)}
+.hbar{height:8px;background:var(--soft);border-radius:4px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--blue)}
 
 .crumb button{font:700 14px var(--display);color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
 /* dialog rows: what you hear on top, your answer below in bold */
@@ -309,6 +324,20 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       <button class="reset" id="reset" hidden>Закрыть заново</button>
     </div>
   </details>
+  <details class="opts" id="study">
+    <summary>Занятие и история</summary>
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Таймер" id="tset">
+        <button data-min="10">10 мин</button>
+        <button data-min="20">20 мин</button>
+        <button data-min="30">30 мин</button>
+        <button data-min="0">Без лимита</button>
+      </div>
+    </div>
+    <p class="ohint">Таймер идёт, только пока страница открыта на экране. Минуты, ответы теста и новые «Знаю» копятся по дням ниже.</p>
+    <div id="hist"></div>
+  </details>
+  <div class="tpill" id="tpill" hidden><span id="tclock">0:00</span><button id="tpause">Пауза</button><button id="tstop">Стоп</button></div>
   <p class="nosound" id="nosound" hidden>Этот браузер не умеет озвучивать текст. Открой страницу в Safari или Chrome.</p>
   <div class="bar">
     <div class="seg filt" role="group" aria-label="Показать" id="filt">
@@ -4808,7 +4837,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     if(t.closest('.qagain')){z.i=0; z.picks=[]}
     else if(t.closest('.qprev')) z.i--;
     else if(t.closest('.qnext')) z.i++;
-    else {const b=t.closest('.qopts button'); if(!b || z.picks[z.i]!==undefined) return; z.picks[z.i]=b.textContent; speak(z.q[z.i][2])}
+    else {const b=t.closest('.qopts button'); if(!b || z.picks[z.i]!==undefined) return; z.picks[z.i]=b.textContent; speak(z.q[z.i][2]); logAnswer(b.textContent===z.q[z.i][2])}
     qz.innerHTML=quizView(id);
   }
   // «Проверь себя»: up to 10 words of the open steps that the filter shows. A word's example gets a gap (Russian above),
@@ -4996,6 +5025,58 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   window.addEventListener('popstate',()=>{ if(ownPop){ownPop=false; return} if(root.classList.contains('in-deck')){pushed=false; show(null)} });
   const deep=SHOWN.find(x=>'#'+x.id===location.hash); if(deep) show(deep.id);
 
+  // ---------- study timer and history: minutes on screen, test answers and new «Знаю» per day ----------
+  // Kept per person like the marks (data/users/<id>/history in the account), with a local copy as fallback.
+  // «Знаю» per day is not stored: it is counted from the marks' own timestamps.
+  var hist = {}, hRef = null, hSaveT = null;
+  try{hist = JSON.parse(localStorage.getItem('cards-history')||'{}') || {}}catch(e){}
+  const dayKey = (t=Date.now())=>{const d=new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  const today = ()=>hist[dayKey()] || (hist[dayKey()]={s:0,q:0,ok:0});
+  const mergeHist = (a,b)=>{const o=JSON.parse(JSON.stringify(a||{})); Object.entries(b||{}).forEach(([k,v])=>{const x=o[k]||(o[k]={s:0,q:0,ok:0}); ['s','q','ok'].forEach(f=>{x[f]=Math.max(x[f]||0, v[f]||0)})}); return o};
+  function saveHist(){
+    try{localStorage.setItem('cards-history',JSON.stringify(hist))}catch(e){}
+    if(hRef){clearTimeout(hSaveT); hSaveT=setTimeout(()=>{hSaveT=null; hRef.set({days:hist, updated:Date.now()}).catch(()=>{hRef=null})}, 1500)}
+    if(document.getElementById('study').open) drawHist();
+  }
+  function logAnswer(right){const d=today(); d.q++; if(right) d.ok++; saveHist()}
+  const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'], mins=x=>Math.round((x||0)/60);
+  const daysWord=n=>n%10===1 && n%100!==11 ? 'день' : [2,3,4].includes(n%10) && ![12,13,14].includes(n%100) ? 'дня' : 'дней';
+  function drawHist(){
+    const kn={}; Object.values(prog).forEach(v=>{ if(v && v.s==='known' && v.t){const k=dayKey(v.t); kn[k]=(kn[k]||0)+1} });
+    const days=[]; for(let i=0;i<60;i++){const t=Date.now()-i*864e5; days.push([dayKey(t), new Date(t)])}
+    const act=k=>{const h=hist[k]||{}; return (h.s||0)>=60 || h.q || kn[k]};
+    let streak=0; for(let i=0;i<days.length;i++){ if(act(days[i][0])) streak++; else if(i) break }
+    const week=days.slice(0,7).reduce((a,[k])=>a+((hist[k]||{}).s||0),0), t=today();
+    const known=allItems.filter(x=>x.dataset.st==='known').length, maxS=Math.max(600,...days.slice(0,7).map(([k])=>(hist[k]||{}).s||0));
+    document.getElementById('hist').innerHTML =
+      `<div class="hsum"><div><b>${mins(t.s)}</b><span>мин сегодня</span></div><div><b>${mins(week)}</b><span>мин за 7 дней</span></div><div><b>${streak}</b><span>${daysWord(streak)} подряд</span></div></div>`
+      + `<p class="hall">Знаю ${known} из ${allItems.length} слов. Сегодня в тесте ${t.ok} из ${t.q} верно, в «Знаю» ушло ${kn[dayKey()]||0}.</p>`
+      + `<div class="hdays">${days.slice(0,7).map(([k,d])=>{const h=hist[k]||{}; return `<div class="hday"><span>${WD[d.getDay()]} ${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span><span class="hbar"><i style="width:${Math.min(100,(h.s||0)/maxS*100)}%"></i></span><small>${act(k) ? `${mins(h.s)} мин${h.q?` · тест ${h.ok} из ${h.q}`:''}${kn[k]?` · «Знаю» +${kn[k]}`:''}` : '—'}</small></div>`}).join('')}</div>`;
+  }
+  document.getElementById('study').addEventListener('toggle',e=>{ if(e.target.open) drawHist() });
+
+  // the timer counts only while the page is on screen; at the goal it speaks, and «Ещё 5» adds five minutes
+  const tpill=document.getElementById('tpill'), tclock=document.getElementById('tclock'), tpause=document.getElementById('tpause');
+  let tRun=false, tGoal=0, tSpent=0, tLast=0, tInt=null, tDone=false, tN=0;
+  const fmt=x=>Math.floor(x/60)+':'+String(Math.floor(x%60)).padStart(2,'0');
+  const tShow=()=>{tclock.textContent = tDone ? 'Готово · '+mins(tGoal)+' мин' : tGoal ? fmt(Math.max(0,tGoal-tSpent)) : fmt(tSpent)};
+  function tick(){
+    const now=Date.now(), dt=Math.min(2,(now-tLast)/1000); tLast=now;
+    if(!tRun || document.visibilityState!=='visible') return;
+    tSpent+=dt; today().s+=dt; if(++tN%15===0) saveHist();
+    if(tGoal && tSpent>=tGoal){tRun=false; tDone=true; tpill.classList.add('done'); tpause.textContent='Ещё 5'; saveHist(); speak('Time is up. Great job!'); try{navigator.vibrate && navigator.vibrate([200,100,200])}catch(e){}}
+    tShow();
+  }
+  function tStart(min){tGoal=min*60; tSpent=0; tDone=false; tRun=true; tLast=Date.now(); tpill.hidden=false; tpill.classList.remove('done'); tpause.textContent='Пауза'; clearInterval(tInt); tInt=setInterval(tick,1000); tShow()}
+  document.querySelectorAll('#tset button').forEach(b=>b.addEventListener('click',()=>tStart(+b.dataset.min)));
+  tpause.addEventListener('click',()=>{
+    if(tDone){tGoal+=300; tDone=false; tRun=true; tpill.classList.remove('done'); tpause.textContent='Пауза'}
+    else {tRun=!tRun; tpause.textContent = tRun ? 'Пауза' : 'Дальше'}
+    tLast=Date.now(); tShow();
+  });
+  document.getElementById('tstop').addEventListener('click',()=>{tRun=false; clearInterval(tInt); tpill.hidden=true; saveHist()});
+  document.addEventListener('visibilitychange',()=>{tLast=Date.now(); if(document.visibilityState==='hidden') saveHist()});
+
   // ask the browser not to evict local marks (matters for the standalone copy without an account)
   try{navigator.storage && navigator.storage.persist && navigator.storage.persist()}catch(e){}
   (async()=>{
@@ -5014,6 +5095,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
           if(!mine.exists && om){prog = Object.assign(JSON.parse(JSON.stringify(om)), prog); await ref.set({m:prog, updated:Date.now()})}
         }catch(e){}
       }
+      // history lives next to the marks; two devices merge by taking the larger number of each day
+      if(uid){ try{hRef=db.doc('data/users/'+uid+'/history'); const h=await hRef.get(); hist=mergeHist(h.exists?(h.data()||{}).days:{}, hist); saveHist()}catch(e){hRef=null} }
       ref.onSnapshot(snap=>{
         if(saveT || snap.metadata.hasPendingWrites) return;
         const m = snap.exists ? (snap.data()||{}).m : null;
