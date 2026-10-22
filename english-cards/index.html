@@ -107,6 +107,21 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .pv .ru{font-size:12.5px}
 .pv .no{font-size:12.5px;color:var(--warn-fg);margin-top:3px}
 .pv .lit{font-size:12px;color:var(--muted);font-style:italic}
+/* chameleon verbs: one verb, meaning set by what follows; a formula keeps its colour in the map, its header, its phrases and the panel */
+:root{--v1:#B46A00;--v2:#D2431A;--v3:#C2255C;--v4:#6741D9;--v5:#0B8A5F;--v6:#1971C2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--v1:#F5A524;--v2:#FF7A50;--v3:#F06595;--v4:#A08BFF;--v5:#3DD9A4;--v6:#5CB0FF}}
+:root[data-theme="dark"]{--v1:#F5A524;--v2:#FF7A50;--v3:#F06595;--v4:#A08BFF;--v5:#3DD9A4;--v6:#5CB0FF}
+.vf{font-weight:800;color:var(--ink)}
+.vf b,.vr .en b{color:var(--vc)}
+.vmap{display:flex;flex-direction:column;gap:7px;background:var(--bg);border-radius:12px;padding:12px 14px}
+.vm{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;border-left:3px solid var(--vc);padding-left:10px}
+.vm .vf{font-size:13.5px}
+.vm>span:last-child{font-size:12.5px;font-weight:500;color:var(--muted)}
+.vg{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--vc);padding-left:10px}
+.vg:not(:has(.row:not(.fo))){display:none}
+.vh{font-size:clamp(16px,4.4vw,19px);letter-spacing:.01em;padding-top:4px}
+.vh small{display:block;margin-top:2px;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:0}
+.ps.vp>div{border-left:3px solid var(--vc);padding-left:10px}
 .filt button{display:inline-flex;align-items:center;gap:6px}
 .filt button[data-st]::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--st)}
 .filt button[data-f="new"]::before{content:"";width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor}
@@ -654,6 +669,160 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['ready for','for','готов к','Are you ready for the trip?','Готов к поездке?',''],
     ['sorry for · sorry about','for|about','извини за','Sorry for being late. Sorry about that.','Извини за опоздание. Извини за это.',''],
   ], note:'После прилагательного предлог держится так же крепко, как после глагола: <b>good at</b>, <b>afraid of</b>, <b>interested in</b>. После любого предлога глагол берёт <b>-ing</b>: good at <b>editing</b>, tired of <b>waiting</b>, sorry for <b>being</b> late.'},
+
+  // ===== глаголы-хамелеоны: смысл решает то, что стоит после =====
+  // verb:true: forms are [key, 'GET + *слот*', что значит, как устроено]; rows are [phrase with *slot*, перевод, key, example, its translation, typical mistake]
+  {id:'get', verb:true, title:'GET', ru:'Глагол-хамелеон: смысл решает то, что стоит после', forms:[
+    ['n','GET + *вещь*','получить, взять, купить','После get стоит предмет, и смысл простой: этот предмет оказывается у тебя. Как именно, подсказывает ситуация. Письмо приходит, значит «получить». Кофе покупаешь, значит «взять». Работу ищешь, значит «найти». По-русски это три разных глагола, а по-английски один.'],
+    ['u','GET + *it*','понять','Отдельный смысл, который легко пропустить: get it значит «понять». Это одна из самых частых фраз в живой речи. <b>I don\'t get it</b> = не понимаю, <b>Got it</b> = понял, принято.'],
+    ['a','GET + *какой*','стать, начать чувствовать','После get стоит прилагательное, то есть слово «какой»: tired, nervous, cold. Смысл: ты становишься таким. Это процесс, поэтому про то, что происходит прямо сейчас, говорят с -ing: <b>I\'m getting tired</b> = я начинаю уставать.'],
+    ['p','GET + *куда*','добраться, попасть','После get стоит место. Смысл: добраться туда, неважно на чём. Перед местом нужен to: <b>get to the gym</b>. Без to говорят только home, there, here и downtown: <b>get home</b>, <b>get there</b>.'],
+    ['s','GET + *кого-то* + TO + делать','добиться, уговорить','После get стоит человек, потом to и глагол. Смысл: ты добился, чтобы он что-то сделал, обычно не сразу и не силой. To здесь обязателен. В этом главное отличие от make, где to нет: <b>make her smile</b>, но <b>get her to smile</b>.'],
+    ['ph','GET + *частица*','совсем новый глагол','После get стоит короткое слово: up, in, over, back. Вместе получается новый глагол со своим смыслом, и по частям его не угадать. Учи как отдельное слово.'],
+  ], rows:[
+    ['get *a letter*','получить письмо','n','I got a letter from the bank.','Мне пришло письмо из банка.',''],
+    ['get *a taxi*','взять такси','n','Let\'s get a taxi to the airport.','Давай возьмём такси до аэропорта.',''],
+    ['get *a coffee*','взять кофе (купить)','n','I\'ll get a coffee before the gym.','Возьму кофе перед залом.',''],
+    ['get *a job*','найти работу','n','She got a job in Tbilisi.','Она нашла работу в Тбилиси.',''],
+    ['get *it*','понять','u','Sorry, I don\'t get it.','Извини, не понимаю.',''],
+    ['got *it*','понял, принято','u','Got it, thanks!','Понял, спасибо!',''],
+    ['get *the joke*','понять шутку','u','He didn\'t get the joke.','Он не понял шутку.',''],
+    ['get *the hint*','понять намёк','u','OK, I get the hint. I\'m leaving.','Ладно, понял намёк. Ухожу.',''],
+    ['get *nervous*','начать нервничать','a','I always get nervous before a call.','Перед звонком я всегда начинаю нервничать.',''],
+    ['get *tired*','устать','a','I get tired after the gym.','После зала я устаю.',''],
+    ['get *sick*','заболеть','a','Don\'t get sick before the trip.','Не заболей перед поездкой.',''],
+    ['get *cold*','холодать, замёрзнуть','a','It gets cold at night.','Ночью холодает.',''],
+    ['get *ready*','собираться, готовиться','a','Give me ten minutes, I\'m getting ready.','Дай десять минут, я собираюсь.',''],
+    ['get *better*','стать лучше, поправиться','a','Your English is getting better.','Твой английский становится лучше.',''],
+    ['get *to the gym*','добраться до зала','p','How long does it take to get to the gym?','Сколько добираться до зала?',''],
+    ['get *home*','добраться домой','p','Text me when you get home.','Напиши, когда доберёшься домой.','get to home'],
+    ['get *there*','добраться туда','p','We got there early.','Мы приехали туда рано.','get to there'],
+    ['get *downtown*','доехать до центра','p','How do I get downtown?','Как доехать до центра?','get to downtown'],
+    ['get *her to smile*','добиться, чтобы она улыбнулась','s','I finally got her to smile.','Я наконец заставил её улыбнуться.','got her smile'],
+    ['get *them to agree*','уговорить их согласиться','s','How did you get them to agree?','Как ты их уговорил?',''],
+    ['get *him to leave*','выпроводить его','s','We couldn\'t get him to leave.','Мы никак не могли его выпроводить.',''],
+    ['get *the car to start*','кое-как завести машину','s','I couldn\'t get the car to start.','Я не смог завести машину.',''],
+    ['get *up*','встать (с кровати)','ph','I get up at seven.','Я встаю в семь.',''],
+    ['get *in*','сесть (в машину, такси)','ph','Get in, we\'re late!','Садись, мы опаздываем!','get on the car'],
+    ['get *back*','вернуться','ph','When did you get back?','Когда ты вернулся?',''],
+    ['get *away*','сбежать, уйти от','ph','The thief got away.','Вор сбежал.',''],
+    ['get *over*','пережить, отойти от','ph','She got over the breakup.','Она пережила расставание.',''],
+    ['get *along*','ладить','ph','We get along really well.','Мы отлично ладим.','we get along good'],
+  ], note:'GET сам по себе почти ничего не значит, смысл ему даёт следующее слово. Поэтому не учи «get = получать», а смотри, что стоит сразу после него: вещь, «какой», место, человек или частица. Каждая такая формула на этой карточке своего цвета. Get в живой речи заменяет книжные слова: receive (получить), become (стать), arrive (прибыть), understand (понять). Скажешь их, и тебя поймут, но звучать будет как из учебника.', steps:[
+    {title:'GET + третья форма', ru:'Сделали за тебя, случилось с тобой, «у меня есть»', verb:true, forms:[
+      ['d','GET + *вещь* + V3','сделать чужими руками','После get стоит вещь и третья форма глагола (V3: cut, fixed, done). Смысл: это для тебя сделал кто-то другой, мастер или сервис. <b>I got my hair cut</b> = меня подстригли в парикмахерской. А <b>I cut my hair</b> значит, что ты стриг себя сам.'],
+      ['v','GET + *V3*','это с тобой случилось','После get сразу третья форма: married, lost, fired. Смысл: это случилось с тобой. <b>I got lost</b> = я заблудился, <b>he got fired</b> = его уволили. Это разговорная замена be: <b>he was fired</b> звучит официально, <b>he got fired</b> говорят в жизни.'],
+      ['hg','HAVE *GOT*','у меня есть · мне надо','Здесь get уже не про «получить». <b>I\'ve got a car</b> значит просто «у меня есть машина», это разговорная форма have. <b>I\'ve got to go</b> = мне надо идти, в быстрой речи звучит как <b>gotta go</b>.'],
+    ], rows:[
+      ['get *my hair cut*','подстричься (у мастера)','d','I need to get my hair cut.','Мне надо подстричься.','I need to cut my hair|так ты стрижёшь себя сам'],
+      ['get *my phone fixed*','отдать телефон в ремонт','d','I got my phone fixed yesterday.','Вчера мне починили телефон.',''],
+      ['get *it done*','сделать, довести до конца','d','Let\'s get it done today.','Давай закончим это сегодня.',''],
+      ['get *married*','пожениться','v','They got married last year.','Они поженились в прошлом году.','got married with her'],
+      ['get *lost*','заблудиться','v','We got lost in the old town.','Мы заблудились в старом городе.',''],
+      ['get *fired*','вылететь с работы','v','He got fired last week.','Его уволили на прошлой неделе.',''],
+      ['get *hurt*','пораниться, ушибиться','v','Be careful, don\'t get hurt.','Осторожно, не ушибись.',''],
+      ['get *dressed*','одеться','v','Get dressed, we\'re leaving.','Одевайся, мы уходим.',''],
+      ['I\'ve *got* a car','у меня есть машина','hg','I\'ve got two brothers.','У меня два брата.',''],
+      ['I\'ve *got to* go','мне надо идти','hg','Sorry, I\'ve got to go.','Извини, мне надо бежать.',''],
+    ], note:'Третья форма (V3) это то, что стоит в таблицах неправильных глаголов последним: cut, fixed, done, lost. Правило простое. Есть вещь между get и V3, значит работу сделал кто-то другой. Вещи нет, значит это случилось с тобой самим. Про <b>married</b>: <b>get married to her</b> или просто <b>marry her</b>, но не with.'},
+  ]},
+
+  {id:'take', verb:true, title:'TAKE', ru:'Взять, поехать, занять время, сделать: решает слово после', forms:[
+    ['t','TAKE + *вещь*','взять, принять','После take стоит предмет: взять его с собой или в себя. Сюда же таблетки и фото, и именно тут русские чаще всего ошибаются: таблетки не drink, а <b>take</b>, фото не make, а <b>take</b>.'],
+    ['tr','TAKE + *транспорт*','поехать на','После take стоит транспорт: автобус, метро, такси. Смысл: воспользоваться им, поехать на нём. <b>I take the bus</b> = я езжу на автобусе.'],
+    ['tm','IT TAKES + *время*','занимает, уходит (времени)','Особая конструкция: <b>it takes</b> + время + to и что делаешь. По-русски «на это уходит час», по-английски «это берёт час». Хочешь сказать, у кого ушло время, ставь его после took: <b>it took me an hour</b>.'],
+    ['a','TAKE + *действие*','сделать (один раз)','После take стоит действие как существительное: душ, перерыв, взгляд. Вместе это одно короткое дело. Запоминай парой, потому что с другими глаголами так не скажут.'],
+    ['ph','TAKE + *частица*','новый глагол','Как у get: take с короткими словами off, out, care of даёт новые глаголы. Учи их целиком.'],
+  ], rows:[
+    ['take *an umbrella*','взять зонт','t','Take an umbrella, it\'s raining.','Возьми зонт, идёт дождь.',''],
+    ['take *a pill*','принять таблетку','t','Take one pill twice a day.','Принимайте по таблетке два раза в день.','drink a pill'],
+    ['take *a photo*','сфотографировать','t','Can you take a photo of us?','Можете нас сфотографировать?','make a photo'],
+    ['take *the bus*','поехать на автобусе','tr','I take the bus to the gym.','Я езжу в зал на автобусе.',''],
+    ['take *the metro*','поехать на метро','tr','Take the metro, it\'s faster.','Езжай на метро, так быстрее.',''],
+    ['take *a taxi*','поехать на такси','tr','We took a taxi from the airport.','Из аэропорта мы ехали на такси.',''],
+    ['it takes *20 minutes*','это занимает 20 минут','tm','It takes 20 minutes to get there.','Туда добираться 20 минут.','it needs 20 minutes'],
+    ['it took *me an hour*','у меня ушёл час','tm','It took me an hour to edit this video.','На монтаж этого ролика у меня ушёл час.','it took to me an hour'],
+    ['take *time*','требовать времени','tm','Learning English takes time.','Английский требует времени.',''],
+    ['take *a shower*','принять душ','a','I\'ll take a shower after the gym.','После зала приму душ.',''],
+    ['take *a break*','сделать перерыв','a','Let\'s take a break.','Давай сделаем перерыв.','make a break'],
+    ['take *a look*','взглянуть','a','Take a look at this video.','Глянь на этот ролик.',''],
+    ['take *a nap*','вздремнуть','a','I took a nap after lunch.','После обеда я вздремнул.',''],
+    ['take *off*','снять (одежду) · взлететь','ph','Take off your shoes, please. The plane took off.','Сними обувь, пожалуйста. Самолёт взлетел.',''],
+    ['take *out*','вынести, вытащить','ph','Can you take out the trash?','Можешь вынести мусор?',''],
+    ['take *care of*','позаботиться, разобраться с','ph','Don\'t worry, I\'ll take care of it.','Не переживай, я с этим разберусь.',''],
+  ], note:'Главная ловушка для русских: по-русски «делать фото», «пить таблетки», «делать перерыв», а по-английски во всех трёх <b>take</b>: take a photo, take a pill, take a break. Если хочется сказать make или drink, проверь, нет ли здесь take.'},
+
+  {id:'make', verb:true, title:'MAKE', ru:'Создать, заставить, сделать каким, успеть', forms:[
+    ['c','MAKE + *вещь*','сделать, приготовить','После make стоит то, чего раньше не было: кофе, ужин, ролик. Смысл: создать это своими руками.'],
+    ['n','MAKE + *ошибку, решение…*','пары, которые учат вместе','С некоторыми словами всегда идёт make, хотя по-русски глагол другой: ошибиться, принять решение, зарабатывать. Логики почти нет, запоминай парой.'],
+    ['s','MAKE + *кого-то* + делать','заставить, вызвать','После make стоит человек и глагол <b>без to</b>. Смысл: ты (или что-то) вызвал у него это действие. <b>This video made me laugh</b> = этот ролик меня рассмешил. Сравни с get, где to нужен: <b>get her to smile</b>.'],
+    ['adj','MAKE + *кого-то* + какой','делать каким','После make стоит человек или вещь и прилагательное. Смысл: сделать его таким. <b>You make me happy</b> = ты делаешь меня счастливым.'],
+    ['it','MAKE *IT*','успеть, получилось, прийти','<b>Make it</b> без всего значит «справиться, успеть, добраться». <b>We made it!</b> = успели, получилось. <b>I can\'t make it tonight</b> = не смогу прийти вечером.'],
+  ], rows:[
+    ['make *coffee*','сварить кофе','c','I\'ll make coffee for us.','Я сварю нам кофе.',''],
+    ['make *dinner*','приготовить ужин','c','I\'m making dinner tonight.','Сегодня ужин готовлю я.',''],
+    ['make *a video*','сделать ролик','c','I make short videos for YouTube.','Я делаю короткие ролики для YouTube.',''],
+    ['make *a mistake*','ошибиться','n','Everybody makes mistakes.','Все ошибаются.','do a mistake'],
+    ['make *a decision*','принять решение','n','I need to make a decision today.','Мне нужно сегодня решить.','accept a decision'],
+    ['make *money*','зарабатывать','n','How do you make money on YouTube?','Как зарабатывают на YouTube?',''],
+    ['make *friends*','заводить друзей','n','It\'s easy to make friends in Tbilisi.','В Тбилиси легко завести друзей.',''],
+    ['make *sure*','убедиться, проследить','n','Make sure the door is locked.','Проверь, что дверь заперта.',''],
+    ['make *me laugh*','рассмешить меня','s','This video made me laugh.','Этот ролик меня рассмешил.','made me to laugh'],
+    ['make *me cry*','довести до слёз','s','The ending made me cry.','Концовка довела меня до слёз.','made me to cry'],
+    ['make *him wait*','заставить его ждать','s','Don\'t make him wait.','Не заставляй его ждать.',''],
+    ['make *me happy*','радовать меня','adj','Small things make me happy.','Меня радуют мелочи.',''],
+    ['make *her angry*','разозлить её','adj','You\'re making her angry.','Ты её злишь.',''],
+    ['make *it better*','сделать лучше','adj','One more caption will make it better.','Ещё одна плашка сделает лучше.',''],
+    ['make *it*','успеть, справиться','it','We made it! The gym is still open.','Успели! Зал ещё открыт.',''],
+    ['can\'t make *it*','не смогу прийти','it','Sorry, I can\'t make it tonight.','Извини, сегодня не смогу.',''],
+  ], note:'Make или do? <b>Make</b> создаёт то, чего не было: make coffee, make a video, make a mistake. <b>Do</b> выполняет работу или дело: do homework, do the dishes, do sports, do your best. Если результат можно потрогать или показать, почти всегда make.'},
+
+  {id:'have', verb:true, title:'HAVE', ru:'Есть у меня, поесть, провести, надо', forms:[
+    ['o','HAVE + *вещь*','у меня есть','После have стоит то, что у тебя есть: машина, брат, время. По-русски «у меня есть», по-английски «я имею», и <b>am</b> здесь не нужен.'],
+    ['f','HAVE + *еда, напиток*','есть, пить','После have стоит еда или напиток. Смысл: съесть или выпить. Так говорят чаще, чем eat и drink: <b>have breakfast</b>, <b>have a coffee</b>.'],
+    ['e','HAVE + *событие*','провести, устроить, пережить','После have стоит событие или состояние: вечеринка, встреча, хорошее время, головная боль. Смысл: это у тебя происходит.'],
+    ['to','HAVE TO + *делать*','надо, приходится','<b>Have to</b> + глагол = надо, приходится, обычно из-за обстоятельств. В прошлом <b>had to</b>: we had to wait. А <b>don\'t have to</b> значит «не обязательно», не путай с <b>mustn\'t</b> = нельзя.'],
+    ['d','HAVE + *вещь* + V3','сделать чужими руками','Как get something done, только чуть официальнее: <b>I had my car fixed</b> = мне починили машину.'],
+  ], rows:[
+    ['have *a car*','есть машина','o','I have a car, but I take the bus.','Машина у меня есть, но я езжу на автобусе.','I am have a car'],
+    ['have *time*','есть время','o','Do you have time for a coffee?','Есть время на кофе?',''],
+    ['have *a brother*','есть брат','o','I have a younger sister.','У меня есть младшая сестра.',''],
+    ['have *breakfast*','завтракать','f','I have breakfast at eight.','Я завтракаю в восемь.','have a breakfast'],
+    ['have *a coffee*','выпить кофе','f','Let\'s have a coffee.','Давай выпьем кофе.',''],
+    ['have *lunch*','обедать','f','Where do you want to have lunch?','Где хочешь пообедать?',''],
+    ['have *a good time*','хорошо провести время','e','Have a good time!','Хорошо вам провести время!',''],
+    ['have *a party*','устроить вечеринку','e','We\'re having a party on Friday.','В пятницу у нас вечеринка.','make a party'],
+    ['have *a headache*','болит голова','e','I have a headache.','У меня болит голова.','my head is sick'],
+    ['have *a cold*','простыть','e','I have a cold, I\'ll stay home.','Я простыл, посижу дома.',''],
+    ['have *to go*','надо идти','to','I have to go, see you!','Мне пора, увидимся!',''],
+    ['had *to wait*','пришлось ждать','to','We had to wait an hour.','Нам пришлось ждать час.','we must wait an hour|у must нет прошедшего'],
+    ['don\'t have *to*','не обязательно','to','You don\'t have to pay, it\'s free.','Платить не нужно, это бесплатно.','you mustn\'t pay|это «платить нельзя»'],
+    ['have *my car fixed*','отдать машину в ремонт','d','I had my car fixed last week.','На прошлой неделе мне починили машину.',''],
+    ['have *it delivered*','заказать с доставкой','d','I\'ll have it delivered to my place.','Закажу с доставкой домой.',''],
+  ], note:'Have это три разных глагола в одном: «у меня есть» (have a car), «поесть или выпить» (have lunch) и «надо» (have to go). Отличаются они тем, что стоит после: вещь, еда или to с глаголом. В вопросе всегда do: <b>Do you have</b> time? Не «Have you time?», так говорят только в старых британских книжках.'},
+
+  {id:'go', verb:true, title:'GO', ru:'Куда, чем заняться, каким стать, что дальше', forms:[
+    ['p','GO + *куда*','идти, ехать','После go стоит место с to: <b>go to the gym</b>. Без to только home, there, here, downtown, abroad: <b>go home</b>.'],
+    ['ing','GO + *-ing*','пойти заниматься','После go стоит глагол с -ing: shopping, swimming, running. Смысл: пойти чем-то заняться, обычно в свободное время. To здесь не нужен.'],
+    ['a','GO + *какой*','стать (само, обычно хуже)','Как get + какой, но про резкую перемену, которая случилась сама: сойти с ума, испортиться, завируситься. <b>The video went viral</b> = ролик разлетелся.'],
+    ['ph','GO + *частица*','новый глагол','Go с on, out, back, off даёт новые глаголы. <b>What\'s going on?</b> = что происходит?'],
+    ['f','BE GOING TO + *делать*','собираюсь','Это уже не про движение: <b>I\'m going to call her</b> = я собираюсь ей позвонить. В быстрой речи <b>gonna</b>: I\'m gonna call her.'],
+  ], rows:[
+    ['go *to the gym*','ходить в зал','p','I go to the gym four times a week.','Хожу в зал четыре раза в неделю.','go in the gym'],
+    ['go *home*','идти домой','p','I\'m tired, I\'m going home.','Я устал, иду домой.','go to home'],
+    ['go *shopping*','пойти по магазинам','ing','Let\'s go shopping on Saturday.','Давай в субботу пройдёмся по магазинам.','go to shopping'],
+    ['go *swimming*','пойти плавать','ing','We went swimming in the sea.','Мы ходили купаться в море.',''],
+    ['go *running*','пойти на пробежку','ing','I go running in the morning.','По утрам бегаю.',''],
+    ['go *crazy*','сойти с ума, взорваться (о толпе)','a','The fans went crazy.','Фанаты сошли с ума.',''],
+    ['go *bad*','испортиться (о еде)','a','The milk went bad.','Молоко испортилось.',''],
+    ['go *viral*','завируситься, разлететься','a','This short went viral overnight.','Этот шортс разлетелся за ночь.',''],
+    ['go *quiet*','затихнуть','a','The whole room went quiet.','Весь зал затих.',''],
+    ['go *on*','продолжать · происходить','ph','Go on, I\'m listening. What\'s going on?','Продолжай, я слушаю. Что происходит?',''],
+    ['go *out*','сходить куда-то (вечером)','ph','Do you want to go out tonight?','Сходим куда-нибудь вечером?',''],
+    ['go *back*','вернуться','ph','I want to go back to Tbilisi.','Хочу вернуться в Тбилиси.',''],
+    ['go *off*','сработать (будильник, сигнализация)','ph','My alarm went off at six.','Будильник зазвонил в шесть.',''],
+    ['going *to call*','собираюсь позвонить','f','I\'m going to call her tomorrow.','Завтра я ей позвоню.',''],
+  ], note:'Go + какой и get + какой оба значат «стать». Разница в характере перемены. <b>Get</b> постепенно и обычно: get tired, get cold. <b>Go</b> резко, само и чаще к худшему: go crazy, go bad, go bald (облысеть). Исключение для каналов: <b>go viral</b>, это к лучшему.'},
 
   {id:'feelings', title:'Feelings', ru:'Чувства и состояния', cols:4, tiles:[
     ['HAPPY','счастлив, рад', FACE+EYES()+SMILE],
@@ -3331,7 +3500,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
   // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
   const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
-  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':p.idiom?'idiom':k, items:p[k].filter(forWord), note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':p.idiom?'idiom':p.verb?'verb':k, items:p[k].filter(forWord), forms:p.forms, note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
   // talk:true rows are [heard, its translation, your answer, its translation]; a heard line in (brackets) is a situation in Russian
   const talkRow = (d,[q,qru,a,aru])=>{const sit=/^\(/.test(q), say=((sit?'':q+' ... ')+a).replace(/"/g,'&quot;');
@@ -3342,7 +3511,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     return `<button class="row pv" data-id="${d.id}|${ph}" data-say="${(ph+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${hi}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">не так: <s>${no}</s></span>`:''}</span>${SPK_ICON}</button>`};
   // idiom:true rows are [phrase, что значит, дословно ('' if nothing funny), example, its translation]
   const idiomRow = (d,[ph,ru,lit,ex,exru])=>`<button class="row pv" data-id="${d.id}|${ph.replace(/"/g,'')}" data-say="${(ph+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${ph}</span><span class="ru">${ru}</span>${lit?`<span class="lit">дословно: ${lit}</span>`:''}<span class="ex">${ex}</span><span class="ru">${exru}</span></span>${SPK_ICON}</button>`;
-  const bodyOf = (p,d)=> p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
+  // verb:true: the verb's map on top (every formula in its colour), then the rows grouped under each formula.
+  // A row is [phrase with *slot*, перевод, form key, example, its translation, mistake as 'wrong' or 'wrong|почему']
+  const slot = s=>s.replace(/\*(.+?)\*/g,'<b>$1</b>'), plain = s=>s.replace(/\*/g,'');
+  const vc = i=>` style="--vc:var(--v${i%6+1})"`;
+  const noHTML = no=>{const [w,why]=no.split('|'); return `не так: <s>${w}</s>${why?`, ${why}`:''}`};
+  const verbRow = (d,[ph,ru,,ex,exru,no])=>`<button class="row pv vr" data-id="${d.id}|${plain(ph).replace(/"/g,'')}" data-say="${(plain(ph)+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${slot(ph)}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
+  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<div class="vm"${vc(i)}><span class="vf">${slot(f[1])}</span><span>${f[2]}</span></div>`).join('')}</div>`
+    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small></div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
+  const bodyOf = (p,d)=> p.kind==='verb' ? verbBody(p,d)
+    : p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
     : p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
     : p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
     : p.kind==='rows'
@@ -3351,13 +3529,14 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
     if(p.kind==='prep'){const [ph,,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,ru,ex:[[ex,exru,'']],no,d,p}}
     else if(p.kind==='idiom'){const [ph,ru,lit,ex,exru]=t; ITEMS[d.id+'|'+ph.replace(/"/g,'')]={en:ph,ru,lit,ex:[[ex,exru,d.id==='my-captions'?'твой ролик':'']],d,p}}
+    else if(p.kind==='verb'){const [ph,ru,key,ex,exru,no]=t, i=p.forms.findIndex(f=>f[0]===key); ITEMS[d.id+'|'+plain(ph).replace(/"/g,'')]={en:plain(ph),ru,ex:[[ex,exru,'']],vno:no,form:p.forms[i],fi:i,d,p}}
     else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
   })));
@@ -3369,15 +3548,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     return `<div class="ph"><div><div class="pw">${word}</div><div class="pt">${it.ru}</div></div><button class="pspk" data-say="${t.dataset.say}">▶ Звук</button></div>`
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
       + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
+      + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Формула</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}. ${it.form[3]}</div></section>` : '')
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
       + sec('Примеры', exs.length ? `<ul class="pex">${exs.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span></li>`).join('')}</ul>` : '')
-      + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : ''), 'warn')
+      + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : it.vno ? noHTML(it.vno).replace(/^не/,'Не') : ''), 'warn')
       + sec('Похожие слова: в чём разница', x.like)
       + sec('Правило темы', it.p.note || it.d.note)
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
-      + (x.m || x.when || it.p.kind==='talk' ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди, пока правило темы.</p>`);
+      + (x.m || x.when || it.p.kind==='talk' || it.form ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди, пока правило темы.</p>`);
   }
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
