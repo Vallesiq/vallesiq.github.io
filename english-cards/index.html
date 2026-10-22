@@ -147,6 +147,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .vpos b{font-weight:700;color:var(--vc)}
 .vpos i{font-style:normal;font-weight:700;color:var(--ink)}
 .vh .vpos{margin-top:4px}
+/* part of speech under a deck title and a step title */
+.dpos{text-align:center;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:-10px}
+.dpos i,.spos i,.ps i.pi{font-style:normal;font-weight:700;color:var(--ink)}
+#app:not(.in-deck) .dpos{text-align:left;margin-top:0}
+.sh .spos{font-weight:600}
 .vp .vpos{margin:6px 0}
 .vm.on{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--vc)}
 /* formulas work as tabs: nothing open shows only the map; with a filter on, every group shows */
@@ -373,7 +378,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // ---------- decks ----------
   const DECKS = [
   // ===== разговор: когда не понял или забыл слово =====
-  {id:'rescue', group:'talk', title:'Say That Again?', ru:'Не понял, забыл слово, нужно время', tiles:[
+  {id:'rescue', pos:'phr', group:'talk', title:'Say That Again?', ru:'Не понял, забыл слово, нужно время', tiles:[
     ['SORRY?','что-что? (не расслышал)', BUBBLE('?',22)],
     ['SAY THAT AGAIN?','повторите?', `<path d="M48 40a17 17 0 1 1-2-17"/><path d="M48 12v12H36"/><text class="t" x="31" y="38" font-size="15">?</text>`, 'could you say that again?'],
     ['SLOWER, PLEASE','помедленнее, пожалуйста', `<circle cx="28" cy="38" r="11"/><path d="M28 38a4 4 0 1 1 4-4M16 50h36q6 0 6-8v-8M54 34l-3-8M58 34l3-8"/>`, 'could you speak slower, please?'],
@@ -389,7 +394,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Переспрашивать нормально, носители делают это постоянно. <b>Sorry?</b> с вопросом в голосе вежливее, чем <b>What?</b>. Забыл слово, не замолкай, опиши его: <b>the thing for opening bottles</b>. <b>Like</b> и <b>I mean</b> дают пару секунд подумать, так тянут время все. Скажи прямо: <b>I\'m still learning English, could you speak slower?</b> После этого с тобой начнут говорить проще.'},
 
   // ===== Разговор: тебе говорят, ты отвечаешь =====
-  {id:'smalltalk', group:'talk', talk:true, title:'Small Talk', ru:'Тебя спрашивают: что ответить', rows:[
+  {id:'smalltalk', pos:'phr', group:'talk', talk:true, title:'Small Talk', ru:'Тебя спрашивают: что ответить', rows:[
     ['How are you?','Как дела?','Good, thanks. And you?','Хорошо, спасибо. А ты?'],
     ['How\'s it going?','Как оно?','Not bad. You?','Неплохо. А у тебя?'],
     ['What\'s up?','Как жизнь? Что нового?','Not much. Just working.','Да ничего. Работаю.'],
@@ -402,7 +407,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['Have a good one!','Хорошего дня!','You too!','И тебе!'],
   ], note:'На <b>How are you?</b> не рассказывают, как дела на самом деле: это приветствие, хватает <b>Good, you?</b>. <b>What do you do?</b> = кем работаешь. «Что ты сейчас делаешь» это <b>What are you doing?</b>. Ответ можно расширить одной фразой, и разговор пойдёт сам: <b>I make videos for YouTube, short ones.</b>'},
 
-  {id:'everyday', group:'talk', talk:true, title:'Everyday Phrases', ru:'Короткие фразы на каждый день', rows:[
+  {id:'everyday', pos:'phr', group:'talk', talk:true, title:'Everyday Phrases', ru:'Короткие фразы на каждый день', rows:[
     ['(нужно пройти или обратиться)','','Excuse me.','Извините, можно?'],
     ['(толкнул кого-то)','','Oh, sorry!','Ой, простите!'],
     ['(тебе говорят спасибо)','','No problem. / You\'re welcome.','Не за что.'],
@@ -417,7 +422,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['(уходишь)','','I gotta go. See you!','Мне пора. Увидимся!'],
   ], note:'<b>Me too</b> на утверждение, <b>me neither</b> на отрицание: I don\'t like it. — <b>Me neither.</b> <b>No worries</b> и <b>no problem</b> звучат теплее, чем you\'re welcome. <b>My bad</b> разговорное, с друзьями и в зале, с врачом лучше <b>sorry</b>.'},
 
-  {id:'cafe', group:'talk', talk:true, title:'At The Café', ru:'Кафе: заказать и ответить', rows:[
+  {id:'cafe', pos:'phr', group:'talk', talk:true, title:'At The Café', ru:'Кафе: заказать и ответить', rows:[
     ['Hi, what can I get you?','Здравствуйте, что вам?','Can I get a latte, please?','Можно латте?'],
     ['What size?','Какой размер?','Medium, please.','Средний.'],
     ['Hot or iced?','Горячий или со льдом?','Iced, please.','Со льдом.'],
@@ -430,7 +435,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['How was everything?','Как вам всё?','Great, thank you!','Отлично, спасибо!'],
   ], note:'Вместо <b>I want</b> говорят <b>Can I get…</b> или <b>I\'ll have…</b>: I want звучит грубо. <b>To go</b> = с собой, в Европе ещё <b>take away</b>. <b>That\'s it</b> = это всё. Имя на стакане проще продиктовать по буквам.'},
 
-  {id:'store', group:'talk', talk:true, title:'At The Store', ru:'Магазин и касса', rows:[
+  {id:'store', pos:'phr', group:'talk', talk:true, title:'At The Store', ru:'Магазин и касса', rows:[
     ['Can I help you?','Вам помочь?','I\'m just looking, thanks.','Я просто смотрю, спасибо.'],
     ['(ищешь товар)','','Excuse me, where can I find water?','Извините, где найти воду?'],
     ['(нужен другой размер)','','Do you have this in a bigger size?','Есть на размер больше?'],
@@ -444,7 +449,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['(хочешь вернуть товар)','','Can I return this? I have the receipt.','Можно вернуть? Чек есть.'],
   ], note:'<b>I\'m good</b> на предложение = «нет, спасибо, не надо». <b>Tap</b> = приложить карту, <b>insert</b> = вставить. <b>Try on</b> про одежду: можно примерить. Про еду просто <b>try</b>: Can I try it? = можно попробовать?'},
 
-  {id:'choice', group:'talk', talk:true, title:'Making A Choice', ru:'Как выбрать и сказать, что хочешь', rows:[
+  {id:'choice', pos:'phr', group:'talk', talk:true, title:'Making A Choice', ru:'Как выбрать и сказать, что хочешь', rows:[
     ['Which one would you like?','Какой хотите?','This one, please.','Вот этот, пожалуйста.'],
     ['(показываешь на дальний)','','That one, on the left.','Вон тот, слева.'],
     ['Small or large?','Маленький или большой?','I\'ll take the large one.','Возьму большой.'],
@@ -458,7 +463,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'<b>This</b> рядом с тобой, <b>that</b> подальше. <b>Either</b> = любой из двух, <b>neither</b> = ни один. <b>Actually</b> = «вообще-то», а не «актуально»: так начинают, когда передумал или поправляешь. <b>One</b> заменяет предмет: <b>the large one</b>, не просто the large.'},
 
   // ===== устойчивые выражения =====
-  {id:'idioms', group:'talk', idiom:true, title:'Piece Of Cake', ru:'Устойчивые выражения: так говорят каждый день', rows:[
+  {id:'idioms', pos:'idiom', group:'talk', idiom:true, title:'Piece Of Cake', ru:'Устойчивые выражения: так говорят каждый день', rows:[
     ['piece of cake','проще простого','кусок торта','This exercise is a piece of cake.','Это упражнение проще простого.'],
     ['no big deal','ничего страшного, пустяки','не большое дело','Sorry I\'m late. — No big deal.','Извини, опоздал. — Ничего страшного.'],
     ['on my way','уже иду, уже еду','на моём пути','I\'m on my way!','Уже еду!'],
@@ -487,7 +492,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ]},
 
   // ===== спортзал =====
-  {id:'gym', group:'talk', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
+  {id:'gym', pos:'phr', group:'talk', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
     ['ARE YOU USING THIS?','вы этим пользуетесь?', DB+`<text class="t" x="32" y="16" font-size="15">?</text>`],
     ['CAN I WORK IN?','можно подход, пока вы отдыхаете?', `<path d="M8 22h40m-6-6l6 6-6 6M56 42H16m6-6l-6 6 6 6"/>`, 'mind if I work in?'],
     ['HOW MANY SETS LEFT?','сколько подходов осталось?', DOTS([12,24,36,48],[34],5,[0,1])+`<text class="t" x="56" y="18" font-size="15">?</text>`],
@@ -511,7 +516,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['Do you need a hand?','Помочь?','No, I\'m good, thanks.','Нет, справлюсь, спасибо.'],
     ['How long have you been training?','Давно тренируешься?','Not long, a few months.','Недавно, пару месяцев.'],
     ], note:'<b>I\'m good</b> = нет, спасибо, справляюсь, а не «мне хорошо». <b>All yours</b> = свободно, бери. Длинных ответов в зале никто не ждёт: <b>Sure</b>, <b>one more</b>, <b>go ahead</b> хватает.'},
-    {title:'Снаряды и упражнения', ru:'Как называется то, что делаешь', tiles:[
+    {title:'Снаряды и упражнения', pos:'noun', ru:'Как называется то, что делаешь', tiles:[
     ['DUMBBELL','гантель', DB],
     ['BARBELL','штанга', `<path d="M4 32h56"/><rect x="10" y="20" width="6" height="24" rx="2"/><rect x="48" y="20" width="6" height="24" rx="2"/><rect x="4" y="24" width="5" height="16" rx="1"/><rect x="55" y="24" width="5" height="16" rx="1"/>`],
     ['BENCH','скамья', `<rect x="8" y="24" width="48" height="7" rx="2"/><path d="M14 31v20M50 31v20"/>`],
@@ -528,7 +533,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ]},
 
   // ===== его восемь картинок, пересобранные =====
-  {id:'quantity', title:'Quantity Words', ru:'Сколько', cols:4, tiles:[
+  {id:'quantity', pos:'qty', title:'Quantity Words', ru:'Сколько', cols:4, tiles:[
     ['SOME','несколько, немного', DOTS([],[],0)+`<circle cx="18" cy="16" r="4.5"/><circle cx="46" cy="16" r="4.5"/><circle class="f" cx="32" cy="26" r="4.5"/><circle class="f" cx="12" cy="34" r="4.5"/><circle class="f" cx="52" cy="34" r="4.5"/><circle cx="30" cy="42" r="4.5"/><circle cx="16" cy="52" r="4.5"/><circle cx="48" cy="52" r="4.5"/>`],
     ['MANY','много (штук)', DOTS([14,26,38,50],[14,26,38,50],4.5)],
     ['MUCH','много (не штук)', GLASS(22)],
@@ -543,7 +548,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['NONE','ни одного, нисколько', `<circle cx="32" cy="32" r="22"/><path d="M24 24l16 16M40 24L24 40"/>`],
   ], note:'<b>MANY, A FEW, FEW</b> с тем, что считается: views, people. <b>MUCH, A LITTLE, LITTLE</b> с тем, что не считается: time, money, water. <b>A few</b> = немного, но хватает, <b>few</b> = мало, почти нет. В утверждении говорят <b>a lot of time</b>, а much оставляют для вопросов и «не»: not much time.'},
 
-  {id:'frequency', title:'Frequency Adverbs', ru:'Как часто', tiles:[
+  {id:'frequency', pos:'advf', title:'Frequency Adverbs', ru:'Как часто', tiles:[
     ['ALWAYS','всегда · 100%', PCT(100)],
     ['USUALLY','обычно · 80%', PCT(80)],
     ['FREQUENTLY','часто (формально) · 70%', PCT(70)],
@@ -555,7 +560,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['NEVER','никогда · 0%', PCT(0)],
   ], note:'Место: перед глаголом, но после am / is / are: <b>I usually wake up at 8</b>, <b>I\'m always tired</b>. Проценты условные: often и frequently почти синонимы. Seldom книжное, вслух говорят <b>rarely</b> или <b>hardly ever</b>. <b>Never</b> уже с «не»: I never drink coffee.'},
 
-  {id:'somebody', title:'Some · Any · Every · No', ru:'Кто, что, где', cols:4, tiles:[
+  {id:'somebody', pos:'ipron', title:'Some · Any · Every · No', ru:'Кто, что, где', cols:4, tiles:[
     ['EVERYBODY','все', SAAN(man,'every')],
     ['SOMEBODY','кто-то', SAAN(man,'some')],
     ['ANYBODY','кто угодно; кто-нибудь?', SAAN(man,'any')],
@@ -585,7 +590,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ], note:'<b>-ONE</b> и <b>-BODY</b> одно и то же: someone = somebody. <b>No one</b> пишется раздельно. <b>ELSE</b> ставится после слова: <b>something else</b>, не «else something». Кассир спрашивает <b>Anything else?</b>, отвечают <b>No, that\'s it</b>. На «спасибо» говорят <b>Anytime!</b>, то есть «обращайся». <b>Every day</b> раздельно = каждый день: I post every day. <b>Everyday</b> слитно = повседневный: everyday clothes. <b>Anyway</b> в речи = «короче, ладно», так меняют тему.'},
   ]},
 
-  {id:'questions', title:'Question Words', ru:'Вопросы', cols:4, tiles:[
+  {id:'questions', pos:'q', title:'Question Words', ru:'Вопросы', cols:4, tiles:[
     ['WHO','кто', `<circle cx="32" cy="22" r="10"/><path d="M14 54c0-12 8-20 18-20s18 8 18 20"/>`],
     ['WHAT','что', `<path d="M14 26l18-9 18 9v20l-18 9-18-9zM14 26l18 9 18-9M32 35v20"/><text class="t" x="56" y="14" font-size="15">?</text>`],
     ['WHERE','где, куда', `<path d="M32 46s14-14 14-24a14 14 0 0 0-28 0c0 10 14 24 14 24z"/>`+ball(32,22,5)+`<ellipse class="k" cx="32" cy="52" rx="14" ry="4"/>`],
@@ -600,7 +605,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['HOW OFTEN','как часто', `<path d="M48 22a18 18 0 1 0 2 16" class="d"/><path d="M50 12v12H38"/>`],
   ], note:'Порядок: слово + <b>do / does / did</b> + кто + глагол: <b>Where do you live? What did he say?</b> Без do с is и can: Where is it? Если who или what сами подлежащее, do не нужен: <b>Who called? What happened?</b> Сколько стоит: <b>How much is it?</b>'},
 
-  {id:'possessive', title:'My · Mine', ru:'Чьё: перед предметом и вместо него', rows:[
+  {id:'possessive', pos:'poss', title:'My · Mine', ru:'Чьё: перед предметом и вместо него', rows:[
     ['MY · MINE','мой: my book · it\'s mine', POSS(1,'book')],
     ['YOUR · YOURS','твой, ваш: your bag · is it yours?', POSS(1,'pack',true)],
     ['HIS · HIS','его: his wallet · it\'s his', POSS(1,'wallet')],
@@ -609,7 +614,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['THEIR · THEIRS','их: their gift · it\'s theirs', POSS(3,'gift')],
   ], note:'Первое слово стоит <b>перед предметом</b>: my phone. Второе <b>заменяет его</b>: this phone is mine (не «mine phone»). <b>ITS</b> без апострофа = его о вещи или животном: its tail. <b>IT\'S</b> = it is. В комментах носители путают your / you\'re и their / they\'re / there, у нас такого быть не должно.'},
 
-  {id:'opposites', title:'Opposites', ru:'Противоположности', wide:true, tiles:[
+  {id:'opposites', pos:'adj', title:'Opposites', ru:'Противоположности', wide:true, tiles:[
     ['HOT · COLD','горячий · холодный', PAIRW(SUN,`<path d="M32 12v40M15 22l34 20M49 22L15 42M27 14l5 4 5-4M27 50l5-4 5 4"/>`)],
     ['FULL · EMPTY','полный · пустой', PAIRW(GLASS(18),GLASS())],
     ['TALL · SHORT','высокий · низкий (рост)', PAIRW(`<path d="M32 16v36M20 54h24"/><circle cx="32" cy="12" r="5"/>`,`<path d="M32 40v12M20 54h24"/><circle cx="32" cy="36" r="5"/>`)],
@@ -622,7 +627,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['SAME · DIFFERENT','одинаковый · разный', PAIRW(`<circle cx="20" cy="32" r="11"/><circle cx="46" cy="32" r="11"/>`,`<circle cx="20" cy="32" r="11"/><path d="M46 20l12 22H34z"/>`)],
   ], note:'<b>SHORT</b> = и «низкий» о росте, и «короткий». О предметах и цифрах «низкий» это <b>low</b>: low price. <b>HARD</b> ещё и «твёрдый». Ложный друг: <b>LATE</b> = поздно, <b>LATELY</b> = в последнее время.'},
 
-  {id:'money', title:'Money Words', ru:'Деньги и покупки', tiles:[
+  {id:'money', pos:['noun','adj'], title:'Money Words', ru:'Деньги и покупки', tiles:[
     ['CHEAP','дешёвый', TAG('$')],
     ['EXPENSIVE','дорогой', TAG('$$$',11)],
     ['FREE','бесплатно', `<rect x="14" y="28" width="36" height="24" rx="2"/><path d="M11 20h42v8H11zM32 20v32M32 20q-10-10-13-3q2 3 13 3q11 0 13-3q-3-7-13 3"/>`],
@@ -641,7 +646,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'В кафе: <b>Can I get the check, please?</b> (в США check, в Европе bill). Сколько стоит: <b>How much is it?</b>, it costs $5. <b>Keep the change</b> = сдачи не надо. <b>FREE</b> ещё и «свободный»: Are you free tonight? <b>Ten bucks</b> = десять баксов.'},
 
   // ===== новые =====
-  {id:'place', title:'Prepositions of Place', ru:'Где находится', tiles:[
+  {id:'place', pos:'prep', title:'Prepositions of Place', ru:'Где находится', tiles:[
     ['IN','в, внутри', `<path d="M12 22v28h40V22"/>`+ball(32,42)],
     ['ON','на', `<rect x="14" y="32" width="36" height="20" rx="2"/>`+ball(32,24)],
     ['UNDER','под', `<path d="M8 20h48M14 20v30M50 20v30"/>`+ball(32,43)],
@@ -653,7 +658,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['OPPOSITE','напротив', `<path class="k" d="M2 26h60M2 40h60"/><path class="k d" d="M4 33h56"/><rect x="24" y="6" width="16" height="14" rx="2"/>`+ball(32,52,6)],
   ], note:'<b>Транспорт.</b> Куда можно встать в полный рост, там <b>on</b>: on the bus, on the plane, get on the train. В легковую <b>in</b>: in the car, in a taxi, get in the car.'},
 
-  {id:'time', title:'At · On · In', ru:'Предлоги времени', tiles:[
+  {id:'time', pos:'pphr', title:'At · On · In', ru:'Предлоги времени', tiles:[
     ['AT 7:00','в семь (точное время)', `<circle cx="32" cy="32" r="22"/><path d="M32 32V15M32 32l-6 10"/>`, 'at seven'],
     ['AT NIGHT','ночью', `<path d="M38 10a22 22 0 1 0 16 34a17 17 0 0 1-16-34z"/>`],
     ['ON MONDAY','в понедельник (день)', CAL('MON')],
@@ -666,7 +671,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'<b>Чем точнее, тем короче слово:</b> IN (месяц, год, сезон) → ON (день, дата) → AT (час). Исключения запомнить парой: <b>at night</b>, но <b>in the morning / in the evening</b>.'},
 
   // ===== предлоги, которые держатся за слово =====
-  {id:'prep-verbs', prep:true, title:'Listen To · Wait For', ru:'Глагол + предлог: люди и дела', rows:[
+  {id:'prep-verbs', pos:'vprep', prep:true, title:'Listen To · Wait For', ru:'Глагол + предлог: люди и дела', rows:[
     ['listen to','to','слушать','I listen to music at the gym.','Слушаю музыку в зале.','listen music'],
     ['wait for','for','ждать (кого-то, что-то)','I\'m waiting for my friend.','Жду друга.','wait my friend'],
     ['look at','at','смотреть на','Look at this video!','Посмотри на это видео!','look this video'],
@@ -682,7 +687,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['discuss','','обсуждать','Let\'s discuss the price.','Давай обсудим цену.','discuss about the price'],
   ], note:'Предлоги в английском часто не совпадают с русскими, поэтому переводить их с русского не получится. По-русски «ждать друга» без предлога, а по-английски нужен for: <b>wait for a friend</b>. По-русски «зависеть <b>от</b>», но по-английски не from, а on: <b>depend on</b>. Поэтому глагол запоминай сразу вместе с его предлогом, как одно слово: не listen, а <b>listen to</b>. Бывает и наоборот: по-русски предлог есть, а по-английски не нужен. «Ответить <b>на</b> вопрос» это <b>answer the question</b>, «звонить <b>мне</b>» это <b>call me</b>. И одна пара, где предлог меняет смысл: <b>ask</b> = спросить, <b>ask for</b> = попросить.'},
 
-  {id:'prep-places', prep:true, title:'Go To · Get On', ru:'Где и куда: in, at, on', rows:[
+  {id:'prep-places', pos:['vprep','phv','pphr'], prep:true, title:'Go To · Get On', ru:'Где и куда: in, at, on', rows:[
     ['go to','to','идти, ехать куда-то','I go to the gym every day.','Хожу в зал каждый день.','go in the gym'],
     ['go home','','идти домой','I\'m going home.','Иду домой.','go to home'],
     ['arrive in · arrive at','in|at','приехать (в город · в место)','We arrived in Tbilisi. I arrived at the airport.','Мы приехали в Тбилиси. Я приехал в аэропорт.','arrive to Tbilisi'],
@@ -697,7 +702,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['in the photo · in the video','in','на фото · в видео','Look at the guy in the video.','Посмотри на парня в видео.','on the video'],
   ], note:'<b>IN</b> внутри: город, страна, машина, фото, видео. <b>AT</b> точка на карте: at home, at work, at the gym, at the airport. <b>ON</b> поверхность и линия: улица, автобус, телефон, YouTube. <b>Home</b> без to: go home, come home, get home. По-русски «на фото», а по-английски <b>in the photo</b>: человек внутри кадра.'},
 
-  {id:'prep-adj', prep:true, title:'Good At · Afraid Of', ru:'Какой ты: прилагательное + предлог', rows:[
+  {id:'prep-adj', pos:'aprep', prep:true, title:'Good At · Afraid Of', ru:'Какой ты: прилагательное + предлог', rows:[
     ['good at','at','хорошо умеет','I\'m good at editing.','Я хорошо монтирую.','good in editing'],
     ['bad at','at','плохо даётся','I\'m bad at names.','Я плохо запоминаю имена.',''],
     ['afraid of','of','боится','She\'s afraid of dogs.','Она боится собак.','afraid from dogs'],
@@ -714,7 +719,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 
   // ===== глаголы-хамелеоны: смысл решает то, что стоит после =====
   // verb:true: forms are [key, 'GET + *слот*', что значит, как устроено]; rows are [phrase with *slot*, перевод, key, example, its translation, typical mistake]
-  {id:'get', verb:true, title:'GET', ru:'Глагол-хамелеон: смысл решает то, что стоит после', forms:[
+  {id:'get', pos:'verb', verb:true, title:'GET', ru:'Глагол-хамелеон: смысл решает то, что стоит после', forms:[
     ['n','GET + *вещь*','получить, взять, купить','После get стоит предмет, и смысл простой: этот предмет оказывается у тебя. Как именно, подсказывает ситуация. Письмо приходит, значит «получить». Кофе покупаешь, значит «взять». Работу ищешь, значит «найти». По-русски это три разных глагола, а по-английски один.', [['вещь', 'существительное', 'noun']]],
     ['u','GET + *it*','понять','Отдельный смысл, который легко пропустить: get it значит «понять». Это одна из самых частых фраз в живой речи. <b>I don\'t get it</b> = не понимаю, <b>Got it</b> = понял, принято.', [['it', 'местоимение «это»', 'pronoun']]],
     ['a','GET + *какой*','стать, начать чувствовать','После get стоит прилагательное, то есть слово «какой»: tired, nervous, cold. Смысл: ты становишься таким. Это процесс, поэтому про то, что происходит прямо сейчас, говорят с -ing: <b>I\'m getting tired</b> = я начинаю уставать.', [['какой', 'прилагательное', 'adjective']]],
@@ -769,7 +774,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ], note:'Третья форма (V3) это то, что стоит в таблицах неправильных глаголов последним: cut, fixed, done, lost. Правило простое. Есть вещь между get и V3, значит работу сделал кто-то другой. Вещи нет, значит это случилось с тобой самим. Про <b>married</b>: <b>get married to her</b> или просто <b>marry her</b>, но не with.'},
   ]},
 
-  {id:'take', verb:true, title:'TAKE', ru:'Взять, поехать, занять время, сделать: решает слово после', forms:[
+  {id:'take', pos:'verb', verb:true, title:'TAKE', ru:'Взять, поехать, занять время, сделать: решает слово после', forms:[
     ['t','TAKE + *вещь*','взять, принять','После take стоит предмет: взять его с собой или в себя. Сюда же таблетки и фото, и именно тут русские чаще всего ошибаются: таблетки не drink, а <b>take</b>, фото не make, а <b>take</b>.', [['вещь', 'существительное', 'noun']]],
     ['tr','TAKE + *транспорт*','поехать на','После take стоит транспорт: автобус, метро, такси. Смысл: воспользоваться им, поехать на нём. <b>I take the bus</b> = я езжу на автобусе.', [['транспорт', 'существительное: bus, metro, taxi', 'noun']]],
     ['tm','IT TAKES + *время*','занимает, уходит (времени)','Особая конструкция: <b>it takes</b> + время + to и что делаешь. По-русски «на это уходит час», по-английски «это берёт час». Хочешь сказать, у кого ушло время, ставь его после took: <b>it took me an hour</b>.', [['время', 'сколько времени: 20 minutes, an hour', 'time phrase']]],
@@ -794,7 +799,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['take *care of*','позаботиться, разобраться с','ph','Don\'t worry, I\'ll take care of it.','Не переживай, я с этим разберусь.',''],
   ], note:'Главная ловушка для русских: по-русски «делать фото», «пить таблетки», «делать перерыв», а по-английски во всех трёх <b>take</b>: take a photo, take a pill, take a break. Если хочется сказать make или drink, проверь, нет ли здесь take.'},
 
-  {id:'make', verb:true, title:'MAKE', ru:'Создать, заставить, сделать каким, успеть', forms:[
+  {id:'make', pos:'verb', verb:true, title:'MAKE', ru:'Создать, заставить, сделать каким, успеть', forms:[
     ['c','MAKE + *вещь*','сделать, приготовить','После make стоит то, чего раньше не было: кофе, ужин, ролик. Смысл: создать это своими руками.', [['вещь', 'существительное', 'noun']]],
     ['n','MAKE + *ошибку, решение…*','пары, которые учат вместе','С некоторыми словами всегда идёт make, хотя по-русски глагол другой: ошибиться, принять решение, зарабатывать. Логики почти нет, запоминай парой.', [['ошибку, решение…', 'существительное, устойчивая пара', 'collocation']]],
     ['s','MAKE + *кого-то* + делать','заставить, вызвать','После make стоит человек и глагол <b>без to</b>. Смысл: ты (или что-то) вызвал у него это действие. <b>This video made me laugh</b> = этот ролик меня рассмешил. Сравни с get, где to нужен: <b>get her to smile</b>.', [['кого-то', 'дополнение: тот, на кого направлено', 'object'], ['делать', 'глагол без to', 'bare infinitive']]],
@@ -819,7 +824,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['can\'t make *it*','не смогу прийти','it','Sorry, I can\'t make it tonight.','Извини, сегодня не смогу.',''],
   ], note:'Make или do? <b>Make</b> создаёт то, чего не было: make coffee, make a video, make a mistake. <b>Do</b> выполняет работу или дело: do homework, do the dishes, do sports, do your best. Если результат можно потрогать или показать, почти всегда make.'},
 
-  {id:'have', verb:true, title:'HAVE', ru:'Есть у меня, поесть, провести, надо', forms:[
+  {id:'have', pos:'verb', verb:true, title:'HAVE', ru:'Есть у меня, поесть, провести, надо', forms:[
     ['o','HAVE + *вещь*','у меня есть','После have стоит то, что у тебя есть: машина, брат, время. По-русски «у меня есть», по-английски «я имею», и <b>am</b> здесь не нужен.', [['вещь', 'существительное', 'noun']]],
     ['f','HAVE + *еда, напиток*','есть, пить','После have стоит еда или напиток. Смысл: съесть или выпить. Так говорят чаще, чем eat и drink: <b>have breakfast</b>, <b>have a coffee</b>.', [['еда, напиток', 'существительное', 'noun']]],
     ['e','HAVE + *событие*','провести, устроить, пережить','После have стоит событие или состояние: вечеринка, встреча, хорошее время, головная боль. Смысл: это у тебя происходит.', [['событие', 'существительное', 'noun']]],
@@ -843,7 +848,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['have *it delivered*','заказать с доставкой','d','I\'ll have it delivered to my place.','Закажу с доставкой домой.',''],
   ], note:'Have это три разных глагола в одном: «у меня есть» (have a car), «поесть или выпить» (have lunch) и «надо» (have to go). Отличаются они тем, что стоит после: вещь, еда или to с глаголом. В вопросе всегда do: <b>Do you have</b> time? Не «Have you time?», так говорят только в старых британских книжках.'},
 
-  {id:'go', verb:true, title:'GO', ru:'Куда, чем заняться, каким стать, что дальше', forms:[
+  {id:'go', pos:'verb', verb:true, title:'GO', ru:'Куда, чем заняться, каким стать, что дальше', forms:[
     ['p','GO + *куда*','идти, ехать','После go стоит место с to: <b>go to the gym</b>. Без to только home, there, here, downtown, abroad: <b>go home</b>.', [['куда', 'to + место, без to только home, there, here', 'place']]],
     ['ing','GO + *-ing*','пойти заниматься','После go стоит глагол с -ing: shopping, swimming, running. Смысл: пойти чем-то заняться, обычно в свободное время. To здесь не нужен.', [['-ing', 'глагол с окончанием -ing', 'gerund']]],
     ['a','GO + *какой*','стать (само, обычно хуже)','Как get + какой, но про резкую перемену, которая случилась сама: сойти с ума, испортиться, завируситься. <b>The video went viral</b> = ролик разлетелся.', [['какой', 'прилагательное', 'adjective']]],
@@ -866,7 +871,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['going *to call*','собираюсь позвонить','f','I\'m going to call her tomorrow.','Завтра я ей позвоню.',''],
   ], note:'Go + какой и get + какой оба значат «стать». Разница в характере перемены. <b>Get</b> постепенно и обычно: get tired, get cold. <b>Go</b> резко, само и чаще к худшему: go crazy, go bad, go bald (облысеть). Исключение для каналов: <b>go viral</b>, это к лучшему.'},
 
-  {id:'feelings', title:'Feelings', ru:'Чувства и состояния', cols:4, tiles:[
+  {id:'feelings', pos:'adj', title:'Feelings', ru:'Чувства и состояния', cols:4, tiles:[
     ['HAPPY','счастлив, рад', FACE+EYES()+SMILE],
     ['SAD','грустно', FACE+EYES()+`<path d="M24 44q8-7 16 0"/>`],
     ['ANGRY','злой, злюсь', FACE+`<path d="M20 21l8 4M44 21l-8 4"/>`+EYES(29)+`<path d="M25 43q7-5 14 0"/>`],
@@ -881,7 +886,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['RELIEVED','облегчение, отпустило', FACE+`<path d="M21 28q4 3 8 0M35 28q4 3 8 0"/>`+SMILE+`<path d="M2 40h5M1 46h6"/>`],
   ], note:'<b>I\'m bored</b> = мне скучно. <b>I\'m boring</b> = я скучный, зануда. Так же interested / interesting, excited / exciting, tired / tiring: <b>-ed</b> про то, что ты чувствуешь, <b>-ing</b> про то, что это чувство вызывает.'},
 
-  {id:'compare', title:'Good · Better · Best', ru:'Сравнение', rows:[
+  {id:'compare', pos:'cmp', title:'Good · Better · Best', ru:'Сравнение', rows:[
     ['BIG → BIGGER → THE BIGGEST','большой → больше → самый большой', `<circle cx="14" cy="24" r="6"/><circle cx="48" cy="24" r="11"/><circle class="f" cx="98" cy="24" r="17"/>`],
     ['FAST → FASTER → THE FASTEST','быстрый → быстрее → самый быстрый', arrowR(4,18,24)+arrowR(32,60,24)+arrowR(74,116,24)],
     ['GOOD → BETTER → THE BEST','хороший → лучше → лучший', star(14,22,8)+star(42,22,8)+star(58,22,8)+star(82,22,8)+star(98,22,8)+star(114,22,8)],
@@ -890,7 +895,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['EXPENSIVE → MORE EXPENSIVE → THE MOST EXPENSIVE','дорогой → дороже → самый дорогой', `<rect x="4" y="12" width="20" height="24" rx="4"/><rect x="36" y="12" width="30" height="24" rx="4"/><rect x="76" y="12" width="42" height="24" rx="4"/><text class="t" x="14" y="29" font-size="14">$</text><text class="t" x="51" y="29" font-size="14">$$</text><text class="t" x="97" y="29" font-size="14">$$$</text>`],
   ], note:'Сравниваем через <b>than</b>: faster than me. Никогда не <b>more faster</b>, одного способа хватает. Длинные слова (три слога и больше) не меняются, перед ними встаёт <b>more / the most</b>.'},
 
-  {id:'modals', title:'Can · Must · Should', ru:'Могу, должен, стоит', tiles:[
+  {id:'modals', pos:'modal', title:'Can · Must · Should', ru:'Могу, должен, стоит', tiles:[
     ['CAN','могу, умею', `<circle cx="20" cy="20" r="7"/><path d="M8 50c0-10 5-17 12-17s12 7 12 17"/><path d="M38 32l6 6 12-12"/>`],
     ["CAN'T",'не могу, не умею', `<circle cx="20" cy="20" r="7"/><path d="M8 50c0-10 5-17 12-17s12 7 12 17"/><path d="M40 24l14 14M54 24L40 38"/>`],
     ['SHOULD','стоит, лучше бы (совет)', `<path d="M24 36a13 13 0 1 1 16 0c-2 2-3 4-3 7H27c0-3-1-5-3-7z"/><path d="M27 49h10M29 55h6"/>`],
@@ -902,7 +907,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ["I'D LIKE",'я бы хотел (вежливо)', `<path d="M14 26h30v14a10 10 0 0 1-10 10h-10a10 10 0 0 1-10-10z"/><path d="M44 30h4a5 5 0 0 1 0 10h-4M23 20q-3-4 0-8M33 20q-3-4 0-8"/>`],
   ], note:'<b>MUSTN\'T</b> = нельзя. <b>DON\'T HAVE TO</b> = не обязательно, можно не делать. По-русски похоже, по смыслу противоположно. В США вместо must чаще говорят <b>have to</b>, а в кафе вместо I want: <b>I\'d like a coffee</b>.'},
 
-  {id:'timewords', title:'Time Words', ru:'Когда', cols:4, tiles:[
+  {id:'timewords', pos:'advt', title:'Time Words', ru:'Когда', cols:4, tiles:[
     ['YESTERDAY','вчера', `<rect class="f" x="4" y="20" width="16" height="22" rx="3"/><rect x="24" y="20" width="16" height="22" rx="3"/><rect x="44" y="20" width="16" height="22" rx="3"/>`],
     ['TODAY','сегодня', `<rect x="4" y="20" width="16" height="22" rx="3"/><rect class="f" x="24" y="20" width="16" height="22" rx="3"/><rect x="44" y="20" width="16" height="22" rx="3"/>`],
     ['TOMORROW','завтра', `<rect x="4" y="20" width="16" height="22" rx="3"/><rect x="24" y="20" width="16" height="22" rx="3"/><rect class="f" x="44" y="20" width="16" height="22" rx="3"/>`],
@@ -917,7 +922,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['AGAIN','снова', `<path d="M48 40a17 17 0 1 1-2-17"/><path d="M48 12v12H36"/>`],
   ], note:'<b>AGO</b> всегда после срока: two days ago, не «ago two days». <b>JUST</b> и <b>ALREADY</b> в американском живут с простым прошедшим: I just ate, I already saw it.'},
 
-  {id:'taxi', title:'Directions', ru:'Такси и дорога', tiles:[
+  {id:'taxi', pos:'vphr', title:'Directions', ru:'Такси и дорога', tiles:[
     ['TURN LEFT','поверните налево', `<path d="M40 56V30a6 6 0 0 0-6-6H14m8-8l-8 8 8 8"/>`],
     ['TURN RIGHT','поверните направо', `<path d="M24 56V30a6 6 0 0 1 6-6h20m-8-8l8 8-8 8"/>`],
     ['GO STRAIGHT','прямо', `<path d="M32 56V10m-9 9l9-9 9 9"/>`],
@@ -929,7 +934,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['INTERSECTION','перекрёсток', `<path class="k" d="M22 4v18H4M42 4v18h18M22 60V42H4M42 60V42h18"/><path class="d" d="M32 6v52M6 32h52"/>`],
   ], note:'Голое <b>Stop here</b> звучит как приказ. Вежливо: <b>Can you stop here, please?</b> / <b>Could you turn left at the lights?</b>'},
 
-  {id:'linking', title:'Linking Words', ru:'Связки (для плашек тоже)', tiles:[
+  {id:'linking', pos:'conj', title:'Linking Words', ru:'Связки (для плашек тоже)', tiles:[
     ['AND','и', `<circle cx="14" cy="32" r="8"/><circle cx="50" cy="32" r="8"/><path d="M32 25v14M25 32h14"/>`],
     ['OR','или', `<path d="M6 32h18l14-14h18M24 32l14 14h18"/>`],
     ['BUT','но', `<path d="M6 44h24q10 0 10-10V12m-8 8l8-8 8 8"/>`],
@@ -941,7 +946,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['SUDDENLY','вдруг, внезапно', `<path class="f" d="M37 5L17 35h13l-5 24 22-33H34z"/>`],
   ], note:'<b>BUT THEN</b> = «но тут…», готовый поворот в плашке. <b>SO</b> и <b>BECAUSE</b> зеркальны: I was tired, so I slept = I slept because I was tired.'},
 
-  {id:'intensity', title:'How Much?', ru:'Сила: от «совсем нет» до «очень»', tiles:[
+  {id:'intensity', pos:'advd', title:'How Much?', ru:'Сила: от «совсем нет» до «очень»', tiles:[
     ['NOT AT ALL','совсем нет', METER(0)],
     ['A BIT','чуть-чуть', METER(1)],
     ['KIND OF','вроде, типа', METER(2)],
@@ -950,7 +955,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['EXTREMELY','крайне, жутко', METER(5)],
   ], note:'<b>SO</b> + слово-признак: so cute. <b>SUCH</b> + предмет: such a cute dog. <b>PRETTY</b> перед прилагательным значит «довольно», а не «красивый»: pretty bad = довольно плохо.'},
 
-  {id:'moving', title:'Go · Come · Bring', ru:'Движение: от меня и ко мне', tiles:[
+  {id:'moving', pos:'verb', title:'Go · Come · Bring', ru:'Движение: от меня и ко мне', tiles:[
     ['GO','идти, ехать (туда)', ME+arrowR(30,58,34)],
     ['COME','прийти (сюда, ко мне)', ME+arrowL(58,30,34)],
     ['COME BACK','вернуться', ME+`<path d="M30 30h16a10 10 0 0 1 0 20H36"/><path d="M36 24l-6 6 6 6"/>`],
@@ -963,7 +968,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'<b>COME</b> и <b>BRING</b> ведут к говорящему, <b>GO</b> и <b>TAKE</b> от него. Стучат в дверь: <b>I\'m coming!</b> (иду к тебе), не I\'m going.'},
 
   // ===== Каналы: плашки и комменты =====
-  {id:'road', group:'work', title:'Road Words', ru:'Дорога: lastbiker и комменты под ним', tiles:[
+  {id:'road', pos:['verb','noun'], group:'work', title:'Road Words', ru:'Дорога: lastbiker и комменты под ним', tiles:[
     ['MERGE','перестроиться, влиться в поток', `<path d="M14 56V40l18-16V8M50 56V40L32 24"/><path d="M24 14l8-8 8 8"/>`],
     ['CUT OFF','подрезать (he cut me off)', `<path class="k d" d="M32 4v56"/><rect x="38" y="34" width="14" height="22" rx="3"/><path d="M20 54V34q0-10 10-14l12-5m-7-4l7 4-4 7"/>`, 'cut off. he cut me off'],
     ['BRAKE-CHECK','резко тормознуть назло тому, кто сзади', `<rect x="22" y="6" width="20" height="22" rx="4"/><rect x="22" y="38" width="20" height="22" rx="4"/><text class="t" x="52" y="22" font-size="16">!</text><path d="M32 30v6"/>`, 'brake check'],
@@ -978,7 +983,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['DASHCAM','видеорегистратор', `<rect x="10" y="20" width="44" height="28" rx="5"/><circle cx="32" cy="34" r="8"/><path d="M24 20l4-6h8l4 6"/>`],
   ], note:'В плашках так и пишут: <b>He brake-checked the biker</b>, <b>She cut him off</b>, <b>Instant karma</b>. Прошедшее у этих глаголов неправильное: <b>cut</b> → cut (не cutted), <b>hit</b> → hit, <b>run</b> → <b>ran a red light</b>. <b>Rear-end</b> про удар в зад машины: <b>he rear-ended a truck</b>.'},
 
-  {id:'comments', group:'work', title:'Comment Talk', ru:'Как пишут в комментах', tiles:[
+  {id:'comments', pos:'slang', group:'work', title:'Comment Talk', ru:'Как пишут в комментах', tiles:[
     ['BRO · DUDE','бро, чувак', BUBBLE('bro',17), 'bro. dude'],
     ['W · L','победа · провал', `<text class="t" x="15" y="42" font-size="26">W</text><path class="sep" d="M34 14v36"/><text class="t" x="50" y="42" font-size="26">L</text>`, 'W. L'],
     ['FR','реально, серьёзно (for real)', BUBBLE('fr',20), 'for real'],
@@ -993,7 +998,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['LMAO','ржу (laughing my ass off)', FACE+`<path d="M20 26q4-4 8 0M36 26q4-4 8 0"/><path class="f" d="M21 36h22q-2 12-11 12t-11-12z"/>`],
   ], note:'<b>W</b> и <b>L</b> пришли из игр: <b>huge W</b> = большая победа, <b>took an L</b> = облажался. <b>Fr</b> и <b>no cap</b> = «реально, без шуток». <b>Entitled</b> частое слово под конфликтами на дороге: <b>so entitled</b> = наглый, думает, что ему можно всё. <b>Wholesome</b> и <b>not me crying</b> пишут под добрыми роликами, это soromagic. Карточка для понимания комментов и их тона.'},
 
-  {id:'my-captions', group:'work', idiom:true, title:'From My Videos', ru:'Слова из твоих же плашек', rows:[
+  {id:'my-captions', pos:'phv', group:'work', idiom:true, title:'From My Videos', ru:'Слова из твоих же плашек', rows:[
     ['gives up','сдаётся','отдаёт вверх','Rod guy: gives up','Парень с прутом сдаётся.'],
     ['winds up','замахивается','заводится вверх','Rock guy: winds up','Парень с камнем замахивается.'],
     ['taking his time','не торопится','берёт своё время','Bear: taking his time','Медведь не торопится.'],
@@ -1010,7 +1015,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['full send','на полную, без тормозов','полная отправка','Mastermind: full send','Хитрец идёт ва-банк.'],
   ], note:'Это слова из твоих же плашек. В плашках действие описывают в настоящем времени: <b>gives up</b>, <b>winds up</b> (у he, she, it на конце глагола -s). Если действие идёт прямо сейчас и тянется, берут -ing: <b>taking his time</b>, <b>closing in</b>. Многие тут фразовые глаголы: маленькое слово после глагола меняет смысл целиком. <b>Give</b> = дать, <b>give up</b> = сдаться.'},
 
-  {id:'idioms-video', group:'work', idiom:true, title:'Out Of Nowhere', ru:'Выражения из роликов и комментов', rows:[
+  {id:'idioms-video', pos:'idiom', group:'work', idiom:true, title:'Out Of Nowhere', ru:'Выражения из роликов и комментов', rows:[
     ['out of nowhere','откуда ни возьмись','из ниоткуда','The car came out of nowhere.','Машина вылетела откуда ни возьмись.'],
     ['close call','едва пронесло','близкий звонок','That was a close call!','Едва пронесло!'],
     ['dodged a bullet','легко отделался, повезло избежать','увернулся от пули','He dodged a bullet there.','Ему тут сильно повезло.'],
@@ -1024,7 +1029,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Это то, что чаще всего пишут под роликами вроде lastbiker и soromagic. Первые пять про дорогу и опасность, последние два про добрые ролики. Зная их, ты понимаешь комменты и чувствуешь, на что люди реагируют.'},
 
   // ===== Числа =====
-  {id:'teens', group:'num', title:'13 or 30?', ru:'Главная ловушка на слух', rows:[
+  {id:'teens', pos:'num', group:'num', title:'13 or 30?', ru:'Главная ловушка на слух', rows:[
     ['THIRTEEN · THIRTY','тринадцать · тридцать', PAIR('13','thir·TEEN','30','THIR·ty')],
     ['FOURTEEN · FORTY','четырнадцать · сорок (пишется без u)', PAIR('14','four·TEEN','40','FOR·ty')],
     ['FIFTEEN · FIFTY','пятнадцать · пятьдесят', PAIR('15','fif·TEEN','50','FIF·ty')],
@@ -1033,7 +1038,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['EIGHTEEN · EIGHTY','восемнадцать · восемьдесят', PAIR('18','eigh·TEEN','80','EIGH·ty')],
     ['NINETEEN · NINETY','девятнадцать · девяносто', PAIR('19','nine·TEEN','90','NINE·ty')],
   ], note:'<b>-TEEN</b> длинное и под ударением, его слышно. <b>-TY</b> короткое, в США t звучит почти как «д»: thirty ≈ «сёди». Не расслышал, переспроси: <b>Thirteen or thirty? One-three or three-zero?</b>', steps:[
-    {title:'Цены и возраст', ru:'Где эта ловушка встречается в жизни', rows:[
+    {title:'Цены и возраст', pos:'say', ru:'Где эта ловушка встречается в жизни', rows:[
     ['$13.99 · $30.99','цена: тринадцать или тридцать долларов', PAIR('$13.99','thir·TEEN','$30.99','THIR·ty',13), 'thirteen ninety-nine. thirty ninety-nine'],
     ['FORTY-FIVE','сорок пять: десятки и единицы через дефис', BIG('45')],
     ['TEENAGER','подросток: только от 13 до 19', BIG('13–19')],
@@ -1044,7 +1049,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ], note:'Цену говорят без dollars и cents: <b>thirteen ninety-nine</b>. Возраст в плашке: <b>a 17-year-old girl</b>, через дефисы и без -s. Но отдельно: <b>she is 17 years old</b>, с -s. <b>Teenager</b> только 13–19: двенадцатилетний это <b>a kid</b>. <b>In her twenties</b> = ей 20–29, early и late уточняют начало и конец.'},
   ]},
 
-  {id:'bignum', group:'num', title:'Big Numbers', ru:'Сотни, тысячи, миллионы', rows:[
+  {id:'bignum', pos:'num', group:'num', title:'Big Numbers', ru:'Сотни, тысячи, миллионы', rows:[
     ['A HUNDRED','сто', BIG('100')],
     ['A THOUSAND · 1K','тысяча', BIG('1,000'), 'a thousand. one K'],
     ['TEN THOUSAND · 10K','десять тысяч', BIG('10,000'), 'ten thousand. ten K'],
@@ -1053,7 +1058,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['A BILLION · 1B','миллиард (не «биллион»)', BIG('1,000,000,000'), 'a billion'],
   ], note:'После числа <b>-s нет</b>: two hundred, five thousand, three million (не hundreds). <b>-S</b> только без числа: hundreds of comments, millions of views. <b>Запятая</b> делит тысячи: 1,500 = полторы тысячи.'},
 
-  {id:'sayit', group:'num', title:'How To Say It', ru:'Как числа читают вслух', rows:[
+  {id:'sayit', pos:'say', group:'num', title:'How To Say It', ru:'Как числа читают вслух', rows:[
     ['ONE POINT FIVE K · FIFTEEN HUNDRED','полторы тысячи', BIG('1.5K'), 'one point five K. fifteen hundred'],
     ['TWO POINT THREE MILLION','два и три десятых миллиона', BIG('2.3M'), 'two point three million'],
     ['TWELVE FIFTY','тысяча двести пятьдесят (разговорно)', BIG('1,250')],
@@ -1062,7 +1067,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['TWO-OH-FIVE','комната, автобус, телефон: 0 = «oh»', BIG('205'), 'two oh five'],
   ], note:'<b>Дробь через точку</b>: 2.5 = two point five. Запятая только делит тысячи, перепутаешь, и 2,5 прочтут как две с половиной тысячи. Ноль: в счёте <b>zero</b>, в номерах <b>oh</b>, в счёте матча <b>nothing</b>.'},
 
-  {id:'ordinals', group:'num', title:'First · Second · Third', ru:'Порядковые: какой по счёту', tiles:[
+  {id:'ordinals', pos:'ord', group:'num', title:'First · Second · Third', ru:'Порядковые: какой по счёту', tiles:[
     ['FIRST','первый', ORD(1,'st')],
     ['SECOND','второй', ORD(2,'nd')],
     ['THIRD','третий', ORD(3,'rd')],
@@ -1074,7 +1079,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['TWENTY-FIRST','двадцать первый', ORD(21,'st')],
   ], note:'Окончания: <b>1st, 2nd, 3rd</b>, дальше <b>-th</b>. Но 11th, 12th, 13th тоже -th. Даты читают порядковыми: <b>October nineteenth</b>, не October nineteen.'},
 
-  {id:'parts', group:'num', title:'Half · Quarter · Percent', ru:'Части и количество', tiles:[
+  {id:'parts', pos:'num', group:'num', title:'Half · Quarter · Percent', ru:'Части и количество', tiles:[
     ['HALF','половина', PIE('M32 10a22 22 0 0 1 0 44z')],
     ['A THIRD','треть', PIE('M32 32V10A22 22 0 0 1 51.1 43z')],
     ['A QUARTER','четверть', PIE('M32 32V10A22 22 0 0 1 54 32z')],
@@ -1086,7 +1091,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['DOUBLE','двойной, удвоить', `<rect x="4" y="25" width="14" height="14" rx="2"/>`+arrowR(22,36,32)+`<rect class="f" x="44" y="14" width="14" height="14" rx="2"/><rect class="f" x="44" y="36" width="14" height="14" rx="2"/>`],
   ], note:'Полчаса = <b>half an hour</b> (артикль после half). <b>Percent</b> без -s: 50 percent. <b>A couple</b> в разговоре значит «пару, несколько»: a couple of days.'},
 
-  {id:'math', group:'num', title:'Plus · Minus · Equals', ru:'Знаки и счёт', tiles:[
+  {id:'math', pos:'math', group:'num', title:'Plus · Minus · Equals', ru:'Знаки и счёт', tiles:[
     ['PLUS','плюс', `<path d="M32 14v36M14 32h36"/>`],
     ['MINUS','минус', `<path d="M14 32h36"/>`],
     ['TIMES','умножить на (2 times 3)', `<path d="M19 19l26 26M45 19L19 45"/>`],
@@ -1098,7 +1103,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['HASHTAG','решётка (в США ещё pound)', `<path d="M26 12l-4 40M42 12l-4 40M14 24h38M12 40h38"/>`],
   ], note:'Вслух пример читают так: <b>two plus two is four</b>, <b>three times five equals fifteen</b>. На кнопках телефона <b>#</b> называют pound, а в соцсетях hashtag.'},
 
-  {id:'clock', group:'num', title:'What Time Is It?', ru:'Время на часах', tiles:[
+  {id:'clock', pos:'say', group:'num', title:'What Time Is It?', ru:'Время на часах', tiles:[
     ["O'CLOCK",'ровно (3:00 three o\'clock)', clock(3,0)],
     ['TEN PAST','десять минут (3:10)', clock(3,10,'past')],
     ['QUARTER PAST','четверть (3:15)', clock(3,15,'past')],
@@ -1110,7 +1115,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['A.M. · P.M.','до полудня · после', `<text class="t" x="32" y="26" font-size="15">AM</text><path class="k" d="M12 32h40"/><text class="t" x="32" y="52" font-size="15">PM</text>`, 'A M. P M'],
   ], note:'<b>Half past three</b> это 3:30, а не «половина третьего»: русские ошибаются на час. В США чаще говорят цифрами: <b>three thirty</b>, <b>four forty-five</b>. <b>O\'clock</b> только с ровным часом.'},
 
-  {id:'dates', group:'num', title:'Years · Dates · Age', ru:'Годы, даты, возраст', rows:[
+  {id:'dates', pos:'say', group:'num', title:'Years · Dates · Age', ru:'Годы, даты, возраст', rows:[
     ['NINETEEN NINETY-FIVE','1995: год читают парами цифр', BIG('1995')],
     ['TWO THOUSAND FIVE','2000–2009 читают через thousand', BIG('2005')],
     ['TWENTY TWENTY-SIX','с 2010 снова парами', BIG('2026')],
@@ -1119,7 +1124,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ["I'M THIRTY-ONE",'мне 31 (не «I have 31 years»)', BIG("I'm 31")],
   ], note:'В США дата пишется <b>месяц/день</b>: 05/06 это 6 мая, а не 5 июня. Возраст через <b>be</b>: I\'m 31, she\'s 25. «I have 31 years» носитель не поймёт.'},
 
-  {id:'approx', group:'num', title:'About · Over · Almost', ru:'Примерно, больше, меньше', tiles:[
+  {id:'approx', pos:'approx', group:'num', title:'About · Over · Almost', ru:'Примерно, больше, меньше', tiles:[
     ['EXACTLY','ровно, точно', LINE+`<path d="M32 12v14m-5-5l5 5 5-5"/>`+ball(32,42,5)],
     ['ABOUT · AROUND','около, примерно', `<rect class="s" x="18" y="33" width="28" height="18" rx="5"/>`+LINE+`<text class="t" x="32" y="26" font-size="22">~</text>`],
     ['ALMOST','почти', LINE+arrowR(12,26,24)+ball(26,42,5)],
@@ -1131,7 +1136,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['-ISH','где-то (sevenish)', `<text class="t" x="32" y="40" font-size="19">7ish</text>`, 'sevenish'],
   ], note:'В плашках: <b>over 2 million views</b> = больше двух миллионов, <b>almost a million</b> = почти миллион. Сравни на картинках: пустой кружок значит, что само число не входит (over, under), закрашенный значит входит (at least, up to).'},
 
-  {id:'abbr', group:'num', title:'K · M · 24/7', ru:'Сокращения и где их видишь', rows:[
+  {id:'abbr', pos:'abbr', group:'num', title:'K · M · 24/7', ru:'Сокращения и где их видишь', rows:[
     ['10K · TEN K','десять тысяч: просмотры, подписчики, зарплата ($80K a year)', BIG('10K'), '10K. ten K. ten thousand'],
     ['2.5M · TWO POINT FIVE MILLION','миллион: просмотры, деньги (в финансах пишут MM)', BIG('2.5M'), 'two point five million'],
     ['1B · A BILLION','миллиард: новости, компании (ещё пишут bn)', BIG('$1B'), 'one billion dollars'],
@@ -1145,7 +1150,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['IN HIS 20s · TWENTIES','ему двадцать с чем-то: «a guy in his 20s»', BIG('20s'), 'in his twenties'],
   ], note:'<b>K</b> идёт от kilo: 10K = десять тысяч. Читают буквой (<b>ten K</b>) или полностью. <b>M</b> = миллион. Одна <b>K</b> в переписке значит «ок», и часто сухо, с обидой.'},
 
-  {id:'short', group:'num', title:'Grand · Mil · Bucks', ru:'Как говорят коротко, в жизни', rows:[
+  {id:'short', pos:'say', group:'num', title:'Grand · Mil · Bucks', ru:'Как говорят коротко, в жизни', rows:[
     ['FIFTEEN HUNDRED · ONE POINT FIVE K','1.5K, полностью one thousand five hundred: оба коротких нормальны', BIG('1.5K'), 'fifteen hundred. one point five K'],
     ['TWENTY-FIVE HUNDRED · TWO AND A HALF GRAND','$2,500: деньги считают сотнями или «grand»', BIG('$2,500'), 'twenty-five hundred. two and a half grand'],
     ['FIVE GRAND','$5,000: grand = тысяча долларов, только про деньги', BIG('$5,000'), 'five grand'],
@@ -1158,7 +1163,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['POINT FIVE','0.5: ноль впереди обычно не произносят', BIG('0.5'), 'point five'],
   ], note:'<b>One point five K</b> не считается длинным, про просмотры так и говорят. Про деньги чаще <b>fifteen hundred</b>: тысячи до 10 000 удобно читать сотнями (<b>twelve hundred</b>, <b>thirty-five hundred</b>). <b>Grand</b> и <b>mil</b> разговорные: так говорят вслух и пишут в комментах.'},
 
-  {id:'units', group:'num', title:'MPH · LBS · °F', ru:'Американские меры: в роликах и комментах', rows:[
+  {id:'units', pos:'unit', group:'num', title:'MPH · LBS · °F', ru:'Американские меры: в роликах и комментах', rows:[
     ['60 MPH · MILES PER HOUR','≈ 97 км/ч: регистраторы, байки, штрафы', BIG('60 mph'), 'sixty miles per hour'],
     ['5 MI · FIVE MILES','≈ 8 км (1 миля ≈ 1.6 км)', BIG('5 mi'), 'five miles'],
     ['6′2″ · SIX FOOT TWO','рост ≈ 188 см: ′ фут 30 см, ″ дюйм 2.5 см', BIG('6′2″'), 'six foot two'],
@@ -1168,7 +1173,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['$3 A GALLON','галлон ≈ 3.8 л: цена бензина', BIG('$3/gal'), 'three dollars a gallon'],
   ], note:'Прикидка в уме: <b>mph × 1.6</b> = км/ч, <b>lbs ÷ 2.2</b> = кг, <b>(°F − 32) ÷ 1.8</b> = °C. Рост читают <b>six foot two</b>: foot, а не feet. Американец считает в милях: 120 км/ч ему ничего не скажет, для него это <b>75 mph</b>.'},
 
-  {id:'chat', group:'num', title:'2 · 4 · GR8', ru:'Цифры вместо слов в комментах', tiles:[
+  {id:'chat', pos:'slang', group:'num', title:'2 · 4 · GR8', ru:'Цифры вместо слов в комментах', tiles:[
     ['TO · TOO','2 = to, too (me 2)', `<text class="t" x="32" y="42" font-size="30">2</text>`, 'to. too'],
     ['FOR','4 = for (4 real)', `<text class="t" x="32" y="42" font-size="30">4</text>`, 'for'],
     ['BEFORE','B4 = before', `<text class="t" x="32" y="40" font-size="22">B4</text>`, 'before'],
@@ -3542,7 +3547,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // a deck may carry steps:[{title, ru, tiles|rows, note}] — the next level of the same topic.
   // Step 1 is the deck itself; a step opens when the one before it is 80% «Знаю».
   const forWord = t=>forMe(t[3] && typeof t[3]==='object' ? t[3] : null);
-  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':p.idiom?'idiom':p.verb?'verb':k, items:p[k].filter(forWord), forms:p.forms, note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
+  const partOf = (p,d)=>{const k=p.rows?'rows':'tiles'; return {kind:p.talk?'talk':p.prep?'prep':p.idiom?'idiom':p.verb?'verb':k, items:p[k].filter(forWord), forms:p.forms, pos:p.pos||d.pos, ownPos:p!==d && !!p.pos, note:p.note, title:p.title, ru:p.ru, cols:p.cols||d.cols, wide:p.wide||d.wide, open:p.open}};
   const SHOWN = DECKS.filter(forMe).map(d=>Object.assign({}, d, {parts:[d].concat((d.steps||[]).filter(forMe)).map(p=>partOf(p,d)).filter(p=>p.items.length)})).filter(d=>d.parts.length);
   // talk:true rows are [heard, its translation, your answer, its translation]; a heard line in (brackets) is a situation in Russian
   const talkRow = (d,[q,qru,a,aru])=>{const sit=/^\(/.test(q), say=((sit?'':q+' ... ')+a).replace(/"/g,'&quot;');
@@ -3570,6 +3575,55 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
+  // part of speech: a deck (or step) carries pos:'key' or pos:['key','key'] for a mixed deck;
+  // PARTS gives [one ru, one en, many ru, many en]. A word that differs from its deck gets WPOS['deck|WORD'] = key or [ru, en].
+  // A mixed deck needs WPOS for every word, otherwise the panel shows the deck's list.
+  const PARTS = {
+    verb:['глагол','verb','глаголы','verbs'], phv:['фразовый глагол','phrasal verb','фразовые глаголы','phrasal verbs'],
+    modal:['модальный глагол','modal verb','модальные глаголы','modal verbs'], semi:['замена модального глагола','semi-modal','замены модальных','semi-modals'],
+    noun:['существительное','noun','существительные','nouns'], adj:['прилагательное','adjective','прилагательные','adjectives'],
+    cmp:['степени сравнения','comparative · superlative','степени сравнения','comparative · superlative'],
+    adv:['наречие','adverb','наречия','adverbs'], advt:['наречие времени','adverb of time','наречия времени','adverbs of time'],
+    advf:['наречие частоты','adverb of frequency','наречия частоты','adverbs of frequency'], advd:['наречие степени','adverb of degree','наречия степени','adverbs of degree'],
+    prep:['предлог','preposition','предлоги','prepositions'], pphr:['предлог + место, время','prepositional phrase','предлог + место, время','prepositional phrases'],
+    vprep:['глагол + предлог','verb + preposition','глаголы с предлогом','verbs + prepositions'], aprep:['прилагательное + предлог','adjective + preposition','прилагательные с предлогом','adjectives + prepositions'],
+    q:['вопросительное слово','question word','вопросительные слова','question words'], ipron:['неопределённое местоимение','indefinite pronoun','неопределённые местоимения','indefinite pronouns'],
+    poss:['притяжательное местоимение','possessive','притяжательные местоимения','possessives'], qty:['слово количества','quantifier','слова количества','quantifiers'],
+    conj:['союз','conjunction','союзы','conjunctions'], vphr:['глагол + направление','verb phrase','команды: глагол + направление','verb phrases'],
+    phr:['готовая фраза','phrase','готовые фразы','phrases'], idiom:['устойчивое выражение','idiom','устойчивые выражения','idioms'],
+    num:['числительное','number','числительные','numbers'], ord:['порядковое числительное','ordinal number','порядковые числительные','ordinal numbers'],
+    say:['число в речи','spoken number','числа в речи','spoken numbers'], math:['слово для счёта','math word','слова для счёта','math words'],
+    approx:['слово «примерно»','approximator','слова «примерно»','approximators'], abbr:['сокращение','abbreviation','сокращения','abbreviations'],
+    unit:['мера','unit','американские меры','units'], slang:['сленг','slang','сленг','slang'],
+  };
+  const VN = ['глагол и существительное','verb · noun'];
+  const WPOS = {
+    'moving|COME BACK':'phv', 'moving|GET IN':'phv', 'moving|GET OUT':'phv',
+    'somebody|EVERYWHERE':'adv', 'somebody|SOMEWHERE':'adv', 'somebody|ANYWHERE':'adv', 'somebody|NOWHERE':'adv',
+    'somebody|ANYWAY':'adv', 'somebody|SOMEHOW':'adv', 'somebody|ANYTIME':'adv', 'somebody|EVERY DAY · EVERYDAY':['фраза · прилагательное','phrase · adjective'],
+    'modals|HAVE TO':'semi', "modals|DON'T HAVE TO":'semi', "modals|I'D LIKE":'phr',
+    'linking|THEN':'adv', 'linking|SUDDENLY':'adv',
+    'money|CHEAP':'adj', 'money|EXPENSIVE':'adj', 'money|FREE':'adj', 'money|COST':VN,
+    'money|SALE':'noun', 'money|DISCOUNT':'noun', 'money|PRICE':'noun', 'money|CASH':'noun', 'money|CARD':'noun', 'money|BILL · CHECK':'noun',
+    'money|TIP':'noun', 'money|CHANGE':'noun', 'money|REFUND':'noun', 'money|RECEIPT':'noun', 'money|BUCK':'noun',
+    'prep-places|go to':'vprep', 'prep-places|get to':'vprep', 'prep-places|come from':'vprep', 'prep-places|arrive in · arrive at':'vprep',
+    'prep-places|go home':['глагол + наречие','verb + adverb'], 'prep-places|get on · get off':'phv', 'prep-places|get in · get out of':'phv',
+    'prep-places|at home · at work':'pphr', 'prep-places|on the street · in the city':'pphr', 'prep-places|on the phone':'pphr',
+    'prep-places|on YouTube · on the internet':'pphr', 'prep-places|in the photo · in the video':'pphr',
+    'taxi|AT THE CORNER':'pphr', 'taxi|TRAFFIC LIGHTS':'noun', 'taxi|INTERSECTION':'noun',
+    'gym|STRETCH':VN, 'gym|REST':VN, 'teens|TEENAGER':'noun',
+    'parts|TWICE':'adv', 'parts|DOUBLE':['прилагательное и глагол','adjective · verb'], 'parts|A COUPLE':'noun', 'parts|A DOZEN':'noun',
+    'road|MERGE':'verb', 'road|BRAKE-CHECK':'verb', 'road|TAILGATE':'verb', 'road|SWERVE':'verb', 'road|REAR-END':'verb',
+    'road|CUT OFF':'phv', 'road|RUN A RED LIGHT':['глагол + слова','verb phrase'],
+    'road|HIT AND RUN':'noun', 'road|ROAD RAGE':'noun', 'road|WHEELIE':'noun', 'road|INSTANT KARMA':'noun', 'road|DASHCAM':'noun',
+    'my-captions|taking his time':'phr', 'my-captions|we got you':'phr', 'my-captions|there you go':'phr', 'my-captions|jumps ship':'idiom',
+    "my-captions|something's off":'phr', 'my-captions|locked in':['прилагательное из сленга','slang adjective'], 'my-captions|full send':'slang',
+  };
+  window.EIC_WPOS = Object.keys(WPOS); // read by Tools/english-cards-check.js to catch typos in WPOS keys
+  const posMany = pos=>{const ks=[].concat(pos||[]).filter(k=>PARTS[k]); return ks.length ? `${ks.map(k=>PARTS[k][2]).join(' и ')} · <i>${ks.map(k=>PARTS[k][3]).join(', ')}</i>` : ''};
+  const posOne = (id,pos)=>{const w=WPOS[id]; if(Array.isArray(w)) return `${w[0]} · <i>${w[1]}</i>`; const ks=w?[w]:[].concat(pos||[]);
+    return ks.filter(k=>PARTS[k]).map(k=>`${PARTS[k][0]} · <i>${PARTS[k][1]}</i>`).join(' или ')};
+
   // the list is split into sections by meaning; inside a section decks go in learning order.
   // A deck not named here lands in «Ещё» at the end of its tab.
   const SECTIONS = {
@@ -3600,8 +3654,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   };
   const deckHTML = d=>{
     const many = d.parts.length>1;
-    const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}${p.kind==='verb'?' vstep':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}${p.kind==='verb'?' vstep':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}${p.ownPos?`<small class="spos">${posMany(p.pos)}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
+    return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2>${d.pos?`<div class="dpos">${posMany(d.pos)}</div>`:''}<div class="prog"></div>${steps}</section>`;
   };
   const byId = Object.fromEntries(SHOWN.map(d=>[d.id,d])), placed = new Set();
   decksEl.innerHTML = ['words','talk','num','work'].map(g=>{
@@ -3629,6 +3683,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
       + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
       + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Формула</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])} ${it.form[3]}</div></section>` : '')
+      + (it.form ? '' : sec('Часть речи', posOne(id, it.p.pos)))
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
