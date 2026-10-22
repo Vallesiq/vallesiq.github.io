@@ -177,7 +177,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .qopts button.ok{background:var(--blue);border-color:var(--blue);color:var(--card)}
 .qopts button.bad{color:var(--warn-fg);border-color:var(--warn-fg);text-decoration:line-through}
 .qwhy{margin:0;font-size:14px;line-height:1.45;background:var(--card);border-radius:10px;padding:10px 12px}
-.qnext{align-self:flex-end;font:700 14px var(--display);color:var(--blue);background:none;border:0;padding:6px 2px;cursor:pointer}
+.qnav{display:flex;justify-content:space-between;align-items:center}
+.qnav button{font:700 14px var(--display);color:var(--blue);background:none;border:0;padding:6px 2px;cursor:pointer}
+.qstart{font:700 15px var(--display);color:var(--card);background:var(--blue);border:0;border-radius:10px;padding:12px;cursor:pointer}
+.qauto .qsit b{color:var(--blue)}
+#app:not(.in-deck) .deck>.quiz{display:none}
 .pk .key{font-size:13px;font-weight:700;color:var(--blue)}
 .vhint{margin:-4px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
 .vstep[data-vk] .vhint,#app:not([data-f="all"]) .vhint{display:none}
@@ -1589,6 +1593,21 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['EXTREMELY','крайне, жутко', METER(5)],
   ], note:'<b>SO</b> + слово-признак: so cute. <b>SUCH</b> + предмет: such a cute dog. <b>PRETTY</b> перед прилагательным значит «довольно», а не «красивый»: pretty bad = довольно плохо.'},
 
+  {id:'see', pos:'verb', pick:true, title:'See · Look · Watch', ru:'Видеть, смотреть, следить', note:'Всё решают два вопроса: <b>нарочно ли</b> и <b>долго ли</b>. Картинка сама попала в глаза: <b>see</b>. Ты сам направил взгляд на что-то: <b>look at</b>. Следишь за тем, что движется и меняется, какое-то время: <b>watch</b>. Это та же пара, что у звука: see как hear, look как listen.',
+    quiz:[
+      ['Ты ехал в такси, и в окне мелькнул байкер на заднем колесе. Ты его не искал, он сам попал в глаза. I ___ a guy doing a wheelie.', ['saw','looked','watched'], 'saw', 'Не нарочно и на секунду: картинка сама попала в глаза, это <b>see</b>, в прошедшем saw.'],
+      ['Друг протягивает телефон с фотографией: «___ at this!»', ['See','Look','Watch'], 'Look', 'Он просит направить взгляд на одну неподвижную картинку: <b>look at</b>.'],
+      ['Под твоим роликом пишут, что концовка лучшая, и советуют досмотреть: «___ till the end!»', ['See','Look','Watch'], 'Watch', 'Ролик движется, и следить за ним надо до конца: <b>watch</b>.'],
+      ['Вечером ты включил YouTube и час от него не отрывался. I ___ YouTube all evening.', ['saw','looked at','watched'], 'watched', 'Экран движется, и ты следишь за ним долго: <b>watch</b>. Про видео и кино это главное слово.'],
+      ['В кабинете у врача выключили свет. Ты говоришь: I can\'t ___ anything.', ['see','look','watch'], 'see', 'Речь о том, способны ли глаза хоть что-то различить: <b>see</b>. Как can hear, говорят can see.'],
+      ['Ты потерял ключи и заглядываешь под диван. I\'m ___ for my keys.', ['seeing','looking','watching'], 'looking', '«Искать» это <b>look for</b>: ты нарочно направляешь взгляд, пока не найдёшь.'],
+      ['Ты в кафе и отходишь на минуту. Просишь соседа: Can you ___ my bag?', ['see','look','watch'], 'watch', 'Присматривать значит не сводить глаз какое-то время: <b>watch</b> my bag.'],
+    ],
+    rows:[
+      ['see','картинка сама попала в глаза','видеть','I can see the mountains from my window.','Из окна видно горы.','I\'m seeing the mountains|про «вижу сейчас» говорят I can see; I\'m seeing значит «встречаюсь с кем-то»'],
+      ['look','сам направил взгляд, на миг','смотреть на','Look at this photo.','Посмотри на это фото.','look the photo|перед тем, на что смотришь, нужно at'],
+      ['watch','следишь за движением, долго','смотреть, следить','I watch YouTube every evening.','Каждый вечер смотрю YouTube.','look a video|ролики и кино watch, без at'],
+    ]},
   {id:'hear', pos:'verb', pick:true, title:'Hear · Listen · Overhear', ru:'Слышать, слушать, подслушать', note:'Всё решает один вопрос: <b>нарочно или нет</b>. Звук сам пришёл к ушам: <b>hear</b>. Ты сам направил внимание: <b>listen</b>. Чужой разговор долетел случайно: <b>overhear</b>. Подслушиваешь нарочно и тайком: <b>eavesdrop</b>. Сначала угадай слово в ситуациях, потом смотри разбор.',
     quiz:[
       ['Ты в кафе. За соседним столиком кто-то громко говорит по телефону, и тебе слышно каждое слово. Ты этого не хотел.', ['hear','listen','overhear','eavesdrop'], 'overhear', 'Разговор чужой, и долетел он случайно. Hear тоже не ошибка, но overhear точнее: «услышал то, что было не для меня, и не по своей вине».'],
@@ -1840,6 +1859,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // INFO['deck|WORD'] = {m: что значит, when: когда говорят, gr: предлоги и грамматика, ex: [[en, ru, сфера]], no: ошибка русских, like: похожие, reg: как звучит}
   // the panel shows what is here; a word without an entry falls back to its deck rule
   const INFO = {
+"see|see": {"m": "видеть: картинка сама попала в глаза", "when": "Когда ты не старался, а увидел: машину, знакомого, ошибку в плашке. Ещё «понимать»: <b>I see</b> = понятно. И «встречаться»: <b>See you!</b> = увидимся.", "gr": "see + что или кого, без предлога: <b>I see a car</b>. Про «вижу сейчас» не ставят -ing, говорят <b>I can see</b>. Формы неправильные: <b>saw, seen</b>.", "ex": [["I saw your video yesterday.", "Видел твой ролик вчера.", "работа"], ["I can't see the screen.", "Мне не видно экран.", "быт"], ["See you at the gym!", "Увидимся в зале!", "зал"]], "like": "<b>look</b> = смотреть нарочно, на миг. <b>watch</b> = следить за тем, что движется. Увидеть можно не желая, смотреть только по своей воле.", "reg": "нейтрально", "no": ""},
+"see|look": {"m": "смотреть: сам направил взгляд", "when": "На неподвижное и коротко: фото, экран, человека, вещь. <b>Look!</b> одно слово = «смотри!», чтобы обратить внимание.", "gr": "look <b>at</b> + на что: <b>look at me</b>. Без того, на что смотришь, at не нужен: <b>Look!</b> Искать: <b>look for</b>. Выглядеть: <b>you look tired</b>.", "ex": [["Look at this photo.", "Посмотри на это фото.", "быт"], ["I'm looking for the dumbbells.", "Ищу гантели.", "зал"], ["Look at the comments!", "Глянь комменты!", "комменты"]], "like": "<b>see</b> = увидеть, само. <b>watch</b> = смотреть долго за движением. Все значения look в карточке LOOK на вкладке «Слова», в глаголах.", "reg": "нейтрально", "no": ""},
+"see|watch": {"m": "смотреть, следить: за тем, что движется", "when": "Кино, ролики, спорт, как кто-то что-то делает. Ещё «присматривать»: <b>watch my bag</b>. И <b>Watch out!</b> = осторожно!", "gr": "watch + что, без предлога: <b>watch a movie</b>, watch TV. watch + кто + глагол: <b>watch him play</b>. С he окончание -es: <b>he watches</b>.", "ex": [["I watch YouTube every evening.", "Каждый вечер смотрю YouTube.", "быт"], ["Watch till the end!", "Досмотри до конца!", "комменты"], ["Can you watch my bag?", "Присмотришь за сумкой?", "кафе"]], "like": "<b>look at</b> = посмотреть на неподвижное, на миг: фото look at, ролик watch. <b>see a movie</b> тоже говорят, обычно про кинотеатр: «сходил на фильм».", "reg": "нейтрально", "no": ""},
 "hear|hear": {"m": "слышать: звук сам дошёл до ушей", "when": "Когда ты ничего не делал, а звук пришёл: шум, музыка у соседей, голос в трубке. Ещё «узнать, услышать новость»: <b>I heard you moved</b> = слышал, ты переехал.", "gr": "hear + кого или что, без предлога: <b>I hear music</b>. Про «сейчас» не ставят -ing, говорят <b>I can hear</b>: I can hear you. Прошедшее <b>heard</b>.", "ex": [["I can hear the neighbors again.", "Опять слышно соседей.", "быт"], ["Can you hear me now?", "Сейчас меня слышно?", "звонок"], ["I heard this song in a video.", "Слышал эту песню в ролике.", "работа"]], "like": "<b>listen</b> = слушать нарочно, с вниманием. Слышать можно не желая, слушать только по своей воле: I heard a noise, so I listened.", "reg": "нейтрально", "no": ""},
 "hear|listen": {"m": "слушать: сам направил внимание", "when": "Музыка, подкаст, собеседник, совет. Когда ты выбрал звук и держишь на нём внимание. <b>Listen!</b> одно слово = «послушай!».", "gr": "listen <b>to</b> + что или кого: <b>listen to music</b>, listen to me. Без того, что слушаешь, to не нужен: <b>I'm listening</b>.", "ex": [["I listen to music at the gym.", "Слушаю музыку в зале.", "зал"], ["Are you even listening to me?", "Ты меня вообще слушаешь?", "быт"], ["Listen, I have an idea.", "Слушай, есть идея.", "работа"]], "like": "<b>hear</b> = слышать, звук пришёл сам. Музыку в наушниках ты listen to, а музыку из соседнего окна hear.", "reg": "нейтрально", "no": ""},
 "hear|overhear": {"m": "случайно услышать чужое", "when": "Чужой разговор долетел до тебя сам: в кафе, в такси, через стену. Ты не старался, вины на тебе нет.", "gr": "overhear + кого / что: <b>I overheard them</b>. Часто с -ing после человека: <b>I overheard someone talking about…</b> Прошедшее <b>overheard</b>, как у hear.", "ex": [["I overheard two guys talking about my video.", "Случайно услышал, как двое обсуждали мой ролик.", "работа"], ["Sorry, I couldn't help overhearing.", "Простите, я невольно услышал.", "кафе"], ["I overheard the driver on the phone.", "Случайно услышал, что таксист говорил по телефону.", "такси"]], "like": "<b>eavesdrop</b> = подслушивать нарочно. Overhear случайно, eavesdrop специально.", "reg": "нейтрально", "no": ""},
@@ -4227,9 +4249,19 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // pick:true — look-alike words: situations to guess first (quiz:[[ситуация, [варианты], правильный, почему]]),
   // then each word as [word, ключ одной строкой, перевод, example, its translation, mistake 'wrong|почему']
   const pickRow = (d,[w,key,ru,ex,exru,no])=>`<button class="row pv pk" data-id="${d.id}|${w}" data-say="${(w+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${w}</span><span class="key">= ${key}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
-  const quizHTML = (q,i=0)=>q && q.length ? `<div class="quiz" data-i="${i}"><h4><span>Какое слово?</span><span class="qn">${i+1} из ${q.length}</span></h4><p class="qsit">${q[i][0]}</p><div class="qopts">${q[i][1].map(o=>`<button>${o}</button>`).join('')}</div><p class="qwhy" hidden></p><button class="qnext" hidden>Дальше ›</button></div>` : '';
+  // ---------- quiz: «Какое слово?» (written by hand in pick decks) and «Проверь себя» (built from each deck's own examples) ----------
+  // A question is [prompt, options, answer, why]. Each deck keeps its round, its picks and its place, so «‹ Назад» shows an answered one again.
+  const QZ = {};
+  function quizView(id){
+    const z=QZ[id], q=z.q[z.i], pk=z.picks[z.i], done=pk!==undefined, ok=z.picks.filter((x,i)=>x===z.q[i][2]).length;
+    const opt=o=>`<button class="${done && o===q[2]?'ok':done && o===pk?'bad':''}">${o}</button>`;
+    return `<h4><span>${z.hand?'Какое слово?':'Проверь себя'}</span><span class="qn">${z.i+1} из ${z.q.length}${z.picks.length?` · верно ${ok}`:''}</span></h4><p class="qsit">${q[0]}</p><div class="qopts">${q[1].map(opt).join('')}</div>`
+      + (done ? `<p class="qwhy">${pk===q[2]?'Верно. ':'Тут <b>'+q[2]+'</b>. '}${q[3]}</p>` : '')
+      + `<div class="qnav">${z.i?'<button class="qprev">‹ Назад</button>':'<span></span>'}${!done?'':z.i<z.q.length-1?'<button class="qnext">Дальше ›</button>':`<button class="qagain">${z.hand?'Сначала':'Ещё раз'} ›</button>`}</div>`;
+  }
+  const handQuiz = (p,d)=>p.quiz && p.quiz.length ? `<div class="quiz">${(QZ[d.id]={q:p.quiz,i:0,picks:[],hand:true}, quizView(d.id))}</div>` : '';
   const bodyOf = (p,d)=> p.kind==='verb' ? verbBody(p,d)
-    : p.kind==='pick' ? quizHTML(p.quiz)+`<div class="rows">${p.items.map(t=>pickRow(d,t)).join('')}</div>`
+    : p.kind==='pick' ? handQuiz(p,d)+`<div class="rows">${p.items.map(t=>pickRow(d,t)).join('')}</div>`
     : p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
     : p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
     : p.kind==='talk' ? `<div class="rows">${p.items.map(t=>talkRow(d,t)).join('')}</div>`
@@ -4239,7 +4271,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // ---------- «Как меняется»: an adjective, verb or noun across tenses and forms ----------
   // Rules generate the regular forms; the dictionaries below hold everything a rule would get wrong.
   const IRR = {go:['went','gone'], come:['came','come'], bring:['brought','brought'], take:['took','taken'], leave:['left','left'], get:['got','gotten'],
-    cut:['cut','cut'], give:['gave','given'], wind:['wound','wound'], make:['made','made'], have:['had','had'], do:['did','done'], put:['put','put'], keep:['kept','kept'], hear:['heard','heard'], overhear:['overheard','overheard'], run:['ran','run'], break:['broke','broken']};
+    cut:['cut','cut'], give:['gave','given'], wind:['wound','wound'], make:['made','made'], have:['had','had'], do:['did','done'], put:['put','put'], keep:['kept','kept'], hear:['heard','heard'], overhear:['overheard','overheard'], see:['saw','seen'], run:['ran','run'], break:['broke','broken']};
   const DBL = new Set(['get','put','cut','run','hop','stop','eavesdrop']); // short verbs that double the last letter
   const vIng = v=>DBL.has(v) ? v+v.slice(-1)+'ing' : /[^aeiou]e$/.test(v) ? v.slice(0,-1)+'ing' : v+'ing';
   const vS = v=>({have:'has', do:'does', go:'goes'})[v] || (/(s|sh|ch|x|z)$/.test(v) ? v+'es' : /[^aeiou]y$/.test(v) ? v.slice(0,-1)+'ies' : v+'s');
@@ -4252,7 +4284,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       NOING.has(v) ? [`I can ${v}${tail}`,`прямо сейчас (I'm ${vIng(v)} так не говорят)`] : [`I'm ${vIng(v)}${tail}`,'прямо сейчас'],
       [`I've ${v3}${tail}`,'уже (have + V3)'], [`I'll ${v}${tail}`,'завтра, в будущем']];
   }
-  const NOING = new Set(['hear','overhear']); // what happens to you, not what you do: «сейчас» through can
+  const NOING = new Set(['hear','overhear','see']); // what happens to you, not what you do: «сейчас» through can
   const IRRC = {good:['better','the best'], bad:['worse','the worst'], far:['farther','the farthest']}, NOCMP = new Set(['freezing','same']);
   const syl = w=>(w.replace(/e$/,'').match(/[aeiouy]+/g)||[]).length || 1;
   function adjCmp(a){
@@ -4293,7 +4325,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     "DON'T HAVE TO":[["I don't have to · he doesn't have to","не обязан · ему не надо"],["I didn't have to","не пришлось"]],
     "I'D LIKE":[["I'd like a coffee","я бы хотел кофе"],["I'd like to go","я бы хотел пойти"],["Would you like…?","не хотите ли…?"]]};
   // word family: the same root as another part of speech, [часть речи, форма, перевод]
-  const FAM = {"hear": [["noun", "hearing", "слух · I have good hearing"]], "listen": [["noun", "listener", "слушатель"]], "eavesdrop": [["noun", "eavesdropper", "тот, кто подслушивает"]], "happy": [["noun", "happiness", "счастье"], ["adv", "happily", "счастливо, радостно"], ["adj", "unhappy", "несчастный (противоположное)"]], "sad": [["noun", "sadness", "грусть"], ["adv", "sadly", "грустно · к сожалению"]], "angry": [["noun", "anger", "злость"], ["adv", "angrily", "сердито, со злостью"]], "scared": [["verb", "scare", "пугать"], ["adj", "scary", "страшный (то, что пугает)"], ["noun", "fear", "страх"]], "surprised": [["verb", "surprise", "удивлять"], ["noun", "surprise", "сюрприз, удивление"], ["adj", "surprising", "удивительный (то, что удивляет)"]], "tired": [["verb", "tire", "утомлять"], ["adj", "tiring", "утомительный (то, что утомляет)"], ["noun", "tiredness", "усталость"]], "bored": [["verb", "bore", "наскучить"], ["adj", "boring", "скучный (то, что наводит скуку)"], ["noun", "boredom", "скука"]], "nervous": [["noun", "nerves", "нервы, мандраж"], ["adv", "nervously", "нервно"]], "proud": [["noun", "pride", "гордость"], ["adv", "proudly", "гордо"]], "confused": [["verb", "confuse", "запутать, сбить с толку"], ["adj", "confusing", "запутанный (то, что путает)"], ["noun", "confusion", "путаница"]], "embarrassed": [["verb", "embarrass", "смущать, ставить в неловкое положение"], ["adj", "embarrassing", "неловкий, позорный (то, что смущает)"], ["noun", "embarrassment", "неловкость, стыд"]], "relieved": [["verb", "relieve", "облегчить, снять (боль, стресс)"], ["noun", "relief", "облегчение"]], "hot": [["noun", "heat", "жара, тепло"], ["verb", "heat up", "нагреть"]], "cold": [["noun", "cold", "холод · простуда (have a cold)"], ["adv", "coldly", "холодно (о тоне)"]], "full": [["verb", "fill", "наполнить, заполнить"], ["adv", "fully", "полностью"]], "empty": [["verb", "empty", "опустошить, освободить"], ["noun", "emptiness", "пустота"]], "tall": [["noun", "height", "рост, высота"]], "short": [["verb", "shorten", "укоротить"], ["adv", "shortly", "вскоре (другое значение)"]], "near": [["adv", "nearby", "поблизости"], ["adv", "nearly", "почти (другое значение)"]], "far": [["noun", "distance", "расстояние"]], "early": [["adv", "early", "рано (то же слово)"]], "late": [["adv", "late", "поздно (то же слово)"], ["adv", "lately", "в последнее время (другое значение)"]], "clean": [["verb", "clean", "убирать, чистить"], ["noun", "cleaning", "уборка"]], "dirty": [["noun", "dirt", "грязь"], ["verb", "get dirty", "испачкаться"]], "easy": [["adv", "easily", "легко"], ["noun", "ease", "лёгкость"]], "hard": [["adv", "hard", "усердно, сильно (work hard)"], ["adv", "hardly", "едва, почти не (другое значение)"]], "fast": [["adv", "fast", "быстро (то же слово, fastly не бывает)"], ["noun", "speed", "скорость"]], "slow": [["adv", "slowly", "медленно"], ["verb", "slow down", "притормозить, замедлиться"]], "loud": [["adv", "loudly", "громко"], ["noun", "noise", "шум"]], "quiet": [["adv", "quietly", "тихо"], ["noun", "silence", "тишина"], ["verb", "quiet down", "утихнуть"]], "same": [["adv", "the same way", "так же"]], "different": [["noun", "difference", "разница"], ["adv", "differently", "по-другому"], ["verb", "differ", "отличаться"]], "sunny": [["noun", "sun", "солнце"], ["noun", "sunshine", "солнечный свет"]], "cloudy": [["noun", "cloud", "облако"]], "rainy": [["noun", "rain", "дождь"], ["verb", "rain", "идёт дождь: it rains · it's raining"]], "snowy": [["noun", "snow", "снег"], ["verb", "snow", "идёт снег: it's snowing"]], "windy": [["noun", "wind", "ветер"]], "foggy": [["noun", "fog", "туман"]], "stormy": [["noun", "storm", "гроза, шторм"]], "humid": [["noun", "humidity", "влажность"]], "warm": [["noun", "warmth", "тепло"], ["verb", "warm up", "разогреть, размяться"], ["adv", "warmly", "тепло, сердечно"]], "cool": [["verb", "cool down", "остыть, остыть после тренировки"]], "freezing": [["verb", "freeze", "замёрзнуть · застыть (freeze! = замри!)"], ["noun", "freezer", "морозилка"]], "cheap": [["adv", "cheaply", "дёшево"]], "expensive": [["noun", "expense", "расход, трата"]], "free": [["verb", "free", "освободить"], ["noun", "freedom", "свобода"], ["adv", "for free", "бесплатно"]], "cost": [["verb", "cost", "стоить: it costs $5 · it cost (прошлое то же)"], ["noun", "cost", "стоимость, цена"]], "change": [["verb", "change", "менять, переодеться"], ["noun", "change", "сдача · перемена"]], "tip": [["verb", "tip", "дать чаевые"], ["noun", "tip", "чаевые · совет"]], "refund": [["verb", "refund", "вернуть деньги"], ["noun", "refund", "возврат денег"]], "sale": [["verb", "sell", "продавать (sold · sold)"], ["noun", "seller", "продавец"]], "discount": [["verb", "discount", "сделать скидку"]], "receipt": [["verb", "receive", "получать"]], "cash": [["verb", "cash", "обналичить"]], "bill": [["verb", "bill", "выставить счёт"]], "price": [["adj", "pricey", "дороговатый (разговорно)"]], "stretch": [["verb", "stretch", "растягиваться, тянуться"], ["noun", "stretch", "растяжка"]], "rest": [["verb", "rest", "отдыхать"], ["noun", "rest", "отдых · остальное (the rest)"]], "warm-up": [["verb", "warm up", "размяться (глагол пишут раздельно)"], ["noun", "warm-up", "разминка (существительное через дефис)"]], "squat": [["verb", "squat", "приседать"], ["noun", "squat", "присед"]], "plank": [["verb", "do a plank", "стоять в планке"]], "merge": [["noun", "merge", "слияние полос"]], "swerve": [["noun", "a swerve", "резкий манёвр"]], "tailgate": [["noun", "tailgater", "тот, кто висит на хвосте"]], "rear-end": [["adj", "rear-end collision", "удар сзади (о ДТП)"]], "cut off": [["noun", "cutoff", "отсечка, крайний срок (другое значение)"]], "wheelie": [["verb", "pop a wheelie", "встать на заднее колесо"]], "hit and run": [["adj", "hit-and-run driver", "водитель, скрывшийся с места"]], "leave": [["noun", "leave", "отпуск (sick leave = больничный)"]], "arrive": [["noun", "arrival", "прибытие (arrivals = зал прилёта)"]], "come back": [["noun", "comeback", "возвращение, камбэк"]], "break": [["noun", "break", "перерыв (take a break)"], ["adj", "broken", "сломанный"]], "turn": [["noun", "turn", "поворот · очередь (your turn)"]], "look": [["noun", "look", "взгляд (take a look) · внешность (looks)"]], "run": [["noun", "run", "пробежка (go for a run)"], ["noun", "runner", "бегун"]], "take": [["noun", "take", "дубль (take two = второй дубль)"]], "make": [["noun", "make", "марка (what make is the car?)"]], "go": [["noun", "go", "попытка (have a go = попробовать)"]], "cut": [["noun", "cut", "порез · стрижка · монтажная склейка"]], "keep": [["noun", "keeper", "хранитель · вратарь (goalkeeper)"]], "do": [["noun", "do's and don'ts", "что можно и что нельзя"]]};
+  const FAM = {"see": [["noun", "sight", "зрение · вид (a beautiful sight)"]], "watch": [["noun", "watch", "наручные часы · дежурство"]], "hear": [["noun", "hearing", "слух · I have good hearing"]], "listen": [["noun", "listener", "слушатель"]], "eavesdrop": [["noun", "eavesdropper", "тот, кто подслушивает"]], "happy": [["noun", "happiness", "счастье"], ["adv", "happily", "счастливо, радостно"], ["adj", "unhappy", "несчастный (противоположное)"]], "sad": [["noun", "sadness", "грусть"], ["adv", "sadly", "грустно · к сожалению"]], "angry": [["noun", "anger", "злость"], ["adv", "angrily", "сердито, со злостью"]], "scared": [["verb", "scare", "пугать"], ["adj", "scary", "страшный (то, что пугает)"], ["noun", "fear", "страх"]], "surprised": [["verb", "surprise", "удивлять"], ["noun", "surprise", "сюрприз, удивление"], ["adj", "surprising", "удивительный (то, что удивляет)"]], "tired": [["verb", "tire", "утомлять"], ["adj", "tiring", "утомительный (то, что утомляет)"], ["noun", "tiredness", "усталость"]], "bored": [["verb", "bore", "наскучить"], ["adj", "boring", "скучный (то, что наводит скуку)"], ["noun", "boredom", "скука"]], "nervous": [["noun", "nerves", "нервы, мандраж"], ["adv", "nervously", "нервно"]], "proud": [["noun", "pride", "гордость"], ["adv", "proudly", "гордо"]], "confused": [["verb", "confuse", "запутать, сбить с толку"], ["adj", "confusing", "запутанный (то, что путает)"], ["noun", "confusion", "путаница"]], "embarrassed": [["verb", "embarrass", "смущать, ставить в неловкое положение"], ["adj", "embarrassing", "неловкий, позорный (то, что смущает)"], ["noun", "embarrassment", "неловкость, стыд"]], "relieved": [["verb", "relieve", "облегчить, снять (боль, стресс)"], ["noun", "relief", "облегчение"]], "hot": [["noun", "heat", "жара, тепло"], ["verb", "heat up", "нагреть"]], "cold": [["noun", "cold", "холод · простуда (have a cold)"], ["adv", "coldly", "холодно (о тоне)"]], "full": [["verb", "fill", "наполнить, заполнить"], ["adv", "fully", "полностью"]], "empty": [["verb", "empty", "опустошить, освободить"], ["noun", "emptiness", "пустота"]], "tall": [["noun", "height", "рост, высота"]], "short": [["verb", "shorten", "укоротить"], ["adv", "shortly", "вскоре (другое значение)"]], "near": [["adv", "nearby", "поблизости"], ["adv", "nearly", "почти (другое значение)"]], "far": [["noun", "distance", "расстояние"]], "early": [["adv", "early", "рано (то же слово)"]], "late": [["adv", "late", "поздно (то же слово)"], ["adv", "lately", "в последнее время (другое значение)"]], "clean": [["verb", "clean", "убирать, чистить"], ["noun", "cleaning", "уборка"]], "dirty": [["noun", "dirt", "грязь"], ["verb", "get dirty", "испачкаться"]], "easy": [["adv", "easily", "легко"], ["noun", "ease", "лёгкость"]], "hard": [["adv", "hard", "усердно, сильно (work hard)"], ["adv", "hardly", "едва, почти не (другое значение)"]], "fast": [["adv", "fast", "быстро (то же слово, fastly не бывает)"], ["noun", "speed", "скорость"]], "slow": [["adv", "slowly", "медленно"], ["verb", "slow down", "притормозить, замедлиться"]], "loud": [["adv", "loudly", "громко"], ["noun", "noise", "шум"]], "quiet": [["adv", "quietly", "тихо"], ["noun", "silence", "тишина"], ["verb", "quiet down", "утихнуть"]], "same": [["adv", "the same way", "так же"]], "different": [["noun", "difference", "разница"], ["adv", "differently", "по-другому"], ["verb", "differ", "отличаться"]], "sunny": [["noun", "sun", "солнце"], ["noun", "sunshine", "солнечный свет"]], "cloudy": [["noun", "cloud", "облако"]], "rainy": [["noun", "rain", "дождь"], ["verb", "rain", "идёт дождь: it rains · it's raining"]], "snowy": [["noun", "snow", "снег"], ["verb", "snow", "идёт снег: it's snowing"]], "windy": [["noun", "wind", "ветер"]], "foggy": [["noun", "fog", "туман"]], "stormy": [["noun", "storm", "гроза, шторм"]], "humid": [["noun", "humidity", "влажность"]], "warm": [["noun", "warmth", "тепло"], ["verb", "warm up", "разогреть, размяться"], ["adv", "warmly", "тепло, сердечно"]], "cool": [["verb", "cool down", "остыть, остыть после тренировки"]], "freezing": [["verb", "freeze", "замёрзнуть · застыть (freeze! = замри!)"], ["noun", "freezer", "морозилка"]], "cheap": [["adv", "cheaply", "дёшево"]], "expensive": [["noun", "expense", "расход, трата"]], "free": [["verb", "free", "освободить"], ["noun", "freedom", "свобода"], ["adv", "for free", "бесплатно"]], "cost": [["verb", "cost", "стоить: it costs $5 · it cost (прошлое то же)"], ["noun", "cost", "стоимость, цена"]], "change": [["verb", "change", "менять, переодеться"], ["noun", "change", "сдача · перемена"]], "tip": [["verb", "tip", "дать чаевые"], ["noun", "tip", "чаевые · совет"]], "refund": [["verb", "refund", "вернуть деньги"], ["noun", "refund", "возврат денег"]], "sale": [["verb", "sell", "продавать (sold · sold)"], ["noun", "seller", "продавец"]], "discount": [["verb", "discount", "сделать скидку"]], "receipt": [["verb", "receive", "получать"]], "cash": [["verb", "cash", "обналичить"]], "bill": [["verb", "bill", "выставить счёт"]], "price": [["adj", "pricey", "дороговатый (разговорно)"]], "stretch": [["verb", "stretch", "растягиваться, тянуться"], ["noun", "stretch", "растяжка"]], "rest": [["verb", "rest", "отдыхать"], ["noun", "rest", "отдых · остальное (the rest)"]], "warm-up": [["verb", "warm up", "размяться (глагол пишут раздельно)"], ["noun", "warm-up", "разминка (существительное через дефис)"]], "squat": [["verb", "squat", "приседать"], ["noun", "squat", "присед"]], "plank": [["verb", "do a plank", "стоять в планке"]], "merge": [["noun", "merge", "слияние полос"]], "swerve": [["noun", "a swerve", "резкий манёвр"]], "tailgate": [["noun", "tailgater", "тот, кто висит на хвосте"]], "rear-end": [["adj", "rear-end collision", "удар сзади (о ДТП)"]], "cut off": [["noun", "cutoff", "отсечка, крайний срок (другое значение)"]], "wheelie": [["verb", "pop a wheelie", "встать на заднее колесо"]], "hit and run": [["adj", "hit-and-run driver", "водитель, скрывшийся с места"]], "leave": [["noun", "leave", "отпуск (sick leave = больничный)"]], "arrive": [["noun", "arrival", "прибытие (arrivals = зал прилёта)"]], "come back": [["noun", "comeback", "возвращение, камбэк"]], "break": [["noun", "break", "перерыв (take a break)"], ["adj", "broken", "сломанный"]], "turn": [["noun", "turn", "поворот · очередь (your turn)"]], "look": [["noun", "look", "взгляд (take a look) · внешность (looks)"]], "run": [["noun", "run", "пробежка (go for a run)"], ["noun", "runner", "бегун"]], "take": [["noun", "take", "дубль (take two = второй дубль)"]], "make": [["noun", "make", "марка (what make is the car?)"]], "go": [["noun", "go", "попытка (have a go = попробовать)"]], "cut": [["noun", "cut", "порез · стрижка · монтажная склейка"]], "keep": [["noun", "keeper", "хранитель · вратарь (goalkeeper)"]], "do": [["noun", "do's and don'ts", "что можно и что нельзя"]]};
   const FORM_NOUN_DECKS = ['money','gym','road','taxi','days'];
   function formsOf(it, id){
     const d = it.d.id, w = WPOS[id], key = typeof w==='string' ? w : (Array.isArray(w) ? '' : (typeof it.p.pos==='string' ? it.p.pos : ''));
@@ -4308,7 +4340,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     if(key==='noun' && FORM_NOUN_DECKS.includes(d)) return parts.flatMap(n=>nounForms(d==='days' ? n.charAt(0)+n.slice(1).toLowerCase() : n, d));
     return null;
   }
-  const FAM_DECKS = ['hear','feelings','opposites','weather','money','gym','road','moving','place'];
+  const FAM_DECKS = ['hear','see','feelings','opposites','weather','money','gym','road','moving','place'];
   const famOf = (it,id)=>it.form || !FAM_DECKS.includes(it.d.id) ? null : it.en.split(' · ').flatMap(w=>FAM[w.toLowerCase()]||[]);
   const listHTML = rows=>`<ul class="pex fl">${rows.map(([e,r])=>`<li><b>${e}</b><span>${r}</span></li>`).join('')}</ul>`;
   const famHTML = rows=>listHTML(rows.map(([k,f,ru])=>[f, `${(PARTS[k]||[k])[0]} · ${ru}`]));
@@ -4362,6 +4394,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   };
   // WHY['deck|phrase'] = why this word works the way it does, in full sentences for a beginner; shown first in the panel as «Почему так»
   const WHY = {
+    "see|see": "See, как hear, описывает то, что с тобой случилось: глаза открыты, и картинка пришла сама. Поэтому про «вижу сейчас» говорят <b>I can see</b>, а I'm seeing someone значит «я с кем-то встречаюсь». Отсюда же <b>I see</b> = «понятно»: картинка в голове сложилась.",
+    "see|look": "Look это действие: ты сам поворачиваешь глаза к чему-то. Поэтому нужен <b>at</b>, точка, куда направлен взгляд: look at me, как listen to. Без цели одним словом Look! = «смотри!». Пара к звуку: look как listen, see как hear.",
+    "see|watch": "Watch это look, растянутый во времени: ты не глянул, а следишь, потому что там что-то меняется. Ролик и матч движутся, поэтому их watch, а фото стоит на месте, его look at. Отсюда «присматривать» (watch my bag) и <b>Watch out!</b>: не своди глаз, сейчас что-то случится.",
     "hear|hear": "Hear описывает то, что с тобой случилось, а не то, что ты делаешь. Поэтому его нельзя сделать нарочно и обычно не ставят в -ing про «сейчас»: вместо I am hearing говорят <b>I can hear</b>. Отсюда и ловушка с Do you hear me?: по-английски это не про связь, а строгое «ты меня понял?!».",
     "hear|listen": "Listen это действие: ты сам выбираешь звук и держишь внимание. Поэтому мама спрашивает Are you listening?, а не Are you hearing?: звук до тебя точно дошёл, вопрос, слушаешь ли ты. To нужен, потому что внимание направлено <b>к</b> чему-то: listen to music, как look at.",
     "hear|overhear": "Over значит «поверх, мимо»: звук пролетел мимо того, кому он был предназначен, и попал к тебе. Отсюда смысл: случайно услышал чужое. Глагол строится от hear, поэтому и прошедшее такое же: overheard.",
@@ -4603,7 +4638,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     words:[
       ['Глаголы: смысл от соседа', ['get','take','make','have','go','do','come','put','keep','turn','look','run','break','moving']],
       ['Слова-хамелеоны: like, so, just', ['like','so','just','way','right']],
-      ['Похожие слова: какое выбрать', ['hear']],
+      ['Похожие слова: какое выбрать', ['hear','see']],
       ['Предлоги: где, куда, когда', ['prep-hacks','place','prep-places','time','prep-verbs','prep-adj']],
       ['Один предлог: все значения', ['p-at','p-on','p-in','p-to','p-for','p-of','p-with','p-by','p-from','p-about']],
       ['Вопросы и «кто, что, чьё»', ['questions','somebody','possessive']],
@@ -4632,7 +4667,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   const deckHTML = d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}${p.kind==='verb'?' vstep':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}${p.ownPos?`<small class="spos">${posMany(p.pos)}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${p.note?`<div class="note"><span class="nt">Правило темы</span>${p.note}</div>`:''}${bodyOf(p,d)}<button class="kn-more" hidden></button></div>`).join('');
-    return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2>${d.pos?`<div class="dpos">${posMany(d.pos)}</div>`:''}<div class="prog"></div>${steps}</section>`;
+    return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2>${d.pos?`<div class="dpos">${posMany(d.pos)}</div>`:''}<div class="prog"></div>${d.parts[0].kind==='pick'?'':'<div class="quiz qauto"><button class="qstart">Проверь себя</button></div>'}${steps}</section>`;
   };
   const byId = Object.fromEntries(SHOWN.map(d=>[d.id,d])), placed = new Set();
   const topics = []; // [group, section id, short name] for the strip of topics on top
@@ -4647,9 +4682,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
-    if(p.kind==='prep'){const [ph,,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,ru,ex:[[ex,exru,'']],no,d,p}}
+    if(p.kind==='prep'){const [ph,pr,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,pr,ru,ex:[[ex,exru,'']],no,d,p}}
     else if(p.kind==='idiom'){const [ph,ru,lit,ex,exru]=t; ITEMS[d.id+'|'+ph.replace(/"/g,'')]={en:ph,ru,lit,ex:[[ex,exru,d.id==='my-captions'?'твой ролик':'']],d,p}}
-    else if(p.kind==='verb'){const [ph,ru,key,ex,exru,no]=t, i=p.forms.findIndex(f=>f[0]===key); ITEMS[d.id+'|'+plain(ph).replace(/"/g,'')]={en:plain(ph),ru,ex:[[ex,exru,'']],vno:no,form:p.forms[i],fi:i,d,p}}
+    else if(p.kind==='verb'){const [ph,ru,key,ex,exru,no]=t, i=p.forms.findIndex(f=>f[0]===key); ITEMS[d.id+'|'+plain(ph).replace(/"/g,'')]={en:plain(ph),slot:(ph.match(/\*(.+?)\*/)||[])[1],ru,ex:[[ex,exru,'']],vno:no,form:p.forms[i],fi:i,d,p}}
     else if(p.kind==='pick'){const [w,key,ru,ex,exru,no]=t; ITEMS[d.id+'|'+w]={en:w,ru,ex:[[ex,exru,'']],vno:no,d,p}}
     else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
@@ -4761,17 +4796,59 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   function closeAll(){document.querySelectorAll('.open').forEach(t=>t.classList.remove('open'))}
   btns.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
   reset.addEventListener('click',closeAll);
-  // a quiz answer lights the right word, strikes a wrong pick and shows why; «Дальше» takes the next situation
+  // a pick lights the right word, strikes a wrong one and shows why; «‹ Назад» and «Дальше ›» walk the round, answered ones stay answered
   function quizClick(qz,t){
-    const d=SHOWN.find(x=>x.id===qz.closest('.deck').id), q=d.parts[0].quiz, i=+qz.dataset.i;
-    if(t.closest('.qnext')){qz.outerHTML=quizHTML(q,(i+1)%q.length); return}
-    const b=t.closest('.qopts button'); if(!b || qz.querySelector('.qopts .ok')) return;
-    const [,,ans,why]=q[i];
-    qz.querySelectorAll('.qopts button').forEach(x=>{ if(x.textContent===ans) x.classList.add('ok') });
-    if(b.textContent!==ans) b.classList.add('bad');
-    const w=qz.querySelector('.qwhy'); w.innerHTML=(b.textContent===ans?'Верно. ':'Тут <b>'+ans+'</b>. ')+why; w.hidden=false;
-    qz.querySelector('.qnext').hidden=false;
-    speak(ans);
+    const dk=qz.closest('.deck'), id=dk.id;
+    if(t.closest('.qstart') || (t.closest('.qagain') && !QZ[id].hand)){
+      const q=autoQuiz(dk);
+      if(!q.length){qz.innerHTML='<p class="qsit">Здесь пока нечего спросить: открой ступень или сними фильтр.</p>'; return}
+      QZ[id]={q,i:0,picks:[]}; qz.innerHTML=quizView(id); return;
+    }
+    const z=QZ[id]; if(!z) return;
+    if(t.closest('.qagain')){z.i=0; z.picks=[]}
+    else if(t.closest('.qprev')) z.i--;
+    else if(t.closest('.qnext')) z.i++;
+    else {const b=t.closest('.qopts button'); if(!b || z.picks[z.i]!==undefined) return; z.picks[z.i]=b.textContent; speak(z.q[z.i][2])}
+    qz.innerHTML=quizView(id);
+  }
+  // «Проверь себя»: up to 10 words of the open steps that the filter shows. A word's example gets a gap (Russian above),
+  // a preposition loses its preposition, a chameleon loses its slot, a reply is picked for the line you hear;
+  // with no example the word is picked by its translation. Wrong options come from the same step.
+  const PREPS=['in','on','at','to','for','of','with','from','about','by'];
+  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]} return a};
+  // CAPS on tiles become normal text; I stays I, days and months keep their capital
+  const low=(w,d)=>w!==w.toUpperCase() ? w : ['days','months'].includes(d) ? w.charAt(0)+w.slice(1).toLowerCase() : w.toLowerCase().replace(/\bi\b/g,'I');
+  const qEsc=w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  function autoQuiz(dk){
+    const open=[...dk.querySelectorAll('.step:not(.locked)')];
+    let pool=open.flatMap(st=>[...st.querySelectorAll('.tile:not(.fo),.row:not(.fo)')]);
+    if(!pool.length) pool=open.flatMap(st=>[...st.querySelectorAll('.tile,.row')]);
+    return shuffle(pool).map(t=>quizOf(t.dataset.id, [...t.closest('.step').querySelectorAll('.tile,.row')].map(x=>x.dataset.id).filter(x=>x!==t.dataset.id))).filter(Boolean).slice(0,10);
+  }
+  function quizOf(id, others){
+    const it=ITEMS[id]; if(!it) return null;
+    const os=others.map(o=>ITEMS[o]).filter(Boolean), en=low(it.en,it.d.id);
+    const why=`<b>${en}</b> = ${it.ru}.${WHY[id]?' '+WHY[id]:''}`;
+    const opts=(ans,alts)=>{const o=shuffle([...new Set(alts.filter(a=>a && a.toLowerCase()!==ans.toLowerCase()))]).slice(0,3); return o.length>=2 ? shuffle([ans,...o]) : null};
+    const gap=(e,w,i)=>`${e[1]}<br><b>${e[0].slice(0,i)}___${e[0].slice(i+w.length)}</b>`;
+    if(it.p.kind==='talk'){const o=opts(it.en, os.map(x=>x.en)); return o && [it.q ? `Тебе говорят: <b>${it.q}</b> (${it.qru}). Что ответишь?` : `${it.sit.replace(/^\(|\)$/g,'')}. Что скажешь?`, o, it.en, why]}
+    const exs=(it.ex||[]).concat((INFO[id]||{}).ex||[]).filter(e=>e && e[0]);
+    if(it.p.kind==='prep' && it.pr && !it.pr.includes('|')){
+      for(const e of exs){const i=e[0].toLowerCase().indexOf(it.en.toLowerCase()); if(i<0) continue;
+        const m=new RegExp('\\b'+it.pr+'\\b','i').exec(it.en); if(!m) continue;
+        const o=opts(it.pr, PREPS); if(o) return [gap(e,it.pr,i+m.index), o, it.pr, why]}
+    }
+    if(it.form && it.slot && it.d.pos==='verb'){
+      for(const e of exs){const i=e[0].toLowerCase().indexOf(it.slot.toLowerCase()); if(i<0) continue;
+        const o=opts(it.slot, os.map(x=>x.slot).filter(x=>x && !e[0].toLowerCase().includes(x.toLowerCase()))); if(o) return [gap(e,it.slot,i), o, it.slot, why]}
+    }
+    const plainW=w=>!/[·…\/()]/.test(w);
+    if(!it.form && plainW(en)){
+      for(const e of exs){const m=new RegExp('\\b'+qEsc(en)+'\\b','i').exec(e[0]); if(!m) continue;
+        const o=opts(en, os.map(x=>low(x.en,x.d.id)).filter(plainW)); if(o) return [gap(e,m[0],m.index), o, en, why]}
+    }
+    const o=opts(en, os.filter(x=>x.ru!==it.ru).map(x=>low(x.en,x.d.id)));
+    return o && [`Как сказать по-английски: <b>«${it.ru}»</b>${/[?!]$/.test(it.ru)?'':'?'}`, o, en, why];
   }
   decksEl.addEventListener('click',e=>{
     if(!root.classList.contains('in-deck')) return; // on the list a tap opens the deck (pages code below)
