@@ -56,7 +56,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 nav{display:flex;flex-wrap:wrap;gap:6px}
 nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
 
-.decks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:18px;align-items:start}
+.decks{display:flex;flex-direction:column;gap:26px}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:18px;align-items:start}
+.lsh{margin:0 0 10px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lsg:not(:has(.deck:not([hidden]))){display:none}
 .deck{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;gap:18px;min-width:0;scroll-margin-top:16px}
 .deck h2{margin:0;text-align:center;font-size:clamp(24px,5vw,32px);font-weight:800;color:var(--blue);line-height:1.1;text-wrap:balance}
 .deck h2 small{display:block;margin-top:6px;font-size:13px;font-weight:600;color:var(--muted)}
@@ -94,7 +97,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .deck.done{order:1}
 /* pages: the list is tiles (title, subtitle, progress), a tapped deck opens alone with a back button */
 #nav{display:none}
-#app:not(.in-deck) .decks{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px}
+#app:not(.in-deck) .lgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px}
 #app:not(.in-deck) .deck{cursor:pointer;padding:14px 40px 14px 16px;gap:6px;position:relative}
 #app:not(.in-deck) .deck>.step{display:none}
 #app:not(.in-deck) .deck h2{text-align:left;font-size:19px}
@@ -104,7 +107,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 #app:not(.in-deck) .deck::after{content:"›";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:26px;line-height:1;color:var(--muted)}
 @media (hover:hover){#app:not(.in-deck) .deck:hover{border-color:var(--blue)}}
 .in-deck .deck:not(.cur){display:none!important}
-.in-deck .decks{grid-template-columns:minmax(0,720px);justify-content:center}
+.in-deck .lgrid{grid-template-columns:minmax(0,720px);justify-content:center}
+.in-deck .lsh,.in-deck .lsg:not(:has(.deck.cur)){display:none}
 .in-deck header,.in-deck .bar:has(>.seg.big),.in-deck .backup,.in-deck .sync{display:none}
 .crumb{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0;margin:-6px 0}
 .crumb[hidden]{display:none}
@@ -3559,10 +3563,46 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
-  decksEl.innerHTML = SHOWN.map(d=>{
+  // the list is split into sections by meaning; inside a section decks go in learning order.
+  // A deck not named here lands in «Ещё» at the end of its tab.
+  const SECTIONS = {
+    words:[
+      ['Глаголы: смысл от соседа', ['get','take','make','have','go','moving']],
+      ['Предлоги: где, куда, когда', ['place','prep-places','time','prep-verbs','prep-adj']],
+      ['Вопросы и «кто, что, чьё»', ['questions','somebody','possessive']],
+      ['Сколько, когда, как часто', ['quantity','timewords','frequency']],
+      ['Описать: какой и насколько', ['feelings','opposites','compare','intensity']],
+      ['Собрать фразу: могу, должен, потому что', ['modals','linking']],
+      ['Город: деньги и дорога', ['money','taxi']],
+    ],
+    talk:[
+      ['Каждый день', ['rescue','everyday','idioms']],
+      ['С людьми', ['smalltalk','choice']],
+      ['Кафе, магазин, зал', ['cafe','store','gym']],
+    ],
+    num:[
+      ['Услышать и сказать', ['teens','sayit','bignum']],
+      ['Счёт и доли', ['ordinals','parts','math','approx']],
+      ['Время и даты', ['clock','dates']],
+      ['Как пишут коротко', ['abbr','short','units','chat']],
+    ],
+    work:[
+      ['Слова под роликами', ['road','comments']],
+      ['Выражения', ['my-captions','idioms-video']],
+    ],
+  };
+  const deckHTML = d=>{
     const many = d.parts.length>1;
     const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}${p.kind==='verb'?' vstep':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
     return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+  };
+  const byId = Object.fromEntries(SHOWN.map(d=>[d.id,d])), placed = new Set();
+  decksEl.innerHTML = ['words','talk','num','work'].map(g=>{
+    const secs = (SECTIONS[g]||[]).map(([t,ids])=>[t, ids.map(id=>byId[id]).filter(Boolean)]);
+    secs.forEach(([,ds])=>ds.forEach(d=>placed.add(d.id)));
+    const rest = SHOWN.filter(d=>(d.group||'words')===g && !placed.has(d.id));
+    if(rest.length) secs.push(['Ещё', rest]);
+    return secs.filter(([,ds])=>ds.length).map(([t,ds])=>`<div class="lsg"><h3 class="lsh">${t}</h3><div class="lgrid">${ds.map(deckHTML).join('')}</div></div>`).join('');
   }).join('');
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
