@@ -49,12 +49,19 @@ header p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.5;max-wi
 .seg button{font:600 13px var(--display);color:var(--muted);background:none;border:0;border-radius:7px;padding:8px 12px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--blue);color:var(--card)}
 .reset{font:600 13px var(--display);color:var(--blue);background:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
-.reset[hidden],.deck[hidden],nav a[hidden]{display:none!important}
+.reset[hidden],.deck[hidden]{display:none!important}
 .seg.big button{font-size:14px;font-weight:700;padding:9px 16px}
+@media (max-width:420px){.top .seg.big button{padding:9px 11px;font-size:13px}}
 button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-nav{display:flex;flex-wrap:wrap;gap:6px}
-nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
+.top{position:sticky;top:0;z-index:6;background:var(--bg);padding:8px 0;margin:-8px 0;display:flex;flex-direction:column;gap:10px}
+.in-deck .top{position:static}
+.topics{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+.topics::-webkit-scrollbar{display:none}
+.topics button{flex:none;font:600 13px var(--display);color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.topics button[aria-current="true"]{background:var(--blue);border-color:var(--blue);color:var(--card)}
+.topics button[hidden],.in-deck .topics{display:none}
+.lsg{scroll-margin-top:var(--toph,110px)}
 
 .decks{display:flex;flex-direction:column;gap:26px}
 .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));gap:18px;align-items:start}
@@ -96,7 +103,6 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .deck:not(.showkn) .step.allkn>.note{display:none}
 .deck.done{order:1}
 /* pages: the list is tiles (title, subtitle, progress), a tapped deck opens alone with a back button */
-#nav{display:none}
 #app:not(.in-deck) .lgrid{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px}
 #app:not(.in-deck) .deck{cursor:pointer;padding:14px 40px 14px 16px;gap:6px;position:relative}
 #app:not(.in-deck) .deck>.step{display:none}
@@ -113,6 +119,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .crumb{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0;margin:-6px 0}
 .crumb[hidden]{display:none}
 .opts summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--blue);width:max-content;max-width:100%}
+.ohint{margin:6px 0 0;font-size:12px;color:var(--muted)}
 .opts[open]{display:flex;flex-direction:column;gap:10px}
 
 .crumb button{font:700 14px var(--display);color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
@@ -258,6 +265,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     <p>Нажми на карточку, чтобы открыть. Внутри нажми на слово, и откроется разбор с отметками «Учу / Повторить / Знаю».</p>
   </header>
   <div class="crumb" id="crumb" hidden><button id="back">‹ Все карточки</button></div>
+  <div class="top" id="top">
   <div class="bar">
     <div class="seg big" role="group" aria-label="Раздел">
       <button id="g-words" data-group="words" aria-pressed="true">Слова</button>
@@ -265,6 +273,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
       <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
     </div>
+  </div>
+  <div class="topics" id="topics" role="navigation" aria-label="Темы"></div>
   </div>
   <details class="opts" id="opts">
     <summary>Голос и режим</summary>
@@ -275,6 +285,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       </div>
       <select id="vsel" class="vsel" aria-label="Голос" hidden></select>
     </div>
+    <p class="ohint">Нет звука на iPhone: выключи беззвучный режим (переключатель сбоку или кнопка действия). В беззвучном озвучка молчит.</p>
     <div class="bar">
       <div class="seg" role="group" aria-label="Режим">
         <button id="m-all" data-mode="all" aria-pressed="true">Всё видно</button>
@@ -302,7 +313,6 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     <textarea id="bk-in" placeholder="Сюда вставь сохранённую копию"></textarea>
     <div class="bk-row"><button id="bk-load">Восстановить</button></div>
   </details>
-  <nav id="nav" aria-label="Карточки"></nav>
   <main class="decks" id="decks"></main>
   <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <div class="scrim" id="scrim" hidden></div>
@@ -4153,7 +4163,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const speakText = (en,say)=>((say && typeof say==='object' ? say.say : say) || en.replace(/[→·]/g,', ').replace(/…/g,' ').toLowerCase()).replace(/"/g,'&quot;');
   const SPK_ICON = `<span class="spk" role="button" aria-label="Озвучить"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5q1.5 2.5 0 5"/></svg></span>`;
   const svg = (inner, vb='0 0 64 64', cls='') => `<svg class="ico${cls}" viewBox="${vb}" aria-hidden="true">${inner}</svg>`;
-  const decksEl = document.getElementById('decks'), navEl = document.getElementById('nav');
+  const decksEl = document.getElementById('decks'), topicsEl = document.getElementById('topics');
   // who sees what: a deck or a single word can carry only:'me' or only:'sister'; no mark = both.
   // A word marks it in its 4th field: ['WORD','перевод', icon, {only:'sister', say:'...'}]
   const AUDIENCE = 'sister'; // the GitHub Pages build switches this to 'sister'
@@ -4315,6 +4325,97 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   };
   // WHY['deck|phrase'] = why this word works the way it does, in full sentences for a beginner; shown first in the panel as «Почему так»
   const WHY = {
+    "clock|A.M. · P.M.": "Это сокращения с латыни: <b>a.m.</b> = ante meridiem, «до полудня», <b>p.m.</b> = post meridiem, «после полудня». Американцы считают часы по 12, а не по 24, поэтому одно «7» бывает и утром, и вечером, и a.m. или p.m. их различает: 7 a.m. это 7:00, 7 p.m. это 19:00. Ставится только после числа и не вместе с o'clock. С 12 путаются даже американцы (12 p.m. это полдень), поэтому про 12 часов говорят noon или midnight.",
+    "clock|HALF PAST": "<b>Past</b> значит «после, мимо». Half past three дословно «половина после трёх»: стрелка прошла три часа и ещё половину. Русское «половина четвёртого» смотрит вперёд, к следующему часу, а английское назад, к прошедшему. Отсюда главная ловушка: 3:30 это half past <b>three</b>, а не four. В Америке чаще говорят проще, цифрами: <b>three thirty</b>.",
+    "clock|MIDNIGHT": "<b>Mid</b> значит «середина», <b>night</b> «ночь»: середина ночи, ровно 12 часов ночи. Это одна точка времени, поэтому предлог <b>at</b>: at midnight. Артикль не нужен: at midnight, а не at the midnight. Удобнее, чем 12 a.m., в котором путаются даже американцы.",
+    "clock|NOON": "Noon это ровно 12 часов дня, одна точка, поэтому <b>at noon</b>, без артикля. Отличай от <b>afternoon</b>: after + noon = «после полудня», это время с 12 до вечера, и с ним in: in the afternoon. Вместо 12 p.m. американцы часто говорят noon, чтобы не путаться.",
+    "clock|O'CLOCK": "<b>O'clock</b> это сокращение старого «of the clock», «по часам». Ставится только к ровному часу: three o'clock, но не three thirty o'clock. С a.m. и p.m. вместе не ставится, выбирают одно: <b>three o'clock</b> или <b>3 p.m.</b> В разговоре o'clock часто опускают совсем: See you at three.",
+    "clock|QUARTER PAST": "<b>Quarter</b> это четверть часа, 15 минут. <b>Past</b> значит «после»: quarter past three = «четверть после трёх», 3:15. Как и в half past, считаем от прошедшего часа, поэтому здесь three, а не four, как в русском «четверть четвёртого». Перед quarter часто ставят a: <b>a quarter past three</b>, оба варианта верные.",
+    "clock|QUARTER TO": "<b>To</b> значит «до, к»: quarter to four = «четверть до четырёх», 3:45. Здесь английский совпадает с русским «без четверти четыре»: и там, и там называем следующий час. После половины часа всегда переходят на to. Американцы ещё говорят <b>quarter of four</b> или просто цифрами: three forty-five.",
+    "clock|TEN PAST": "Схема та же, что у quarter past: сколько минут прошло <b>после</b> часа. Ten past three = 3:10. Работает до половины: five past, ten past, twenty past, twenty-five past. Слово minutes обычно опускают, но с числами не кратными пяти его говорят: <b>seven minutes past three</b>. Проще и чаще в Америке цифрами: three ten.",
+    "clock|TWENTY TO": "После половины время считают назад от следующего часа: сколько минут <b>до</b> него осталось. Twenty to four = «без двадцати четыре», 3:40. Значит, час в фразе всегда следующий, как в русском. Ловушка: twenty to four это не 4:20, а 3:40. Цифрами: three forty.",
+    "comments|ENTITLED": "Слово от <b>entitle</b>, «дать право». Entitled to something значит «имеет право на что-то», это нейтрально. Но просто <b>entitled</b> о человеке значит, что он сам выдал себе это право: уверен, что ему все должны. Поэтому в комментах это ругательство про наглых: entitled driver, entitled parents. Рядом <b>rude</b> (грубый): rude про поступок в моменте, entitled про установку человека.",
+    "comments|FR": "Это первые буквы <b>for real</b>, «по-настоящему». В комментах так соглашаются и усиливают: This is so true fr = «вот это правда, реально». Стоит обычно в конце фразы. Вопросом <b>fr?</b> = «серьёзно?». Вслух говорят полностью: for real.",
+    "comments|NO CAP": "<b>Cap</b> в сленге значит «враньё», а <b>to cap</b> «врать». No cap = «без вранья, отвечаю». Ставят в конце или в начале, когда хотят, чтобы поверили: Best video I've seen, no cap. Эмодзи кепки 🧢 в ответ на чужие слова значит «врёшь».",
+    "comments|NOT ME CRYING": "Это шутка-перевёртыш: говорят «не я плачу», а значит наоборот, «а я тут плачу». Человек как будто застал сам себя: Not me crying over a dog video. Глагол с -ing, потому что это картинка «вот я сижу и плачу». По той же схеме <b>not me</b> + действие с -ing признаются в чём угодно неловком.",
+    "comments|WHOLESOME": "Сначала wholesome значило «полезный для здоровья»: wholesome food. В комментах слово перенесли на чувства: ролик, после которого тепло и хорошо, без злости и подвоха. Поэтому под добрым видео пишут <b>so wholesome</b>. Рядом <b>cute</b> (милый, про вид) и <b>heartwarming</b> (трогательный, ближе к слезам).",
+    "everyday|I gotta go. See you!": "<b>Gotta</b> это разговорное слияние got to, то есть have to, «надо». Вслух американцы так говорят постоянно, пишут так только в переписке. I gotta go дословно «мне надо идти», то есть «мне пора». <b>See you</b> сокращено из I'll see you later, и в ответ говорят то же: See you!",
+    "everyday|Me neither.": "<b>Neither</b> значит «тоже нет». Когда собеседник сказал «я не…», согласие тоже отрицательное, и me too здесь не подходит: I don't like it. Me neither. Me too ставится только на утверждение: I like it. Me too. Американцы говорят и «ни-зэр», и «най-зэр», оба верно. Книжный вариант: Neither do I.",
+    "everyday|No rush. Take your time.": "<b>Rush</b> это спешка, no rush = «спешки нет». <b>Take your time</b> дословно «возьми своё время», то есть «не торопись, сколько нужно». Вместе две фразы снимают с человека давление: так говорят тому, кто возится и извиняется, что задерживает тебя.",
+    "frequency|FREQUENTLY": "Frequently значит то же, что often, но длиннее и официальнее. Слово от <b>frequent</b>, «частый», плюс -ly, которое делает из прилагательного наречие. Поэтому оно живёт в письме и инструкциях: Frequently Asked Questions, FAQ. Вслух скажи often.",
+    "frequency|OCCASIONALLY": "Слово от <b>occasion</b>, «случай»: occasionally = «от случая к случаю». Отсюда смысл: не по расписанию, а когда выпадет. По частоте это реже, чем sometimes. Пишется с двумя c и одной s: o-cc-a-s-ionally.",
+    "frequency|RARELY": "От <b>rare</b>, «редкий», плюс -ly. В слове уже есть «почти не», поэтому фраза строится как утвердительная: I rarely go out = я редко выхожу, без don't. По-русски тянет сказать «редко не делаю», но в английском хватает одного rarely.",
+    "frequency|SELDOM": "Seldom и rarely значат одно и то же, разница только в стиле. Seldom старое и книжное: встретишь в книгах и статьях, а в разговоре оно звучит странно. Поэтому его учат, чтобы понимать, а говорят rarely.",
+    "gym|ARE YOU USING THIS?": "Это время «прямо сейчас»: <b>are using</b> = are + глагол с -ing. Вопрос не «пользуетесь вообще?», а «вы сейчас на нём занимаетесь?». Do you use this? прозвучит как «вы вообще таким пользуетесь?». Ещё в зале говорят <b>Are you done with this?</b> = «вы закончили?».",
+    "gym|BENCH": "Bench это любая скамья: в парке, на стадионе, в зале. Жим лёжа назван по ней: <b>bench press</b>, а в зале часто просто bench, уже как глагол: How much do you bench? = «сколько жмёшь?».",
+    "gym|DIPS": "<b>Dip</b> значит «окунуть, опустить вниз»: в отжимании ты опускаешь тело между брусьями. Упражнение во множественном, потому что повторов много: do dips. Сами брусья называются <b>dip bars</b> или parallel bars: dips это движение, а не снаряд.",
+    "gym|PLANK": "Plank это доска. Упражнение назвали так, потому что тело в нём прямое и твёрдое, как доска. Говорят <b>do a plank</b> или <b>hold a plank</b>: hold, потому что ты держишь позицию, а не делаешь повторы.",
+    "gym|STRETCH": "Stretch значит «растягивать»: резинку, ткань, мышцы. В зале одно слово работает и действием, и названием: I need to stretch = «мне надо растянуться», a good stretch = «хорошая растяжка». Рядом <b>warm up</b>, «разогреться»: его делают до тренировки, а stretch чаще после.",
+    "intensity|A BIT": "Bit значит «кусочек»: a bit = «кусочек», отсюда «чуть-чуть». С прилагательным a bit смягчает плохое: a bit expensive звучит вежливее, чем expensive. К хорошим словам его почти не ставят: a bit nice звучит странно, там говорят pretty nice.",
+    "intensity|EXTREMELY": "От <b>extreme</b>, «крайний», плюс -ly: «до крайней точки». Ставится к словам, у которых бывает «больше и меньше»: extremely tired, extremely dangerous. К словам, которые уже предельные, не ставится: не extremely amazing и не extremely perfect, там говорят absolutely.",
+    "intensity|KIND OF": "<b>Kind</b> значит «вид, сорт», kind of дословно «вид чего-то, что-то вроде». Отсюда смягчение: kind of tired = «вроде устал, слегка». Американцы вставляют его постоянно, чтобы не звучать резко. В быстрой речи сливается в <b>kinda</b>. То же самое <b>sort of</b>.",
+    "intensity|NOT AT ALL": "<b>At all</b> значит «вообще, хоть сколько-то» и усиливает отрицание: not tired at all = «вообще не устал». Not стоит при глаголе, at all в конце: I don't like it at all. Ответом на спасибо Not at all звучит по-британски, американец скажет No problem.",
+    "math|DIVIDED BY": "<b>Divided</b> это форма глагола divide, «делить», и значит «разделённое». Ten divided by two = «десять, разделённое на два». Предлог by тут как «чем»: делим двойкой. Divide into значит другое: разрезать на части, divide it into three parts.",
+    "math|EQUALS": "<b>Equal</b> значит «равный». В счёте <b>equals</b> с -s, потому что «два плюс два» это одна сумма, одно подлежащее, как he. Поэтому two plus two equals four, а не equal. В обычной речи проще сказать <b>is</b>: Two plus two is four.",
+    "math|MINUS": "Слово из латыни, «меньше», поэтому оно одно во многих языках и звучит почти как по-русски: «май-нэс». Про холод американцы чаще говорят <b>five below</b> (пять ниже нуля): у них градусы по Фаренгейту, и «минус» нужен реже.",
+    "math|PLUS": "Plus из латыни, «больше». В счёте он соединяет числа, а в речи мысли: <b>Plus, it's cheap</b> = «к тому же дёшево», ты добавляешь ещё один довод. <b>Plus tax</b> = «плюс налог»: в американских ценниках налог не включён, его добавят на кассе.",
+    "math|SQUARED": "<b>Square</b> это квадрат, а squared с -ed значит «возведённое в квадрат»: five squared = «пять, возведённое в квадрат». В square meters слово стоит перед существительным и описывает форму, «квадратные метры», поэтому без -ed.",
+    "math|TIMES": "<b>Time</b> значит ещё и «раз», а times = «разы». Three times five дословно «три раза пять»: пять взять три раза. Отсюда же <b>three times a week</b> = три раза в неделю и <b>three times bigger</b> = в три раза больше. Слово multiply, «умножить», в разговоре почти не звучит.",
+    "moving|BRING": "Bring смотрит на говорящего: вещь движется <b>сюда</b>, к тебе. Bring me water = «принеси мне воды». Take наоборот, <b>отсюда туда</b>: Take this to the car. Поэтому «взять с собой в гости» это take, а хозяин гостям говорит bring. Прошедшее brought («брот»), не bringed.",
+    "moving|GET IN": "<b>Get</b> здесь «попасть», <b>in</b> «внутрь»: get in = «попасть внутрь, сесть». Так говорят про легковую машину и такси, куда садишься согнувшись. В автобус, поезд, самолёт <b>get on</b>, потому что туда входишь стоя, как на платформу. Логика та же, что у in the car и on the bus.",
+    "moving|GET OUT": "Противоположность get in: <b>out</b> = «наружу». Если называешь, откуда, после out нужно of: get out of the car. Из автобуса <b>get off</b>. Осторожно: одно Get out! без продолжения звучит грубо, «вон отсюда!».",
+    "moving|LEAVE": "Leave значит «оставить»: leave the house = «оставить дом», то есть уйти. Поэтому место идёт сразу, без предлога: I left the gym, а не left from the gym. Если называешь, куда едешь, нужно for: <b>leave for work</b>. Второй смысл «оставить вещь»: I left my phone at home = забыл телефон дома.",
+    "moving|TAKE": "Take это «взять и унести», движение <b>от говорящего</b>, туда: Take it with you = «возьми с собой». Если вещь движется к тебе, это bring. Ещё take значит «поехать на транспорте»: <b>take a taxi</b>, take the bus, ты как будто берёшь транспорт себе.",
+    "possessive|HER · HERS": "У «её» две формы. <b>Her</b> стоит перед вещью: her bag. <b>Hers</b> стоит один, вместо «её вещь»: The bag is hers. Самостоятельные формы почти все кончаются на -s: yours, hers, ours, theirs (исключения mine и his). Апостроф не нужен: hers, а не her's. И her ещё значит «её, ей» в смысле «кого»: I saw her.",
+    "possessive|HIS · HIS": "У «его» одна форма на оба случая: his car и The car is his. Слово и так кончается на s, поэтому второе не добавляют. Не путай с <b>him</b>: him это «его» в смысле «кого»: I know him.",
+    "possessive|OUR · OURS": "<b>Our</b> стоит перед вещью: our house. <b>Ours</b> вместо «наша вещь», после него существительного нет: This house is ours. Апострофа нет. Американцы часто сжимают our до короткого «ар».",
+    "possessive|THEIR · THEIRS": "<b>Their</b> перед вещью: their gift. <b>Theirs</b> один, вместо «их вещь»: The gift is theirs. Their звучит так же, как <b>there</b> (там) и <b>they're</b> (они), поэтому в комментах их путают даже носители. Проверка: если по смыслу «их», пиши their.",
+    "quantity|A FEW": "Вся разница между few и a few в артикле a. С ним смысл хороший: «несколько, есть». Без него грустный: few = «мало, почти нет». I have a few friends = у меня есть пара друзей. I have few friends = у меня почти нет друзей. Только со штуками, которые считаются: a few days.",
+    "quantity|A LITTLE": "Та же пара, что a few и few, только для того, что не считается штуками: вода, время, деньги. С a смысл хороший: <b>a little time</b> = немного времени есть. Без a: little time = времени почти нет. Перед прилагательным a little значит «слегка»: a little tired.",
+    "quantity|A LOT OF": "<b>Lot</b> значит «куча, партия», a lot of = «куча чего-то». Поэтому подходит ко всему: a lot of people и a lot of time. Это выход, когда сомневаешься, many или much: в утверждении a lot of подходит всегда. Если существительного после нет, of убирают: I train a lot.",
+    "quantity|ENOUGH": "Enough меняет место от соседа. Перед существительным: <b>enough money</b>. После прилагательного: <b>big enough</b>, good enough. Русское «достаточно большой» тянет поставить enough вперёд, но с прилагательным оно всегда сзади. Читается «инаф»: gh звучит как ф.",
+    "quantity|FEW": "Без a слово few значит «мало, недостаточно», смысл грустный. A few = «несколько, хватает», смысл хороший. Одно few в живой речи звучит книжно, поэтому говорят <b>not many</b>: Not many people came. С very звучит естественно: very few people.",
+    "quantity|LITTLE": "Little без a значит «мало, почти нет», про то, что не считается: little time. С a смысл хороший: a little time = немного есть. Ещё little значит «маленький»: a little dog. Различает их сосед: перед предметом это размер, перед временем, водой, деньгами количество. В разговоре «мало» чаще not much.",
+    "quantity|MANY": "Many только для штук, которые можно посчитать: many views, many people. После него слово всегда во множественном. В утверждении many звучит книжно: I have many friends говорят реже, чем <b>a lot of friends</b>. А в вопросе и с not оно живое: How many? Not many.",
+    "quantity|MUCH": "Much для того, что не считается штуками: время, деньги, вода. После него слово без -s: much time. В утверждении звучит книжно, поэтому там говорят a lot of, а much оставляют вопросам и отрицаниям: How much? Not much. Thank you very much работает, потому что much тут усиливает «спасибо», а не считает вещи.",
+    "quantity|NONE": "None это сжатое not one, «ни одного». Поэтому оно заменяет и слово, и отрицание: None of my friends came, без not при глаголе. Одним словом в ответе: How many? None. Прямо перед существительным, без of, вместо none ставят <b>no</b>: no time, no friends.",
+    "quantity|TOO MANY": "<b>Too</b> значит «слишком»: это уже перебор, плохо. Too many для штук: too many ads. Отличай от <b>so many</b> = «так много»: это удивление, а не жалоба. Too всегда со знаком минус.",
+    "quantity|TOO MUCH": "Too + much = «слишком много» того, что не считается: too much sugar. После глагола работает и без существительного: I ate too much. Отдельной фразой <b>This is too much</b> = «это уже слишком». Too всегда со знаком минус; хочешь похвалить, скажи so much.",
+    "questions|HOW LONG": "<b>Long</b> значит и «длинный», и «долгий». Поэтому how long спрашивает и про время, и про длину: How long is the video? (какой длины), How long have you been here? (как давно). Про время отвечают с <b>for</b> или about: For two years. About a year.",
+    "questions|HOW MANY": "How + many = «насколько много штук». После него сразу вещь во множественном: How many views? How many sets? Если вещь штуками не считается, нужно how much. Подсказка: ответ числом штук значит how many.",
+    "questions|HOW MUCH": "How + much = «насколько много» того, что не считается: How much time? How much water? Отсюда и цена: <b>How much is it?</b> спрашивает «сколько денег», а само money опускают. Поэтому про цену всегда much, даже если вещь одна: How much is this jacket?",
+    "questions|HOW OFTEN": "How + often = «насколько часто». Отвечают словом частоты или «сколько раз за период»: <b>Three times a week.</b> Every day. Once a month. За период ставят a, а не in: three times a week. Вопрос строится через do: How often do you train?",
+    "questions|WHICH": "<b>Which</b> выбирает из того, что уже видно или названо: Which one? = «какой из этих?». <b>What</b> спрашивает вообще, без готового списка: What do you want? Если выбор из двух-трёх перед глазами, бери which. Часто с one: <b>Which one?</b>",
+    "questions|WHOSE": "Whose это «чей», вопрос о хозяине. Ставится прямо перед вещью: Whose phone is this? Звучит так же, как <b>who's</b> (who is, «кто это»), поэтому в письме их путают. Проверка: если по смыслу «чей», пиши whose.",
+    "rescue|CAN YOU WRITE IT?": "Can you…? это самая простая вежливая просьба, «можете…?». <b>It</b> стоит вместо слова, которое ты не понял, поэтому его повторять не нужно. Где писать, объяснять тоже не нужно: человек сам возьмёт телефон. Ещё вежливее <b>Could you write it down?</b>: write down = «записать».",
+    "rescue|HOLD ON": "<b>Hold on</b> дословно «держись, держи»: держи паузу, подожди. Пришло из телефонных разговоров, где значило «не вешай трубку». Теперь так просят секунду в любом разговоре, когда ищешь слово или телефон. Рядом: <b>Wait a sec</b>, One second.",
+    "rescue|HOW DO YOU SAY …?": "Здесь <b>you</b> значит не «ты», а «люди вообще», как русское «как говорят». Поэтому How do you say…? = «как это сказать?». Дальше называешь слово по-русски или показываешь: How do you say «вилка» in English? Do нужен, потому что это вопрос в простом времени.",
+    "rescue|I'M STILL LEARNING": "<b>Still</b> значит «всё ещё, пока». Learning с -ing, потому что учёба идёт и не закончена. Вместе это «я всё ещё учусь»: так извиняются за ошибки и мягко просят говорить проще. English можно не добавлять, из разговора и так понятно.",
+    "rescue|SLOWER, PLEASE": "<b>Slower</b> это slow + -er, «медленнее». Полная фраза Can you speak slower, please?, но в разговоре хватает двух слов. По учебнику правильнее more slowly, но носители почти всегда говорят slower, и это нормально.",
+    "rescue|THE THING FOR …": "<b>Thing</b> это «штука, вещь», то есть любое слово, которое ты забыл. The thing for… = «такая штука для…», и дальше говоришь, для чего: the thing for opening bottles = открывалка. После for глагол с -ing, потому что после предлога глагол становится существительным. Носители сами так делают, когда забыли слово.",
+    "road|BRAKE-CHECK": "<b>Brake</b> это тормоз, <b>check</b> проверка. Brake-check дословно «проверить тормоза» того, кто едет сзади: резко затормозить, чтобы он испугался. Поэтому это не просто «затормозить» (brake), а нарочно и назло. Не путай brake (тормоз) и break (ломать): звучат одинаково.",
+    "road|CUT OFF": "<b>Cut</b> «резать», <b>off</b> «отделить»: cut someone off = «отрезать кого-то», влезть перед ним так, что ему приходится тормозить. Как русское «подрезать». Человек стоит между cut и off: <b>He cut me off</b>. Прошедшее тоже cut, форма не меняется.",
+    "road|MERGE": "Merge значит «слиться»: две вещи становятся одной. На дороге две полосы сходятся в одну, и ты вливаешься в поток: merge into traffic. Отличай от <b>change lanes</b> = просто перестроиться в соседнюю полосу. Знак Merge в США стоит там, где полосы сходятся.",
+    "smalltalk|About a year.": "<b>About</b> здесь значит «примерно», как русское «где-то». Отвечают коротко, без I have been here: вопрос уже задал, о чём речь. A перед year значит «один». Дольше: About two years. Меньше: A few months.",
+    "smalltalk|Good, thanks. And you?": "How are you? в Америке это приветствие, а не настоящий вопрос. Ответ короткий и почти всегда хороший: Good, thanks. Подробностей о делах не ждут. <b>And you?</b> возвращает вопрос, и разговор вежливо продолжается. Американцы чаще говорят good, чем учебное well; верно и то, и другое.",
+    "smalltalk|I make videos for YouTube.": "На What do you do? называют дело, а не должность. <b>Make</b>, потому что ролик ты создаёшь: make videos, а не do videos. For YouTube = «для какой площадки». Спросят дальше What kind of videos?, можно ответить Short funny videos.",
+    "smalltalk|I'm from Russia. I live in Tbilisi now.": "<b>From</b> про то, откуда ты родом, это не меняется: I'm from Russia. <b>Live in</b> про то, где ты сейчас. Live в простом времени, потому что это твоя обычная жизнь, а не один момент. Now в конце показывает, что раньше было иначе.",
+    "smalltalk|Nice to meet you too.": "Если тебе сказали Nice to meet you, отвечают тем же плюс <b>too</b>, «тоже», в конце. Можно короче: You too. На прощание говорят уже Nice meeting you, с -ing, потому что знакомство уже состоялось.",
+    "smalltalk|Not bad. You?": "How's it going? это неформальное How are you? Ответ тоже лёгкий: Not bad, «неплохо», и в английском это звучит нормально, без жалобы. <b>You?</b> одно слово вместо And you?, так говорят между своими.",
+    "smalltalk|Not much. Just working.": "What's up? дословно «что наверху, что происходит?». Ответ про новости: <b>Not much</b> = «ничего особого». <b>Just</b> значит «просто, всего лишь»: Just working = «просто работаю». I'm в начале опущено, в разговоре так можно.",
+    "smalltalk|Thanks, I'm still learning.": "На комплимент сначала благодарят: Thanks. Спорить «нет, у меня плохой» не принято, это звучит странно. Скромность дальше: <b>still learning</b>, «всё ещё учусь». С -ing, потому что учёба идёт и не закончена.",
+    "smalltalk|Yeah, I love it. The food is great.": "<b>Love it</b> про место значит «очень нравится», это не про любовь. It обязателен: I love it, а не просто I love. Вторая фраза даёт причину, чтобы разговор не оборвался: собеседнику есть за что зацепиться.",
+    "smalltalk|You too!": "На любое пожелание (Have a good one, Have a nice day, Good luck) отвечают You too!, «и тебе». Too значит «тоже» и стоит в конце. Осторожно в кафе: если официант сказал Enjoy your meal, You too! звучит смешно, тут отвечают просто Thanks!",
+    "somebody|ANYTHING ELSE?": "<b>Else</b> значит «ещё, другой» и ставится после слов на some-, any-, no-, every-: anything else, someone else. Any-, потому что это вопрос, а в вопросах any-. Так спрашивают в кафе и магазине: Anything else? Ответ: <b>That's it, thanks</b> = это всё.",
+    "somebody|ANYTIME": "Any + time = «любое время». Отсюда два смысла. Прямой: Call me anytime = звони когда угодно. И ответ на спасибо: Thanks! Anytime! = «обращайся», то есть помогу в любое время снова. Пишется слитно.",
+    "somebody|ANYWAY": "Any + way = «любым путём»: как бы ни было. Отсюда «всё равно»: I'll go anyway. И «короче, ладно», когда возвращаешь разговор к главному: Anyway, what's new? Вслух часто anyways с s, в письме лучше anyway.",
+    "somebody|EVERYONE ELSE": "<b>Else</b> = «другие, кроме». Everyone else = все, кроме тебя или того, о ком речь, то есть все остальные. Глагол после everyone в единственном числе, как после he: Everyone else <b>is</b> here. Частая ошибка русских: хочется are, потому что «все» это много.",
+    "somebody|NO ONE": "No + one = «ни один», то есть никто. Пишется раздельно, без дефиса. Как и nobody, уже содержит отрицание, поэтому глагол без not: No one came. По-русски «никто не пришёл» с двумя отрицаниями, в английском одно.",
+    "somebody|NOTHING ELSE": "Nothing = «ничего», else = «ещё, другого». Nothing else = «больше ничего». Отрицание уже внутри, поэтому глагол без not: I need nothing else. Чаще говорят через not и anything: <b>I don't need anything else</b>, смысл тот же.",
+    "somebody|SOMEHOW": "Some + how = «каким-то образом», ты не знаешь, каким именно: Somehow it worked = «как-то сработало». Ещё значит «почему-то»: Somehow I don't like him. Подходит, когда объяснения нет.",
+    "somebody|SOMEONE": "Some + one = «какой-то один», кто-то. Someone и somebody одинаковые, somebody чуть разговорнее. Ставится в утверждениях: Someone called you. В вопросе и с not меняется на anyone: Did anyone call? Глагол после него в единственном числе: Someone is here.",
+    "somebody|SOMEONE ELSE": "Someone + else = «кто-то другой, не этот»: Ask someone else = спроси кого-то другого. Else всегда стоит после слова. С 's получается «чужой»: <b>someone else's</b> phone = чужой телефон.",
+    "somebody|SOMETHING ELSE": "Something + else = «что-то другое» или «что-то ещё»: I want something else = хочу другое. В сленге <b>That's something else!</b> = «это нечто!», когда что-то поражает.",
     "prep-hacks|in · on · at": "Представь три размера. <b>In</b> для большого пространства, внутри которого ты находишься: город, страна, месяц, год. <b>On</b> для среднего, которое видишь как поверхность или линию: улица, день. <b>At</b> для точки: адрес, кафе, час. Чем меньше и точнее место или время, тем «уже» предлог.",
     "prep-hacks|in the car · on the bus": "Англичанин смотрит, как ты внутри находишься. В легковой машине или такси сидишь согнувшись, как в коробке, поэтому <b>in</b>. В автобусе, поезде, самолёте можно встать и пройтись, ты как будто стоишь на полу-платформе, поэтому <b>on</b>. Мотоцикл и велосипед тоже <b>on</b>: на них сидишь сверху.",
     "prep-hacks|home · here · there": "Слова <b>home</b>, <b>here</b>, <b>there</b> сами уже значат «куда»: домой, сюда, туда. Предлог to внутри них уже есть, поэтому второй не нужен. Сравни: «иди в зал» = go <b>to</b> the gym, а «иди домой» = go home, потому что «домой» уже содержит направление.",
@@ -4492,13 +4593,15 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2>${d.pos?`<div class="dpos">${posMany(d.pos)}</div>`:''}<div class="prog"></div>${steps}</section>`;
   };
   const byId = Object.fromEntries(SHOWN.map(d=>[d.id,d])), placed = new Set();
+  const topics = []; // [group, section id, short name] for the strip of topics on top
   decksEl.innerHTML = ['words','talk','num','work'].map(g=>{
     const secs = (SECTIONS[g]||[]).map(([t,ids])=>[t, ids.map(id=>byId[id]).filter(Boolean)]);
     secs.forEach(([,ds])=>ds.forEach(d=>placed.add(d.id)));
     const rest = SHOWN.filter(d=>(d.group||'words')===g && !placed.has(d.id));
     if(rest.length) secs.push(['Ещё', rest]);
-    return secs.filter(([,ds])=>ds.length).map(([t,ds])=>`<div class="lsg"><h3 class="lsh">${t}</h3><div class="lgrid">${ds.map(deckHTML).join('')}</div></div>`).join('');
+    return secs.filter(([,ds])=>ds.length).map(([t,ds],i)=>{ topics.push([g,`sec-${g}-${i}`,t.split(':')[0]]); return `<div class="lsg" id="sec-${g}-${i}"><h3 class="lsh">${t}</h3><div class="lgrid">${ds.map(deckHTML).join('')}</div></div>`}).join('');
   }).join('');
+  topicsEl.innerHTML = topics.map(([g,id,t])=>`<button data-sec="${id}" data-tg="${g}">${t}</button>`).join('');
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
@@ -4531,7 +4634,6 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
       + (x.m || x.when || it.p.kind==='talk' || it.form || WHY[id] || (formsOf(it,id)||[]).length ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди. Правило темы наверху карточки.</p>`);
   }
-  navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
   // ---------- filter (hoisted: setGroup calls it before progress code runs) ----------
   var curGroup = 'words', filter = 'all';
@@ -4568,10 +4670,27 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       d.hidden = !inG || !shown;
       d.querySelector('.prog').innerHTML = (known ? `знаю ${known} из ${total}` : `${total} ${d.dataset.unit||'слов'}`) + (locked ? '<span class="pl"> · следующая ступень откроется на 80% «Знаю»</span>' : '');
     });
-    document.querySelectorAll('nav a').forEach(a=>{a.hidden=document.getElementById(a.getAttribute('href').slice(1)).hidden});
+    // a topic with nothing under the current filter disappears from the strip
+    topicsEl.querySelectorAll('button').forEach(b=>{b.hidden = b.dataset.tg!==g || !document.getElementById(b.dataset.sec).querySelector('.deck:not([hidden])')});
+    spy();
     Object.keys(cnt).forEach(k=>{const el=document.getElementById('c-'+k); if(el) el.textContent=cnt[k]});
     const empty=document.getElementById('empty'); if(empty) empty.hidden=!!document.querySelector('.deck:not([hidden])');
   }
+
+  // ---------- topics strip: tap jumps to the section, the section on screen is lit ----------
+  const topEl = document.getElementById('top');
+  function spy(){
+    if(document.getElementById('app').classList.contains('in-deck')) return;
+    const h = topEl.offsetHeight; document.documentElement.style.setProperty('--toph', (h+12)+'px');
+    const bs = [...topicsEl.querySelectorAll('button:not([hidden])')];
+    let on = bs[0];
+    bs.forEach(b=>{ if(document.getElementById(b.dataset.sec).getBoundingClientRect().top <= h+40) on=b });
+    bs.forEach(b=>{ const c = b===on; if(c && b.getAttribute('aria-current')!=='true'){ topicsEl.scrollTo({left:b.offsetLeft-16-(topicsEl.clientWidth-b.offsetWidth)/2, behavior:'smooth'}) } b.setAttribute('aria-current', String(c)) });
+  }
+  topicsEl.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
+    document.getElementById(b.dataset.sec).scrollIntoView({behavior:'smooth', block:'start'}) });
+  let spyRaf=0; window.addEventListener('scroll',()=>{ if(!spyRaf) spyRaf=requestAnimationFrame(()=>{spyRaf=0; spy()}) }, {passive:true});
+  window.addEventListener('resize',spy);
 
   // ---------- groups: words / numbers ----------
   const gbtns = [...document.querySelectorAll('[data-group]')].filter(b=>b.tagName==='BUTTON');
@@ -4733,7 +4852,9 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     if(el){ el.classList.add('cur'); if((d.group||'words')!==curGroup) setGroup(d.group||'words'); else applyFilter(); window.scrollTo(0,0) }
     else { applyFilter(); window.scrollTo(0,listY) }
   }
-  function openDeck(id){listY=window.scrollY; show(id); try{history.pushState({deck:id},''); pushed=true}catch(e){}}
+  // the browser must not restore its own scroll on «back»: it remembers 0 from inside the deck and throws the list to the top
+  try{history.scrollRestoration='manual'}catch(e){}
+  function openDeck(id){listY=window.scrollY; try{history.pushState({deck:id},''); pushed=true}catch(e){} show(id)}
   let ownPop=false; // our own history.back() fires a late popstate; it must not close a deck opened again meanwhile
   function backToList(){ if(pushed){pushed=false; ownPop=true; try{history.back()}catch(e){ownPop=false}} show(null) }
   decksEl.addEventListener('click',e=>{ if(root.classList.contains('in-deck')) return; const dk=e.target.closest('.deck'); if(dk){e.stopPropagation(); openDeck(dk.id)} }, true);
