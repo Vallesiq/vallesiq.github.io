@@ -646,6 +646,28 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'В кафе: <b>Can I get the check, please?</b> (в США check, в Европе bill). Сколько стоит: <b>How much is it?</b>, it costs $5. <b>Keep the change</b> = сдачи не надо. <b>FREE</b> ещё и «свободный»: Are you free tonight? <b>Ten bucks</b> = десять баксов.'},
 
   // ===== новые =====
+  // ===== лайфхаки по предлогам: правила, которые закрывают сразу много случаев =====
+  {id:'prep-hacks', pos:'phack', prep:true, title:'Preposition Hacks', ru:'Лайфхаки: как не ошибаться с предлогами', rows:[
+    ['in · on · at','in|on|at','пирамида: большое → среднее → точка','In May, on May 5, at 5 p.m. In Tbilisi, on Rustaveli Avenue, at the café.','В мае, пятого мая, в пять вечера. В Тбилиси, на проспекте Руставели, в кафе.','on Tbilisi'],
+    ['in the car · on the bus','in|on','встать в полный рост можно → on, нельзя → in','Get in the taxi. Get on the bus.','Садись в такси. Садись в автобус.','in the bus'],
+    ['home · here · there','','с этими словами to не нужен','Come here! Let\'s go there. I got home late.','Иди сюда! Пошли туда. Я поздно добрался домой.','go to there'],
+    ['before eating · after training','before|after','после предлога глагол с -ing','Don\'t eat right before training.','Не ешь прямо перед тренировкой.','before eat'],
+    ['Who are you talking to?','to','в вопросе предлог уходит в конец','What are you looking at? Where are you from?','На что ты смотришь? Откуда ты?','To who are you talking?'],
+    ['in English','in','язык всегда с in','How do you say it in English?','Как это сказать по-английски?','on English'],
+    ['by car · on foot','by|on','способ: by + транспорт без the, пешком on foot','I go to the gym on foot. She came by taxi.','Я хожу в зал пешком. Она приехала на такси.','by foot'],
+    ['for you · to help','for|to','«для» = for, «чтобы» = to + глагол','This is for you. I came to help.','Это тебе. Я пришёл помочь.','I came for help you'],
+  ], note:'<b>Главный лайфхак: не переводи предлог с русского.</b> «На автобусе» это on, а «на машине» уже in; «в» бывает in, at и to. Поэтому учи кусок целиком, как одно слово: не in, а <b>in the car</b>; не on, а <b>on the bus</b>. Сомневаешься в месте: <b>in</b> внутри, <b>on</b> на поверхности или линии, <b>at</b> точка на карте.', steps:[
+    {title:'Ловушки русского', ru:'Где русский подсказывает неправильно', prep:true, rows:[
+    ['throw at · throw to','at|to','at = в кого-то (цель, агрессия), to = кому-то (передать)','He threw the ball to me. Somebody threw a rock at the car.','Он бросил мне мяч. Кто-то бросил камень в машину.',''],
+    ['with a knife · by me','with|by','with = чем (инструмент), by = кем (автор)','He cut it with a knife. This video was made by me.','Он разрезал это ножом. Этот ролик сделал я.','cut it by a knife'],
+    ['at Mike\'s · at the dentist\'s','at','«у кого-то» = at + имя с \'s','Let\'s meet at Mike\'s. I was at the dentist\'s.','Давай встретимся у Майка. Я был у стоматолога.','by Mike'],
+    ['a cup of coffee','of','мера + of: чашка, кусок, бутылка','Can I get a cup of coffee? A bottle of water, please.','Можно чашку кофе? Бутылку воды, пожалуйста.','a cup coffee'],
+    ['like a pro · as a coach','like|as','like = похоже на, as = в роли','He drives like a crazy man. I work as an editor.','Он водит как сумасшедший. Я работаю монтажёром.','I work like an editor'],
+    ['between · among','between|among','между двумя · среди многих','The café is between the bank and the gym. He was among the fans.','Кафе между банком и залом. Он был среди фанатов.',''],
+    ['in the photo · on the screen','in|on','фото и видео внутри (in), экран это поверхность (on)','Who\'s that in the photo? Look at the text on the screen.','Кто это на фото? Посмотри на текст на экране.','on the photo'],
+    ], note:'<b>At против to</b> полезно для роликов lastbiker: <b>he threw a bottle at the car</b> значит бросил в машину, чтобы попасть. <b>Shout at</b> = орать на, <b>shout to</b> = крикнуть, чтобы услышали. Если в действии есть злость или прицел, почти всегда at.'},
+  ]},
+
   {id:'place', pos:'prep', title:'Prepositions of Place', ru:'Где находится', tiles:[
     ['IN','в, внутри', `<path d="M12 22v28h40V22"/>`+ball(32,42)],
     ['ON','на', `<rect x="14" y="32" width="36" height="20" rx="2"/>`+ball(32,24)],
@@ -656,7 +678,32 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['IN FRONT OF','перед', `<rect x="22" y="12" width="30" height="28" rx="2"/>`+ball(28,44,9)],
     ['ABOVE','над (не касаясь)', `<rect x="14" y="40" width="36" height="14" rx="2"/>`+ball(32,14)+`<path class="d" d="M32 24v10"/>`],
     ['OPPOSITE','напротив', `<path class="k" d="M2 26h60M2 40h60"/><path class="k d" d="M4 33h56"/><rect x="24" y="6" width="16" height="14" rx="2"/>`+ball(32,52,6)],
-  ], note:'<b>Транспорт.</b> Куда можно встать в полный рост, там <b>on</b>: on the bus, on the plane, get on the train. В легковую <b>in</b>: in the car, in a taxi, get in the car.'},
+  ], note:'<b>Транспорт.</b> Куда можно встать в полный рост, там <b>on</b>: on the bus, on the plane, get on the train. В легковую <b>in</b>: in the car, in a taxi, get in the car.', steps:[
+    {title:'Ещё про место', ru:'Слева, в углу, наверху, вокруг', prep:true, rows:[
+    ['inside · outside','inside|outside','внутри · снаружи','Wait for me outside. It\'s warm inside.','Подожди меня на улице. Внутри тепло.',''],
+    ['near','near','недалеко от','Is there a gym near here?','Тут поблизости есть зал?','near of here'],
+    ['on the left · on the right','on','слева · справа','The pharmacy is on the left.','Аптека слева.','in the left'],
+    ['in the middle','in','посередине','He stopped in the middle of the road.','Он остановился посреди дороги.','on the middle'],
+    ['in the corner · on the corner','in|on','в углу комнаты · на углу улицы','The bag is in the corner. The café is on the corner.','Сумка в углу. Кафе на углу.',''],
+    ['at the top · at the bottom','at','наверху · внизу (чего-то)','The link is at the bottom of the screen.','Ссылка внизу экрана.','in the bottom'],
+    ['across from','across from','напротив (через улицу)','The gym is across from the bank.','Зал напротив банка.','opposite to the bank'],
+    ['around','around','вокруг','People stood around the car.','Люди стояли вокруг машины.',''],
+    ['on top of','on top of','на самом верху, поверх','The phone is on top of the fridge.','Телефон на холодильнике.',''],
+    ['below · above','below|above','ниже · выше (уровня)','It\'s ten degrees below zero.','Десять градусов ниже нуля.',''],
+    ], note:'<b>Corner</b> с двумя предлогами: внутри комнаты <b>in the corner</b>, снаружи на перекрёстке <b>on the corner</b> (в США) или at the corner. <b>Near</b> без of, хотя по-русски «недалеко от»: near the station. А вот <b>next to</b> и <b>in front of</b> идут с маленьким словом внутри, их учи целиком.'},
+    {title:'Движение: куда и через что', ru:'Into, through, across, past: для роликов с дороги', pos:'prep', prep:true, rows:[
+    ['into','into','в (движение внутрь)','The car crashed into a wall.','Машина врезалась в стену.','crashed in a wall'],
+    ['out of','out of','из (наружу)','Get out of the car!','Выйди из машины!','out from the car'],
+    ['onto','onto','на (движение на поверхность)','The cat jumped onto the hood.','Кот запрыгнул на капот.',''],
+    ['off','off','с (слезть, упасть, съехать)','He fell off the bike.','Он упал с мотоцикла.','fell down from the bike'],
+    ['through','through','через, сквозь','We drove through the tunnel.','Мы проехали через тоннель.',''],
+    ['across','across','через (на другую сторону)','A dog ran across the road.','Собака перебежала дорогу.',''],
+    ['along','along','вдоль, по','We rode along the coast.','Мы ехали вдоль побережья.',''],
+    ['past','past','мимо','A truck flew past us.','Мимо нас пронёсся грузовик.',''],
+    ['up · down','up|down','вверх · вниз (по)','He ran up the stairs. Go down the street.','Он взбежал по лестнице. Иди по улице.',''],
+    ['toward','toward','в сторону, навстречу','The car was coming toward us.','Машина ехала прямо на нас.','to us'],
+    ], note:'<b>In</b> и <b>on</b> отвечают «где», <b>into</b> и <b>onto</b> «куда»: <b>in the car</b> = в машине, <b>into the car</b> = в машину (движение). <b>Across</b> = на другую сторону плоского (дорога, поле), <b>through</b> = сквозь объём (тоннель, толпа, лес). Для lastbiker это золото: crashed into, flew past, ran across the road, fell off the bike.'},
+  ]},
 
   {id:'time', pos:'pphr', title:'At · On · In', ru:'Предлоги времени', tiles:[
     ['AT 7:00','в семь (точное время)', `<circle cx="32" cy="32" r="22"/><path d="M32 32V15M32 32l-6 10"/>`, 'at seven'],
@@ -668,7 +715,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['IN OCTOBER','в октябре (месяц)', CAL('OCT')],
     ['IN 2026','в 2026 году', `<rect x="6" y="18" width="52" height="28" rx="4"/><text class="t" x="32" y="38" font-size="16">2026</text>`, 'in twenty twenty-six'],
     ['IN SUMMER','летом (сезон)', `<circle cx="32" cy="32" r="10"/><path d="M32 8v6M32 50v6M8 32h6M50 32h6M15 15l4 4M45 45l4 4M49 15l-4 4M19 45l-4 4"/>`],
-  ], note:'<b>Чем точнее, тем короче слово:</b> IN (месяц, год, сезон) → ON (день, дата) → AT (час). Исключения запомнить парой: <b>at night</b>, но <b>in the morning / in the evening</b>.'},
+  ], note:'<b>Чем точнее, тем короче слово:</b> IN (месяц, год, сезон) → ON (день, дата) → AT (час). Исключения запомнить парой: <b>at night</b>, но <b>in the morning / in the evening</b>.', steps:[
+    {title:'Тонкости времени', ru:'Через, назад, с, до, вовремя', prep:true, rows:[
+    ['on Monday morning','on','в понедельник утром','See you on Monday morning.','Увидимся в понедельник утром.','in Monday morning'],
+    ['at noon · at midnight','at','в полдень · в полночь','The store closes at midnight.','Магазин закрывается в полночь.','in midnight'],
+    ['next week · last year','','на следующей неделе · в прошлом году','I\'m flying to Russia next week.','На следующей неделе я лечу в Россию.','on next week'],
+    ['in ten minutes','in','через десять минут','I\'ll be there in ten minutes.','Буду через десять минут.','after ten minutes'],
+    ['two days ago','','два дня назад','I saw him two days ago.','Я видел его два дня назад.','before two days'],
+    ['for two hours','for','(в течение) двух часов','I edited for two hours.','Я монтировал два часа.','during two hours'],
+    ['during the movie','during','во время фильма','He fell asleep during the movie.','Он уснул во время фильма.',''],
+    ['since May','since','с мая (и до сих пор)','I\'ve lived here since May.','Я живу здесь с мая.','I live here from May'],
+    ['from 9 to 5','from|to','с 9 до 5','I work from nine to five.','Я работаю с девяти до пяти.',''],
+    ['by Friday · until Friday','by|until','к пятнице · до пятницы','Finish it by Friday. I\'m here until Friday.','Закончи к пятнице. Я здесь до пятницы.',''],
+    ['on time · in time','on|in','вовремя · успеть','The bus came on time. We made it just in time.','Автобус пришёл вовремя. Мы успели в последний момент.',''],
+    ['at the end · in the end','at|in','в конце · в итоге','At the end of the video he laughs. In the end, it was fine.','В конце ролика он смеётся. В итоге всё обошлось.',''],
+    ], note:'Три лайфхака. <b>Перед next, last, this, every предлога нет:</b> next week, this morning, every day. <b>«Через» о времени это in, а не after:</b> in ten minutes; after бывает только после события: after the gym. <b>For или during:</b> for отвечает «сколько длилось» (for two hours), during «во время чего» (during the movie). <b>By</b> = не позже, <b>until</b> = всё время до.'},
+  ]},
 
   // ===== предлоги, которые держатся за слово =====
   {id:'prep-verbs', pos:'vprep', prep:true, title:'Listen To · Wait For', ru:'Глагол + предлог: люди и дела', rows:[
@@ -685,7 +747,22 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['call','','звонить кому-то','Call me later.','Позвони мне позже.','call to me'],
     ['answer','','отвечать на','Can you answer the phone?','Можешь ответить на звонок?','answer to the phone'],
     ['discuss','','обсуждать','Let\'s discuss the price.','Давай обсудим цену.','discuss about the price'],
-  ], note:'Предлоги в английском часто не совпадают с русскими, поэтому переводить их с русского не получится. По-русски «ждать друга» без предлога, а по-английски нужен for: <b>wait for a friend</b>. По-русски «зависеть <b>от</b>», но по-английски не from, а on: <b>depend on</b>. Поэтому глагол запоминай сразу вместе с его предлогом, как одно слово: не listen, а <b>listen to</b>. Бывает и наоборот: по-русски предлог есть, а по-английски не нужен. «Ответить <b>на</b> вопрос» это <b>answer the question</b>, «звонить <b>мне</b>» это <b>call me</b>. И одна пара, где предлог меняет смысл: <b>ask</b> = спросить, <b>ask for</b> = попросить.'},
+  ], note:'Предлоги в английском часто не совпадают с русскими, поэтому переводить их с русского не получится. По-русски «ждать друга» без предлога, а по-английски нужен for: <b>wait for a friend</b>. По-русски «зависеть <b>от</b>», но по-английски не from, а on: <b>depend on</b>. Поэтому глагол запоминай сразу вместе с его предлогом, как одно слово: не listen, а <b>listen to</b>. Бывает и наоборот: по-русски предлог есть, а по-английски не нужен. «Ответить <b>на</b> вопрос» это <b>answer the question</b>, «звонить <b>мне</b>» это <b>call me</b>. И одна пара, где предлог меняет смысл: <b>ask</b> = спросить, <b>ask for</b> = попросить.', steps:[
+    {title:'Ещё глаголы с предлогом', ru:'Платить за, объяснить кому, случиться с', prep:true, rows:[
+    ['pay for','for','платить за','I paid for the coffee.','Я заплатил за кофе.','paid the coffee'],
+    ['explain to','to','объяснить кому-то','Can you explain it to me?','Можешь мне объяснить?','explain me'],
+    ['think about · think of','about|of','думать о · какого мнения','I\'ll think about it. What do you think of this video?','Я подумаю. Что думаешь об этом ролике?',''],
+    ['happen to','to','случиться с','What happened to him?','Что с ним случилось?','happened with him'],
+    ['belong to','to','принадлежать','This bag belongs to me.','Эта сумка моя.','belongs me'],
+    ['apologize for','for','извиниться за','He apologized for the mistake.','Он извинился за ошибку.','apologized the mistake'],
+    ['complain about','about','жаловаться на','Everybody complains about the traffic.','Все жалуются на пробки.','complain on'],
+    ['believe in','in','верить в','I believe in you.','Я в тебя верю.',''],
+    ['deal with','with','разобраться с, справиться','I\'ll deal with it tomorrow.','Разберусь с этим завтра.',''],
+    ['shout at · shout to','at|to','орать на · крикнуть кому-то','Don\'t shout at me! He shouted to his friend.','Не ори на меня! Он крикнул другу.','shout on me'],
+    ['tell · say to','to','сказать: tell кому без to, say to','Tell me the truth. What did he say to you?','Скажи мне правду. Что он тебе сказал?','he said me'],
+    ['enter · reach','','войти в · добраться до','He entered the room. We reached the city at night.','Он вошёл в комнату. Ночью мы добрались до города.','entered into the room'],
+    ], note:'<b>Tell или say?</b> Tell сразу с человеком, без to: <b>tell me</b>. Say с человеком только через to: <b>say to me</b>, а чаще просто <b>say it</b>. <b>Explain</b> как say: <b>explain it to me</b>, не «explain me». <b>Enter</b> и <b>reach</b> работают без предлога, хотя по-русски «войти в», «добраться до».'},
+  ]},
 
   {id:'prep-places', pos:['vprep','phv','pphr'], prep:true, title:'Go To · Get On', ru:'Где и куда: in, at, on', rows:[
     ['go to','to','идти, ехать куда-то','I go to the gym every day.','Хожу в зал каждый день.','go in the gym'],
@@ -715,7 +792,20 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['famous for','for','знаменит чем-то','Tbilisi is famous for its food.','Тбилиси славится едой.',''],
     ['ready for','for','готов к','Are you ready for the trip?','Готов к поездке?',''],
     ['sorry for · sorry about','for|about','извини за','Sorry for being late. Sorry about that.','Извини за опоздание. Извини за это.',''],
-  ], note:'После прилагательного предлог держится так же крепко, как после глагола: <b>good at</b>, <b>afraid of</b>, <b>interested in</b>. После любого предлога глагол берёт <b>-ing</b>: good at <b>editing</b>, tired of <b>waiting</b>, sorry for <b>being</b> late.'},
+  ], note:'После прилагательного предлог держится так же крепко, как после глагола: <b>good at</b>, <b>afraid of</b>, <b>interested in</b>. После любого предлога глагол берёт <b>-ing</b>: good at <b>editing</b>, tired of <b>waiting</b>, sorry for <b>being</b> late.', steps:[
+    {title:'Ещё прилагательные с предлогом', ru:'Отличается от, полный, отвечает за', prep:true, rows:[
+    ['different from','from','отличается от','Life here is different from Russia.','Жизнь здесь отличается от России.',''],
+    ['full of','of','полный чего-то','The comments are full of jokes.','Комменты полны шуток.','full with jokes'],
+    ['responsible for','for','отвечает за','Who is responsible for this?','Кто за это отвечает?',''],
+    ['excited about','about','в предвкушении, радуется','I\'m excited about the trip.','Жду не дождусь поездки.',''],
+    ['worried about','about','переживает о','She\'s worried about her exam.','Она переживает из-за экзамена.','worried for'],
+    ['jealous of','of','ревнует, завидует','He\'s jealous of his brother.','Он завидует брату.','jealous on'],
+    ['good for · good at','for|at','полезно для · хорошо умеет','Swimming is good for your back. He\'s good at swimming.','Плавание полезно для спины. Он хорошо плавает.',''],
+    ['nice to · kind to','to','добр к, мил с','Be nice to her.','Будь с ней помягче.','nice with her'],
+    ['close to','to','близко к, близок с','The gym is close to my place.','Зал рядом с моим домом.','close from'],
+    ['sure about','about','уверен в','Are you sure about that?','Ты в этом уверен?','sure in that'],
+    ], note:'Лайфхак по чувствам: «переживать, радоваться, злиться <b>о чём-то</b>» почти всегда <b>about</b>: worried about, excited about, sad about, angry about. «Бояться, завидовать, гордиться» с <b>of</b>: afraid of, jealous of, proud of. <b>Good at</b> = умеешь, <b>good for</b> = полезно.'},
+  ]},
 
   // ===== глаголы-хамелеоны: смысл решает то, что стоит после =====
   // verb:true: forms are [key, 'GET + *слот*', что значит, как устроено]; rows are [phrase with *slot*, перевод, key, example, its translation, typical mistake]
@@ -3594,7 +3684,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     num:['числительное','number','числительные','numbers'], ord:['порядковое числительное','ordinal number','порядковые числительные','ordinal numbers'],
     say:['число в речи','spoken number','числа в речи','spoken numbers'], math:['слово для счёта','math word','слова для счёта','math words'],
     approx:['слово «примерно»','approximator','слова «примерно»','approximators'], abbr:['сокращение','abbreviation','сокращения','abbreviations'],
-    unit:['мера','unit','американские меры','units'], slang:['сленг','slang','сленг','slang'],
+    unit:['мера','unit','американские меры','units'], phack:['предлог в связке','preposition pattern','правила предлогов','preposition patterns'],
+    texp:['выражение времени без предлога','time expression','выражения времени','time expressions'], slang:['сленг','slang','сленг','slang'],
   };
   const VN = ['глагол и существительное','verb · noun'];
   const WPOS = {
@@ -3610,6 +3701,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     'prep-places|go home':['глагол + наречие','verb + adverb'], 'prep-places|get on · get off':'phv', 'prep-places|get in · get out of':'phv',
     'prep-places|at home · at work':'pphr', 'prep-places|on the street · in the city':'pphr', 'prep-places|on the phone':'pphr',
     'prep-places|on YouTube · on the internet':'pphr', 'prep-places|in the photo · in the video':'pphr',
+    'time|next week · last year':'texp', 'time|two days ago':'texp',
+    'prep-verbs|call':'verb', 'prep-verbs|answer':'verb', 'prep-verbs|discuss':'verb', 'prep-verbs|enter · reach':'verb',
     'taxi|AT THE CORNER':'pphr', 'taxi|TRAFFIC LIGHTS':'noun', 'taxi|INTERSECTION':'noun',
     'gym|STRETCH':VN, 'gym|REST':VN, 'teens|TEENAGER':'noun',
     'parts|TWICE':'adv', 'parts|DOUBLE':['прилагательное и глагол','adjective · verb'], 'parts|A COUPLE':'noun', 'parts|A DOZEN':'noun',
@@ -3629,7 +3722,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const SECTIONS = {
     words:[
       ['Глаголы: смысл от соседа', ['get','take','make','have','go','moving']],
-      ['Предлоги: где, куда, когда', ['place','prep-places','time','prep-verbs','prep-adj']],
+      ['Предлоги: где, куда, когда', ['prep-hacks','place','prep-places','time','prep-verbs','prep-adj']],
       ['Вопросы и «кто, что, чьё»', ['questions','somebody','possessive']],
       ['Сколько, когда, как часто', ['quantity','timewords','frequency']],
       ['Описать: какой и насколько', ['feelings','opposites','compare','intensity']],
