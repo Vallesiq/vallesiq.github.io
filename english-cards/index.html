@@ -142,7 +142,12 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:7px 34px 7px 10px;position:relative}
 .vm .vf{font-size:14px}
 .vm .vmr{font-size:12.5px;font-weight:500;color:var(--muted)}
-.vm i{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;font-size:11.5px;font-weight:700;color:var(--muted)}
+.vm>i{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;font-size:11.5px;font-weight:700;color:var(--muted)}
+.vpos{flex-basis:100%;display:flex;flex-direction:column;gap:1px;margin-top:2px;font-size:12px;font-weight:500;color:var(--muted);line-height:1.4;letter-spacing:0;text-transform:none}
+.vpos b{font-weight:700;color:var(--vc)}
+.vpos i{font-style:normal;font-weight:700;color:var(--ink)}
+.vh .vpos{margin-top:4px}
+.vp .vpos{margin:6px 0}
 .vm.on{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--vc)}
 /* formulas work as tabs: nothing open shows only the map; with a filter on, every group shows */
 #app[data-f="all"] .vstep:not([data-vk]) .vg,.vstep[data-vk] .vg:not(.on),.vstep[data-vk] .vh{display:none!important}
@@ -710,12 +715,12 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // ===== глаголы-хамелеоны: смысл решает то, что стоит после =====
   // verb:true: forms are [key, 'GET + *слот*', что значит, как устроено]; rows are [phrase with *slot*, перевод, key, example, its translation, typical mistake]
   {id:'get', verb:true, title:'GET', ru:'Глагол-хамелеон: смысл решает то, что стоит после', forms:[
-    ['n','GET + *вещь*','получить, взять, купить','После get стоит предмет, и смысл простой: этот предмет оказывается у тебя. Как именно, подсказывает ситуация. Письмо приходит, значит «получить». Кофе покупаешь, значит «взять». Работу ищешь, значит «найти». По-русски это три разных глагола, а по-английски один.'],
-    ['u','GET + *it*','понять','Отдельный смысл, который легко пропустить: get it значит «понять». Это одна из самых частых фраз в живой речи. <b>I don\'t get it</b> = не понимаю, <b>Got it</b> = понял, принято.'],
-    ['a','GET + *какой*','стать, начать чувствовать','После get стоит прилагательное, то есть слово «какой»: tired, nervous, cold. Смысл: ты становишься таким. Это процесс, поэтому про то, что происходит прямо сейчас, говорят с -ing: <b>I\'m getting tired</b> = я начинаю уставать.'],
-    ['p','GET + *куда*','добраться, попасть','После get стоит место. Смысл: добраться туда, неважно на чём. Перед местом нужен to: <b>get to the gym</b>. Без to говорят только home, there, here и downtown: <b>get home</b>, <b>get there</b>.'],
-    ['s','GET + *кого-то* + TO + делать','добиться, уговорить','После get стоит человек, потом to и глагол. Смысл: ты добился, чтобы он что-то сделал, обычно не сразу и не силой. To здесь обязателен. В этом главное отличие от make, где to нет: <b>make her smile</b>, но <b>get her to smile</b>.'],
-    ['ph','GET + *частица*','совсем новый глагол','После get стоит короткое слово: up, in, over, back. Вместе получается новый глагол со своим смыслом, и по частям его не угадать. Учи как отдельное слово.'],
+    ['n','GET + *вещь*','получить, взять, купить','После get стоит предмет, и смысл простой: этот предмет оказывается у тебя. Как именно, подсказывает ситуация. Письмо приходит, значит «получить». Кофе покупаешь, значит «взять». Работу ищешь, значит «найти». По-русски это три разных глагола, а по-английски один.', [['вещь', 'существительное', 'noun']]],
+    ['u','GET + *it*','понять','Отдельный смысл, который легко пропустить: get it значит «понять». Это одна из самых частых фраз в живой речи. <b>I don\'t get it</b> = не понимаю, <b>Got it</b> = понял, принято.', [['it', 'местоимение «это»', 'pronoun']]],
+    ['a','GET + *какой*','стать, начать чувствовать','После get стоит прилагательное, то есть слово «какой»: tired, nervous, cold. Смысл: ты становишься таким. Это процесс, поэтому про то, что происходит прямо сейчас, говорят с -ing: <b>I\'m getting tired</b> = я начинаю уставать.', [['какой', 'прилагательное', 'adjective']]],
+    ['p','GET + *куда*','добраться, попасть','После get стоит место. Смысл: добраться туда, неважно на чём. Перед местом нужен to: <b>get to the gym</b>. Без to говорят только home, there, here и downtown: <b>get home</b>, <b>get there</b>.', [['куда', 'to + место, без to только home, there, here', 'place']]],
+    ['s','GET + *кого-то* + TO + делать','добиться, уговорить','После get стоит человек, потом to и глагол. Смысл: ты добился, чтобы он что-то сделал, обычно не сразу и не силой. To здесь обязателен. В этом главное отличие от make, где to нет: <b>make her smile</b>, но <b>get her to smile</b>.', [['кого-то', 'дополнение: тот, на кого направлено', 'object'], ['TO + делать', 'глагол с to', 'to-infinitive']]],
+    ['ph','GET + *частица*','совсем новый глагол','После get стоит короткое слово: up, in, over, back. Вместе получается новый глагол со своим смыслом, и по частям его не угадать. Учи как отдельное слово.', [['частица', 'частица или предлог: up, in, off', 'particle, вместе phrasal verb']]],
   ], rows:[
     ['get *a letter*','получить письмо','n','I got a letter from the bank.','Мне пришло письмо из банка.',''],
     ['get *a taxi*','взять такси','n','Let\'s get a taxi to the airport.','Давай возьмём такси до аэропорта.',''],
@@ -747,9 +752,9 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     ['get *along*','ладить','ph','We get along really well.','Мы отлично ладим.','we get along good'],
   ], note:'GET сам по себе почти ничего не значит, смысл ему даёт следующее слово. Поэтому не учи «get = получать», а смотри, что стоит сразу после него: вещь, «какой», место, человек или частица. Каждая такая формула на этой карточке своего цвета. Get в живой речи заменяет книжные слова: receive (получить), become (стать), arrive (прибыть), understand (понять). Скажешь их, и тебя поймут, но звучать будет как из учебника.', steps:[
     {title:'GET + третья форма', ru:'Сделали за тебя, случилось с тобой, «у меня есть»', verb:true, forms:[
-      ['d','GET + *вещь* + V3','сделать чужими руками','После get стоит вещь и третья форма глагола (V3: cut, fixed, done). Смысл: это для тебя сделал кто-то другой, мастер или сервис. <b>I got my hair cut</b> = меня подстригли в парикмахерской. А <b>I cut my hair</b> значит, что ты стриг себя сам.'],
-      ['v','GET + *V3*','это с тобой случилось','После get сразу третья форма: married, lost, fired. Смысл: это случилось с тобой. <b>I got lost</b> = я заблудился, <b>he got fired</b> = его уволили. Это разговорная замена be: <b>he was fired</b> звучит официально, <b>he got fired</b> говорят в жизни.'],
-      ['hg','HAVE *GOT*','у меня есть · мне надо','Здесь get уже не про «получить». <b>I\'ve got a car</b> значит просто «у меня есть машина», это разговорная форма have. <b>I\'ve got to go</b> = мне надо идти, в быстрой речи звучит как <b>gotta go</b>.'],
+      ['d','GET + *вещь* + V3','сделать чужими руками','После get стоит вещь и третья форма глагола (V3: cut, fixed, done). Смысл: это для тебя сделал кто-то другой, мастер или сервис. <b>I got my hair cut</b> = меня подстригли в парикмахерской. А <b>I cut my hair</b> значит, что ты стриг себя сам.', [['вещь', 'существительное', 'noun'], ['V3', 'третья форма глагола', 'past participle']]],
+      ['v','GET + *V3*','это с тобой случилось','После get сразу третья форма: married, lost, fired. Смысл: это случилось с тобой. <b>I got lost</b> = я заблудился, <b>he got fired</b> = его уволили. Это разговорная замена be: <b>he was fired</b> звучит официально, <b>he got fired</b> говорят в жизни.', [['V3', 'третья форма глагола', 'past participle']]],
+      ['hg','HAVE *GOT*','у меня есть · мне надо','Здесь get уже не про «получить». <b>I\'ve got a car</b> значит просто «у меня есть машина», это разговорная форма have. <b>I\'ve got to go</b> = мне надо идти, в быстрой речи звучит как <b>gotta go</b>.', [['GOT', 'форма get, вместе с have', 'have got = have']]],
     ], rows:[
       ['get *my hair cut*','подстричься (у мастера)','d','I need to get my hair cut.','Мне надо подстричься.','I need to cut my hair|так ты стрижёшь себя сам'],
       ['get *my phone fixed*','отдать телефон в ремонт','d','I got my phone fixed yesterday.','Вчера мне починили телефон.',''],
@@ -765,11 +770,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ]},
 
   {id:'take', verb:true, title:'TAKE', ru:'Взять, поехать, занять время, сделать: решает слово после', forms:[
-    ['t','TAKE + *вещь*','взять, принять','После take стоит предмет: взять его с собой или в себя. Сюда же таблетки и фото, и именно тут русские чаще всего ошибаются: таблетки не drink, а <b>take</b>, фото не make, а <b>take</b>.'],
-    ['tr','TAKE + *транспорт*','поехать на','После take стоит транспорт: автобус, метро, такси. Смысл: воспользоваться им, поехать на нём. <b>I take the bus</b> = я езжу на автобусе.'],
-    ['tm','IT TAKES + *время*','занимает, уходит (времени)','Особая конструкция: <b>it takes</b> + время + to и что делаешь. По-русски «на это уходит час», по-английски «это берёт час». Хочешь сказать, у кого ушло время, ставь его после took: <b>it took me an hour</b>.'],
-    ['a','TAKE + *действие*','сделать (один раз)','После take стоит действие как существительное: душ, перерыв, взгляд. Вместе это одно короткое дело. Запоминай парой, потому что с другими глаголами так не скажут.'],
-    ['ph','TAKE + *частица*','новый глагол','Как у get: take с короткими словами off, out, care of даёт новые глаголы. Учи их целиком.'],
+    ['t','TAKE + *вещь*','взять, принять','После take стоит предмет: взять его с собой или в себя. Сюда же таблетки и фото, и именно тут русские чаще всего ошибаются: таблетки не drink, а <b>take</b>, фото не make, а <b>take</b>.', [['вещь', 'существительное', 'noun']]],
+    ['tr','TAKE + *транспорт*','поехать на','После take стоит транспорт: автобус, метро, такси. Смысл: воспользоваться им, поехать на нём. <b>I take the bus</b> = я езжу на автобусе.', [['транспорт', 'существительное: bus, metro, taxi', 'noun']]],
+    ['tm','IT TAKES + *время*','занимает, уходит (времени)','Особая конструкция: <b>it takes</b> + время + to и что делаешь. По-русски «на это уходит час», по-английски «это берёт час». Хочешь сказать, у кого ушло время, ставь его после took: <b>it took me an hour</b>.', [['время', 'сколько времени: 20 minutes, an hour', 'time phrase']]],
+    ['a','TAKE + *действие*','сделать (один раз)','После take стоит действие как существительное: душ, перерыв, взгляд. Вместе это одно короткое дело. Запоминай парой, потому что с другими глаголами так не скажут.', [['действие', 'существительное-действие: shower, break', 'noun']]],
+    ['ph','TAKE + *частица*','новый глагол','Как у get: take с короткими словами off, out, care of даёт новые глаголы. Учи их целиком.', [['частица', 'частица или предлог: up, in, off', 'particle, вместе phrasal verb']]],
   ], rows:[
     ['take *an umbrella*','взять зонт','t','Take an umbrella, it\'s raining.','Возьми зонт, идёт дождь.',''],
     ['take *a pill*','принять таблетку','t','Take one pill twice a day.','Принимайте по таблетке два раза в день.','drink a pill'],
@@ -790,11 +795,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Главная ловушка для русских: по-русски «делать фото», «пить таблетки», «делать перерыв», а по-английски во всех трёх <b>take</b>: take a photo, take a pill, take a break. Если хочется сказать make или drink, проверь, нет ли здесь take.'},
 
   {id:'make', verb:true, title:'MAKE', ru:'Создать, заставить, сделать каким, успеть', forms:[
-    ['c','MAKE + *вещь*','сделать, приготовить','После make стоит то, чего раньше не было: кофе, ужин, ролик. Смысл: создать это своими руками.'],
-    ['n','MAKE + *ошибку, решение…*','пары, которые учат вместе','С некоторыми словами всегда идёт make, хотя по-русски глагол другой: ошибиться, принять решение, зарабатывать. Логики почти нет, запоминай парой.'],
-    ['s','MAKE + *кого-то* + делать','заставить, вызвать','После make стоит человек и глагол <b>без to</b>. Смысл: ты (или что-то) вызвал у него это действие. <b>This video made me laugh</b> = этот ролик меня рассмешил. Сравни с get, где to нужен: <b>get her to smile</b>.'],
-    ['adj','MAKE + *кого-то* + какой','делать каким','После make стоит человек или вещь и прилагательное. Смысл: сделать его таким. <b>You make me happy</b> = ты делаешь меня счастливым.'],
-    ['it','MAKE *IT*','успеть, получилось, прийти','<b>Make it</b> без всего значит «справиться, успеть, добраться». <b>We made it!</b> = успели, получилось. <b>I can\'t make it tonight</b> = не смогу прийти вечером.'],
+    ['c','MAKE + *вещь*','сделать, приготовить','После make стоит то, чего раньше не было: кофе, ужин, ролик. Смысл: создать это своими руками.', [['вещь', 'существительное', 'noun']]],
+    ['n','MAKE + *ошибку, решение…*','пары, которые учат вместе','С некоторыми словами всегда идёт make, хотя по-русски глагол другой: ошибиться, принять решение, зарабатывать. Логики почти нет, запоминай парой.', [['ошибку, решение…', 'существительное, устойчивая пара', 'collocation']]],
+    ['s','MAKE + *кого-то* + делать','заставить, вызвать','После make стоит человек и глагол <b>без to</b>. Смысл: ты (или что-то) вызвал у него это действие. <b>This video made me laugh</b> = этот ролик меня рассмешил. Сравни с get, где to нужен: <b>get her to smile</b>.', [['кого-то', 'дополнение: тот, на кого направлено', 'object'], ['делать', 'глагол без to', 'bare infinitive']]],
+    ['adj','MAKE + *кого-то* + какой','делать каким','После make стоит человек или вещь и прилагательное. Смысл: сделать его таким. <b>You make me happy</b> = ты делаешь меня счастливым.', [['кого-то', 'дополнение: тот, на кого направлено', 'object'], ['какой', 'прилагательное', 'adjective']]],
+    ['it','MAKE *IT*','успеть, получилось, прийти','<b>Make it</b> без всего значит «справиться, успеть, добраться». <b>We made it!</b> = успели, получилось. <b>I can\'t make it tonight</b> = не смогу прийти вечером.', [['IT', 'местоимение «это»', 'pronoun']]],
   ], rows:[
     ['make *coffee*','сварить кофе','c','I\'ll make coffee for us.','Я сварю нам кофе.',''],
     ['make *dinner*','приготовить ужин','c','I\'m making dinner tonight.','Сегодня ужин готовлю я.',''],
@@ -815,11 +820,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Make или do? <b>Make</b> создаёт то, чего не было: make coffee, make a video, make a mistake. <b>Do</b> выполняет работу или дело: do homework, do the dishes, do sports, do your best. Если результат можно потрогать или показать, почти всегда make.'},
 
   {id:'have', verb:true, title:'HAVE', ru:'Есть у меня, поесть, провести, надо', forms:[
-    ['o','HAVE + *вещь*','у меня есть','После have стоит то, что у тебя есть: машина, брат, время. По-русски «у меня есть», по-английски «я имею», и <b>am</b> здесь не нужен.'],
-    ['f','HAVE + *еда, напиток*','есть, пить','После have стоит еда или напиток. Смысл: съесть или выпить. Так говорят чаще, чем eat и drink: <b>have breakfast</b>, <b>have a coffee</b>.'],
-    ['e','HAVE + *событие*','провести, устроить, пережить','После have стоит событие или состояние: вечеринка, встреча, хорошее время, головная боль. Смысл: это у тебя происходит.'],
-    ['to','HAVE TO + *делать*','надо, приходится','<b>Have to</b> + глагол = надо, приходится, обычно из-за обстоятельств. В прошлом <b>had to</b>: we had to wait. А <b>don\'t have to</b> значит «не обязательно», не путай с <b>mustn\'t</b> = нельзя.'],
-    ['d','HAVE + *вещь* + V3','сделать чужими руками','Как get something done, только чуть официальнее: <b>I had my car fixed</b> = мне починили машину.'],
+    ['o','HAVE + *вещь*','у меня есть','После have стоит то, что у тебя есть: машина, брат, время. По-русски «у меня есть», по-английски «я имею», и <b>am</b> здесь не нужен.', [['вещь', 'существительное', 'noun']]],
+    ['f','HAVE + *еда, напиток*','есть, пить','После have стоит еда или напиток. Смысл: съесть или выпить. Так говорят чаще, чем eat и drink: <b>have breakfast</b>, <b>have a coffee</b>.', [['еда, напиток', 'существительное', 'noun']]],
+    ['e','HAVE + *событие*','провести, устроить, пережить','После have стоит событие или состояние: вечеринка, встреча, хорошее время, головная боль. Смысл: это у тебя происходит.', [['событие', 'существительное', 'noun']]],
+    ['to','HAVE TO + *делать*','надо, приходится','<b>Have to</b> + глагол = надо, приходится, обычно из-за обстоятельств. В прошлом <b>had to</b>: we had to wait. А <b>don\'t have to</b> значит «не обязательно», не путай с <b>mustn\'t</b> = нельзя.', [['делать', 'глагол в начальной форме', 'infinitive']]],
+    ['d','HAVE + *вещь* + V3','сделать чужими руками','Как get something done, только чуть официальнее: <b>I had my car fixed</b> = мне починили машину.', [['вещь', 'существительное', 'noun'], ['V3', 'третья форма глагола', 'past participle']]],
   ], rows:[
     ['have *a car*','есть машина','o','I have a car, but I take the bus.','Машина у меня есть, но я езжу на автобусе.','I am have a car'],
     ['have *time*','есть время','o','Do you have time for a coffee?','Есть время на кофе?',''],
@@ -839,11 +844,11 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   ], note:'Have это три разных глагола в одном: «у меня есть» (have a car), «поесть или выпить» (have lunch) и «надо» (have to go). Отличаются они тем, что стоит после: вещь, еда или to с глаголом. В вопросе всегда do: <b>Do you have</b> time? Не «Have you time?», так говорят только в старых британских книжках.'},
 
   {id:'go', verb:true, title:'GO', ru:'Куда, чем заняться, каким стать, что дальше', forms:[
-    ['p','GO + *куда*','идти, ехать','После go стоит место с to: <b>go to the gym</b>. Без to только home, there, here, downtown, abroad: <b>go home</b>.'],
-    ['ing','GO + *-ing*','пойти заниматься','После go стоит глагол с -ing: shopping, swimming, running. Смысл: пойти чем-то заняться, обычно в свободное время. To здесь не нужен.'],
-    ['a','GO + *какой*','стать (само, обычно хуже)','Как get + какой, но про резкую перемену, которая случилась сама: сойти с ума, испортиться, завируситься. <b>The video went viral</b> = ролик разлетелся.'],
-    ['ph','GO + *частица*','новый глагол','Go с on, out, back, off даёт новые глаголы. <b>What\'s going on?</b> = что происходит?'],
-    ['f','BE GOING TO + *делать*','собираюсь','Это уже не про движение: <b>I\'m going to call her</b> = я собираюсь ей позвонить. В быстрой речи <b>gonna</b>: I\'m gonna call her.'],
+    ['p','GO + *куда*','идти, ехать','После go стоит место с to: <b>go to the gym</b>. Без to только home, there, here, downtown, abroad: <b>go home</b>.', [['куда', 'to + место, без to только home, there, here', 'place']]],
+    ['ing','GO + *-ing*','пойти заниматься','После go стоит глагол с -ing: shopping, swimming, running. Смысл: пойти чем-то заняться, обычно в свободное время. To здесь не нужен.', [['-ing', 'глагол с окончанием -ing', 'gerund']]],
+    ['a','GO + *какой*','стать (само, обычно хуже)','Как get + какой, но про резкую перемену, которая случилась сама: сойти с ума, испортиться, завируситься. <b>The video went viral</b> = ролик разлетелся.', [['какой', 'прилагательное', 'adjective']]],
+    ['ph','GO + *частица*','новый глагол','Go с on, out, back, off даёт новые глаголы. <b>What\'s going on?</b> = что происходит?', [['частица', 'частица или предлог: up, in, off', 'particle, вместе phrasal verb']]],
+    ['f','BE GOING TO + *делать*','собираюсь','Это уже не про движение: <b>I\'m going to call her</b> = я собираюсь ей позвонить. В быстрой речи <b>gonna</b>: I\'m gonna call her.', [['делать', 'глагол в начальной форме', 'infinitive']]],
   ], rows:[
     ['go *to the gym*','ходить в зал','p','I go to the gym four times a week.','Хожу в зал четыре раза в неделю.','go in the gym'],
     ['go *home*','идти домой','p','I\'m tired, I\'m going home.','Я устал, иду домой.','go to home'],
@@ -3552,10 +3557,12 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   // A row is [phrase with *slot*, перевод, form key, example, its translation, mistake as 'wrong' or 'wrong|почему']
   const slot = s=>s.replace(/\*(.+?)\*/g,'<b>$1</b>'), plain = s=>s.replace(/\*/g,'');
   const vc = i=>` style="--vc:var(--v${i%6+1})"`;
+  // forms[4] names each slot: [[слот, часть речи по-русски, term in English]], so «GET + it» reads as «it = местоимение · pronoun»
+  const posHTML = pos=>pos ? `<span class="vpos">${pos.map(([w,ru,en])=>`<span><b>${w}</b> = ${ru} · <i>${en}</i></span>`).join('')}</span>` : '';
   const noHTML = no=>{const [w,why]=no.split('|'); return `не так: <s>${w}</s>${why?`, ${why}`:''}`};
   const verbRow = (d,[ph,ru,,ex,exru,no])=>`<button class="row pv vr" data-id="${d.id}|${plain(ph).replace(/"/g,'')}" data-say="${(plain(ph)+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${slot(ph)}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
-  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span><i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
-    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small></div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
+  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span>${posHTML(f[4])}<i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
+    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small>${posHTML(f[4])}</div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
   const bodyOf = (p,d)=> p.kind==='verb' ? verbBody(p,d)
     : p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
     : p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
@@ -3621,7 +3628,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     return `<div class="ph"><div><div class="pw">${word}</div><div class="pt">${it.ru}</div></div><button class="pspk" data-say="${t.dataset.say}">▶ Звук</button></div>`
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
       + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
-      + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Формула</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}. ${it.form[3]}</div></section>` : '')
+      + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Формула</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])} ${it.form[3]}</div></section>` : '')
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
