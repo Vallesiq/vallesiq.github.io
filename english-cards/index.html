@@ -92,6 +92,26 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .kn-more[hidden]{display:none!important}
 .deck:not(.showkn) .step.allkn>.note{display:none}
 .deck.done{order:1}
+/* pages: the list is tiles (title, subtitle, progress), a tapped deck opens alone with a back button */
+#nav{display:none}
+#app:not(.in-deck) .decks{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px}
+#app:not(.in-deck) .deck{cursor:pointer;padding:14px 40px 14px 16px;gap:6px;position:relative}
+#app:not(.in-deck) .deck>.step{display:none}
+#app:not(.in-deck) .deck h2{text-align:left;font-size:19px}
+#app:not(.in-deck) .deck h2 small{font-size:12.5px;margin-top:4px}
+#app:not(.in-deck) .prog{text-align:left;margin-top:0}
+#app:not(.in-deck) .prog .pl{display:none}
+#app:not(.in-deck) .deck::after{content:"›";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:26px;line-height:1;color:var(--muted)}
+@media (hover:hover){#app:not(.in-deck) .deck:hover{border-color:var(--blue)}}
+.in-deck .deck:not(.cur){display:none!important}
+.in-deck .decks{grid-template-columns:minmax(0,720px);justify-content:center}
+.in-deck header,.in-deck .bar:has(>.seg.big),.in-deck .backup,.in-deck .sync{display:none}
+.crumb{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0;margin:-6px 0}
+.crumb[hidden]{display:none}
+.opts summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--blue);width:max-content;max-width:100%}
+.opts[open]{display:flex;flex-direction:column;gap:10px}
+
+.crumb button{font:700 14px var(--display);color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
 /* dialog rows: what you hear on top, your answer below in bold */
 .row.tk{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 26px 12px 4px}
 .tk .q{font-weight:600;font-size:14px;color:var(--muted);line-height:1.3}
@@ -114,9 +134,16 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .vf{font-weight:800;color:var(--ink)}
 .vf b,.vr .en b{color:var(--vc)}
 .vmap{display:flex;flex-direction:column;gap:7px;background:var(--bg);border-radius:12px;padding:12px 14px}
-.vm{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;border-left:3px solid var(--vc);padding-left:10px}
-.vm .vf{font-size:13.5px}
-.vm>span:last-child{font-size:12.5px;font-weight:500;color:var(--muted)}
+.vm{font:inherit;color:inherit;background:none;border:0;border-left:3px solid var(--vc);border-radius:0 8px 8px 0;text-align:left;cursor:pointer;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:7px 34px 7px 10px;position:relative}
+.vm .vf{font-size:14px}
+.vm .vmr{font-size:12.5px;font-weight:500;color:var(--muted)}
+.vm i{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;font-size:11.5px;font-weight:700;color:var(--muted)}
+.vm.on{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--vc)}
+/* formulas work as tabs: nothing open shows only the map; with a filter on, every group shows */
+#app[data-f="all"] .vstep:not([data-vk]) .vg,.vstep[data-vk] .vg:not(.on),.vstep[data-vk] .vh{display:none!important}
+.vhint{margin:-4px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+.vstep[data-vk] .vhint,#app:not([data-f="all"]) .vhint{display:none}
 .vg{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--vc);padding-left:10px}
 .vg:not(:has(.row:not(.fo))){display:none}
 .vh{font-size:clamp(16px,4.4vw,19px);letter-spacing:.01em;padding-top:4px}
@@ -205,8 +232,9 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 <div class="wrap" id="app">
   <header>
     <h1>English Icon Cards</h1>
-    <p>Картинка, слово, перевод. Нажми на слово, и откроется разбор: когда так говорят, с какими предлогами, примеры и отметки «Учу / Повторить / Знаю». Значок динамика озвучивает. Синие подчёркнутые фразы тоже озвучиваются. Оранжевая плашка: то, на чём ошибаются русские. Слова с «Знаю» сворачиваются в строку под карточкой. Отметил «Знаю» 80% слов, и в той же теме открывается следующая ступень.</p>
+    <p>Нажми на карточку, чтобы открыть. Внутри нажми на слово, и откроется разбор с отметками «Учу / Повторить / Знаю».</p>
   </header>
+  <div class="crumb" id="crumb" hidden><button id="back">‹ Все карточки</button></div>
   <div class="bar">
     <div class="seg big" role="group" aria-label="Раздел">
       <button id="g-words" data-group="words" aria-pressed="true">Слова</button>
@@ -214,21 +242,26 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
       <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
     </div>
-    <div class="seg" role="group" aria-label="Скорость голоса" id="speed">
-      <button id="s-1" data-rate="0.95" aria-pressed="true">Голос: обычно</button>
-      <button id="s-2" data-rate="0.6" aria-pressed="false">Медленно</button>
-    </div>
-    <select id="vsel" class="vsel" aria-label="Голос" hidden></select>
   </div>
+  <details class="opts" id="opts">
+    <summary>Голос и режим</summary>
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Скорость голоса" id="speed">
+        <button id="s-1" data-rate="0.95" aria-pressed="true">Голос: обычно</button>
+        <button id="s-2" data-rate="0.6" aria-pressed="false">Медленно</button>
+      </div>
+      <select id="vsel" class="vsel" aria-label="Голос" hidden></select>
+    </div>
+    <div class="bar">
+      <div class="seg" role="group" aria-label="Режим">
+        <button id="m-all" data-mode="all" aria-pressed="true">Всё видно</button>
+        <button id="m-ru" data-mode="hide-ru" aria-pressed="false">Закрыть перевод</button>
+        <button id="m-en" data-mode="hide-en" aria-pressed="false">Закрыть английский</button>
+      </div>
+      <button class="reset" id="reset" hidden>Закрыть заново</button>
+    </div>
+  </details>
   <p class="nosound" id="nosound" hidden>Этот браузер не умеет озвучивать текст. Открой страницу в Safari или Chrome.</p>
-  <div class="bar">
-    <div class="seg" role="group" aria-label="Режим">
-      <button id="m-all" data-mode="all" aria-pressed="true">Всё видно</button>
-      <button id="m-ru" data-mode="hide-ru" aria-pressed="false">Закрыть перевод</button>
-      <button id="m-en" data-mode="hide-en" aria-pressed="false">Закрыть английский</button>
-    </div>
-    <button class="reset" id="reset" hidden>Закрыть заново</button>
-  </div>
   <div class="bar">
     <div class="seg filt" role="group" aria-label="Показать" id="filt">
       <button data-f="all" aria-pressed="true">Все <i id="c-all"></i></button>
@@ -3517,8 +3550,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const vc = i=>` style="--vc:var(--v${i%6+1})"`;
   const noHTML = no=>{const [w,why]=no.split('|'); return `не так: <s>${w}</s>${why?`, ${why}`:''}`};
   const verbRow = (d,[ph,ru,,ex,exru,no])=>`<button class="row pv vr" data-id="${d.id}|${plain(ph).replace(/"/g,'')}" data-say="${(plain(ph)+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${slot(ph)}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
-  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<div class="vm"${vc(i)}><span class="vf">${slot(f[1])}</span><span>${f[2]}</span></div>`).join('')}</div>`
-    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small></div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
+  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span><i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
+    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small></div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
   const bodyOf = (p,d)=> p.kind==='verb' ? verbBody(p,d)
     : p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
     : p.kind==='prep' ? `<div class="rows">${p.items.map(t=>prepRow(d,t)).join('')}</div>`
@@ -3528,8 +3561,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
   decksEl.innerHTML = SHOWN.map(d=>{
     const many = d.parts.length>1;
-    const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
-    return `<section class="deck" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
+    const steps = d.parts.map((p,i)=>`<div class="step${p.open?' force':''}${p.kind==='verb'?' vstep':''}">${many?`<div class="sh">Ступень ${i+1}${i&&p.title?' · '+p.title:''}${i&&p.ru?`<small>${p.ru}</small>`:''}</div>`:''}<button class="lock">Открыть сейчас</button>${bodyOf(p,d)}<button class="kn-more" hidden></button>${p.note?`<div class="note">${p.note}</div>`:''}</div>`).join('');
+    return `<section class="deck" tabindex="0" id="${d.id}" data-group="${d.group||'words'}"${d.talk||d.prep||d.idiom||d.verb?' data-unit="фраз"':''}><h2>${d.title}<small>${d.ru}</small></h2><div class="prog"></div>${steps}</section>`;
   }).join('');
   // every word's raw data by its data-id, for the breakdown panel
   const ITEMS = {};
@@ -3565,6 +3598,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   var curGroup = 'words', filter = 'all';
   function applyFilter(){
     const f = filter || 'all', g = curGroup || 'words';
+    const app = document.getElementById('app'); app.dataset.f = f;
+    const inDeck = app.classList.contains('in-deck'); // inside a deck the counters count only that deck
     const cnt = {all:0,new:0,learn:0,repeat:0,known:0};
     document.querySelectorAll('.deck').forEach(d=>{
       const inG=d.dataset.group===g, showKn=d.classList.contains('showkn');
@@ -3580,7 +3615,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
         if(!open){locked++; st.querySelector('.sh').dataset.n = items.length; st.classList.toggle('fo', f!=='all'); if(f==='all') shown++; return}
         let here=0;
         total+=items.length; known+=k;
-        items.forEach(t=>{const s=t.dataset.st||'new'; if(inG){cnt.all++; cnt[s]++}
+        items.forEach(t=>{const s=t.dataset.st||'new'; if(inDeck ? d.classList.contains('cur') : inG){cnt.all++; cnt[s]++}
           const out = f==='all' ? (s==='known' && !showKn) : s!==f;
           t.classList.toggle('fo',out); if(!out) here++});
         const more=st.querySelector('.kn-more');
@@ -3592,7 +3627,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       d.querySelectorAll('.step.locked .lock').forEach(b=>{b.textContent=`Открыть сейчас · ${b.parentNode.querySelector('.sh').dataset.n} слов`});
       d.classList.toggle('done', !locked && total>0 && known===total);
       d.hidden = !inG || !shown;
-      d.querySelector('.prog').textContent = (known ? `знаю ${known} из ${total}` : `${total} ${d.dataset.unit||'слов'}`) + (locked ? ' · следующая ступень откроется на 80% «Знаю»' : '');
+      d.querySelector('.prog').innerHTML = (known ? `знаю ${known} из ${total}` : `${total} ${d.dataset.unit||'слов'}`) + (locked ? '<span class="pl"> · следующая ступень откроется на 80% «Знаю»</span>' : '');
     });
     document.querySelectorAll('nav a').forEach(a=>{a.hidden=document.getElementById(a.getAttribute('href').slice(1)).hidden});
     Object.keys(cnt).forEach(k=>{const el=document.getElementById('c-'+k); if(el) el.textContent=cnt[k]});
@@ -3626,7 +3661,13 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   btns.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
   reset.addEventListener('click',closeAll);
   decksEl.addEventListener('click',e=>{
+    if(!root.classList.contains('in-deck')) return; // on the list a tap opens the deck (pages code below)
     const b=e.target.closest('.note b.say'); if(b){speak(b.textContent,b);return}
+    // chameleon map: a formula is a tab, tap again to close it
+    const vm=e.target.closest('.vm'); if(vm){const st=vm.closest('.step'), on=!vm.classList.contains('on');
+      st.querySelectorAll('.vm.on,.vg.on').forEach(x=>x.classList.remove('on'));
+      if(on){vm.classList.add('on'); st.querySelector(`.vg[data-k="${vm.dataset.k}"]`).classList.add('on')}
+      st.toggleAttribute('data-vk', on); return}
     const km=e.target.closest('.kn-more'); if(km){km.closest('.deck').classList.toggle('showkn'); applyFilter(); return}
     const lk=e.target.closest('.lock'); if(lk){lk.parentNode.classList.add('force'); applyFilter(); return}
     const t=e.target.closest('.tile,.row'); if(!t) return;
@@ -3741,6 +3782,27 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     }catch(e){bkMsg.textContent='Не похоже на копию отметок. Вставь текст целиком, он начинается с EIC1:'}
   });
   paint();
+
+  // ---------- pages: the list shows each deck as one tile; a tap opens it alone, like a page in Notion ----------
+  // State lives here, not in the URL: inside the claude.ai frame the hash is unreliable. History is a bonus for the phone's back gesture.
+  const crumb=document.getElementById('crumb'); let listY=0, pushed=false;
+  function show(id){
+    const d=id && SHOWN.find(x=>x.id===id), el=d && document.getElementById(d.id);
+    document.querySelectorAll('.deck.cur').forEach(x=>x.classList.remove('cur'));
+    hideSheet(); cur=null;
+    root.classList.toggle('in-deck', !!el); crumb.hidden=!el;
+    if(el){ el.classList.add('cur'); if((d.group||'words')!==curGroup) setGroup(d.group||'words'); else applyFilter(); window.scrollTo(0,0) }
+    else { applyFilter(); window.scrollTo(0,listY) }
+  }
+  function openDeck(id){listY=window.scrollY; show(id); try{history.pushState({deck:id},''); pushed=true}catch(e){}}
+  let ownPop=false; // our own history.back() fires a late popstate; it must not close a deck opened again meanwhile
+  function backToList(){ if(pushed){pushed=false; ownPop=true; try{history.back()}catch(e){ownPop=false}} show(null) }
+  decksEl.addEventListener('click',e=>{ if(root.classList.contains('in-deck')) return; const dk=e.target.closest('.deck'); if(dk){e.stopPropagation(); openDeck(dk.id)} }, true);
+  decksEl.addEventListener('keydown',e=>{ if(e.key==='Enter' && !root.classList.contains('in-deck') && e.target.classList.contains('deck')) openDeck(e.target.id) });
+  document.getElementById('back').addEventListener('click',backToList);
+  window.addEventListener('popstate',()=>{ if(ownPop){ownPop=false; return} if(root.classList.contains('in-deck')){pushed=false; show(null)} });
+  const deep=SHOWN.find(x=>'#'+x.id===location.hash); if(deep) show(deep.id);
+
   // ask the browser not to evict local marks (matters for the standalone copy without an account)
   try{navigator.storage && navigator.storage.persist && navigator.storage.persist()}catch(e){}
   (async()=>{
