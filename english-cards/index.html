@@ -115,7 +115,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .in-deck .deck:not(.cur){display:none!important}
 .in-deck .lgrid{grid-template-columns:minmax(0,720px);justify-content:center}
 .in-deck .lsh,.in-deck .lsg:not(:has(.deck.cur)){display:none}
-.in-deck header,.in-deck .bar:has(>.seg.big),.in-deck .backup,.in-deck .sync{display:none}
+.in-deck header,.in-deck .game,.in-deck .bar:has(>.seg.big),.in-deck .backup,.in-deck .sync{display:none}
 .crumb{position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0;margin:-6px 0}
 .crumb[hidden]{display:none}
 .opts summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--blue);width:max-content;max-width:100%}
@@ -136,6 +136,23 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .hday small{grid-column:2;color:var(--muted)}
 .hbar{height:8px;background:var(--soft);border-radius:4px;overflow:hidden}
 .hbar i{display:block;height:100%;background:var(--blue)}
+.game{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer}
+.game .gl{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:0 6px}
+.game .gl b{font:800 15px var(--display);color:var(--ink);white-space:nowrap}
+.gbar{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin-top:6px}
+.gbar i{display:block;height:100%;background:var(--blue);transition:width .4s}
+.gbar.day i{background:var(--warn-fg)}
+.game small{display:block;margin-top:4px;font-size:11.5px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:30;background:var(--ink);color:var(--card);font:700 14px var(--display);padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px rgb(0 0 0 / .2);pointer-events:none;opacity:0;transition:opacity .2s,transform .2s;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-6px)}
+.toast.big{background:var(--blue);font-size:16px;padding:12px 20px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.badge{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:12px;color:var(--muted)}
+.badge b{display:block;font:700 13px var(--display);color:var(--ink);margin-bottom:2px}
+.badge.on{border-color:var(--blue)}
+.badge.on b{color:var(--blue)}
+.badge:not(.on){opacity:.55}
+.hh{margin:6px 0 0;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 
 .crumb button{font:700 14px var(--display);color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
 /* dialog rows: what you hear on top, your answer below in bold */
@@ -293,6 +310,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     <h1>English Icon Cards</h1>
     <p>Нажми на карточку, чтобы открыть. Внутри нажми на слово, и откроется разбор с отметками «Учу / Повторить / Знаю».</p>
   </header>
+  <div class="game" id="game" role="button" aria-label="Уровень и цель дня"></div>
+  <div class="toast" id="toast" aria-live="polite"></div>
   <div class="crumb" id="crumb" hidden><button id="back">‹ Все карточки</button></div>
   <div class="top" id="top">
   <div class="bar">
@@ -4837,7 +4856,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     if(t.closest('.qagain')){z.i=0; z.picks=[]}
     else if(t.closest('.qprev')) z.i--;
     else if(t.closest('.qnext')) z.i++;
-    else {const b=t.closest('.qopts button'); if(!b || z.picks[z.i]!==undefined) return; z.picks[z.i]=b.textContent; speak(z.q[z.i][2]); logAnswer(b.textContent===z.q[z.i][2])}
+    else {const b=t.closest('.qopts button'); if(!b || z.picks[z.i]!==undefined) return; z.picks[z.i]=b.textContent; speak(z.q[z.i][2]); logAnswer(b.textContent===z.q[z.i][2], z.q[z.i][4])}
     qz.innerHTML=quizView(id);
   }
   // «Проверь себя»: up to 10 words of the open steps that the filter shows. A word's example gets a gap (Russian above),
@@ -4852,7 +4871,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     const open=[...dk.querySelectorAll('.step:not(.locked)')];
     let pool=open.flatMap(st=>[...st.querySelectorAll('.tile:not(.fo),.row:not(.fo)')]);
     if(!pool.length) pool=open.flatMap(st=>[...st.querySelectorAll('.tile,.row')]);
-    return shuffle(pool).map(t=>quizOf(t.dataset.id, [...t.closest('.step').querySelectorAll('.tile,.row')].map(x=>x.dataset.id).filter(x=>x!==t.dataset.id))).filter(Boolean).slice(0,10);
+    return shuffle(pool).map(t=>{const q=quizOf(t.dataset.id, [...t.closest('.step').querySelectorAll('.tile,.row')].map(x=>x.dataset.id).filter(x=>x!==t.dataset.id)); if(q) q[4]=t.dataset.id; return q}).filter(Boolean).slice(0,10);
   }
   function quizOf(id, others){
     const it=ITEMS[id]; if(!it) return null;
@@ -4978,7 +4997,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   sheetBtns.forEach(b=>b.addEventListener('click',()=>{
     if(!cur) return;
     const id=cur.dataset.id, s=b.dataset.st;
+    const was=(prog[id]||{}).s;
     if(s) prog[id]={s, t:Date.now()}; else delete prog[id];
+    if(s==='known' && was!=='known') knownXP(id, was);
     save(); paint();
     if(filter!=='all' && (cur.dataset.st||'new')!==filter){hideSheet(); cur=null}
   }));
@@ -5032,13 +5053,82 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   try{hist = JSON.parse(localStorage.getItem('cards-history')||'{}') || {}}catch(e){}
   const dayKey = (t=Date.now())=>{const d=new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
   const today = ()=>hist[dayKey()] || (hist[dayKey()]={s:0,q:0,ok:0});
-  const mergeHist = (a,b)=>{const o=JSON.parse(JSON.stringify(a||{})); Object.entries(b||{}).forEach(([k,v])=>{const x=o[k]||(o[k]={s:0,q:0,ok:0}); ['s','q','ok'].forEach(f=>{x[f]=Math.max(x[f]||0, v[f]||0)})}); return o};
+  const mergeHist = (a,b)=>{const o=JSON.parse(JSON.stringify(a||{})); Object.entries(b||{}).forEach(([k,v])=>{const x=o[k]||(o[k]={s:0,q:0,ok:0}); ['s','q','ok','xp','rep','goal'].forEach(f=>{x[f]=Math.max(x[f]||0, v[f]||0)}); x.kn=[...new Set([...(x.kn||[]),...(v.kn||[])])]}); return o};
   function saveHist(){
     try{localStorage.setItem('cards-history',JSON.stringify(hist))}catch(e){}
     if(hRef){clearTimeout(hSaveT); hSaveT=setTimeout(()=>{hSaveT=null; hRef.set({days:hist, updated:Date.now()}).catch(()=>{hRef=null})}, 1500)}
     if(document.getElementById('study').open) drawHist();
+    drawGame();
   }
-  function logAnswer(right){const d=today(); d.q++; if(right) d.ok++; saveHist()}
+  function logAnswer(right, id){
+    const d=today(); d.q++; if(right) d.ok++;
+    const st=id && (prog[id]||{}).s, rp=right && (st==='learn' || st==='repeat');
+    if(rp) d.rep=(d.rep||0)+1;
+    gain(right ? XP.right+(rp?XP.rep:0) : XP.try, right ? (rp?'верно и повторение':'верно') : 'за попытку');
+  }
+
+  // ---------- the game: XP for doing and for repeating, a daily goal, levels and badges ----------
+  // XP lives in the day's history (xp, rep, goal, kn = words rewarded for «Знаю» today), so it merges like the rest.
+  const XP={right:10, try:2, rep:5, minute:2, known:15, learned:25, goal:20}, GOAL=100;
+  const LEVELS=['Новичок','Ученик','Слушатель','Говорун','Собеседник','Знаток','Мастер','Профи','Почти носитель','Легенда'];
+  const lvOf=x=>Math.floor((1+Math.sqrt(1+x/12.5))/2), lvAt=n=>50*n*(n-1);   // level n starts at 50·n·(n−1) XP
+  const lvName=n=>LEVELS[n-1] || 'Легенда '+(n-LEVELS.length+1);
+  const totalXP=()=>Object.values(hist).reduce((a,h)=>a+(h.xp||0),0);
+  function stats(){
+    const days=Object.keys(hist).sort(), kn={}; Object.values(prog).forEach(v=>{ if(v && v.s==='known' && v.t){const k=dayKey(v.t); kn[k]=(kn[k]||0)+1} });
+    const on=k=>{const h=hist[k]||{}; return (h.s||0)>=60 || h.q || kn[k]};
+    let best=0, run=0, prev=null;
+    [...new Set([...days, ...Object.keys(kn)])].sort().forEach(k=>{ if(!on(k)) return; run = prev && (new Date(k)-new Date(prev))<=864e5*1.5 ? run+1 : 1; prev=k; best=Math.max(best,run) });
+    const sum=f=>Object.values(hist).reduce((a,h)=>a+(h[f]||0),0);
+    return {q:sum('q'), ok:sum('ok'), rep:sum('rep'), goals:sum('goal'), min:sum('s')/60, dayMin:Math.max(0,...Object.values(hist).map(h=>(h.s||0)/60)),
+      known:allItems.filter(x=>x.dataset.st==='known').length, best, cur: prev===dayKey() ? run : 0};
+  }
+  const BADGES=[
+    ['Первый шаг','ответить на первый вопрос теста', x=>x.q>=1],
+    ['Меткий','50 верных ответов', x=>x.ok>=50],
+    ['Снайпер','300 верных ответов', x=>x.ok>=300],
+    ['Повторение','30 верных ответов на слова из «Учу» и «Повторить»', x=>x.rep>=30],
+    ['Железная память','150 таких повторений', x=>x.rep>=150],
+    ['Полсотни','50 слов в «Знаю»', x=>x.known>=50],
+    ['Сотня','100 слов в «Знаю»', x=>x.known>=100],
+    ['Три сотни','300 слов в «Знаю»', x=>x.known>=300],
+    ['Полчаса','30 минут занятия за один день', x=>x.dayMin>=30],
+    ['Десять часов','600 минут занятий всего', x=>x.min>=600],
+    ['Цель дня','первая выполненная цель дня', x=>x.goals>=1],
+    ['Десять целей','цель дня выполнена 10 раз', x=>x.goals>=10],
+    ['Три дня подряд','занимался 3 дня подряд', x=>x.best>=3],
+    ['Неделя','7 дней подряд', x=>x.best>=7],
+    ['Месяц','30 дней подряд', x=>x.best>=30],
+  ];
+  let haveB=null;
+  const badgesNow=()=>{const x=stats(); return new Set(BADGES.filter(b=>b[2](x)).map(b=>b[0]))};
+  // small «+10 XP» replace each other at once; level, goal and badge wait their turn and are never cut by a small one
+  const toastEl=document.getElementById('toast'); let toastT=null, bigOn=false; const bigQ=[];
+  function showToast(text, big, ms){clearTimeout(toastT); bigOn=big; toastEl.textContent=text; toastEl.classList.toggle('big',big); toastEl.classList.add('on');
+    toastT=setTimeout(()=>{toastEl.classList.remove('on'); bigOn=false; const n=bigQ.shift(); if(n) setTimeout(()=>showToast(n,true,2200),200)}, ms)}
+  function toast(text, big){ if(big){ if(bigOn) bigQ.push(text); else showToast(text,true,2200) } else if(!bigOn && !bigQ.length) showToast(text,false,1000) }
+  function gain(n, why){
+    const lv=lvOf(totalXP()), d=today(); d.xp=(d.xp||0)+n;
+    if(why) toast('+'+n+' XP · '+why);
+    if(d.xp>=GOAL && !d.goal){
+      d.goal=1; const streak=stats().cur, bonus=XP.goal+Math.min(50,5*Math.max(0,streak-1)); d.xp+=bonus;
+      toast('Цель дня выполнена! +'+bonus+' XP', true); speak('Daily goal done!');
+    }
+    const nl=lvOf(totalXP()); if(nl>lv){toast('Новый уровень '+nl+': '+lvName(nl)+'!', true); speak('Level up!')}
+    const nb=badgesNow(); if(haveB) nb.forEach(b=>{ if(!haveB.has(b)) toast('Новый значок: '+b, true) }); haveB=nb;
+    saveHist();
+  }
+  function knownXP(id, was){
+    const d=today(); d.kn=d.kn||[]; if(d.kn.includes(id)) return; d.kn.push(id);
+    gain(was==='learn'||was==='repeat' ? XP.learned : XP.known, was==='learn'||was==='repeat' ? 'выучил' : 'знаю');
+  }
+  function drawGame(){
+    const x=totalXP(), n=lvOf(x), a=lvAt(n), b=lvAt(n+1), d=today(), st=stats();
+    document.getElementById('game').innerHTML =
+      `<div><div class="gl"><b>Уровень ${n}</b><span>${lvName(n)}</span></div><div class="gbar"><i style="width:${Math.round((x-a)/(b-a)*100)}%"></i></div><small>${x-a} из ${b-a} XP до уровня ${n+1}</small></div>`
+      + `<div><div class="gl"><b>Цель дня</b><span>${d.goal?'выполнена':Math.min(d.xp||0,GOAL)+' / '+GOAL+' XP'}</span></div><div class="gbar day"><i style="width:${Math.min(100,(d.xp||0)/GOAL*100)}%"></i></div><small>${st.best?'лучшая серия '+st.best+' '+daysWord(st.best):'серия начнётся сегодня'}</small></div>`;
+  }
+  document.getElementById('game').addEventListener('click',()=>{const s=document.getElementById('study'); s.open=true; s.scrollIntoView({behavior:'smooth',block:'start'})});
   const WD=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'], mins=x=>Math.round((x||0)/60);
   const daysWord=n=>n%10===1 && n%100!==11 ? 'день' : [2,3,4].includes(n%10) && ![12,13,14].includes(n%100) ? 'дня' : 'дней';
   function drawHist(){
@@ -5051,23 +5141,28 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     document.getElementById('hist').innerHTML =
       `<div class="hsum"><div><b>${mins(t.s)}</b><span>мин сегодня</span></div><div><b>${mins(week)}</b><span>мин за 7 дней</span></div><div><b>${streak}</b><span>${daysWord(streak)} подряд</span></div></div>`
       + `<p class="hall">Знаю ${known} из ${allItems.length} слов. Сегодня в тесте ${t.ok} из ${t.q} верно, в «Знаю» ушло ${kn[dayKey()]||0}.</p>`
-      + `<div class="hdays">${days.slice(0,7).map(([k,d])=>{const h=hist[k]||{}; return `<div class="hday"><span>${WD[d.getDay()]} ${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span><span class="hbar"><i style="width:${Math.min(100,(h.s||0)/maxS*100)}%"></i></span><small>${act(k) ? `${mins(h.s)} мин${h.q?` · тест ${h.ok} из ${h.q}`:''}${kn[k]?` · «Знаю» +${kn[k]}`:''}` : '—'}</small></div>`}).join('')}</div>`;
+      + `<div class="hdays">${days.slice(0,7).map(([k,d])=>{const h=hist[k]||{}; return `<div class="hday"><span>${WD[d.getDay()]} ${d.getDate()}.${String(d.getMonth()+1).padStart(2,'0')}</span><span class="hbar"><i style="width:${Math.min(100,(h.s||0)/maxS*100)}%"></i></span><small>${act(k) ? `${mins(h.s)} мин${h.q?` · тест ${h.ok} из ${h.q}`:''}${kn[k]?` · «Знаю» +${kn[k]}`:''}${h.xp?` · ${h.xp} XP`:''}` : '—'}</small></div>`}).join('')}</div>`;
   }
   document.getElementById('study').addEventListener('toggle',e=>{ if(e.target.open) drawHist() });
+  const drawHist0=drawHist;
+  drawHist=function(){ drawHist0(); const have=badgesNow();
+    document.getElementById('hist').insertAdjacentHTML('beforeend', `<p class="hh">Значки · ${have.size} из ${BADGES.length}</p><div class="badges">${BADGES.map(([t,dsc])=>`<div class="badge${have.has(t)?' on':''}"><b>${t}</b>${dsc}</div>`).join('')}</div>`
+      + `<p class="hall">Опыт: верный ответ +${XP.right}, попытка +${XP.try}, верный ответ на слово из «Учу» или «Повторить» ещё +${XP.rep}, минута с таймером +${XP.minute}, слово в «Знаю» +${XP.known}, а из «Учу» или «Повторить» +${XP.learned}. Цель дня ${GOAL} XP, за неё +${XP.goal} и ещё по 5 за каждый день серии.</p>`) };
 
   // the timer counts only while the page is on screen; at the goal it speaks, and «Ещё 5» adds five minutes
   const tpill=document.getElementById('tpill'), tclock=document.getElementById('tclock'), tpause=document.getElementById('tpause');
-  let tRun=false, tGoal=0, tSpent=0, tLast=0, tInt=null, tDone=false, tN=0;
+  let tRun=false, tGoal=0, tSpent=0, tLast=0, tInt=null, tDone=false, tN=0, tMin=0;
   const fmt=x=>Math.floor(x/60)+':'+String(Math.floor(x%60)).padStart(2,'0');
   const tShow=()=>{tclock.textContent = tDone ? 'Готово · '+mins(tGoal)+' мин' : tGoal ? fmt(Math.max(0,tGoal-tSpent)) : fmt(tSpent)};
   function tick(){
     const now=Date.now(), dt=Math.min(2,(now-tLast)/1000); tLast=now;
     if(!tRun || document.visibilityState!=='visible') return;
     tSpent+=dt; today().s+=dt; if(++tN%15===0) saveHist();
+    if(Math.floor(tSpent/60)>tMin){tMin=Math.floor(tSpent/60); gain(XP.minute, '')}
     if(tGoal && tSpent>=tGoal){tRun=false; tDone=true; tpill.classList.add('done'); tpause.textContent='Ещё 5'; saveHist(); speak('Time is up. Great job!'); try{navigator.vibrate && navigator.vibrate([200,100,200])}catch(e){}}
     tShow();
   }
-  function tStart(min){tGoal=min*60; tSpent=0; tDone=false; tRun=true; tLast=Date.now(); tpill.hidden=false; tpill.classList.remove('done'); tpause.textContent='Пауза'; clearInterval(tInt); tInt=setInterval(tick,1000); tShow()}
+  function tStart(min){tGoal=min*60; tSpent=0; tMin=0; tDone=false; tRun=true; tLast=Date.now(); tpill.hidden=false; tpill.classList.remove('done'); tpause.textContent='Пауза'; clearInterval(tInt); tInt=setInterval(tick,1000); tShow()}
   document.querySelectorAll('#tset button').forEach(b=>b.addEventListener('click',()=>tStart(+b.dataset.min)));
   tpause.addEventListener('click',()=>{
     if(tDone){tGoal+=300; tDone=false; tRun=true; tpill.classList.remove('done'); tpause.textContent='Пауза'}
@@ -5076,6 +5171,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   });
   document.getElementById('tstop').addEventListener('click',()=>{tRun=false; clearInterval(tInt); tpill.hidden=true; saveHist()});
   document.addEventListener('visibilitychange',()=>{tLast=Date.now(); if(document.visibilityState==='hidden') saveHist()});
+
+  drawGame(); haveB=badgesNow();
 
   // ask the browser not to evict local marks (matters for the standalone copy without an account)
   try{navigator.storage && navigator.storage.persist && navigator.storage.persist()}catch(e){}
@@ -5096,11 +5193,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
         }catch(e){}
       }
       // history lives next to the marks; two devices merge by taking the larger number of each day
-      if(uid){ try{hRef=db.doc('data/users/'+uid+'/history'); const h=await hRef.get(); hist=mergeHist(h.exists?(h.data()||{}).days:{}, hist); saveHist()}catch(e){hRef=null} }
+      if(uid){ try{hRef=db.doc('data/users/'+uid+'/history'); const h=await hRef.get(); hist=mergeHist(h.exists?(h.data()||{}).days:{}, hist); saveHist(); haveB=badgesNow()}catch(e){hRef=null} }
       ref.onSnapshot(snap=>{
         if(saveT || snap.metadata.hasPendingWrites) return;
         const m = snap.exists ? (snap.data()||{}).m : null;
-        if(m){prog = JSON.parse(JSON.stringify(m)); localSave(); paint(); setSync(true)}
+        if(m){prog = JSON.parse(JSON.stringify(m)); localSave(); paint(); drawGame(); setSync(true)}
         else if(Object.keys(prog).length){ref.set({m:prog, updated:Date.now()}).then(()=>setSync(true)).catch(()=>{ref=null; setSync(false)})}
         else setSync(true);
       }, ()=>{ref=null; setSync(false)});
