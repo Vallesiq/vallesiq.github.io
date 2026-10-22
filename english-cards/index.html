@@ -156,6 +156,12 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
 .vm.on{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--vc)}
 /* formulas work as tabs: nothing open shows only the map; with a filter on, every group shows */
 #app[data-f="all"] .vstep:not([data-vk]) .vg,.vstep[data-vk] .vg:not(.on),.vstep[data-vk] .vh{display:none!important}
+.pex.fl{gap:5px}
+.pex.fl li{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:0 8px}
+.vforms{background:var(--soft);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.vforms h4{margin:0;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vforms .pex{gap:6px;font-size:13.5px}
+.vforms .pex span{font-size:12.5px}
 .vhint{margin:-4px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
 .vstep[data-vk] .vhint,#app:not([data-f="all"]) .vhint{display:none}
 .vg{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--vc);padding-left:10px}
@@ -4174,7 +4180,9 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
   const posHTML = pos=>pos ? `<span class="vpos">${pos.map(([w,ru,en])=>`<span><b>${w}</b> = ${ru} · <i>${en}</i></span>`).join('')}</span>` : '';
   const noHTML = no=>{const [w,why]=no.split('|'); return `не так: <s>${w}</s>${why?`, ${why}`:''}`};
   const verbRow = (d,[ph,ru,,ex,exru,no])=>`<button class="row pv vr" data-id="${d.id}|${plain(ph).replace(/"/g,'')}" data-say="${(plain(ph)+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${slot(ph)}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
-  const verbBody = (p,d)=>`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span>${posHTML(f[4])}<i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
+  // a chameleon verb deck shows how the verb itself changes, once, under the map of its first step
+  const vTop = (p,d)=>d.pos==='verb' && p===d.parts[0] ? `<div class="vforms"><h4>Как меняется ${d.title}</h4>${listHTML(verbForms(d.title))}${(FAM[d.title.toLowerCase()]||[]).length?`<h4>Семья слова</h4>${famHTML(FAM[d.title.toLowerCase()])}`:''}</div>` : '';
+  const verbBody = (p,d)=>vTop(p,d)+`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span>${posHTML(f[4])}<i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
     + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small>${posHTML(f[4])}</div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
   const bodyOf = (p,d)=> p.kind==='verb' ? verbBody(p,d)
     : p.kind==='idiom' ? `<div class="rows">${p.items.map(t=>idiomRow(d,t)).join('')}</div>`
@@ -4183,6 +4191,81 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
     : p.kind==='rows'
       ? `<div class="rows">${p.items.map(([en,ru,ic,say])=>`<button class="row" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${svg(ic,'0 0 120 48')}<span class="txt"><span class="en">${en}</span><span class="ru">${ru}</span></span>${SPK_ICON}</button>`).join('')}</div>`
       : `<div class="grid${p.cols===4?' c4':p.wide?' c2':''}">${p.items.map(([en,ru,ic,say])=>`<button class="tile" data-id="${d.id}|${en.replace(/"/g,'')}" data-say="${speakText(en,say)}">${p.wide?svg(ic,'0 0 128 64',' w'):svg(ic)}<span class="en${en.split(/\s+/).some(w=>w.length>8)?' long':''}">${en}</span><span class="ru">${ru}</span>${SPK_ICON}</button>`).join('')}</div>`;
+  // ---------- «Как меняется»: an adjective, verb or noun across tenses and forms ----------
+  // Rules generate the regular forms; the dictionaries below hold everything a rule would get wrong.
+  const IRR = {go:['went','gone'], come:['came','come'], bring:['brought','brought'], take:['took','taken'], leave:['left','left'], get:['got','gotten'],
+    cut:['cut','cut'], give:['gave','given'], wind:['wound','wound'], make:['made','made'], have:['had','had'], do:['did','done'], put:['put','put'], keep:['kept','kept'], run:['ran','run'], break:['broke','broken']};
+  const DBL = new Set(['get','put','cut','run','hop','stop']); // short verbs that double the last letter
+  const vIng = v=>DBL.has(v) ? v+v.slice(-1)+'ing' : /[^aeiou]e$/.test(v) ? v.slice(0,-1)+'ing' : v+'ing';
+  const vS = v=>({have:'has', do:'does', go:'goes'})[v] || (/(s|sh|ch|x|z)$/.test(v) ? v+'es' : /[^aeiou]y$/.test(v) ? v.slice(0,-1)+'ies' : v+'s');
+  const vEd = v=>DBL.has(v) ? v+v.slice(-1)+'ed' : /e$/.test(v) ? v+'d' : /[^aeiou]y$/.test(v) ? v.slice(0,-1)+'ied' : v+'ed';
+  function verbForms(w){
+    const [v,...rest] = w.toLowerCase().split(' '), tail = rest.length ? ' '+rest.join(' ') : '';
+    const [v2,v3] = IRR[v] || [vEd(v), vEd(v)];
+    return [[`${v}${tail} · ${v2}${tail} · ${v3}${tail} · ${vIng(v)}${tail}`, 'формы: сейчас · прошлое (V2) · третья (V3) · -ing'+(v==='get'?'. Gotten в США, в Британии got':'')],
+      [`I ${v}${tail} · he ${vS(v)}${tail}`,'обычно (у he, she, it окончание -s)'], [`I ${v2}${tail}`,'вчера, в прошлом'],
+      [`I'm ${vIng(v)}${tail}`,'прямо сейчас'], [`I've ${v3}${tail}`,'уже (have + V3)'], [`I'll ${v}${tail}`,'завтра, в будущем']];
+  }
+  const IRRC = {good:['better','the best'], bad:['worse','the worst'], far:['farther','the farthest']}, NOCMP = new Set(['freezing','same']);
+  const syl = w=>(w.replace(/e$/,'').match(/[aeiouy]+/g)||[]).length || 1;
+  function adjCmp(a){
+    if(IRRC[a]) return IRRC[a]; if(NOCMP.has(a)) return null;
+    if(/(ed|ing)$/.test(a) || syl(a)>2 || (syl(a)===2 && !/y$/.test(a))) return ['more '+a, 'the most '+a];
+    const b = /[^aeiou]y$/.test(a) ? a.slice(0,-1)+'i' : /e$/.test(a) ? a.slice(0,-1) : /^[^aeiou]*[aeiou][^aeiouwxy]$/.test(a) ? a+a.slice(-1) : a;
+    return [b+'er', 'the '+b+'est'];
+  }
+  const SUBJ = {I:["I'm",'I was',"I'll be","I've been",'I get','I got',"I'm getting"], it:["It's",'It was',"It'll be","It's been",'It gets','It got',"It's getting"],
+    he:["He's",'He was',"He'll be","He's been",'He gets','He got',"He's getting"]};
+  // lines a native speaker would not say: no «getting» / «have been» / «makes me» for these words
+  const NOGET = new Set(['happy','proud','surprised','relieved','embarrassed','early','far','short','clean','free','same','different']);
+  const NOPERF = new Set(['early','late','near','far','same','tall','short']), NOMAKE = new Set(['surprised','relieved','confused']);
+  function adjForms(a0, deck){
+    const a = a0==='same' ? 'the same' : a0, s = SUBJ[deck==='feelings' ? 'I' : /^(tall|short)$/.test(a0) ? 'he' : 'it'], c = adjCmp(a0);
+    return [[`${s[0]} ${a}`,'сейчас'], [`${s[1]} ${a}`,'было'], [`${s[2]} ${a}`,'будет'], !NOPERF.has(a0) && [`${s[3]} ${a}`,'уже какое-то время (have been)'],
+      !NOGET.has(a0) && [`${s[6]} ${a}`,'становится, начинает (get)'], !NOGET.has(a0) && [`${s[5]} ${a}`,'стал'],
+      c && [`${c[0]} · ${c[1]}`,'сравнение: более · самый'],
+      deck==='feelings' && !NOMAKE.has(a0) && [`It makes me ${a}`,'это вызывает у меня'], deck==='feelings' && [`I feel ${a}`,'я чувствую себя']].filter(Boolean);
+  }
+  const UNC = new Set(['cash','change','road rage','instant karma']);
+  const NFIX = {'traffic lights':[['a traffic light · traffic lights','один светофор · светофоры (обычно во множественном)']], 'dips':[['dips','всегда во множественном, как «брусья»']], 'hit and run':[['a hit and run','наезд с побегом, одно происшествие']]};
+  const nPl = n=>/(s|sh|ch|x|z)$/.test(n) ? n+'es' : /[^aeiou]y$/.test(n) ? n.slice(0,-1)+'ies' : n+'s';
+  function nounForms(n, deck){
+    if(deck==='days') return n==='Weekend' ? [['on the weekend','на выходных'], ['on weekends','по выходным'], ['last weekend · next weekend','в прошлые · в следующие выходные (без on)']]
+      : [[`on ${n}`,'в этот день'], [`on ${n}s`,'по этим дням, каждую неделю'], [`last ${n} · next ${n}`,'в прошлый · в следующий (без on)']];
+    const w = n.toLowerCase(); if(NFIX[w]) return NFIX[w];
+    if(UNC.has(w)) return [[w,'не считается штуками: без a и без -s']];
+    return [[`${/^[aeiou]/.test(w)?'an':'a'} ${w} · two ${nPl(w)}`,'один · много'], [`the ${w}`,'этот, тот самый']];
+  }
+  const MODAL = {"CAN":[["I can","могу, умею"],["I could","мог, умел (прошлое)"],["I'll be able to","смогу (будущее: can так не меняется)"]],
+    "CAN'T":[["I can't","не могу"],["I couldn't","не мог"],["I won't be able to","не смогу"]],
+    "SHOULD":[["I should go","стоит пойти"],["I should have gone","надо было пойти (а я не пошёл)"]],
+    "MUST":[["I must go","должен (сейчас)"],["I had to go","пришлось (у must нет прошедшего, берут had to)"],["I'll have to go","придётся"]],
+    "HAVE TO":[["I have to · he has to","надо · ему надо"],["I had to","пришлось"],["I'll have to","придётся"]],
+    "MIGHT":[["It might rain","может пойти дождь"],["He might have left","возможно, он уже ушёл"]],
+    "MUSTN'T":[["You mustn't","нельзя"],["You weren't allowed to","было нельзя (прошлое)"]],
+    "DON'T HAVE TO":[["I don't have to · he doesn't have to","не обязан · ему не надо"],["I didn't have to","не пришлось"]],
+    "I'D LIKE":[["I'd like a coffee","я бы хотел кофе"],["I'd like to go","я бы хотел пойти"],["Would you like…?","не хотите ли…?"]]};
+  // word family: the same root as another part of speech, [часть речи, форма, перевод]
+  const FAM = {"happy": [["noun", "happiness", "счастье"], ["adv", "happily", "счастливо, радостно"], ["adj", "unhappy", "несчастный (противоположное)"]], "sad": [["noun", "sadness", "грусть"], ["adv", "sadly", "грустно · к сожалению"]], "angry": [["noun", "anger", "злость"], ["adv", "angrily", "сердито, со злостью"]], "scared": [["verb", "scare", "пугать"], ["adj", "scary", "страшный (то, что пугает)"], ["noun", "fear", "страх"]], "surprised": [["verb", "surprise", "удивлять"], ["noun", "surprise", "сюрприз, удивление"], ["adj", "surprising", "удивительный (то, что удивляет)"]], "tired": [["verb", "tire", "утомлять"], ["adj", "tiring", "утомительный (то, что утомляет)"], ["noun", "tiredness", "усталость"]], "bored": [["verb", "bore", "наскучить"], ["adj", "boring", "скучный (то, что наводит скуку)"], ["noun", "boredom", "скука"]], "nervous": [["noun", "nerves", "нервы, мандраж"], ["adv", "nervously", "нервно"]], "proud": [["noun", "pride", "гордость"], ["adv", "proudly", "гордо"]], "confused": [["verb", "confuse", "запутать, сбить с толку"], ["adj", "confusing", "запутанный (то, что путает)"], ["noun", "confusion", "путаница"]], "embarrassed": [["verb", "embarrass", "смущать, ставить в неловкое положение"], ["adj", "embarrassing", "неловкий, позорный (то, что смущает)"], ["noun", "embarrassment", "неловкость, стыд"]], "relieved": [["verb", "relieve", "облегчить, снять (боль, стресс)"], ["noun", "relief", "облегчение"]], "hot": [["noun", "heat", "жара, тепло"], ["verb", "heat up", "нагреть"]], "cold": [["noun", "cold", "холод · простуда (have a cold)"], ["adv", "coldly", "холодно (о тоне)"]], "full": [["verb", "fill", "наполнить, заполнить"], ["adv", "fully", "полностью"]], "empty": [["verb", "empty", "опустошить, освободить"], ["noun", "emptiness", "пустота"]], "tall": [["noun", "height", "рост, высота"]], "short": [["verb", "shorten", "укоротить"], ["adv", "shortly", "вскоре (другое значение)"]], "near": [["adv", "nearby", "поблизости"], ["adv", "nearly", "почти (другое значение)"]], "far": [["noun", "distance", "расстояние"]], "early": [["adv", "early", "рано (то же слово)"]], "late": [["adv", "late", "поздно (то же слово)"], ["adv", "lately", "в последнее время (другое значение)"]], "clean": [["verb", "clean", "убирать, чистить"], ["noun", "cleaning", "уборка"]], "dirty": [["noun", "dirt", "грязь"], ["verb", "get dirty", "испачкаться"]], "easy": [["adv", "easily", "легко"], ["noun", "ease", "лёгкость"]], "hard": [["adv", "hard", "усердно, сильно (work hard)"], ["adv", "hardly", "едва, почти не (другое значение)"]], "fast": [["adv", "fast", "быстро (то же слово, fastly не бывает)"], ["noun", "speed", "скорость"]], "slow": [["adv", "slowly", "медленно"], ["verb", "slow down", "притормозить, замедлиться"]], "loud": [["adv", "loudly", "громко"], ["noun", "noise", "шум"]], "quiet": [["adv", "quietly", "тихо"], ["noun", "silence", "тишина"], ["verb", "quiet down", "утихнуть"]], "same": [["adv", "the same way", "так же"]], "different": [["noun", "difference", "разница"], ["adv", "differently", "по-другому"], ["verb", "differ", "отличаться"]], "sunny": [["noun", "sun", "солнце"], ["noun", "sunshine", "солнечный свет"]], "cloudy": [["noun", "cloud", "облако"]], "rainy": [["noun", "rain", "дождь"], ["verb", "rain", "идёт дождь: it rains · it's raining"]], "snowy": [["noun", "snow", "снег"], ["verb", "snow", "идёт снег: it's snowing"]], "windy": [["noun", "wind", "ветер"]], "foggy": [["noun", "fog", "туман"]], "stormy": [["noun", "storm", "гроза, шторм"]], "humid": [["noun", "humidity", "влажность"]], "warm": [["noun", "warmth", "тепло"], ["verb", "warm up", "разогреть, размяться"], ["adv", "warmly", "тепло, сердечно"]], "cool": [["verb", "cool down", "остыть, остыть после тренировки"]], "freezing": [["verb", "freeze", "замёрзнуть · застыть (freeze! = замри!)"], ["noun", "freezer", "морозилка"]], "cheap": [["adv", "cheaply", "дёшево"]], "expensive": [["noun", "expense", "расход, трата"]], "free": [["verb", "free", "освободить"], ["noun", "freedom", "свобода"], ["adv", "for free", "бесплатно"]], "cost": [["verb", "cost", "стоить: it costs $5 · it cost (прошлое то же)"], ["noun", "cost", "стоимость, цена"]], "change": [["verb", "change", "менять, переодеться"], ["noun", "change", "сдача · перемена"]], "tip": [["verb", "tip", "дать чаевые"], ["noun", "tip", "чаевые · совет"]], "refund": [["verb", "refund", "вернуть деньги"], ["noun", "refund", "возврат денег"]], "sale": [["verb", "sell", "продавать (sold · sold)"], ["noun", "seller", "продавец"]], "discount": [["verb", "discount", "сделать скидку"]], "receipt": [["verb", "receive", "получать"]], "cash": [["verb", "cash", "обналичить"]], "bill": [["verb", "bill", "выставить счёт"]], "price": [["adj", "pricey", "дороговатый (разговорно)"]], "stretch": [["verb", "stretch", "растягиваться, тянуться"], ["noun", "stretch", "растяжка"]], "rest": [["verb", "rest", "отдыхать"], ["noun", "rest", "отдых · остальное (the rest)"]], "warm-up": [["verb", "warm up", "размяться (глагол пишут раздельно)"], ["noun", "warm-up", "разминка (существительное через дефис)"]], "squat": [["verb", "squat", "приседать"], ["noun", "squat", "присед"]], "plank": [["verb", "do a plank", "стоять в планке"]], "merge": [["noun", "merge", "слияние полос"]], "swerve": [["noun", "a swerve", "резкий манёвр"]], "tailgate": [["noun", "tailgater", "тот, кто висит на хвосте"]], "rear-end": [["adj", "rear-end collision", "удар сзади (о ДТП)"]], "cut off": [["noun", "cutoff", "отсечка, крайний срок (другое значение)"]], "wheelie": [["verb", "pop a wheelie", "встать на заднее колесо"]], "hit and run": [["adj", "hit-and-run driver", "водитель, скрывшийся с места"]], "leave": [["noun", "leave", "отпуск (sick leave = больничный)"]], "arrive": [["noun", "arrival", "прибытие (arrivals = зал прилёта)"]], "come back": [["noun", "comeback", "возвращение, камбэк"]], "break": [["noun", "break", "перерыв (take a break)"], ["adj", "broken", "сломанный"]], "turn": [["noun", "turn", "поворот · очередь (your turn)"]], "look": [["noun", "look", "взгляд (take a look) · внешность (looks)"]], "run": [["noun", "run", "пробежка (go for a run)"], ["noun", "runner", "бегун"]], "take": [["noun", "take", "дубль (take two = второй дубль)"]], "make": [["noun", "make", "марка (what make is the car?)"]], "go": [["noun", "go", "попытка (have a go = попробовать)"]], "cut": [["noun", "cut", "порез · стрижка · монтажная склейка"]], "keep": [["noun", "keeper", "хранитель · вратарь (goalkeeper)"]], "do": [["noun", "do's and don'ts", "что можно и что нельзя"]]};
+  const FORM_NOUN_DECKS = ['money','gym','road','taxi','days'];
+  function formsOf(it, id){
+    const d = it.d.id, w = WPOS[id], key = typeof w==='string' ? w : (Array.isArray(w) ? '' : (typeof it.p.pos==='string' ? it.p.pos : ''));
+    if(it.form) return null; // a chameleon verb shows its forms once, at the top of its deck
+    if(d==='modals') return MODAL[it.en] || null;
+    // a caption phrase already carries a tense (gives up, closing in): its base form for the table
+    const BASE = {'gives up':'give up','winds up':'wind up','hops on':'hop on','cuts in':'cut in','boxes him in':'box him in','closing in':'close in'};
+    const parts = (BASE[it.en] || it.en).split(' · ');
+    if(it.p.kind!=='tiles' && it.p.kind!=='rows') return (key==='verb' || key==='phv') ? parts.flatMap(v=>verbForms(v)) : null;
+    if(key==='adj') return parts.flatMap(a=>adjForms(a.toLowerCase(), d));
+    if(key==='verb' || key==='phv') return parts.flatMap(v=>verbForms(v));
+    if(key==='noun' && FORM_NOUN_DECKS.includes(d)) return parts.flatMap(n=>nounForms(d==='days' ? n.charAt(0)+n.slice(1).toLowerCase() : n, d));
+    return null;
+  }
+  const FAM_DECKS = ['feelings','opposites','weather','money','gym','road','moving','place'];
+  const famOf = (it,id)=>it.form || !FAM_DECKS.includes(it.d.id) ? null : it.en.split(' · ').flatMap(w=>FAM[w.toLowerCase()]||[]);
+  const listHTML = rows=>`<ul class="pex fl">${rows.map(([e,r])=>`<li><b>${e}</b><span>${r}</span></li>`).join('')}</ul>`;
+  const famHTML = rows=>listHTML(rows.map(([k,f,ru])=>[f, `${(PARTS[k]||[k])[0]} · ${ru}`]));
+  window.EIC_FORMS = (id)=>{const it=ITEMS[id]; return it ? {forms:formsOf(it,id), fam:famOf(it,id)} : null}; // for checking every generated form at once
   // part of speech: a deck (or step) carries pos:'key' or pos:['key','key'] for a mixed deck;
   // PARTS gives [one ru, one en, many ru, many en]. A word that differs from its deck gets WPOS['deck|WORD'] = key or [ru, en].
   // A mixed deck needs WPOS for every word, otherwise the panel shows the deck's list.
@@ -4437,6 +4520,8 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Почему так</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])} ${it.form[3]}${WHY[id]?`<p class="pwhy">${WHY[id]}</p>`:''}</div></section>`
          : sec('Почему так', WHY[id], 'why'))
       + (it.form ? '' : sec('Часть речи', posOne(id, it.p.pos)))
+      + ((f=>f && f.length ? sec('Как меняется', listHTML(f), 'gr') : '')(formsOf(it,id)))
+      + ((f=>f && f.length ? sec('Семья слова: то же слово другой частью речи', famHTML(f)) : '')(famOf(it,id)))
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
@@ -4444,7 +4529,7 @@ nav a{font:600 12px var(--display);color:var(--ink);text-decoration:none;backgro
       + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : it.vno ? noHTML(it.vno).replace(/^не/,'Не') : ''), 'warn')
       + sec('Похожие слова: в чём разница', x.like)
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
-      + (x.m || x.when || it.p.kind==='talk' || it.form || WHY[id] ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди. Правило темы наверху карточки.</p>`);
+      + (x.m || x.when || it.p.kind==='talk' || it.form || WHY[id] || (formsOf(it,id)||[]).length ? '' : `<p class="pmore">Подробный разбор этого слова ещё впереди. Правило темы наверху карточки.</p>`);
   }
   navEl.innerHTML = SHOWN.map(d=>`<a href="#${d.id}" data-group="${d.group||'words'}">${d.title}</a>`).join('');
 
