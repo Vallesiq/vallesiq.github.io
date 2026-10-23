@@ -326,6 +326,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       <button id="g-talk" data-group="talk" aria-pressed="false">Разговор</button>
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
       <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
+      <button id="g-gram" data-group="gram" aria-pressed="false">Грамматика</button>
     </div>
   </div>
   <div class="topics" id="topics" role="navigation" aria-label="Темы"></div>
@@ -1923,6 +1924,42 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['KEEP IT 100','100 = честно, по-настоящему', `<text class="t" x="32" y="40" font-size="22">100</text><path d="M14 46h36M14 50h36"/>`, 'keep it one hundred'],
     ['OK','K = ок (часто сухо)', `<text class="t" x="32" y="42" font-size="30">K</text>`, 'okay'],
   ], note:'Это чтобы понимать комменты. В своих плашках я бы так не писал: <b>2</b> и <b>4</b> вместо слов выглядят как спам и читаются медленнее. <b>Keep it 100</b> = будь честен, говори как есть.'},
+
+  // ===== грамматика: конструкции и времена, тем же типом «хамелеон»: карта формул это времена, строки это предложения со слотом =====
+  {id:'tenses', pos:'tense', group:'gram', verb:true, title:'Which Tense?', ru:'Пять времён и going to: когда какое', forms:[
+    ['now','*V1* · he *V-s*','обычно, всегда, факт','Настоящее простое: так бывает вообще, а не обязательно прямо сейчас. Глагол в чистом виде, у he, she, it окончание -s. Маркеры: every day, always, usually, often. <b>I get up at seven</b> = каждый день так. Вопрос и «не» через do и does: <b>Do you get it? I don\'t get it. Does he know?</b>', [['V1','глагол в чистом виде: get, go, take','base form'],['V-s','у he, she, it: gets, goes, takes','-s form']]],
+    ['past','*V2*','вчера, было и прошло','Прошедшее простое: случилось и закончилось, часто сказано когда: yesterday, last week, in 2020, two days ago. Правильные глаголы берут -ed (fixed, worked), неправильные свою форму (got, went, took). Вопрос и «не» через did, и тогда сам глагол снова в чистом виде: <b>Did you get it? I didn\'t get it.</b>', [['V2','вторая форма: got, went, fixed','past form']]],
+    ['cont','am / is / are + *V-ing*','прямо сейчас или вот-вот','Настоящее длительное: процесс идёт в момент речи или в эти дни. Всегда два слова: be (am, is, are) и глагол с -ing. Маркеры: now, right now, at the moment, today. <b>I\'m getting ready</b> = собираюсь прямо сейчас. Про ближайшее будущее так же: <b>we\'re leaving</b> = уходим вот-вот. Вопрос переворотом: <b>Are you leaving?</b>', [['am / is / are','форма be: I am, he is, we are','be'],['V-ing','глагол с -ing: getting, going, taking','-ing form']]],
+    ['perf','have / has + *V3*','уже, и результат важен сейчас','Настоящее совершённое: действие было, а важен его результат сейчас. Когда именно, не важно и обычно не сказано. Два слова: have (has у he, she, it) и третья форма. Маркеры: already, just, yet, ever, never, before. <b>I\'ve gotten my hair cut</b> = я сейчас подстрижен. С yesterday и last week это время не ставят, там V2.', [['have / has','I have, he has, в речи \'ve и \'s','have'],['V3','третья форма: gotten, gone, taken, fixed','past participle']]],
+    ['fut','will + *V1*','завтра: решил сейчас, обещаю','Будущее с will: решение в момент речи, обещание, предсказание. После will глагол в чистом виде, без to и без -s. В речи \'ll: <b>I\'ll get a coffee</b>. «Не» это won\'t. После when и if будущее не ставят: <b>I\'ll text you when I get home</b>.', [['will','в речи \'ll, отрицание won\'t','will'],['V1','глагол в чистом виде','base form']]],
+    ['plan','am / is / are going to + *V1*','план: решил заранее, видно, что будет','Going to это будущее, которое уже решено или видно по признакам. Три слова перед глаголом: be + going to, потом глагол в чистом виде. <b>I\'m going to get a job</b> = план есть. <b>It\'s going to rain</b> = небо тёмное, видно. Разница с will: will решаешь в момент речи, going to решил раньше. В речи gonna.', [['am / is / are going to','be + going to, в речи gonna','going to'],['V1','глагол в чистом виде','base form']]],
+  ], rows:[
+    // 7th field: the same verb in other tenses, the quiz offers them instead of other rows' slots (otherwise the verb gives the answer away)
+    ['*I get* up at seven','я встаю в семь (каждый день)','now','I get up at seven every day.','Я встаю в семь каждый день.','I am get up|обычно, а не сейчас: простое get без am',['I got','I\'m getting','I\'ll get']],
+    ['*he gets* tired fast','он быстро устаёт','now','He gets tired fast after work.','Он быстро устаёт после работы.','he get tired|у he, she, it окончание -s',['he get','he got','he\'s getting']],
+    ['*we go* to the gym','мы ходим в зал','now','We go to the gym three times a week.','Мы ходим в зал три раза в неделю.','we are going to the gym|так это «идём сейчас», а не «ходим вообще»',['we went','we\'re going','we\'ve gone']],
+    ['*she speaks* English','она говорит по-английски','now','She speaks English and a little Russian.','Она говорит по-английски и немного по-русски.','she speak English|-s у she',['she speak','she\'s speaking','she spoke']],
+    ['*I don\'t get* it','я не понимаю','now','Sorry, I don\'t get it.','Извини, я не понимаю.','I not get it|«не» в настоящем только через don\'t или doesn\'t',['I didn\'t get','I\'m not getting','I not get']],
+    ['*I got* a taxi','я взял такси (вчера)','past','I got a taxi to the airport yesterday.','Вчера я взял такси до аэропорта.','I get a taxi yesterday|с yesterday всегда V2',['I get','I\'ve gotten','I\'m getting']],
+    ['*we went* home','мы пошли домой','past','We went home after the gym.','После зала мы пошли домой.','we goed home|go неправильный: went',['we go','we goed','we\'ve gone']],
+    ['*he fixed* my phone','он починил мой телефон','past','He fixed my phone last week.','Он починил мой телефон на прошлой неделе.','',['he fixes','he\'s fixed','he\'s fixing']],
+    ['*I didn\'t get* the joke','я не понял шутку','past','I didn\'t get the joke.','Я не понял шутку.','I didn\'t got the joke|время взял did, глагол снова в чистом виде',['I didn\'t got','I don\'t get','I haven\'t get']],
+    ['*I\'m getting* ready','я собираюсь (прямо сейчас)','cont','Give me five minutes, I\'m getting ready.','Дай пять минут, я собираюсь.','I getting ready|без am нельзя: be + -ing, два слова',['I get','I getting','I got']],
+    ['*she\'s talking* on the phone','она говорит по телефону','cont','She\'s talking on the phone right now.','Она сейчас говорит по телефону.','',['she talks','she talked','she\'s talked']],
+    ['*we\'re leaving*','мы уходим (вот-вот)','cont','We\'re leaving in ten minutes.','Мы уходим через десять минут.','',['we leave','we left','we\'ve left']],
+    ['*it\'s getting* cold','холодает','cont','It\'s getting cold, take a jacket.','Холодает, возьми куртку.','',['it gets','it got','it\'s gotten']],
+    ['*I\'ve gotten* my hair cut','я подстригся (и сейчас подстрижен)','perf','I\'ve gotten my hair cut, how does it look?','Я подстригся, как выгляжу?','I have got my hair cut yesterday|с yesterday только V2: I got my hair cut yesterday',['I get','I\'m getting','I\'ll get']],
+    ['*she\'s found* a job','она нашла работу (уже)','perf','She\'s found a job in Tbilisi.','Она нашла работу в Тбилиси.','she has find a job|после have третья форма: found',['she has find','she\'s finding','she finds']],
+    ['*we\'ve been* here before','мы здесь уже были','perf','We\'ve been here before, remember?','Мы здесь уже были, помнишь?','',['we are','we were','we\'re being']],
+    ['*I haven\'t eaten* yet','я ещё не ел','perf','I haven\'t eaten yet.','Я ещё не ел.','I didn\'t eat yet|с yet обычно have: результат важен сейчас',['I didn\'t eat','I don\'t eat','I\'m not eating']],
+    ['*I\'ll get* a coffee','возьму кофе (решил сейчас)','fut','I\'ll get a coffee, want one?','Возьму кофе, тебе взять?','I will to get|после will без to',['I get','I\'m getting','I will to get']],
+    ['*I\'ll text* you','напишу тебе','fut','I\'ll text you when I get home.','Напишу, когда доберусь домой.','I\'ll text you when I\'ll get home|после when будущее не ставят',['I text','I texted','I\'m texting']],
+    ['*it won\'t work*','это не сработает','fut','Don\'t try, it won\'t work.','Не пробуй, не сработает.','it will not works|после will глагол без -s',['it doesn\'t work','it didn\'t work','it isn\'t working']],
+    ['*he\'ll be* back soon','он скоро вернётся','fut','He\'ll be back in an hour.','Он вернётся через час.','',['he is','he was','he\'s been']],
+    ['*I\'m going to get* a job','я собираюсь найти работу (план)','plan','I\'m going to get a job in Tbilisi.','Я собираюсь найти работу в Тбилиси.','I\'m going to got|после going to глагол в чистом виде',['I\'m going to got','I get','I got']],
+    ['*we\'re going to move*','мы переезжаем (уже решено)','plan','We\'re going to move next month.','Мы переезжаем в следующем месяце.','',['we moved','we\'ve moved','we move']],
+    ['*it\'s going to rain*','будет дождь (видно по небу)','plan','Look at the sky, it\'s going to rain.','Посмотри на небо, будет дождь.','',['it rains','it rained','it\'s rained']],
+  ], note:'Один вопрос решает почти всё: <b>когда</b>? Каждый день или вообще, значит V1. Вчера и закончилось, значит V2. Прямо сейчас, значит am / is / are + -ing. Уже, и результат виден сейчас, значит have + V3. Решил только что, значит will. Решил заранее или видно по признакам, значит going to. Слово-маркер в предложении (yesterday, now, already, every day) подсказывает ответ раньше, чем ты вспомнишь правило.'},
   ];
 
   // ---------- word breakdowns ----------
@@ -4425,7 +4462,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // PARTS gives [one ru, one en, many ru, many en]. A word that differs from its deck gets WPOS['deck|WORD'] = key or [ru, en].
   // A mixed deck needs WPOS for every word, otherwise the panel shows the deck's list.
   const PARTS = {
-    verb:['глагол','verb','глаголы','verbs'], phv:['фразовый глагол','phrasal verb','фразовые глаголы','phrasal verbs'],
+    tense:['время глагола','tense','времена глагола','tenses'], verb:['глагол','verb','глаголы','verbs'], phv:['фразовый глагол','phrasal verb','фразовые глаголы','phrasal verbs'],
     modal:['модальный глагол','modal verb','модальные глаголы','modal verbs'], semi:['замена модального глагола','semi-modal','замены модальных','semi-modals'],
     noun:['существительное','noun','существительные','nouns'], adj:['прилагательное','adjective','прилагательные','adjectives'],
     cmp:['степени сравнения','comparative · superlative','степени сравнения','comparative · superlative'],
@@ -4743,6 +4780,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       ['Слова под роликами', ['road','comments']],
       ['Выражения', ['my-captions','idioms-video']],
     ],
+    gram:[
+      ['Времена: когда какое', ['tenses']],
+    ],
   };
   const deckHTML = d=>{
     const many = d.parts.length>1;
@@ -4751,7 +4791,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   };
   const byId = Object.fromEntries(SHOWN.map(d=>[d.id,d])), placed = new Set();
   const topics = []; // [group, section id, short name] for the strip of topics on top
-  decksEl.innerHTML = ['words','talk','num','work'].map(g=>{
+  decksEl.innerHTML = ['words','talk','num','work','gram'].map(g=>{
     const secs = (SECTIONS[g]||[]).map(([t,ids])=>[t, ids.map(id=>byId[id]).filter(Boolean)]);
     secs.forEach(([,ds])=>ds.forEach(d=>placed.add(d.id)));
     const rest = SHOWN.filter(d=>(d.group||'words')===g && !placed.has(d.id));
@@ -4804,13 +4844,37 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     "Get dressed, we're leaving.": [["Get dressed","приказ: GET + V3, одевайся. Dressed = третья форма от dress."],["we're leaving","are + -ing: уходим прямо сейчас, вот-вот. Про ближайшее будущее говорят так."]],
     "I've got two brothers.": [["I've got","have got = have: у меня есть. 've это сокращение have, в речи его почти не слышно."],["two brothers","два брата: после числа больше одного существительное с -s."]],
     "Sorry, I've got to go.": [["I've got to","= have to: мне надо. В быстрой речи звучит как gotta."],["go","глагол в чистом виде после to."]],
+    "I get up at seven every day.": [["I get up","настоящее простое: V1. Каждый день одно и то же, поэтому чистый get."],["at seven","с временем на часах всегда at."],["every day","маркер «обычно»: с ним простое настоящее, не -ing."]],
+    "He gets tired fast after work.": [["He gets","он, поэтому -s: gets. Без -s у he, she, it ошибка."],["tired fast","GET + какой: устаёт. Fast = быстро, наречие без -ly."],["after work","после работы. Work без артикля, как home."]],
+    "We go to the gym three times a week.": [["We go","ходим вообще, привычка: чистый go. Are going значило бы «идём сейчас»."],["to the gym","куда: to + место."],["three times a week","три раза в неделю: a week = «в неделю», без per."]],
+    "She speaks English and a little Russian.": [["She speaks","она, поэтому speaks с -s. Про языки всегда speak."],["English","язык с большой буквы и без артикля."],["a little Russian","немного: a little перед тем, что не считают (язык, вода, время)."]],
+    "Sorry, I don't get it.": [["Sorry,","смягчение перед плохой новостью, как русское «извини, но»."],["I don't get","отрицание в настоящем: do + not перед глаголом, сам get не меняется. Don't ставится перед get, а не после."],["it","GET + it = понять. It здесь «это», то, что тебе сказали."]],
+    "I got a taxi to the airport yesterday.": [["I got","прошедшее простое: V2, got. Действие закончилось."],["a taxi","GET + вещь: взять такси."],["to the airport","куда: to + место."],["yesterday","маркер прошедшего. С ним только V2, никогда have."]],
+    "We went home after the gym.": [["We went","go неправильный: went. Goed не существует."],["home","без to: go home, get home."],["after the gym","после чего: after."]],
+    "He fixed my phone last week.": [["He fixed","fix правильный глагол: -ed. Читается «фикст», -ed не отдельный слог."],["my phone","мой телефон. My без артикля."],["last week","на прошлой неделе: без предлога, last сам задаёт время."]],
+    "I didn't get the joke.": [["I didn't","did + not: прошедшее с «не». Время взял did."],["get the joke","после didn't глагол снова в чистом виде: get, не got. Ошибка didn't got очень частая."]],
+    "Give me five minutes, I'm getting ready.": [["Give me five minutes","просьба: глагол первым, me сразу после без to."],["I'm getting ready","am + -ing: процесс идёт прямо сейчас. Два слова обязательны: I getting это ошибка."]],
+    "She's talking on the phone right now.": [["She's talking","she is talking: 's здесь is, не has. Is + -ing = прямо сейчас."],["on the phone","по телефону: on, не by."],["right now","маркер «прямо сейчас»: с ним -ing."]],
+    "We're leaving in ten minutes.": [["We're leaving","we are leaving: вот-вот уйдём. Настоящее длительное про ближайшее будущее."],["in ten minutes","через десять минут: in, а не after или through."]],
+    "It's getting cold, take a jacket.": [["It's getting cold","it = погода. Is getting = процесс идёт: холодает прямо сейчас."],["take a jacket","приказ или совет: глагол первым. A jacket = любая куртка."]],
+    "I've gotten my hair cut, how does it look?": [["I've gotten","have + V3: результат важен сейчас, я подстрижен. Когда стригся, не сказано и не важно."],["my hair cut","GET + вещь + V3: подстриг мастер."],["how does it look","вопрос в настоящем: does + it + look. «Как выглядит?»"]],
+    "She's found a job in Tbilisi.": [["She's found","she has found: 's здесь has. Третья форма от find = found."],["a job","найти работу: GET или find + a job."],["in Tbilisi","где: in + город."]],
+    "We've been here before, remember?": [["We've been","have + been: третья форма от be. «Уже бывали», опыт."],["here","здесь, без предлога."],["before","маркер «раньше, уже»: с ним have + V3."],["remember?","«помнишь?» одним словом, в речи так."]],
+    "I haven't eaten yet.": [["I haven't eaten","have + not + V3: ещё не ел, и это важно сейчас (голодный). Eaten = третья форма от eat."],["yet","«ещё не»: стоит в конце, только в отрицании и вопросе."]],
+    "I'll get a coffee, want one?": [["I'll get","I will get: решил прямо сейчас. После will чистый get."],["a coffee","одна чашка кофе."],["want one?","«тебе взять?»: do you want one, в речи do you опускают. One = «один такой же», чтобы не повторять coffee."]],
+    "I'll text you when I get home.": [["I'll text you","напишу тебе: will + text, you без to."],["when I get home","после when будущее не ставят: I get, хотя речь о будущем. Home без to."]],
+    "Don't try, it won't work.": [["Don't try","приказ с отрицанием: don't + глагол."],["it won't work","will not = won't. После won't глагол в чистом виде, без -s, хотя it."]],
+    "He'll be back in an hour.": [["He'll be back","he will be back: вернётся. Be + back = «быть обратно»."],["in an hour","через час: in. An, потому что hour начинается с гласного звука."]],
+    "I'm going to get a job in Tbilisi.": [["I'm going to get","am + going to + V1: план решён заранее. В речи gonna get."],["a job","найти работу."],["in Tbilisi","где: in + город."]],
+    "We're going to move next month.": [["We're going to move","are + going to + move: уже решено. Move = переехать."],["next month","в следующем месяце: без предлога, как last week."]],
+    "Look at the sky, it's going to rain.": [["Look at the sky","смотреть на что-то: look + at."],["it's going to rain","будет дождь: видно по признакам, поэтому going to, не will. It, потому что про погоду."]],
   };
   const parseHTML = e=>PARSE[e] ? `<button class="pbt">Как построено</button><ul class="parse" hidden>${PARSE[e].map(([c,w],i)=>`<li${vc(i)}><b>${c}</b><span>${w}</span></li>`).join('')}</ul>` : '';
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
     if(p.kind==='prep'){const [ph,pr,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,pr,ru,ex:[[ex,exru,'']],no,d,p}}
     else if(p.kind==='idiom'){const [ph,ru,lit,ex,exru]=t; ITEMS[d.id+'|'+ph.replace(/"/g,'')]={en:ph,ru,lit,ex:[[ex,exru,d.id==='my-captions'?'твой ролик':'']],d,p}}
-    else if(p.kind==='verb'){const [ph,ru,key,ex,exru,no]=t, i=p.forms.findIndex(f=>f[0]===key); ITEMS[d.id+'|'+plain(ph).replace(/"/g,'')]={en:plain(ph),slot:(ph.match(/\*(.+?)\*/)||[])[1],ru,ex:[[ex,exru,'']],vno:no,form:p.forms[i],fi:i,d,p}}
+    else if(p.kind==='verb'){const [ph,ru,key,ex,exru,no]=t, i=p.forms.findIndex(f=>f[0]===key); ITEMS[d.id+'|'+plain(ph).replace(/"/g,'')]={en:plain(ph),slot:(ph.match(/\*(.+?)\*/)||[])[1],ru,ex:[[ex,exru,'']],vno:no,alts:t[6],form:p.forms[i],fi:i,d,p}}
     else if(p.kind==='pick'){const [w,key,ru,ex,exru,no]=t; ITEMS[d.id+'|'+w]={en:w,ru,ex:[[ex,exru,'']],vno:no,d,p}}
     else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
@@ -4908,7 +4972,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
   const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
   let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
-  setGroup(fromHash ? (fromHash.group||'words') : (['num','work','talk'].includes(g0)?g0:'words'));
+  setGroup(fromHash ? (fromHash.group||'words') : (['num','work','talk','gram'].includes(g0)?g0:'words'));
 
   // ---------- modes ----------
   const root = document.getElementById('app'), reset = document.getElementById('reset');
@@ -4966,9 +5030,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
         const m=new RegExp('\\b'+it.pr+'\\b','i').exec(it.en); if(!m) continue;
         const o=opts(it.pr, PREPS); if(o) return [gap(e,it.pr,i+m.index), o, it.pr, why]}
     }
-    if(it.form && it.slot && it.d.pos==='verb'){
+    if(it.form && it.slot && (it.d.pos==='verb' || it.d.pos==='tense')){
       for(const e of exs){const i=e[0].toLowerCase().indexOf(it.slot.toLowerCase()); if(i<0) continue;
-        const o=opts(it.slot, os.map(x=>x.slot).filter(x=>x && !e[0].toLowerCase().includes(x.toLowerCase()))); if(o) return [gap(e,it.slot,i), o, it.slot, why]}
+        const o=opts(it.slot, it.alts || os.map(x=>x.slot).filter(x=>x && !e[0].toLowerCase().includes(x.toLowerCase()))); if(o) return [gap(e,it.slot,i), o, it.slot, why]}
     }
     const plainW=w=>!/[·…\/()]/.test(w);
     if(!it.form && plainW(en)){
