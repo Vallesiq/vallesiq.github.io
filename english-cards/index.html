@@ -260,6 +260,12 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .pex i{font-style:normal;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .pex span{color:var(--muted);font-size:13px}
 .preg,.pmore{margin:0;font-size:12.5px;color:var(--muted)}
+.pbt{align-self:flex-start;margin-top:3px;font:700 12px var(--display);color:var(--blue);background:var(--soft);border:0;border-radius:8px;padding:5px 9px;cursor:pointer}
+.parse{list-style:none;margin:6px 0 2px;padding:0;display:flex;flex-direction:column;gap:7px}
+.parse li{display:flex;flex-direction:column;gap:1px;border-left:3px solid var(--vc);padding-left:9px}
+.parse li b{font-size:14px;color:var(--vc)}
+.pex .parse b.say{color:var(--vc)}
+.parse li span{font-size:13px;color:var(--ink);line-height:1.45}
 .sb{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .sb button,.sx{font:700 13px var(--display);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:8px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .sb button[data-st]::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--st)}
@@ -4397,7 +4403,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   const FORM_NOUN_DECKS = ['money','gym','road','taxi','days'];
   function formsOf(it, id){
     const d = it.d.id, w = WPOS[id], key = typeof w==='string' ? w : (Array.isArray(w) ? '' : (typeof it.p.pos==='string' ? it.p.pos : ''));
-    if(it.form) return null; // a chameleon verb shows its forms once, at the top of its deck
+    // a chameleon phrase (get a taxi, get married) gets its own tenses when it starts with the deck verb in base form;
+    // «got it» or «I've got a car» are already in a tense and show nothing
+    if(it.form) return it.d.pos==='verb' && it.en.toLowerCase().split(' ')[0]===it.d.title.toLowerCase() ? verbForms(it.en.toLowerCase()) : null;
     if(d==='modals') return MODAL[it.en] || null;
     // a caption phrase already carries a tense (gives up, closing in): its base form for the table
     const BASE = {'gives up':'give up','winds up':'wind up','hops on':'hop on','cuts in':'cut in','boxes him in':'box him in','closing in':'close in'};
@@ -4752,6 +4760,52 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   }).join('');
   topicsEl.innerHTML = topics.map(([g,id,t])=>`<button data-sec="${id}" data-tg="${g}">${t}</button>`).join('');
   // every word's raw data by its data-id, for the breakdown panel
+  // ---------- «Как построено»: an example sentence taken apart ----------
+  // PARSE['предложение как в примере'] = [[кусок, что это и почему так], ...], in sentence order. Keyed by the sentence,
+  // so one breakdown serves every card that reuses the example. Shown under the example by the button «Как построено».
+  // Each chunk explains two things for a beginner: what role it plays and why English puts it this way
+  // (what a Russian speaker would do differently). Every new example of a chameleon or a phrase in a step gets one.
+  const PARSE = {
+    "I got a letter from the bank.": [["I","«я», подлежащее. По-английски его не опускают: «пришло письмо» без I не скажешь."],["got","прошедшее от get (V2): письмо уже пришло. Формула GET + вещь."],["a letter","вещь после get. Артикль a, потому что письмо одно и мы его ещё не обсуждали."],["from the bank","откуда: from = «от, из». The, потому что банк конкретный, мой."]],
+    "Let's get a taxi to the airport.": [["Let's","let us = «давай»: предложение сделать вместе. После let's глагол в чистом виде, без to и без окончаний."],["get a taxi","GET + вещь: взять такси. A, потому что любое, одно."],["to the airport","куда: to + место. Направление движения всегда через to."]],
+    "I'll get a coffee before the gym.": [["I'll","I will: будущее. Will берут, когда решил прямо сейчас, в момент речи."],["get a coffee","GET + вещь: взять кофе. A coffee = одна чашка, так говорят в кафе."],["before the gym","перед чем: before = «до, перед». The gym, потому что мой зал, конкретный."]],
+    "She got a job in Tbilisi.": [["She got","прошедшее: работу уже нашла, поэтому got, не get."],["a job","GET + вещь: найти работу. Job с артиклем a, это одно рабочее место."],["in Tbilisi","где: in + город. Для городов и стран всегда in."]],
+    "Sorry, I don't get it.": [["Sorry,","смягчение перед плохой новостью, как русское «извини, но»."],["I don't get","отрицание в настоящем: do + not перед глаголом, сам get не меняется. Don't ставится перед get, а не после."],["it","GET + it = понять. It здесь «это», то, что тебе сказали."]],
+    "Got it, thanks!": [["Got it","сокращение от I've got it: в живой речи I и have опускают. Остался только результат: понял, принято."],["thanks","спасибо. Короче, чем thank you, и между своими обычно так."]],
+    "He didn't get the joke.": [["He didn't","прошедшее с отрицанием: did + not. Время взял на себя did, поэтому дальше get в чистом виде, не got."],["get the joke","GET + it: понять шутку. The, потому что конкретная шутка, которую только что рассказали."]],
+    "OK, I get the hint. I'm leaving.": [["I get the hint","понять намёк, настоящее время: понимаю прямо сейчас, в момент речи. The hint = конкретный намёк, который только что сделали."],["I'm leaving","am + -ing: действие прямо сейчас или вот-вот. Так говорят и про ближайшее будущее: «ухожу»."]],
+    "I always get nervous before a call.": [["I always get","always стоит между подлежащим и глаголом, не в начале. Get в настоящем: так бывает каждый раз."],["nervous","GET + какой: становлюсь нервным. Прилагательное, а не глагол."],["before a call","перед звонком. A, потому что любой звонок, не конкретный."]],
+    "I get tired after the gym.": [["I get tired","GET + какой: устаю. Настоящее время = обычно, каждый раз так."],["after the gym","после чего: after. The gym = мой зал."]],
+    "Don't get sick before the trip.": [["Don't get","приказ или просьба с отрицанием: don't + глагол, без подлежащего. Русское «не заболей» тоже без «ты»."],["sick","GET + какой: заболеть, стать больным."],["before the trip","перед поездкой. The, потому что поездка конкретная, про которую оба знают."]],
+    "It gets cold at night.": [["It gets","it = погода, обстановка вокруг. По-русски «холодает» без подлежащего, по-английски без it нельзя. Gets с -s, потому что it."],["cold","GET + какой: становится холодно."],["at night","ночью: at + night, без the. Так же at noon, at midnight."]],
+    "Give me ten minutes, I'm getting ready.": [["Give me ten minutes","просьба: глагол первым, кому сразу после него без to (give me, не give to me)."],["I'm getting ready","am + getting: процесс идёт прямо сейчас. GET + какой: становлюсь готовым."]],
+    "Your English is getting better.": [["Your English","подлежащее: твой английский. Your без артикля, своё слово уже определяет."],["is getting better","is + getting: процесс идёт, становится лучше. Better = сравнение от good, «лучше»."]],
+    "How long does it take to get to the gym?": [["How long","«сколько по времени», вопрос о длительности."],["does it take","вопрос в настоящем: does + it + take. It takes = «занимает времени», устойчивый оборот, it здесь дорога."],["to get to the gym","первое to = «чтобы», второе to = «до»: GET + куда, перед местом нужен to."]],
+    "Text me when you get home.": [["Text me","просьба: text = написать сообщение. Me сразу после глагола без to."],["when you get home","после when будущее не ставят: you get, а не you will get, хотя речь о будущем. Home без to: get home, не get to home."]],
+    "We got there early.": [["We got there","GET + куда: добрались. Got (V2), потому что уже случилось. There без to: get there, не get to there."],["early","рано. Одно слово, без предлога."]],
+    "How do I get downtown?": [["How do I get","вопрос: how + do + I + get. Do нужен для вопроса в настоящем, сам get не меняется."],["downtown","в центр. Без to и без the: get downtown, как get home."]],
+    "I finally got her to smile.": [["I finally got","finally стоит перед глаголом. Got (V2): уже добился."],["her to smile","GET + кого-то + TO + делать. Сначала человек (her), потом to smile. Без to нельзя: got her smile это ошибка."]],
+    "How did you get them to agree?": [["How did you get","вопрос в прошедшем: did + you + get. Время взял did, поэтому get, а не got."],["them to agree","GET + кого-то + TO + делать: их (them) уговорить согласиться (to agree)."]],
+    "We couldn't get him to leave.": [["We couldn't","could not = не смогли. После couldn't глагол в чистом виде: get."],["get him to leave","GET + кого-то + TO + делать: добиться, чтобы он ушёл. Русское «выпроводить» одним словом, английское по формуле."]],
+    "I couldn't get the car to start.": [["I couldn't get","не смог добиться. Could не меняется, get после него в чистом виде."],["the car to start","та же формула, что с человеком: машину «уговариваешь» завестись. The car, потому что моя машина."]],
+    "I get up at seven.": [["I get up","GET + частица: встаю. Настоящее время = каждый день так."],["at seven","в семь: с временем на часах всегда at."]],
+    "Get in, we're late!": [["Get in","приказ: глагол первым, без подлежащего. In = внутрь, в машину."],["we're late","we are late: опаздываем. Late это прилагательное «поздний», поэтому нужен are, а не глагол."]],
+    "When did you get back?": [["When did you","вопрос в прошедшем: when + did + you. Did берёт на себя время."],["get back","вернуться. Get в чистом виде, потому что did уже показал прошедшее."]],
+    "The thief got away.": [["The thief","вор. The, потому что конкретный, тот самый."],["got away","GET + частица: сбежал. Got (V2), уже случилось."]],
+    "She got over the breakup.": [["She got over","GET + частица: пережила, отошла. Got (V2): это уже позади."],["the breakup","расставание. The, потому что конкретное, её."]],
+    "We get along really well.": [["We get along","GET + частица: ладим. Настоящее = вообще, всегда."],["really well","well это наречие «хорошо» к глаголу. Good здесь ошибка: good описывает вещь, well описывает действие."]],
+    "I need to get my hair cut.": [["I need to","мне надо + to + глагол. Need без to не ставят."],["get my hair cut","GET + вещь + V3: my hair стоит между get и cut, значит стрижёт мастер, не я. Cut здесь третья форма."]],
+    "I got my phone fixed yesterday.": [["I got","прошедшее от get."],["my phone fixed","вещь + V3: телефон починили за меня. Fixed = третья форма от fix."],["yesterday","вчера: с этим словом всегда прошедшее время (V2)."]],
+    "Let's get it done today.": [["Let's","давай вместе. После let's глагол в чистом виде."],["get it done","it + done: довести до результата. Done = третья форма от do."],["today","сегодня, без предлога: today, yesterday, tomorrow идут без at или on."]],
+    "They got married last year.": [["They got married","GET + V3 без вещи: случилось с ними самими. Married = третья форма от marry."],["last year","в прошлом году. Без in: last year, last week, last month."]],
+    "We got lost in the old town.": [["We got lost","GET + V3: заблудились, это случилось с нами. Lost = третья форма от lose."],["in the old town","где: in + место. The old town = старый город, конкретный район."]],
+    "He got fired last week.": [["He got fired","по-русски «его уволили» (он объект), по-английски he подлежащее + got fired. Кто уволил, не важно."],["last week","на прошлой неделе, без предлога."]],
+    "Be careful, don't get hurt.": [["Be careful","приказ с be: be + какой. «Будь осторожен»."],["don't get hurt","приказ с отрицанием: don't + get + V3. Hurt не меняется во всех трёх формах."]],
+    "Get dressed, we're leaving.": [["Get dressed","приказ: GET + V3, одевайся. Dressed = третья форма от dress."],["we're leaving","are + -ing: уходим прямо сейчас, вот-вот. Про ближайшее будущее говорят так."]],
+    "I've got two brothers.": [["I've got","have got = have: у меня есть. 've это сокращение have, в речи его почти не слышно."],["two brothers","два брата: после числа больше одного существительное с -s."]],
+    "Sorry, I've got to go.": [["I've got to","= have to: мне надо. В быстрой речи звучит как gotta."],["go","глагол в чистом виде после to."]],
+  };
+  const parseHTML = e=>PARSE[e] ? `<button class="pbt">Как построено</button><ul class="parse" hidden>${PARSE[e].map(([c,w],i)=>`<li${vc(i)}><b>${c}</b><span>${w}</span></li>`).join('')}</ul>` : '';
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
     if(p.kind==='prep'){const [ph,pr,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,pr,ru,ex:[[ex,exru,'']],no,d,p}}
@@ -4761,6 +4815,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     else if(p.kind==='talk'){const [q,qru,a,aru]=t, sit=/^\(/.test(q); ITEMS[d.id+'|'+a.replace(/"/g,'')]={en:a,ru:aru,q:sit?'':q,qru,sit:sit?q:'',d,p}}
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
   })));
+  // PARSE keys must match an example sentence of some word, otherwise the breakdown is never shown (read by Tools/english-cards-check.js)
+  window.EIC_PARSE_BAD = ()=>{const ex=new Set(); [...Object.values(INFO), ...Object.values(ITEMS)].forEach(x=>(x.ex||[]).forEach(e=>ex.add(e[0]))); return Object.keys(PARSE).filter(k=>!ex.has(k))};
   function detailHTML(t){
     const id=t.dataset.id, it=ITEMS[id]; if(!it) return '';
     const x=INFO[id]||{}, sec=(h,c,cls='')=>c?`<section class="ps ${cls}"><h4>${h}</h4><div>${c}</div></section>`:'';
@@ -4778,7 +4834,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
-      + sec('Примеры', exs.length ? `<ul class="pex">${exs.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span></li>`).join('')}</ul>` : '')
+      + sec('Примеры', exs.length ? `<ul class="pex">${exs.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span>${parseHTML(e)}</li>`).join('')}</ul>` : '')
       + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : it.vno ? noHTML(it.vno).replace(/^не/,'Не') : ''), 'warn')
       + sec('Похожие слова: в чём разница', x.like)
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
@@ -5029,7 +5085,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   }));
   document.getElementById('sx').addEventListener('click',()=>{hideSheet(); cur=null});
   scrim.addEventListener('click',()=>{hideSheet(); cur=null});
-  pbody.addEventListener('click',e=>{const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
+  pbody.addEventListener('click',e=>{const t=e.target.closest('.pbt'); if(t){const u=t.nextElementSibling; u.hidden=!u.hidden; t.textContent=u.hidden?'Как построено':'Свернуть'; return}
+    const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); hideSheet(); cur=null; applyFilter()}));
   // backup for viewers without an account: progress lives only in this browser
   const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
