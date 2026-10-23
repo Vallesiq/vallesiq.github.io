@@ -1962,6 +1962,84 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['*we\'re going to move*','мы переезжаем (уже решено)','plan','We\'re going to move next month.','Мы переезжаем в следующем месяце.','',['we moved','we\'ve moved','we move']],
     ['*it\'s going to rain*','будет дождь (видно по небу)','plan','Look at the sky, it\'s going to rain.','Посмотри на небо, будет дождь.','',['it rains','it rained','it\'s rained']],
   ], note:'Один вопрос решает почти всё: <b>когда</b>? Каждый день или вообще, значит V1. Вчера и закончилось, значит V2. Прямо сейчас, значит am / is / are + -ing. Уже, и результат виден сейчас, значит have + V3. Решил только что, значит will. Решил заранее или видно по признакам, значит going to. Слово-маркер в предложении (yesterday, now, already, every day) подсказывает ответ раньше, чем ты вспомнишь правило.'},
+
+  // частицы: карта формул это сами частицы, строки это разные глаголы с ней; тест прячет частицу
+  {id:'particles', pos:'phv', group:'gram', verb:true, title:'Up · Out · Off · Back', ru:'Частицы: что они добавляют к глаголу', forms:[
+    ['up','глагол + *up*','вверх · до конца · появиться','У up три смысла, и все растут из «вверх». Первый буквальный: <b>get up</b> встать, <b>pick up</b> поднять, <b>wake up</b> проснуться (из сна наверх). Второй «до упора, полностью»: <b>eat up</b> доесть, <b>clean up</b> прибрать, <b>fill up</b> заполнить бак. Третий «появиться, стать больше»: <b>show up</b> прийти, <b>turn up</b> громче, <b>speed up</b> быстрее. Сравни с down: <b>turn up</b> громче, <b>turn down</b> тише.', [['up','частица: вверх, до конца, появиться','particle']]],
+    ['down','глагол + *down*','вниз · меньше · остановиться','Down это зеркало up. Буквально вниз: <b>sit down</b> сесть, <b>write down</b> записать (ручка вниз на бумагу). Меньше: <b>turn down</b> тише, <b>slow down</b> медленнее, <b>calm down</b> успокоиться (напряжение вниз). Остановиться, упасть: <b>break down</b> сломаться. Сравни: <b>sit down</b> сесть, <b>stand up</b> встать.', [['down','частица: вниз, меньше, остановиться','particle']]],
+    ['in','глагол + *in*','внутрь · включиться','Внутрь, в закрытое место: <b>get in</b> сесть в машину, <b>come in</b> войти, <b>check in</b> заселиться (войти в систему отеля). Вписаться, присоединиться: <b>fill in</b> заполнить форму (вписать внутрь клеток), <b>join in</b> присоединиться. Сравни с out: <b>get in</b> сесть, <b>get out</b> выйти.', [['in','частица: внутрь, включиться','particle']]],
+    ['out','глагол + *out*','наружу · до конца · выяснить','Наружу: <b>go out</b> выйти из дома, <b>get out</b> выйти. «Вытащить наружу» правду: <b>find out</b> выяснить, <b>figure out</b> разобраться. «Вытекло всё»: <b>run out</b> закончиться. Из тела или плана «вышел результат»: <b>work out</b> тренироваться или получиться. Сравни: <b>eat up</b> доесть, <b>eat out</b> поесть в кафе (вне дома).', [['out','частица: наружу, до конца, выяснить','particle']]],
+    ['on','глагол + *on*','включить · надеть · продолжать','Контакт и работа. Включить: <b>turn on</b>. Надеть, то есть поверх себя: <b>put on</b>. Держаться и продолжать: <b>hold on</b> подожди (держись на линии), <b>go on</b> продолжай, <b>come on</b> давай. Сравни с off: <b>turn on</b> включить, <b>turn off</b> выключить; <b>put on</b> надеть, <b>take off</b> снять.', [['on','частица: включить, надеть, продолжать','particle']]],
+    ['off','глагол + *off*','выключить · снять · прочь','Off это «отделить, прочь от». Выключить: <b>turn off</b>. Снять с себя: <b>take off</b> (и самолёт «отрывается» от земли, тоже take off). Сойти: <b>get off</b> выйти из автобуса. Прочь от работы: <b>day off</b> выходной. Напоказ, «отстранённо от нормы»: <b>show off</b> выпендриваться.', [['off','частица: выключить, снять, прочь','particle']]],
+    ['back','глагол + *back*','обратно · в ответ','Самая простая: обратно туда, откуда. Вернуться: <b>get back</b>, <b>come back</b>. Вернуть вещь: <b>give back</b>. В ответ на звонок или сообщение: <b>call back</b> перезвонить, <b>text back</b> ответить. Взять слова обратно: <b>take back</b>.', [['back','частица: обратно, в ответ','particle']]],
+    ['over','глагол + *over*','через · заново · перехватить','Over это «через, поверх». Перешагнуть беду: <b>get over</b> пережить. Через город к тебе: <b>come over</b> зайти в гости. Через всё ещё раз: <b>think over</b> обдумать, <b>start over</b> начать заново. Перехватить поверх другого: <b>take over</b>.', [['over','частица: через, заново, перехватить','particle']]],
+    ['away','глагол + *away*','прочь · далеко','Away это «прочь, подальше». Уйти: <b>go away</b>, <b>get away</b> сбежать. Убрать с глаз: <b>put away</b> убрать на место, <b>throw away</b> выбросить. Без промедления, «тут же прочь»: <b>right away</b> сразу.', [['away','частица: прочь, далеко','particle']]],
+  ], rows:[
+    ['get *up*','встать с кровати','up','I get up at seven.','Я встаю в семь.',''],
+    ['pick *up*','поднять; забрать на машине','up','Can you pick me up at six?','Заберёшь меня в шесть?','pick up me|короткое me встаёт между pick и up'],
+    ['wake *up*','проснуться','up','I woke up late today.','Сегодня я проснулся поздно.',''],
+    ['show *up*','появиться, прийти','up','He didn\'t show up.','Он не пришёл.',''],
+    ['eat *up*','доесть до конца','up','Eat up, we\'re leaving.','Доедай, уходим.',''],
+    ['turn *up*','сделать громче','up','Turn up the music.','Сделай музыку погромче.',''],
+    ['sit *down*','сесть','down','Sit down, please.','Садись, пожалуйста.',''],
+    ['calm *down*','успокоиться','down','Calm down, it\'s fine.','Успокойся, всё нормально.',''],
+    ['slow *down*','сбавить скорость','down','Slow down, there\'s a camera.','Притормози, там камера.',''],
+    ['write *down*','записать','down','Write down the address.','Запиши адрес.',''],
+    ['break *down*','сломаться (машина)','down','My car broke down on the way.','Машина сломалась по дороге.',''],
+    ['turn *down*','сделать тише; отказать','down','Turn down the volume.','Сделай потише.',''],
+    ['get *in*','сесть в машину','in','Get in, I\'ll drive.','Садись, я поведу.',''],
+    ['come *in*','войти','in','Come in, the door\'s open.','Заходи, дверь открыта.',''],
+    ['fill *in*','заполнить форму','in','Fill in your name here.','Впиши здесь своё имя.',''],
+    ['check *in*','заселиться; отметиться','in','We checked in at the hotel.','Мы заселились в отель.',''],
+    ['join *in*','присоединиться','in','Come and join in!','Давай к нам!',''],
+    ['go *out*','выйти из дома, пойти куда-то','out','Let\'s go out tonight.','Давай сегодня куда-нибудь сходим.',''],
+    ['find *out*','выяснить, узнать','out','I found out the truth.','Я узнал правду.',''],
+    ['figure *out*','разобраться, понять как','out','I can\'t figure out how it works.','Не могу понять, как это работает.',''],
+    ['run *out*','закончиться','out','We ran out of milk.','У нас кончилось молоко.','run out milk|то, что кончилось, через of'],
+    ['work *out*','тренироваться; получиться','out','I work out three times a week.','Я тренируюсь три раза в неделю.',''],
+    ['hang *out*','проводить время вместе','out','We hung out at the café.','Мы посидели в кафе.',''],
+    ['turn *on*','включить','on','Turn on the light.','Включи свет.',''],
+    ['put *on*','надеть','on','Put on a jacket, it\'s cold.','Надень куртку, холодно.','put on you a jacket|надеть на себя = put on, без you'],
+    ['hold *on*','подожди (на линии)','on','Hold on, I\'ll check.','Подожди, проверю.',''],
+    ['go *on*','продолжать','on','Go on, I\'m listening.','Продолжай, я слушаю.',''],
+    ['come *on*','давай, ну же','on','Come on, we\'re late!','Давай, опаздываем!',''],
+    ['turn *off*','выключить','off','Turn off your phone.','Выключи телефон.',''],
+    ['take *off*','снять (одежду); взлететь','off','Take off your shoes.','Сними обувь.',''],
+    ['get *off*','выйти из автобуса','off','Get off at the next stop.','Выходи на следующей.','get out of the bus|из автобуса и поезда get off, из машины get out'],
+    ['show *off*','выпендриваться','off','He\'s just showing off.','Он просто выпендривается.',''],
+    ['day *off*','выходной','off','I have a day off tomorrow.','У меня завтра выходной.',''],
+    ['get *back*','вернуться','back','When did you get back?','Когда ты вернулся?',''],
+    ['call *back*','перезвонить','back','I\'ll call you back.','Я тебе перезвоню.','call back you|короткое you встаёт в середину'],
+    ['text *back*','ответить на сообщение','back','She never texts back.','Она никогда не отвечает на сообщения.',''],
+    ['give *back*','вернуть вещь','back','Give me back my charger.','Верни мне зарядку.',''],
+    ['take *back*','взять слова обратно','back','OK, I take it back.','Ладно, беру свои слова обратно.',''],
+    ['get *over*','пережить, отойти','over','She got over the breakup.','Она пережила расставание.',''],
+    ['come *over*','зайти в гости','over','Come over tonight.','Заходи сегодня вечером.',''],
+    ['think *over*','обдумать','over','Let me think it over.','Дай мне это обдумать.',''],
+    ['start *over*','начать заново','over','Let\'s start over.','Давай начнём заново.',''],
+    ['take *over*','взять на себя, подменить','over','Can you take over for a minute?','Подменишь меня на минуту?',''],
+    ['get *away*','сбежать','away','The thief got away.','Вор сбежал.',''],
+    ['go *away*','уйти, отстать','away','Go away, I\'m busy.','Уйди, я занят.',''],
+    ['put *away*','убрать на место','away','Put away your phone.','Убери телефон.',''],
+    ['throw *away*','выбросить','away','Don\'t throw away the box.','Не выбрасывай коробку.',''],
+    ['right *away*','сразу, немедленно','away','I\'ll do it right away.','Сделаю прямо сейчас.',''],
+  ], note:'Частица это не артикль. Артикли это a и the, они стоят перед вещью. Частица стоит после глагола и меняет его смысл: <b>get</b> сам по себе пустой, а <b>get up</b> встать, <b>get in</b> сесть, <b>get out</b> выйти, <b>get back</b> вернуться, <b>get over</b> пережить, <b>get away</b> сбежать. Учи частицу как смысл: <b>up</b> везде тянет вверх или до конца, <b>off</b> везде отделяет, <b>back</b> везде возвращает. Тогда новый фразовый глагол угадывается наполовину. Короткое слово (me, it, you) встаёт в середину: <b>pick me up</b>, <b>call you back</b>, <b>think it over</b>.'},
+
+  // описать картинку: вопрос и ответ из ролика @vocabularyexercises (прислал 23.10); ответ прячется кнопкой «Закрыть английский»
+  {id:'picture', pos:'phr', group:'gram', talk:true, open:true, title:'Describe the Picture', ru:'Вопрос и ответ по картинке: где кто и что делает', rows:[
+    ['What do you see in the picture?','Что ты видишь на картинке?','I see a family in a kitchen.','Я вижу семью на кухне.'],
+    ['Where is the man standing?','Где стоит мужчина?','He is standing at the sink.','Он стоит у раковины.'],
+    ['What is the man doing?','Что делает мужчина?','He is washing dishes.','Он моет посуду.'],
+    ['What is the woman doing?','Что делает женщина?','She is looking in the fridge.','Она смотрит в холодильник.'],
+    ['Is the fridge open or closed?','Холодильник открыт или закрыт?','The fridge is open.','Холодильник открыт.'],
+    ['What color are the kitchen cabinets?','Какого цвета кухонные шкафы?','The cabinets are red.','Шкафы красные.'],
+    ['What is the cat doing on the floor?','Что делает кот на полу?','The cat is eating food from a bowl.','Кот ест еду из миски.'],
+    ['Where is the little girl sitting?','Где сидит маленькая девочка?','She is sitting at the dining table.','Она сидит за обеденным столом.'],
+    ['What is on the stove?','Что стоит на плите?','A yellow kettle and a pan are on the stove.','На плите жёлтый чайник и сковородка.'],
+    ['What color is the boy\'s shirt?','Какого цвета футболка мальчика?','His shirt is green.','Его футболка зелёная.'],
+    ['Where is the clock hanging?','Где висит часы?','The clock is hanging on the wall.','Часы висят на стене.'],
+    ['Are there plants in the kitchen?','На кухне есть растения?','Yes, there are small plants on the shelf and the window.','Да, на полке и на окне маленькие растения.'],
+  ], note:'Описать картинку это три инструмента. <b>Is + -ing</b>: всё на картинке происходит прямо сейчас, поэтому he is standing, she is looking, the cat is eating. <b>At · in · on</b> для места: <b>at</b> это точка рядом с чем-то (at the sink, at the table), <b>in</b> внутри (in the kitchen, in the fridge), <b>on</b> на поверхности (on the floor, on the stove, on the wall, on the shelf). <b>There is / there are</b> для «есть ли»: Are there plants? Yes, there are. Вопрос строится переворотом: What is he doing? Where is she sitting? Is the fridge open?'},
   ];
 
   // ---------- word breakdowns ----------
@@ -4559,6 +4637,26 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   };
   // WHY['deck|phrase'] = why this word works the way it does, in full sentences for a beginner; shown first in the panel as «Почему так»
   const WHY = {
+    "particles|pick up": "Up здесь буквально «вверх»: поднять с пола. Отсюда второй смысл: подобрать человека на машине, «подхватить». Короткое слово встаёт в середину: pick me up, pick it up.",
+    "particles|show up": "Show = показаться, up = всплыть, появиться на поверхности. Человек «всплыл» там, где его ждали. Чаще с «не»: he didn't show up = не пришёл, не явился.",
+    "particles|work out": "Два смысла из одного out. В зале результат «выходит» из тела: I work out = тренируюсь. Про план или отношения: «вышло», получилось: it worked out = всё сложилось.",
+    "particles|find out": "Find = найти, out = наружу. Вытащить наружу то, что было скрыто: узнать, выяснить. Не путай с find: I found my keys = нашёл ключи (вещь), I found out = узнал (факт).",
+    "particles|run out": "Run = бежать, out = наружу: всё «вытекло» и ничего не осталось. То, что кончилось, через of: we ran out of time = у нас кончилось время.",
+    "particles|take off": "Off = прочь от тела: снять одежду. Самолёт тоже take off: отрывается прочь от земли, взлетает. Оба смысла в одной фразе.",
+    "particles|get off": "С автобуса, поезда, велосипеда сходишь, как с поверхности: get off. Из машины, где сидишь внутри, вылезаешь: get out of the car. Русское «выйти» одно, английских два.",
+    "particles|show off": "Show = показывать, off = напоказ, с отрывом от нормы. Показывать себя громче, чем надо: выпендриваться. Про человека: he's a show-off = он выпендрёжник.",
+    "particles|day off": "Off = прочь от работы. Day off = выходной, time off = отгул, I'm off today = у меня сегодня выходной. Это не глагол, но та же частица с тем же смыслом.",
+    "particles|hold on": "Hold = держать, on = продолжать. «Держись, не вешай трубку, не уходи»: подожди. Это самое частое «подожди» в телефоне: hold on a second.",
+    "particles|come on": "Come = иди, on = дальше. Подгоняешь: давай, пошли, ну же. И как недоверие: come on, really? = да ладно, серьёзно?",
+    "particles|take back": "Take = взять, back = обратно. Взять обратно слова: I take it back = беру свои слова назад. И вещь в магазин: take it back to the store = вернуть в магазин.",
+    "particles|come over": "Over = через: через город ко мне. Come over = зайди ко мне, приходи в гости. Короткое и тёплое приглашение.",
+    "particles|take over": "Over = поверх другого. Взять управление поверх того, кто делал: подменить, перехватить. В зале: can you take over? = подменишь меня?",
+    "particles|put away": "Put = положить, away = прочь с глаз. Убрать на место: put away the dishes = убрать посуду. Не put off, это «отложить на потом».",
+    "particles|right away": "Away = прочь, right усиливает: «тут же прочь», без промедления. Right away = сразу, немедленно. Не глагол, но та же частица.",
+    "particles|calm down": "Calm = спокойный, down = вниз. Напряжение опускается вниз: успокойся. Второе такое же: settle down = угомонись.",
+    "particles|break down": "Break = ломаться, down = упасть, остановиться. Машина «упала» и не едет: broke down. Про человека тоже: he broke down = он сломался, расплакался.",
+    "particles|fill in": "Fill = заполнять, in = внутрь. Вписать внутрь клеток: заполнить форму. Американцы часто говорят fill out, тот же смысл: заполнить всю форму до конца.",
+    "particles|check in": "Check = отметиться, in = внутрь. Войти в систему отеля или аэропорта: заселиться, зарегистрироваться. Обратное check out = выехать из отеля.",
     "saytell|say": "Say держит в центре сами слова, а не человека. Поэтому «кому» у него второстепенное и идёт только через to: say it to me. Русское «скажи мне» тянет к say me, но так нельзя: если важен человек, бери tell. Формы неправильные: said, и читается «сэд», а не «сейд».",
     "saytell|tell": "Tell всегда направлен на человека: ты что-то передаёшь кому-то. Поэтому человек стоит сразу после глагола, без to: tell me, tell him. Отсюда же «велеть»: told me to wait. И готовые пары tell the truth, tell a lie, tell a story, tell a joke: всё, что передаёшь другому целиком.",
     "saytell|speak": "Speak про сам голос и умение говорить, поэтому с языками только speak: speak English. Ещё оно звучит официальнее, поэтому с менеджером и по телефону говорят speak to. Формы неправильные: spoke, spoken.",
@@ -4834,6 +4932,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ],
     gram:[
       ['Времена: когда какое', ['tenses']],
+      ['Частицы: up, out, off, back', ['particles']],
+      ['Описать, что видишь', ['picture']],
     ],
   };
   const deckHTML = d=>{
@@ -4920,8 +5020,65 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     "I'm going to get a job in Tbilisi.": [["I'm going to get","am + going to + V1: план решён заранее. В речи gonna get."],["a job","найти работу."],["in Tbilisi","где: in + город."]],
     "We're going to move next month.": [["We're going to move","are + going to + move: уже решено. Move = переехать."],["next month","в следующем месяце: без предлога, как last week."]],
     "Look at the sky, it's going to rain.": [["Look at the sky","смотреть на что-то: look + at."],["it's going to rain","будет дождь: видно по признакам, поэтому going to, не will. It, потому что про погоду."]],
+    "Can you pick me up at six?": [["Can you","просьба: can + you + глагол. Вежливее, чем приказ."],["pick me up","me встаёт между pick и up: короткое слово всегда в середину, pick up me ошибка."],["at six","в шесть: at + время."]],
+    "I woke up late today.": [["I woke up","wake неправильный: woke. Up = из сна наверх."],["late","поздно, одно слово без предлога."],["today","сегодня, без предлога."]],
+    "He didn't show up.": [["He didn't","did + not: прошедшее с «не». Время взял did."],["show up","появиться, прийти. После didn't глагол в чистом виде: show, не showed."]],
+    "Eat up, we're leaving.": [["Eat up","приказ: глагол первым. Up = до конца, всё."],["we're leaving","are + -ing: уходим вот-вот."]],
+    "Turn up the music.": [["Turn up","приказ. Up = громкость вверх."],["the music","конкретная музыка, которая играет: the."]],
+    "Sit down, please.": [["Sit down","приказ или приглашение: глагол первым. Down = вниз, на стул."],["please","пожалуйста, в конце смягчает."]],
+    "Calm down, it's fine.": [["Calm down","приказ: успокойся. Down = напряжение вниз."],["it's fine","it is fine: всё нормально. Fine прилагательное, поэтому is."]],
+    "Slow down, there's a camera.": [["Slow down","приказ: медленнее. Down = скорость вниз."],["there's a camera","there is = «есть, имеется». A, потому что одна любая камера."]],
+    "Write down the address.": [["Write down","приказ: запиши. Down = ручка вниз на бумагу."],["the address","конкретный адрес, о котором речь: the."]],
+    "My car broke down on the way.": [["My car","моя машина: my без артикля."],["broke down","break неправильный: broke. Down = упала, не работает."],["on the way","по дороге: устойчиво с on и the."]],
+    "Turn down the volume.": [["Turn down","приказ. Down = громкость вниз."],["the volume","громкость, конкретная: the."]],
+    "Get in, I'll drive.": [["Get in","приказ: садись. In = внутрь машины."],["I'll drive","I will drive: решил сейчас, что поведу."]],
+    "Come in, the door's open.": [["Come in","приглашение: заходи. In = внутрь."],["the door's open","the door is open: 's здесь is. Open прилагательное, нужен is."]],
+    "Fill in your name here.": [["Fill in","приказ: впиши. In = внутрь клетки формы."],["your name","твоё имя, your без артикля."],["here","здесь, без предлога."]],
+    "We checked in at the hotel.": [["We checked in","check правильный: -ed. In = вошли в систему отеля, заселились."],["at the hotel","где: at + место-точка. The, потому что наш отель."]],
+    "Come and join in!": [["Come and join","два приказа через and: иди и присоединяйся. Come and = «давай», в речи часто."],["in","внутрь группы, к нам."]],
+    "Let's go out tonight.": [["Let's","давай вместе. После let's глагол в чистом виде."],["go out","выйти из дома, сходить куда-то. Out = наружу."],["tonight","сегодня вечером, одно слово без предлога."]],
+    "I found out the truth.": [["I found out","find неправильный: found. Out = вытащил наружу то, что скрывали."],["the truth","правда всегда с the: одна, конкретная."]],
+    "I can't figure out how it works.": [["I can't figure out","can + not: не могу разобраться. Out = вытащить понимание наружу."],["how it works","как это работает: порядок прямой, how + it + works, без does, потому что это не вопрос, а часть фразы."]],
+    "We ran out of milk.": [["We ran out","run неправильный: ran. Out = вытекло всё, кончилось."],["of milk","то, что кончилось, всегда через of: run out of."]],
+    "I work out three times a week.": [["I work out","тренируюсь: привычка, простое настоящее. Out = результат «выходит» из тела."],["three times a week","три раза в неделю: a week = «в неделю»."]],
+    "We hung out at the café.": [["We hung out","hang неправильный: hung. Out = вне дома, вместе."],["at the café","где: at + место-точка."]],
+    "Turn on the light.": [["Turn on","приказ: включи. On = контакт есть."],["the light","свет в комнате, конкретный: the."]],
+    "Put on a jacket, it's cold.": [["Put on","приказ: надень. On = поверх себя. Без you: put on, не put on you."],["a jacket","любая куртка: a."],["it's cold","it = погода: холодно. Без it нельзя."]],
+    "Hold on, I'll check.": [["Hold on","подожди: держись на линии или на месте."],["I'll check","will: решил сейчас, что проверю."]],
+    "Go on, I'm listening.": [["Go on","продолжай. On = дальше, не останавливайся."],["I'm listening","am + -ing: слушаю прямо сейчас."]],
+    "Come on, we're late!": [["Come on","давай, ну же: подгоняешь."],["we're late","we are late: late прилагательное, нужен are."]],
+    "Turn off your phone.": [["Turn off","приказ: выключи. Off = контакт прочь."],["your phone","твой телефон, your без артикля."]],
+    "Take off your shoes.": [["Take off","приказ: сними. Off = прочь с тела."],["your shoes","обувь всегда во множественном: shoes."]],
+    "Get off at the next stop.": [["Get off","приказ: выходи. Off = сойти с автобуса, как с поверхности."],["at the next stop","на следующей остановке: at + stop, the next = следующая, конкретная."]],
+    "He's just showing off.": [["He's just showing off","he is showing: прямо сейчас. Just = просто. Off = напоказ."]],
+    "I have a day off tomorrow.": [["I have","у меня есть."],["a day off","выходной: day + off = день прочь от работы. A, потому что один."],["tomorrow","завтра, без предлога."]],
+    "I'll call you back.": [["I'll call","will: обещание, решил сейчас."],["you back","you встаёт между call и back: call you back, не call back you."]],
+    "She never texts back.": [["She never texts","never между подлежащим и глаголом; texts с -s у she. Never уже отрицание, don't не нужен."],["back","в ответ."]],
+    "Give me back my charger.": [["Give me back","верни мне: me сразу после give, потом back."],["my charger","моя зарядка, my без артикля."]],
+    "OK, I take it back.": [["I take it back","беру слова обратно: it = сказанное, стоит в середине между take и back."]],
+    "Come over tonight.": [["Come over","приглашение: заходи. Over = через город ко мне."],["tonight","сегодня вечером, без предлога."]],
+    "Let me think it over.": [["Let me","дай мне: let + me + глагол без to."],["think it over","обдумать: it в середине между think и over."]],
+    "Let's start over.": [["Let's","давай вместе."],["start over","начать заново. Over = через всё ещё раз."]],
+    "Can you take over for a minute?": [["Can you take over","просьба: can + you. Take over = подмени, возьми на себя."],["for a minute","на минуту: длительность через for."]],
+    "Go away, I'm busy.": [["Go away","уйди, отстань. Away = прочь."],["I'm busy","am + busy: busy прилагательное, нужен am."]],
+    "Put away your phone.": [["Put away","приказ: убери. Away = прочь с глаз, на место."],["your phone","твой телефон."]],
+    "Don't throw away the box.": [["Don't throw away","приказ с «не»: don't + глагол. Away = прочь, в мусор."],["the box","конкретная коробка: the."]],
+    "I'll do it right away.": [["I'll do it","will: обещание. It = то, о чём попросили."],["right away","сразу, немедленно: right усиливает away."]],
+    "I see a family in a kitchen.": [["I see","вижу: простое настоящее, see не ставят в -ing."],["a family","семья: a, потому что любая, впервые упомянута."],["in a kitchen","внутри помещения: in. A kitchen = какая-то кухня, тоже впервые."]],
+    "He is standing at the sink.": [["He is standing","is + -ing: стоит прямо сейчас, на картинке."],["at the sink","у раковины: at = точка рядом с чем-то. The, потому что раковина на картинке одна и видна."]],
+    "He is washing dishes.": [["He is washing","is + -ing: моет прямо сейчас."],["dishes","посуда: по-английски всегда множественное число, без артикля, когда вообще."]],
+    "She is looking in the fridge.": [["She is looking","is + -ing: смотрит прямо сейчас. Look = направленный взгляд."],["in the fridge","внутрь холодильника: in. Look in = заглядывать внутрь, look at = смотреть на."]],
+    "The fridge is open.": [["The fridge","тот холодильник, что на картинке: the."],["is open","open здесь прилагательное «открытый», поэтому is, без -ed: не is opened."]],
+    "The cabinets are red.": [["The cabinets","шкафы на картинке: the. Их много, поэтому -s."],["are red","цвет через be: are + red. Много шкафов, поэтому are."]],
+    "The cat is eating food from a bowl.": [["The cat is eating","is + -ing: ест прямо сейчас. The, потому что кот виден."],["food","еда без артикля: её не считают."],["from a bowl","откуда: from. A bowl = какая-то миска, впервые."]],
+    "She is sitting at the dining table.": [["She is sitting","is + -ing: сидит прямо сейчас."],["at the dining table","за столом: at, а не behind. Dining table = обеденный стол, dining описывает table."]],
+    "A yellow kettle and a pan are on the stove.": [["A yellow kettle and a pan","два предмета, у каждого свой a. Цвет перед вещью: yellow kettle."],["are","два предмета, поэтому are, не is."],["on the stove","на поверхности плиты: on."]],
+    "His shirt is green.": [["His shirt","его футболка: his без артикля."],["is green","цвет через be: is + green. Одна футболка, поэтому is."]],
+    "The clock is hanging on the wall.": [["The clock","часы на картинке: the. По-английски clock единственное число: часы = one clock."],["is hanging","is + -ing: висят прямо сейчас."],["on the wall","на стене: on, стена это поверхность."]],
+    "Yes, there are small plants on the shelf and the window.": [["Yes, there are","there are = «есть, имеются» во множественном числе. Короткий ответ на Are there?"],["small plants","маленькие растения: прилагательное перед словом, много, поэтому -s."],["on the shelf and the window","на полке и на окне: обе поверхности, on."]],
   };
-  const parseHTML = e=>PARSE[e] ? `<button class="pbt">Как построено</button><ul class="parse" hidden>${PARSE[e].map(([c,w],i)=>`<li${vc(i)}><b>${c}</b><span>${w}</span></li>`).join('')}</ul>` : '';
+  const parseList = (e,hid)=>`<ul class="parse"${hid?' hidden':''}>${PARSE[e].map(([c,w],i)=>`<li${vc(i)}><b>${c}</b><span>${w}</span></li>`).join('')}</ul>`;
+  const parseHTML = e=>PARSE[e] ? `<button class="pbt">Как построено</button>${parseList(e,true)}` : '';
   const ITEMS = {};
   SHOWN.forEach(d=>d.parts.forEach(p=>p.items.forEach(t=>{
     if(p.kind==='prep'){const [ph,pr,ru,ex,exru,no]=t; ITEMS[d.id+'|'+ph]={en:ph,pr,ru,ex:[[ex,exru,'']],no,d,p}}
@@ -4932,7 +5089,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     else {const [en,ru]=t; ITEMS[d.id+'|'+en.replace(/"/g,'')]={en,ru,d,p}}
   })));
   // PARSE keys must match an example sentence of some word, otherwise the breakdown is never shown (read by Tools/english-cards-check.js)
-  window.EIC_PARSE_BAD = ()=>{const ex=new Set(); [...Object.values(INFO), ...Object.values(ITEMS)].forEach(x=>(x.ex||[]).forEach(e=>ex.add(e[0]))); return Object.keys(PARSE).filter(k=>!ex.has(k))};
+  window.EIC_PARSE_BAD = ()=>{const ex=new Set(); [...Object.values(INFO), ...Object.values(ITEMS)].forEach(x=>{(x.ex||[]).forEach(e=>ex.add(e[0])); if(x.p && x.p.kind==='talk') ex.add(x.en)}); return Object.keys(PARSE).filter(k=>!ex.has(k))};
   function detailHTML(t){
     const id=t.dataset.id, it=ITEMS[id]; if(!it) return '';
     const x=INFO[id]||{}, sec=(h,c,cls='')=>c?`<section class="ps ${cls}"><h4>${h}</h4><div>${c}</div></section>`:'';
@@ -4941,6 +5098,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     return `<div class="ph"><div><div class="pw">${word}</div><div class="pt">${it.ru}</div></div><button class="pspk" data-say="${t.dataset.say}">▶ Звук</button></div>`
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
       + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
+      + (it.p.kind==='talk' && PARSE[it.en] ? sec('Как построено', parseList(it.en)) : '')
       // «Почему так» is this word's own logic; the topic rule lives once at the top of its step, not under every word
       + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Почему так</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])} ${it.form[3]}${WHY[id]?`<p class="pwhy">${WHY[id]}</p>`:''}</div></section>`
          : sec('Почему так', WHY[id], 'why'))
@@ -5082,8 +5240,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
         const m=new RegExp('\\b'+it.pr+'\\b','i').exec(it.en); if(!m) continue;
         const o=opts(it.pr, PREPS); if(o) return [gap(e,it.pr,i+m.index), o, it.pr, why]}
     }
-    if(it.form && it.slot && (it.d.pos==='verb' || it.d.pos==='tense')){
-      for(const e of exs){const i=e[0].toLowerCase().indexOf(it.slot.toLowerCase()); if(i<0) continue;
+    if(it.form && it.slot && ['verb','tense','phv'].includes(it.d.pos)){
+      for(const e of exs){const m=new RegExp('(^|[^a-z])'+qEsc(it.slot.toLowerCase())+'(?![a-z])','i').exec(e[0]); if(!m) continue; const i=m.index+m[1].length;
         const o=opts(it.slot, it.alts || os.map(x=>x.slot).filter(x=>x && !e[0].toLowerCase().includes(x.toLowerCase()))); if(o) return [gap(e,it.slot,i), o, it.slot, why]}
     }
     const plainW=w=>!/[·…\/()]/.test(w);
