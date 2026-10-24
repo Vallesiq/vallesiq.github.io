@@ -222,6 +222,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .vg{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--vc);padding-left:10px}
 .vg:not(:has(.row:not(.fo))){display:none}
 .vh{font-size:clamp(16px,4.4vw,19px);letter-spacing:.01em;padding-top:4px}
+.vrule{margin:2px 0 6px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.vrule b{color:var(--ink)}
 .vh small{display:block;margin-top:2px;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:0}
 .ps.vp>div{border-left:3px solid var(--vc);padding-left:10px}
 .filt button{display:inline-flex;align-items:center;gap:6px}
@@ -4436,7 +4438,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // a chameleon verb deck shows how the verb itself changes, once, under the map of its first step
   const vTop = (p,d)=>d.pos==='verb' && p===d.parts[0] ? `<div class="vforms"><h4>Как меняется ${d.title}</h4>${listHTML(verbForms(d.title))}${(FAM[d.title.toLowerCase()]||[]).length?`<h4>Семья слова</h4>${famHTML(FAM[d.title.toLowerCase()])}`:''}</div>` : '';
   const verbBody = (p,d)=>vTop(p,d)+`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span>${posHTML(f[4])}<i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
-    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small>${posHTML(f[4])}</div><div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
+    + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small>${posHTML(f[4])}</div>${f[3]?`<p class="vrule">${f[3]}</p>`:''}<div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
   // pick:true — look-alike words: situations to guess first (quiz:[[ситуация, [варианты], правильный, почему]]),
   // then each word as [word, ключ одной строкой, перевод, example, its translation, mistake 'wrong|почему']
   const pickRow = (d,[w,key,ru,ex,exru,no])=>`<button class="row pv pk" data-id="${d.id}|${w}" data-say="${(w+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${w}</span><span class="key">= ${key}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
@@ -4637,6 +4639,34 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   };
   // WHY['deck|phrase'] = why this word works the way it does, in full sentences for a beginner; shown first in the panel as «Почему так»
   const WHY = {
+    "particles|get up": "Get = попасть, up = наверх: из лёжа в стоя. Get up это встать с кровати, а wake up только открыть глаза: I woke up at 7 but got up at 8 = проснулся в 7, а встал в 8.",
+    "particles|wake up": "Wake = будить, up = из сна наверх. Про себя: I woke up = я проснулся. Разбудить другого: wake me up at 7 = разбуди меня в 7, короткое me встаёт в середину. Глагол неправильный: wake, woke, woken.",
+    "particles|eat up": "Eat = есть, up = до дна тарелки. Так говорят ребёнку или всем за столом: eat up = доедай. Просто eat это есть вообще, без «до конца».",
+    "particles|turn up": "Turn = повернуть: громкость раньше крутили ручкой, вверх значит громче. Второй смысл из «появиться»: he turned up late = он объявился поздно, как show up.",
+    "particles|sit down": "Sit = сидеть, down = вниз. Просто sit это сидеть, а sit down это сам момент «сесть». Просьба сесть почти всегда с down: sit down, please = садитесь. Обратное stand up = встать.",
+    "particles|slow down": "Slow = медленный, down = меньше. Скорость опускается: притормози. Работает и про речь: slow down, I don't understand = помедленнее, я не понимаю. Обратное speed up = ускориться.",
+    "particles|write down": "Write = писать, down = на бумагу, «вниз на стол». Write это писать текст или письмо, write down именно зафиксировать, чтобы не забыть: адрес, номер, имя.",
+    "particles|turn down": "Ручка громкости вниз: turn down the volume = сделай тише. И «опустить» чужое предложение: he turned down the job = он отказался от работы, she turned him down = она ему отказала.",
+    "particles|get in": "In = внутрь. В машину и такси садятся внутрь, поэтому get in the car = садись в машину. В автобус, поезд и самолёт, где можно ходить, говорят get on. Выйти из машины: get out.",
+    "particles|come in": "Come = идти сюда, к говорящему, in = внутрь. Когда стучат в дверь, ответ всегда этот: come in = войдите. Пара наоборот: go out = выйти.",
+    "particles|join in": "Join = присоединиться, in = внутрь того, что уже идёт: игры, песни, разговора. Join us = присоединяйся к нам (к людям), join in = вливайся в то, что мы делаем.",
+    "particles|go out": "Go = идти, out = из дома. Смысл шире, чем «выйти»: go out = пойти развлечься, в кафе или бар. Go out with someone = встречаться с кем-то. Свет тоже goes out = гаснет.",
+    "particles|figure out": "Figure = цифра, вычислить, out = до ответа. Figure out = додуматься самому. Find out узнают от кого-то или случайно, figure out доходят своей головой.",
+    "particles|hang out": "Hang = висеть. Hang out = «зависать»: проводить время вместе без цели. Очень частое у молодых: want to hang out? = хочешь потусить? Прошлое: hung out.",
+    "particles|turn on": "Turn = повернуть: выключатели раньше поворачивали. On = включено, работает. Свет, телефон, телевизор, кондиционер: всё это turn on. Пара: turn off.",
+    "particles|put on": "Put = положить, on = на тело, поверх себя. Put on это сам момент «надеть». Быть одетым во что-то это wear: I'm wearing a jacket = я в куртке.",
+    "particles|go on": "Go = идти, on = дальше, без остановки. Go on = продолжай. И «происходить»: what's going on? = что происходит?, одна из самых частых фраз.",
+    "particles|turn off": "Off = отделить от тока. Выключают всё, что включали через turn on: свет, телефон, мотор. Кран и газ тоже turn off = перекрыть.",
+    "particles|get back": "Back = обратно, туда, откуда ушёл. Get back это про сам момент прибытия: I got back at 10 = вернулся в 10. И get back to me = ответь мне потом, когда будет ответ.",
+    "particles|call back": "Call = звонить, back = в ответ. Перезвонить на чужой звонок: I'll call you back. Короткое you встаёт в середину: call you back, не call back you.",
+    "particles|text back": "Text = написать сообщение, back = в ответ. Text me back = ответь мне. В Америке text это и сообщение, и глагол: I texted her = я ей написал.",
+    "particles|give back": "Give = дать, back = обратно, владельцу. Вернуть чужую вещь: give me back my charger = верни мою зарядку. Вернуть слова, а не вещь, это take back.",
+    "particles|get over": "Over = через, как через забор. Перебраться через беду: пережить, отойти. Get over a cold = выздороветь от простуды. Get over it = забей, переживи уже.",
+    "particles|think over": "Think = думать, over = со всех сторон. Обдумать, а не просто подумать: let me think it over = дай обдумать. Так вежливо берут паузу перед ответом.",
+    "particles|start over": "Start = начать, over = заново, ещё раз с начала. Let's start over = давай с нуля. Это американское, в Британии чаще start again. Тот же over: do it over = переделать.",
+    "particles|get away": "Away = прочь, далеко. Вырваться и убежать: the thief got away = вор сбежал. Get away with it = сойти с рук: he got away with it = ему сошло с рук.",
+    "particles|go away": "Go = идти, away = прочь. Go away = уйди, отстань. Про боль или проблему: the pain went away = боль прошла. И уехать: we're going away for the weekend = уезжаем на выходные.",
+    "particles|throw away": "Throw = бросить, away = прочь, насовсем: выбросить в мусор. Сравни: put away убирают на место, throw away выбрасывают.",
     "particles|pick up": "Up здесь буквально «вверх»: поднять с пола. Отсюда второй смысл: подобрать человека на машине, «подхватить». Короткое слово встаёт в середину: pick me up, pick it up.",
     "particles|show up": "Show = показаться, up = всплыть, появиться на поверхности. Человек «всплыл» там, где его ждали. Чаще с «не»: he didn't show up = не пришёл, не явился.",
     "particles|work out": "Два смысла из одного out. В зале результат «выходит» из тела: I work out = тренируюсь. Про план или отношения: «вышло», получилось: it worked out = всё сложилось.",
@@ -5099,8 +5129,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       + (it.q ? sec('Тебе говорят', `<b>${it.q}</b> — ${it.qru}`) : it.sit ? sec('Ситуация', it.sit.replace(/^\(|\)$/g,'')) : '')
       + sec('Дословно', it.lit ? it.lit+'. Смысл другой, поэтому переводить по словам нельзя.' : '')
       + (it.p.kind==='talk' && PARSE[it.en] ? sec('Как построено', parseList(it.en)) : '')
-      // «Почему так» is this word's own logic; the topic rule lives once at the top of its step, not under every word
-      + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Почему так</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])} ${it.form[3]}${WHY[id]?`<p class="pwhy">${WHY[id]}</p>`:''}</div></section>`
+      // «Почему так» is this word's own logic; the formula's rule lives once under its header on the deck (.vrule), not under every word
+      + (it.form ? `<section class="ps vp"${vc(it.fi)}><h4>Почему так</h4><div><span class="vf">${slot(it.form[1])}</span> = ${it.form[2]}.${posHTML(it.form[4])}${WHY[id]?`<p class="pwhy">${WHY[id]}</p>`:''}</div></section>`
          : sec('Почему так', WHY[id], 'why'))
       + (it.form ? '' : sec('Часть речи', posOne(id, it.p.pos)))
       + ((f=>f && f.length ? sec('Как меняется', listHTML(f), 'gr') : '')(formsOf(it,id)))
