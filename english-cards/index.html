@@ -244,6 +244,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);border-radius:18px 18px 0 0;box-shadow:0 -8px 24px rgb(0 0 0 / .16);
   max-width:720px;margin:0 auto;max-height:86vh;display:flex;flex-direction:column}
 .sheet[hidden],.scrim[hidden]{display:none!important}
+.grab{flex:none;align-self:center;width:42px;height:5px;border-radius:3px;background:var(--line);margin:8px 0 -8px;touch-action:none}
 .scrim{position:fixed;inset:0;z-index:19;background:rgb(0 0 0 / .35)}
 .pbody{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));display:flex;flex-direction:column;gap:14px}
 .pbar{display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);
@@ -390,6 +391,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <div class="scrim" id="scrim" hidden></div>
   <div class="sheet" id="sheet" hidden role="dialog" aria-label="Разбор слова">
+    <div class="grab" aria-hidden="true"></div>
     <div class="pbody" id="pbody"></div>
     <span class="sw" id="sw"></span>
     <div class="pbar"><div class="sb">
@@ -5802,6 +5804,30 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   }));
   document.getElementById('sx').addEventListener('click',()=>{hideSheet(); cur=null});
   scrim.addEventListener('click',()=>{hideSheet(); cur=null});
+  // swipe down closes the panel: from the handle or the bottom bar any time, from the text only when it is scrolled to the top
+  let dragY=null, dragD=0, dragT=0;
+  sheet.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1 || (pbody.contains(e.target) && pbody.scrollTop>0)) return;
+    dragY=e.touches[0].clientY; dragD=0; dragT=Date.now(); sheet.style.transition='none';
+  },{passive:true});
+  sheet.addEventListener('touchmove',e=>{
+    if(dragY===null) return;
+    const d=e.touches[0].clientY-dragY;
+    if(d<=0 && dragD===0){dragY=null; return}  // finger went up first: that is scrolling the text
+    dragD=Math.max(0,d);
+    if(dragD>6) e.preventDefault();
+    sheet.style.transform=`translateY(${dragD}px)`; scrim.style.opacity=String(Math.max(0,1-dragD/400));
+  },{passive:false});
+  const dragEnd=()=>{
+    if(dragY===null) return; dragY=null;
+    const fast=dragD/Math.max(1,Date.now()-dragT)>0.5;
+    sheet.style.transition='transform .2s ease';
+    if(dragD>110 || (fast && dragD>40)){
+      sheet.style.transform='translateY(100%)'; scrim.style.opacity='0';
+      setTimeout(()=>{hideSheet(); cur=null; sheet.style.transform=''; sheet.style.transition=''; scrim.style.opacity=''},200);
+    } else {sheet.style.transform=''; scrim.style.opacity=''; setTimeout(()=>{sheet.style.transition=''},200)}
+  };
+  sheet.addEventListener('touchend',dragEnd); sheet.addEventListener('touchcancel',dragEnd);
   pbody.addEventListener('click',e=>{const t=e.target.closest('.pbt'); if(t){const u=t.nextElementSibling; u.hidden=!u.hidden; t.textContent=u.hidden?'Как построено':'Свернуть'; return}
     const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); hideSheet(); cur=null; applyFilter()}));
