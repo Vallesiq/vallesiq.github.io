@@ -203,6 +203,63 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .sx-ing{--sxc:var(--v5)} .sx-ed{--sxc:var(--v2)} .sx-s{--sxc:var(--v6)} .sx-cmp{--sxc:var(--v4)} .sx-ly{--sxc:var(--v1)} .sx-n{--sxc:var(--v3)} .sx-a{--sxc:var(--v1)} .sx-v{--sxc:var(--v4)} .sx-neg{--sxc:var(--v2)}
 .sx-irr{--sxc:var(--v2);background:none;text-decoration:underline dotted;text-underline-offset:3px}
 .sxl{font-size:12px;line-height:1.7;color:var(--muted);margin:8px 0 0}
+/* tabs «Тренажёр» and «Словарь»: own views instead of decks; the filter strip and topics stay with the decks */
+#app[data-g="drill"] .decks,#app[data-g="dict"] .decks,#app[data-g="drill"] .topics,#app[data-g="dict"] .topics,
+#app[data-g="drill"] .bar:has(>.filt),#app[data-g="dict"] .bar:has(>.filt),#app[data-g="drill"] #empty,#app[data-g="dict"] #empty{display:none!important}
+.in-deck .view{display:none!important}
+.view{display:flex;flex-direction:column;gap:14px;max-width:720px;width:100%;margin:0 auto}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.vcard h2{margin:0;font-size:clamp(22px,5vw,28px);font-weight:800;color:var(--blue);line-height:1.15}
+.vcard h2 small{display:block;margin-top:5px;font-size:13px;font-weight:600;color:var(--muted)}
+.vcard p{margin:0;font-size:14px;line-height:1.5}
+.vcard .hint{font-size:12.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:600 13px var(--display);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--card)}
+.chips button i{font-style:normal;opacity:.7;margin-left:4px}
+.vbtn{font:700 15px var(--display);color:var(--card);background:var(--blue);border:0;border-radius:10px;padding:12px 16px;cursor:pointer}
+.vbtn.alt{color:var(--blue);background:var(--soft)}
+.vrow{display:flex;flex-wrap:wrap;gap:8px}
+.dstat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dstat div{background:var(--bg);border-radius:10px;padding:9px 6px;text-align:center}
+.dstat b{display:block;font:800 19px var(--display);color:var(--blue)}
+.dstat span{font-size:12px;color:var(--muted)}
+.dq-ru{font-size:13.5px;color:var(--muted);line-height:1.4}
+.dq-s{font-size:clamp(18px,5vw,22px);font-weight:700;line-height:1.35}
+.dq-s .gap{display:inline-block;min-width:2.6em;text-align:center;color:var(--blue);border-bottom:3px solid var(--blue);margin:0 2px}
+.dq-s .gap.ok{color:var(--ok);border-color:var(--ok)} .dq-s .gap.bad{color:var(--warn-fg);border-color:var(--warn-fg)}
+.dq-o{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dq-o button{font:800 18px var(--display);color:var(--blue);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 8px;cursor:pointer}
+.dq-o button.ok{background:var(--ok);border-color:var(--ok);color:var(--card)}
+.dq-o button.bad{color:var(--warn-fg);border-color:var(--warn-fg);text-decoration:line-through}
+.dq-top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:var(--muted)}
+.dq-bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.dq-bar i{display:block;height:100%;width:100%;background:var(--blue);transform-origin:left}
+.dq-why{font-size:14px;line-height:1.5;background:var(--soft);border-radius:10px;padding:10px 12px}
+.dq-why s{color:var(--warn-fg)}
+.hardl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.hardl li span{color:var(--muted)}
+.dform{display:flex;flex-direction:column;gap:8px}
+.dform input{font:600 16px var(--display);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-width:0}
+.dform input.small{font-size:14px;font-weight:500}
+.dmsg{font-size:13px;font-weight:600;color:var(--ok);min-height:1em}
+.dlist{display:flex;flex-direction:column;gap:8px}
+.de{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0}
+.de>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 14px}
+.de>summary::-webkit-details-marker{display:none}
+.de>summary b{font-size:16px}
+.de>summary span{font-size:13px;color:var(--muted)}
+.de[open]>summary{border-bottom:1px solid var(--line)}
+.de .db{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.fq{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 7px;margin-left:auto}
+.fq-core{color:var(--card);background:var(--ok)} .fq-useful{color:var(--blue);background:var(--soft)} .fq-fancy{color:var(--muted);background:var(--bg)}
+.fq-queue{color:var(--warn-fg);background:var(--warn-bg)}
+.dmarks{display:flex;flex-wrap:wrap;gap:6px}
+.dmarks button{font:700 13px var(--display);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;cursor:pointer}
+.dmarks button[aria-pressed="true"]{border-color:var(--blue);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.guide summary{cursor:pointer;font-weight:700;color:var(--blue)}
+.guide ol{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5}
+
 .vforms{background:var(--soft);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .vforms h4{margin:0;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .vforms .pex{gap:6px;font-size:13.5px}
@@ -336,6 +393,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       <button id="g-num" data-group="num" aria-pressed="false">Числа</button>
       <button id="g-work" data-group="work" aria-pressed="false">Каналы</button>
       <button id="g-gram" data-group="gram" aria-pressed="false">Грамматика</button>
+      <button id="g-drill" data-group="drill" aria-pressed="false">Тренажёр</button>
+      <button id="g-dict" data-group="dict" aria-pressed="false">Словарь</button>
     </div>
   </div>
   <div class="topics" id="topics" role="navigation" aria-label="Темы"></div>
@@ -392,6 +451,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     <div class="bk-row"><button id="bk-load">Восстановить</button></div>
   </details>
   <main class="decks" id="decks"></main>
+  <section class="view" id="v-drill" hidden aria-label="Тренажёр предлогов"></section>
+  <section class="view" id="v-dict" hidden aria-label="Мой словарь"></section>
   <p class="empty" id="empty" hidden>В этом разделе нет слов с такой отметкой.</p>
   <div class="scrim" id="scrim" hidden></div>
   <div class="sheet" id="sheet" hidden role="dialog" aria-label="Разбор слова">
@@ -6114,14 +6175,16 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // ---------- groups: words / numbers ----------
   const gbtns = [...document.querySelectorAll('[data-group]')].filter(b=>b.tagName==='BUTTON');
   function setGroup(g){
-    curGroup = g; applyFilter();
+    curGroup = g; document.getElementById('app').dataset.g = g; applyFilter();
+    const vd=document.getElementById('v-drill'), vw=document.getElementById('v-dict');
+    if(vd){vd.hidden = g!=='drill'; vw.hidden = g!=='dict'; if(g==='drill' && window.EIC_DRILL) window.EIC_DRILL(); if(g==='dict' && window.EIC_DICT) window.EIC_DICT()}
     gbtns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.group===g)));
     try{localStorage.setItem('cards-group',g)}catch(e){}
   }
   gbtns.forEach(b=>b.addEventListener('click',()=>setGroup(b.dataset.group)));
-  const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : null);
+  const fromHash = SHOWN.find(d=>'#'+d.id===location.hash) || (location.hash==='#numbers' ? {group:'num'} : location.hash==='#drill' ? {group:'drill'} : location.hash==='#dict' ? {group:'dict'} : null);
   let g0='words'; try{g0=localStorage.getItem('cards-group')||'words'}catch(e){}
-  setGroup(fromHash ? (fromHash.group||'words') : (['num','work','talk','gram'].includes(g0)?g0:'words'));
+  setGroup(fromHash ? (fromHash.group||'words') : (['num','work','talk','gram','drill','dict'].includes(g0)?g0:'words'));
 
   // ---------- modes ----------
   const root = document.getElementById('app'), reset = document.getElementById('reset');
@@ -6489,6 +6552,207 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   });
   document.getElementById('tstop').addEventListener('click',()=>{tRun=false; clearInterval(tInt); tpill.hidden=true; saveHist()});
   document.addEventListener('visibilitychange',()=>{tLast=Date.now(); if(document.visibilityState==='hidden') saveHist()});
+
+
+  // ========== вкладка «Тренажёр»: предлоги на автомат (его запрос 09.11: «тренажёр по предлогам, чтобы оттренировать
+  // автоматическое понимание, когда что ставить»). Вопросы строятся сами из готовых фраз: колоды prep:true и хамелеоны AT…ABOUT,
+  // новая фраза в них сразу становится вопросом. Ошибка возвращается через три вопроса и копится в «трудных»:
+  // drStat в базе страницы (data/users/<id>/drill), без базы в браузере. Варианты из той же семьи предлогов (at · on · in).
+  const vDrill=document.getElementById('v-drill'), vDict=document.getElementById('v-dict');
+  const DR_DECK={'p-at':'at','p-on':'on','p-in':'in','p-to':'to','p-for':'for','p-of':'of','p-with':'with','p-by':'by','p-from':'from','p-about':'about'};
+  const DR_TOP=[['all','Все'],['place','Где и куда'],['time','Когда'],['link','Кому, чем, за что: слово + предлог']];
+  const DR_FAM=[['at','on','in'],['to','for','at'],['of','from','about'],['with','by','from'],['for','to','of'],['about','of','on'],['by','with','on']];
+  const NOP='—';
+  // a chameleon row goes by its formula: time words → «Когда», places → «Где и куда», the rest (кому, чем, за что) → «слово + предлог»
+  const drTopic=it=>{const f=it.form ? it.form[1]+' '+it.form[2] : '';
+    if(it.d.id==='time' || /врем|когда/i.test(it.p.title||'') || /врем|день|дат|месяц|год|срок|час|минут|момент/i.test(f)) return 'time';
+    if(['prep-verbs','prep-adj'].includes(it.d.id)) return 'link';
+    if(it.form && !/точк|мест|внутри|город|поверхн|лини|транспорт|куда|заняти|событи|экран|фото/i.test(f)) return 'link';
+    return 'place'};
+  function drQ(id){
+    const it=ITEMS[id]; if(!it || !it.ex || !it.ex[0] || !it.ex[0][0]) return null;
+    const [s,ru]=it.ex[0]; let ans;
+    if(it.p.kind==='prep'){ if(it.pr==='') ans=NOP; else if(it.pr && !it.pr.includes('|') && PREPS.includes(it.pr.toLowerCase())) ans=it.pr.toLowerCase(); else return null }
+    else if(it.p.kind==='verb' && DR_DECK[it.d.id]) ans=DR_DECK[it.d.id]; else return null;
+    const ph=it.en.toLowerCase(), pi=s.toLowerCase().indexOf(ph); let i, len=0;
+    if(ans===NOP){ if(/[·\/…()]/.test(ph) || pi<0) return null; i=pi }
+    else { const re=new RegExp('\\b'+ans+'\\b','i'); let m=pi>=0 ? re.exec(s.slice(pi)) : null;
+      if(m) i=pi+m.index; else { m=re.exec(s); if(!m) return null; i=m.index } len=m[0].length }
+    const fam=(DR_FAM.find(f=>f[0]===ans)||DR_FAM.find(f=>f.includes(ans))||[]).filter(x=>x!==ans);
+    const dis=[...fam.slice(0,2)]; for(const x of shuffle([...PREPS])) if(dis.length<3 && x!==ans && !dis.includes(x)) dis.push(x);
+    if(ans!==NOP && Math.random()<.25 && !dis.includes(NOP)) dis[2]=NOP;
+    const opts=shuffle([ans,...dis.slice(0,3)]);
+    const before=s.slice(0,i), after=ans===NOP ? ' '+s.slice(i) : s.slice(i+len), real=ans===NOP ? '' : s.slice(i,i+len);
+    // «why» once: the word's own WHY if there is one, otherwise the formula's meaning and the typical mistake (его слово 24.10 про перегруз одной и той же инфы)
+    const mist=it.no || it.vno || '', why=`<b>${it.en}</b> = ${it.ru}. ` + (WHY[id] || `${it.form?'Здесь '+it.form[1].replace(/\*/g,'')+' = '+it.form[2]+'.':''}${mist?` Не так: <s>${mist.split('|')[0]}</s>${mist.split('|')[1]?', '+mist.split('|')[1]:''}.`:''}`);
+    return {id, ru, before, after, ans, real, opts, why, full:s};
+  }
+  const DR={topic:'all', fast:false, q:[], i:0, ok:0, streak:0, best:0, times:[], t0:0, timer:0, done:false};
+  let drStat={hard:{}, best:0, all:0, right:0};
+  try{drStat=Object.assign(drStat, JSON.parse(localStorage.getItem('cards-drill')||'{}')||{})}catch(e){}
+  let drRef=null;
+  function drSave(){try{localStorage.setItem('cards-drill',JSON.stringify(drStat))}catch(e){} if(drRef) drRef.set(drStat).catch(()=>{drRef=null})}
+  function drIds(){return Object.keys(ITEMS).filter(id=>{const it=ITEMS[id]; return (it.p.kind==='prep' || DR_DECK[it.d.id]) && (DR.topic==='all' || drTopic(it)===DR.topic)})}
+  function drRound(onlyHard){
+    const qs=drIds().map(drQ).filter(Boolean), hard=qs.filter(q=>drStat.hard[q.id]>0);
+    return onlyHard ? shuffle(hard).slice(0,20) : shuffle([...shuffle(hard).slice(0,6), ...shuffle(qs.filter(q=>!(drStat.hard[q.id]>0)))].slice(0,20));
+  }
+  function drHome(){
+    clearTimeout(DR.timer); DR.done=false;
+    const n=drIds().map(drQ).filter(Boolean).length, nh=drIds().filter(id=>drStat.hard[id]>0).length, acc=drStat.all ? Math.round(drStat.right/drStat.all*100) : 0;
+    vDrill.innerHTML=`<div class="vcard"><h2>Предлоги на автомат<small>Фраза с пропуском: ставишь предлог, пока не задумался</small></h2>
+      <p>Двадцать фраз за раунд. Ошибка вернётся через три вопроса и попадёт в «трудные», они идут в следующих раундах первыми. <b>${NOP}</b> значит «предлог не нужен» (next week, go home).</p>
+      <div class="chips" id="dr-top">${DR_TOP.map(([k,t])=>`<button data-k="${k}" aria-pressed="${DR.topic===k}">${t}</button>`).join('')}</div>
+      <div class="chips" id="dr-mode"><button data-f="0" aria-pressed="${!DR.fast}">Спокойно: с разбором</button><button data-f="1" aria-pressed="${DR.fast}">На скорость: 5 секунд</button></div>
+      <div class="dstat"><div><b>${n}</b><span>фраз в теме</span></div><div><b>${acc}%</b><span>верно за всё время</span></div><div><b>${drStat.best}</b><span>лучшая серия</span></div></div>
+      <div class="vrow"><button class="vbtn" id="dr-go">Начать раунд</button>${nh?`<button class="vbtn alt" id="dr-hard">Только трудные · ${nh}</button>`:''}</div>
+      <p class="hint">Совет из роликов про предлоги: учи предлог вместе со словом (interested <b>in</b>, wait <b>for</b>), а не правило отдельно. Правила и разбор каждой фразы в карточках «Где и куда», «Когда» и хамелеонах AT, ON, IN.</p></div>`;
+  }
+  function drStart(onlyHard){DR.q=drRound(onlyHard); DR.i=0; DR.ok=0; DR.streak=0; DR.best=0; DR.times=[]; if(!DR.q.length){drHome(); return} drShow()}
+  function drShow(){
+    clearTimeout(DR.timer); const q=DR.q[DR.i]; q.pick=undefined;
+    vDrill.innerHTML=`<div class="vcard"><div class="dq-top"><span>${DR.i+1} из ${DR.q.length} · верно ${DR.ok}</span><span>серия ${DR.streak}</span></div>
+      ${DR.fast?'<div class="dq-bar"><i id="dr-bar"></i></div>':''}
+      <div class="dq-ru">${q.ru}</div><div class="dq-s">${q.before}<span class="gap">___</span>${q.after}</div>
+      <div class="dq-o">${q.opts.map(o=>`<button data-o="${o}">${o}</button>`).join('')}</div><div id="dr-after"></div>
+      <div class="vrow"><button class="vbtn alt" id="dr-stop">Закончить</button></div></div>`;
+    DR.t0=Date.now();
+    if(DR.fast){const b=document.getElementById('dr-bar'); b.style.transition='none'; b.style.transform='scaleX(1)'; requestAnimationFrame(()=>requestAnimationFrame(()=>{b.style.transition='transform 5s linear'; b.style.transform='scaleX(0)'}));
+      DR.timer=setTimeout(()=>drAnswer(null),5000)}
+  }
+  function drAnswer(o){
+    const q=DR.q[DR.i]; if(q.pick!==undefined) return; clearTimeout(DR.timer); q.pick=o;
+    const ok=o===q.ans; DR.times.push(Date.now()-DR.t0);
+    drStat.all++; if(ok){drStat.right++; DR.ok++; DR.streak++; DR.best=Math.max(DR.best,DR.streak); drStat.best=Math.max(drStat.best,DR.streak); if(drStat.hard[q.id]) drStat.hard[q.id]--; if(!drStat.hard[q.id]) delete drStat.hard[q.id]}
+    else {DR.streak=0; drStat.hard[q.id]=(drStat.hard[q.id]||0)+2; if(!q.back){const again=Object.assign({},q,{back:true,pick:undefined}); DR.q.splice(Math.min(DR.i+4,DR.q.length),0,again)}}
+    drSave(); try{logAnswer(ok, q.id)}catch(e){}
+    vDrill.querySelectorAll('.dq-o button').forEach(b=>{if(b.dataset.o===q.ans) b.classList.add('ok'); else if(b.dataset.o===o) b.classList.add('bad'); b.disabled=true});
+    const g=vDrill.querySelector('.gap'); g.textContent=q.ans===NOP ? '·' : q.real; g.classList.add(ok?'ok':'bad');
+    if(!ok || !DR.fast) speak(q.full);
+    const next=DR.i<DR.q.length-1 ? 'Дальше ›' : 'Итог раунда ›';
+    document.getElementById('dr-after').innerHTML=(ok && DR.fast) ? '' : `<p class="dq-why">${ok?'Верно. ':o===null?'Время вышло. Тут <b>'+q.ans+'</b>. ':'Тут <b>'+q.ans+'</b>. '}${q.why}</p><div class="vrow" style="margin-top:8px"><button class="vbtn" id="dr-next">${next}</button></div>`;
+    if(ok && DR.fast) DR.timer=setTimeout(drNext,700);
+  }
+  function drNext(){ if(DR.i<DR.q.length-1){DR.i++; drShow()} else drEnd() }
+  function drEnd(){
+    clearTimeout(DR.timer); const n=DR.q.filter(q=>q.pick!==undefined).length, avg=DR.times.length ? (DR.times.reduce((a,b)=>a+b,0)/DR.times.length/1000).toFixed(1) : '0';
+    const miss=[...new Map(DR.q.filter(q=>q.pick!==undefined && q.pick!==q.ans).map(q=>[q.id,q])).values()];
+    vDrill.innerHTML=`<div class="vcard"><h2>Итог раунда<small>${DR_TOP.find(t=>t[0]===DR.topic)[1]}${DR.fast?' · на скорость':''}</small></h2>
+      <div class="dstat"><div><b>${DR.ok} из ${n}</b><span>верно</span></div><div><b>${avg} с</b><span>на ответ</span></div><div><b>${DR.best}</b><span>серия</span></div></div>
+      ${miss.length?`<p><b>Ошибся здесь</b>, они вернутся в следующем раунде:</p><ul class="hardl">${miss.map(q=>`<li><b>${q.before}${q.ans===NOP?'':q.real}${q.after}</b><br><span>${q.ru}</span></li>`).join('')}</ul>`:'<p>Без ошибок. Попробуй режим на скорость или другую тему.</p>'}
+      <div class="vrow"><button class="vbtn" id="dr-go">Ещё раунд</button><button class="vbtn alt" id="dr-home">К темам</button></div></div>`;
+  }
+  vDrill.addEventListener('click',e=>{
+    const t=e.target;
+    const tp=t.closest('#dr-top button'); if(tp){DR.topic=tp.dataset.k; drHome(); return}
+    const md=t.closest('#dr-mode button'); if(md){DR.fast=md.dataset.f==='1'; drHome(); return}
+    if(t.closest('#dr-go')) return drStart(false);
+    if(t.closest('#dr-hard')) return drStart(true);
+    if(t.closest('#dr-home')) return drHome();
+    if(t.closest('#dr-stop')) return drEnd();
+    if(t.closest('#dr-next')) return drNext();
+    const ob=t.closest('.dq-o button'); if(ob) drAnswer(ob.dataset.o);
+  });
+  window.EIC_DRILL=()=>{ if(!vDrill.innerHTML || DR.done) drHome() };
+  window.EIC_DRILL_POOL=()=>{const all=Object.keys(ITEMS).filter(id=>ITEMS[id].p.kind==='prep' || DR_DECK[ITEMS[id].d.id]); const ok=all.map(drQ).filter(Boolean);
+    const by={}; ok.forEach(q=>{const k=drTopic(ITEMS[q.id]); by[k]=(by[k]||0)+1}); return {candidates:all.length, questions:ok.length, byTopic:by, sample:ok.slice(0,5).map(q=>q.before+'___'+q.after+' = '+q.ans+' · '+q.opts.join('/'))}};
+
+  // ========== вкладка «Словарь»: свои слова, услышал где-то и добавил (его запрос 07.11). Кнопка кладёт слово в очередь,
+  // полный разбор пишет чат пачкой по «разбери словарь» (его слово 11.11: «лучше в очередь, чтобы не тратить кучу токенов»).
+  // Как чат пишет разбор и поля записи: Learning/english.md, «Мой словарь». Записи: data/users/<id>/dict/words/<wid> =
+  // {w, where, added, status:'queue'|'done'|'archived', st, a:{ru, pos, freq, freqWhy, when, alt, states, tenses, ex, no, remember}}.
+  // Без базы (копия Лёли, файл) записи живут в браузере, разбор через «Скопировать очередь».
+  const FREQ={core:['ходовое','нужно в первую очередь'], useful:['полезное','пригодится часто'], fancy:['для красноречия','можно и без него']};
+  const FQ_ORDER={core:0,useful:1,fancy:2};
+  let dict={}, dictCol=null, dictF='all';
+  try{dict=JSON.parse(localStorage.getItem('cards-dict')||'{}')||{}}catch(e){}
+  const dictLocal=()=>{try{localStorage.setItem('cards-dict',JSON.stringify(dict))}catch(e){}};
+  const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+  function dictWrite(wid, doc){ dict[wid]=doc; dictLocal(); if(dictCol) dictCol.doc(wid).set(doc).catch(()=>{}) }
+  const dsec=(h,c,cls='')=>c?`<section class="ps ${cls}"><h4>${h}</h4><div>${c}</div></section>`:'';
+  const dli=rows=>rows&&rows.length?`<ul class="pex">${rows.map(([e,r,tag])=>`<li>${tag?`<i>${esc(tag)}</i>`:''}<b>${e}</b><span>${r||''}</span></li>`).join('')}</ul>`:'';
+  function dictBody(wid, x){
+    const a=x.a||{}, w=x.w;
+    if(x.status==='queue') return `<p>Ждёт разбора${x.where?`. Где услышал: ${esc(x.where)}`:''}. Разбор напишет чат по твоему «разбери словарь».</p><div class="vrow"><button class="vbtn alt" data-arch="${wid}">В архив</button></div>`;
+    const fq=FREQ[a.freq];
+    return dsec('Что значит', [a.ru, a.m].filter(Boolean).join('. '))
+      + dsec('Насколько нужно', fq ? `<b>${fq[0]}</b>: ${fq[1]}.${a.freqWhy?' '+a.freqWhy:''}` : '', 'why')
+      + dsec('Где и как часто говорят', a.when)
+      + dsec('Что заменяет и чем заменить', dli(a.alt))
+      + dsec('Часть речи и как меняется предложение', a.states&&a.states.length?`<ul class="pex">${a.states.map(([pos,form,how,ex,exru])=>`<li><i>${esc(pos)}</i><b>${mark(form,w)}</b><span>${how||''}</span>${ex?`<span><b>${ex}</b> = ${exru||''}</span>`:''}</li>`).join('')}</ul>`:'')
+      + dsec('Во временах', a.tenses&&a.tenses.length?`<ul class="pex fl">${a.tenses.map(([form,when,ex,exru])=>`<li><b>${mark(form,w)}</b><span>${when||''}</span>${ex?`<em class="fd"><b>${ex}</b> = ${exru||''}</em>`:''}</li>`).join('')}</ul>${SX_LEGEND}`:'', 'gr')
+      + dsec('Примеры', dli(a.ex))
+      + dsec('Вслух сокращают', spokenHTML((a.ex||[]).map(e=>e[0])))
+      + dsec('На чём ошибаются', a.no, 'warn')
+      + dsec('Как запомнить', a.remember, 'why')
+      + `<div class="dmarks">${[['learn','Учу'],['repeat','Повторить'],['known','Знаю']].map(([k,t])=>`<button data-st="${k}" data-w="${wid}" aria-pressed="${x.st===k}">${t}</button>`).join('')}<button data-arch="${wid}">${x.status==='archived'?'Вернуть':'В архив'}</button></div>`;
+  }
+  function dictRender(){
+    if(!vDict) return;
+    const open=new Set([...vDict.querySelectorAll('.de[open]')].map(d=>d.dataset.w));
+    const all=Object.entries(dict), act=all.filter(([,x])=>x.status!=='archived');
+    const cnt={all:act.length, queue:act.filter(([,x])=>x.status==='queue').length, core:0, useful:0, fancy:0, arch:all.length-act.length};
+    act.forEach(([,x])=>{if(x.status==='done' && x.a && cnt[x.a.freq]!==undefined) cnt[x.a.freq]++});
+    const show=(dictF==='arch' ? all.filter(([,x])=>x.status==='archived') : act.filter(([,x])=>dictF==='all' || (dictF==='queue' ? x.status==='queue' : x.status==='done' && x.a && x.a.freq===dictF)))
+      .sort(([,a],[,b])=>(a.status==='queue')-(b.status==='queue') ? (a.status==='queue'?-1:1) : ((FQ_ORDER[(a.a||{}).freq]??3)-(FQ_ORDER[(b.a||{}).freq]??3)) || (b.added||0)-(a.added||0));
+    const list=show.map(([wid,x])=>{const fq=x.status==='queue' ? ['в очереди','queue'] : FREQ[(x.a||{}).freq] ? [FREQ[x.a.freq][0], x.a.freq] : null;
+      return `<details class="de" data-w="${wid}"${open.has(wid)?' open':''}><summary><b>${esc(x.w)}</b><span>${esc((x.a||{}).ru||'')}</span>${fq?`<i class="fq fq-${fq[1]}">${fq[0]}</i>`:''}</summary><div class="db">${dictBody(wid,x)}</div></details>`}).join('');
+    vDict.innerHTML=`<div class="vcard"><h2>Мой словарь<small>Услышал слово или фразу, добавь сюда</small></h2>
+      <div class="dform"><input id="dw" placeholder="Слово или фраза по-английски" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80"><input id="dwh" class="small" placeholder="Где услышал (необязательно): ролик, кафе, сериал" maxlength="120"><button class="vbtn" id="dadd">Добавить в очередь</button><span class="dmsg" id="dmsg" aria-live="polite"></span></div>
+      <p class="hint">Полный разбор пишет чат пачкой: скажи в чате «разбери словарь». В разборе: что значит, насколько нужно (ходовое, полезное или для красноречия), где и как часто говорят, что заменяет, части речи, времена с примерами, как запомнить.${dictCol?'':' <b>Сейчас без базы:</b> слова хранятся в этом браузере, для разбора нажми «Скопировать очередь» и пришли текст.'}</p>
+      ${!dictCol && cnt.queue?'<div class="vrow"><button class="vbtn alt" id="dcopy">Скопировать очередь</button></div>':''}
+      <details class="guide"><summary>Как понять незнакомое слово</summary><ol>
+        <li><b>Отрежь окончание.</b> -ing, -ed, -s, -er, -ly, -ness прибавляются к знакомой основе: <b>unbelievable</b> = un (не) + believe (верить) + able (можно) = «невероятный». В карточках окончания подсвечены цветом.</li>
+        <li><b>Найди корень в знакомом слове.</b> Driver от drive, boredom от bored, happiness от happy.</li>
+        <li><b>Посмотри на приставку.</b> un-, dis- = не, наоборот (unhappy, dislike); re- = снова (redo); over- = слишком (overthink).</li>
+        <li><b>Часть речи по месту.</b> После a или the вещь (a drive = поездка), после I или he действие (I drive), перед вещью «какой» (a fast car).</li>
+        <li><b>Угадай по ситуации, потом проверь.</b> Сначала своя догадка, потом перевод: так слово запоминается лучше, чем если сразу посмотреть.</li>
+        <li><b>Запоминай фразой, не словом.</b> Не interested, а <b>I\'m interested in</b>; не wait, а <b>wait for</b>. Сразу с предлогом и примером из своей жизни.</li></ol></details></div>
+      <div class="chips" id="dfilt">${[['all','Все'],['core','Ходовое'],['useful','Полезное'],['fancy','Для красноречия'],['queue','В очереди'],['arch','Архив']].filter(([k])=>k==='all'||cnt[k]).map(([k,t])=>`<button data-f="${k}" aria-pressed="${dictF===k}">${t}<i>${cnt[k]}</i></button>`).join('')}</div>
+      <div class="dlist">${list || '<p class="empty">Пока пусто. Добавь первое слово сверху.</p>'}</div>`;
+  }
+  function dictAdd(){
+    const inp=document.getElementById('dw'), wh=document.getElementById('dwh'), msg=document.getElementById('dmsg');
+    const w=inp.value.trim().replace(/\s+/g,' '); if(!w){inp.focus(); return}
+    const dup=Object.entries(dict).find(([,x])=>x.w.toLowerCase()===w.toLowerCase());
+    if(dup){dictF='all'; dictRender(); const d=vDict.querySelector(`.de[data-w="${dup[0]}"]`); if(d){d.open=true; d.scrollIntoView({block:'center'})} document.getElementById('dmsg').textContent='Уже есть в словаре'; return}
+    const wid='w'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+    dictWrite(wid, {w, where:wh.value.trim(), added:Date.now(), status:'queue'});
+    dictRender(); document.getElementById('dmsg').textContent=`«${w}» в очереди на разбор`; document.getElementById('dw').focus();
+  }
+  vDict.addEventListener('click',e=>{
+    const t=e.target;
+    if(t.closest('#dadd')) return dictAdd();
+    const f=t.closest('#dfilt button'); if(f){dictF=f.dataset.f; dictRender(); return}
+    const st=t.closest('.dmarks button[data-st]'); if(st){const x=dict[st.dataset.w]; if(!x) return; const doc=Object.assign({},x,{st: x.st===st.dataset.st ? '' : st.dataset.st}); dictWrite(st.dataset.w, doc); dictRender(); return}
+    const ar=t.closest('[data-arch]'); if(ar){const x=dict[ar.dataset.arch]; if(!x) return; const back=x.status==='archived'; dictWrite(ar.dataset.arch, Object.assign({},x,{status: back ? (x.a?'done':'queue') : 'archived'})); dictRender(); return}
+    if(t.closest('#dcopy')){const txt=Object.values(dict).filter(x=>x.status==='queue').map(x=>x.w+(x.where?' ('+x.where+')':'')).join('\n'); try{navigator.clipboard.writeText('Разбери словарь:\n'+txt).then(()=>{document.getElementById('dmsg').textContent='Скопировано'})}catch(e){} return}
+  });
+  vDict.addEventListener('keydown',e=>{ if(e.key==='Enter' && (e.target.id==='dw' || e.target.id==='dwh')){e.preventDefault(); dictAdd()} });
+  window.EIC_DICT=()=>{ if(!vDict.querySelector('#dw')) dictRender() };
+  window.EIC_DICT_RENDER=dictRender;
+  // the page's own store: the drill stats and the dictionary of whoever is viewing (private per person)
+  (async()=>{
+    try{
+      if(!window.claude || !window.claude.use) return;
+      const db=await window.claude.use('db'); if(!db) return;
+      const user=await window.claude.use('user'); const uid=user ? await user.id() : null; if(!uid) return;
+      drRef=db.doc('data/users/'+uid+'/drill');
+      try{const d=await drRef.get(); if(d.exists){const r=d.data()||{}, h=Object.assign({}, r.hard||{}); Object.entries(drStat.hard).forEach(([k,v])=>{h[k]=Math.max(h[k]||0,v)});
+        drStat={hard:h, best:Math.max(r.best||0,drStat.best), all:Math.max(r.all||0,drStat.all), right:Math.max(r.right||0,drStat.right)}; drSave()}}catch(e){drRef=null}
+      if(curGroup==='drill' && !DR.q.length) drHome();
+      dictCol=db.doc('data/users/'+uid+'/dict').collection('words');
+      const local=Object.assign({}, dict);
+      dictCol.onSnapshot(qs=>{
+        const remote={}; qs.docs.forEach(d=>{remote[d.id]=d.data()});
+        // words added here before the store answered go up once
+        Object.entries(local).forEach(([k,v])=>{if(!remote[k]){remote[k]=v; dictCol.doc(k).set(v).catch(()=>{})}}); for(const k in local) delete local[k];
+        dict=remote; dictLocal(); if(curGroup==='dict') dictRender();
+      }, ()=>{dictCol=null; if(curGroup==='dict') dictRender()});
+      if(curGroup==='dict') dictRender();
+    }catch(e){}
+  })();
+  if(curGroup==='drill') drHome(); if(curGroup==='dict') dictRender();
 
   drawGame(); haveB=badgesNow();
 
