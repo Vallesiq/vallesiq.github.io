@@ -199,6 +199,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .pex.fl li{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:0 8px}
 .pex.fl em.fd{flex-basis:100%;font-style:normal;font-size:12.5px;color:var(--ink);line-height:1.45;margin:1px 0 5px}
 .pex.fl s{color:var(--muted);font-weight:700}
+.sx{font-weight:800;border-radius:3px;padding:0 1px;color:var(--sxc);background:color-mix(in srgb,var(--sxc) 14%,transparent)}
+.sx-ing{--sxc:var(--v5)} .sx-ed{--sxc:var(--v2)} .sx-s{--sxc:var(--v6)} .sx-cmp{--sxc:var(--v4)} .sx-ly{--sxc:var(--v1)} .sx-n{--sxc:var(--v3)} .sx-a{--sxc:var(--v1)} .sx-v{--sxc:var(--v4)} .sx-neg{--sxc:var(--v2)}
+.sx-irr{--sxc:var(--v2);background:none;text-decoration:underline dotted;text-underline-offset:3px}
+.sxl{font-size:12px;line-height:1.7;color:var(--muted);margin:8px 0 0}
 .vforms{background:var(--soft);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .vforms h4{margin:0;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .vforms .pex{gap:6px;font-size:13.5px}
@@ -607,6 +611,39 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ], note:'Пословицы в нашем смысле американцы почти не говорят. Исключение эти четыре короткие фразы, они звучат в обычной речи постоянно: <b>no pain, no gain</b> (особенно в зале), <b>practice makes perfect</b>, <b>better late than never</b>, <b>easier said than done</b>.'},
   ]},
 
+  // ===== вслух сокращают: gonna, lemme (его запрос 08.11 по ролику про «два английских») =====
+  {id:'reduced', pos:'red', group:'talk', idiom:true, title:'Gonna · Wanna · Lemme', ru:'Как говорят вслух: слова слипаются', rows:[
+    ['gonna','= going to: собираюсь, сейчас будет','going to','I\'m gonna call you later.','Я тебе позже позвоню.'],
+    ['wanna','= want to · want a: хочу','want to','Do you wanna grab a coffee?','Хочешь взять кофе?'],
+    ['gotta','= have got to: надо, должен','got to','I gotta go.','Мне пора.'],
+    ['kinda','= kind of: вроде, как-то, немного','kind of','It\'s kinda cold in here.','Тут как-то холодно.'],
+    ['ya','= you: ты, тебя','you','See ya!','Увидимся!'],
+    ['\'cause','= because: потому что','because','I left \'cause it was late.','Я ушёл, потому что было поздно.'],
+    ['lemme','= let me: дай-ка я, давай я','let me','Lemme see.','Дай посмотреть.'],
+    ['gimme','= give me: дай мне','give me','Gimme a second.','Дай секунду.'],
+    ['dunno','= (I) don\'t know: не знаю','don\'t know','I dunno, man.','Не знаю, чувак.'],
+    ['gotcha','= (I) got you: понял · попался','got you','Gotcha, thanks.','Понял, спасибо.'],
+    ['c\'mon','= come on: давай, ну же · да ладно','come on','C\'mon, let\'s go!','Давай, пошли!'],
+    ['y\'know','= you know: ну, знаешь','you know','It was, y\'know, weird.','Было, ну, знаешь, странно.'],
+  ], note:'<b>Почему так.</b> В школе учат «чистый» английский: What are you going to do? Вслух носитель скажет <b>Whatcha gonna do?</b> Слова те же, звучание другое: звуки выпадают и слипаются, речь быстрее. Поэтому знакомые слова на слух не узнаёшь. Таких слияний около сотни, полсотни звучат почти в каждой фразе. <b>Как тренировать</b> (из ролика): нажми звук, сначала сам угадай, что за полная фраза, и только потом смотри ответ. Угадал, проверил, повторил: пять минут в день, месяц. Английские субтитры включай только после попытки, чтобы проверить себя, русские никогда. <b>Где так писать можно:</b> в переписке, комментах и плашках (I\'m gonna, gotta go). В письме по работе и в названии ролика для поиска полная форма. В разборе любого слова раздел «Вслух сокращают» показывает, как его примеры звучат в жизни.', steps:[
+    {title:'Тоже часто', ru:'Слышишь в сериалах и роликах каждый день', idiom:true, rows:[
+    ['\'em','= them: их, им','them','Let \'em go.','Отпусти их.'],
+    ['whatcha','= what are you · what have you: что ты','what are you','Whatcha doing?','Что делаешь?'],
+    ['outta','= out of: из, вон из','out of','Get outta here!','Да ладно! (или: убирайся отсюда!)'],
+    ['lotta','= a lot of: куча, много','a lot of','That\'s a lotta money.','Это куча денег.'],
+    ['tryna','= trying to: пытаюсь','trying to','I\'m tryna sleep.','Я пытаюсь уснуть.'],
+    ['hafta','= have to: надо, приходится','have to','I hafta work tomorrow.','Мне завтра работать.'],
+    ['shoulda','= should have: надо было','should have','You shoulda seen his face.','Видел бы ты его лицо.'],
+    ['coulda','= could have: мог бы','could have','He coulda died.','Он мог погибнуть.'],
+    ['woulda','= would have: я бы (тогда)','would have','I woulda helped.','Я бы помог.'],
+    ['didja','= did you: ты (сделал)?','did you','Didja see that?','Ты это видел?'],
+    ['dontcha','= don\'t you: разве ты не','don\'t you','Dontcha think?','Тебе не кажется?'],
+    ['whaddaya','= what do you: что ты (хочешь, думаешь)','what do you','Whaddaya want?','Чего тебе?'],
+    ['sorta','= sort of: вроде, отчасти','sort of','I sorta get it.','Вроде понимаю.'],
+    ['musta','= must have: наверное, (он) уже','must have','He musta missed it.','Он, наверное, пропустил.'],
+    ], note:'<b>Ловушка gonna.</b> Gonna только перед глаголом: I\'m gonna eat. Перед местом остаётся going to: I\'m going to the gym, <s>I\'m gonna the gym</s>. <b>Shoulda, coulda, woulda</b> это have, слипшийся до «а»: should have seen → shoulda seen. Поэтому сами носители иногда пишут <s>should of</s>, это ошибка: of там никогда нет.'},
+  ]},
+
   // ===== спортзал =====
   {id:'gym', pos:'phr', group:'talk', title:'At The Gym', ru:'Спортзал: договориться и не потеряться', tiles:[
     ['ARE YOU USING THIS?','вы этим пользуетесь?', DB+`<text class="t" x="32" y="16" font-size="15">?</text>`],
@@ -922,10 +959,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['at *the door*','у двери','pt','Someone is at the door.','Кто-то стоит у двери.',''],
     ['at *the bus stop*','на остановке','pt','I\'m waiting at the bus stop.','Жду на остановке.','on the bus stop'],
     ['at *the traffic light*','на светофоре','pt','He stopped at the traffic light.','Он остановился на светофоре.','on the traffic light'],
+    ['at *my desk*','за (рабочим) столом','pt','Ben is working at his desk.','Бен работает за своим столом.','on my desk|on значило бы «сидит на столе сверху»'],
+    ['at *the bottom*','внизу (страницы, лестницы)','pt','Please sign at the bottom.','Подпишите внизу, пожалуйста.','in the bottom'],
     ['at *work*','на работе','e','I\'m at work right now.','Я сейчас на работе.','in work'],
     ['at *the gym*','в зале (тренируюсь)','e','See you at the gym.','Увидимся в зале.',''],
     ['at *home*','дома','e','I\'m at home tonight.','Сегодня вечером я дома.','in home'],
     ['at *the airport*','в аэропорту','e','I\'ll meet you at the airport.','Встречу тебя в аэропорту.',''],
+    ['at *the café*','в кафе (там, где встречаемся)','e','I\'m at the café, where are you?','Я в кафе, ты где?',''],
     ['at *a party*','на вечеринке','ev','I met her at a party.','Я познакомился с ней на вечеринке.','on a party'],
     ['at *the concert*','на концерте','ev','There were 10,000 people at the concert.','На концерте было 10 000 человек.','on the concert'],
     ['at *7 p.m.*','в семь вечера','t','The gym closes at 11 p.m.','Зал закрывается в 11 вечера.',''],
@@ -934,7 +974,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['laugh at *him*','смеяться над ним','tg','Everybody laughed at him.','Все над ним смеялись.','laugh on him'],
     ['at *100 mph*','на скорости 100 миль в час','sp','He was going at 100 miles per hour.','Он ехал на скорости 100 миль в час.','with 100 mph'],
     ['at *18*','в 18 лет','sp','He started riding at 16.','Он начал ездить в 16 лет.','in 16'],
-  ], note:'<b>At = точка.</b> Место-точка (at the door), место-занятие (at work), событие (at a party), момент (at 7), точка на шкале (at 100 mph) и цель (look at). Если можешь ткнуть пальцем в точку на карте, во времени или на шкале, почти всегда at.'},
+  ], note:'<b>At = точка.</b> Место-точка (at the door), место-занятие (at work), событие (at a party), момент (at 7), точка на шкале (at 100 mph) и цель (look at). Если можешь ткнуть пальцем в точку на карте, во времени или на шкале, почти всегда at. <b>At или in с кафе, отелем, магазином:</b> в речи годятся оба. <b>I\'m at the café</b> = я там, у кафе или внутри, место встречи. <b>I\'m in the café</b> = уже сижу внутри. Ошибкой не будет ни то, ни другое.'},
 
   {id:'p-on', pos:'prep', verb:true, title:'ON', ru:'Предлог-хамелеон: поверхность, линия, день, экран, режим', forms:[
     ['s','ON + *поверхность*','на (касаясь сверху или сбоку)','Предмет касается поверхности: стол, стена, пол, потолок. Висит на стене тоже on.',[['поверхность','существительное','noun']]],
@@ -943,6 +983,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['d','ON + *день, дата*','в (день)','Конкретный день: день недели, дата, праздник, день рождения.',[['день, дата','существительное или дата','noun']]],
     ['m','ON + *экран, медиа*','по ТВ, на YouTube, по телефону','Всё, что идёт через экран или канал связи: YouTube, TV, the phone, the radio, the internet.',[['экран, медиа','существительное','noun']]],
     ['st','ON + *процесс, режим*','в процессе, включено','Что-то сейчас идёт или включено: on fire (горит), on sale (со скидкой), on vacation (в отпуске), on purpose (нарочно).',[['процесс','существительное','noun']]],
+    ['tp','*книга, ролик* + ON + *тема*','по (теме), о','Тема книги, лекции, ролика: <b>a book on history</b> = книга по истории. Похоже на about, но звучит серьёзнее: about для разговора (we talked about it), on для книги, лекции, исследования.',[['тема','существительное','noun']]],
   ], rows:[
     ['on *the table*','на столе','s','Your phone is on the table.','Твой телефон на столе.',''],
     ['on *the wall*','на стене','s','There\'s a TV on the wall.','На стене телевизор.','in the wall'],
@@ -950,14 +991,20 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['on *Main Street*','на Мейн-стрит','l','The café is on Main Street.','Кафе на Мейн-стрит.','in Main Street'],
     ['on *the bus*','в автобусе','tr','I read on the bus.','Я читаю в автобусе.','in the bus'],
     ['on *a bike*','на мотоцикле, велосипеде','tr','A guy on a bike cut me off.','Парень на мотоцикле меня подрезал.','with a bike'],
+    ['on *the plane*','в самолёте','tr','I can\'t sleep on the plane.','Я не могу спать в самолёте.','in the plane|в самолёте можно встать в полный рост, поэтому on, как с автобусом'],
+    ['on *a horse*','на лошади','tr','She\'s on a horse.','Она на лошади.','with a horse'],
     ['on *Monday*','в понедельник','d','I post on Mondays and Fridays.','Я выкладываю по понедельникам и пятницам.','in Monday'],
     ['on *my birthday*','в мой день рождения','d','She called me on my birthday.','Она позвонила мне в день рождения.','in my birthday'],
     ['on *YouTube*','на YouTube','m','I saw it on YouTube.','Я видел это на YouTube.','in YouTube'],
     ['on *the phone*','по телефону (говорит)','m','Sorry, I\'m on the phone.','Извини, я говорю по телефону.','by the phone'],
+    ['on *the radio*','по радио','m','I heard it on the radio.','Я слышал это по радио.','in the radio'],
     ['on *fire*','горит','st','The car is on fire!','Машина горит!','in fire'],
     ['on *sale*','со скидкой','st','These shoes are on sale.','Эти кроссовки со скидкой.',''],
     ['on *purpose*','нарочно','st','He did it on purpose.','Он сделал это нарочно.','by purpose'],
-  ], note:'<b>On = касание и линия.</b> Поверхность (on the table), линия (on the road), транспорт, на котором стоишь или сидишь верхом (on the bus, on a bike), день (on Monday), экран (on YouTube). <b>On fire, on sale, on vacation</b> учи целиком: это «включённое состояние».'},
+    ['on *vacation*','в отпуске','st','I\'m on vacation next week.','На следующей неделе я в отпуске.','in vacation'],
+    ['a book on *history*','книга по истории','tp','I\'m reading a book on history.','Я читаю книгу по истории.','a book of history|of значило бы «книга, принадлежащая истории»'],
+    ['a video on *editing*','ролик о монтаже','tp','He made a video on editing.','Он снял ролик о монтаже.',''],
+  ], note:'<b>On = касание и линия.</b> Поверхность (on the table), линия (on the road), транспорт, на котором стоишь или сидишь верхом (on the bus, on a bike), день (on Monday), экран (on YouTube). <b>On fire, on sale, on vacation</b> учи целиком: это «включённое состояние». <b>On или in с транспортом:</b> где можешь встать в полный рост или сидишь верхом, там on (bus, train, plane, bike, horse). Где только сидишь внутри, там in (in the car, in a taxi, in a kayak).'},
 
   {id:'p-in', pos:'prep', verb:true, title:'IN', ru:'Предлог-хамелеон: внутри, город, месяц, через, состояние', forms:[
     ['p','IN + *внутри чего*','в, внутри','Предмет внутри чего-то со стенками: комната, коробка, машина, карман.',[['внутри чего','существительное','noun']]],
@@ -979,9 +1026,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['in *a hurry*','в спешке, спешу','s','Sorry, I\'m in a hurry.','Извини, я спешу.',''],
     ['in *trouble*','в беде, влип','s','He\'s in big trouble.','Он крупно влип.',''],
     ['in *love*','влюблён','s','They\'re in love.','Они влюблены.',''],
+    ['in *a good mood*','в хорошем настроении','s','You\'re in a good mood today!','Ты сегодня в хорошем настроении!','with a good mood'],
     ['in *the photo*','на фото','m','Who\'s that guy in the photo?','Кто этот парень на фото?','on the photo'],
     ['in *the comments*','в комментах','m','People in the comments are wild.','Народ в комментах жжёт.','on the comments'],
     ['in *English*','по-английски','m','How do you say it in English?','Как это сказать по-английски?','on English'],
+    ['in *writing*','письменно','m','Can you send it in writing?','Можете прислать это письменно?','by writing'],
   ], note:'<b>In = внутри.</b> Внутри стен (in the room), большого места (in Tbilisi), длинного отрезка времени (in May), состояния (in love), картинки или языка (in the photo, in English). И одно значение, которое надо запомнить отдельно: <b>in + срок = через</b>.'},
 
   {id:'p-to', pos:'prep', verb:true, title:'TO', ru:'Предлог-хамелеон: куда, кому, чтобы, до', forms:[
@@ -1009,6 +1058,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['d','FOR + *срок*','(в течение) сколько','Сколько длилось: for two hours, for a week, for years.',[['срок','число + время','time phrase']]],
     ['p','FOR + *что, зачем*','за чем, на (ужин), ради','Цель-предмет: <b>go for a walk</b> = пойти погулять, <b>what\'s for dinner?</b> = что на ужин?',[['что','существительное','noun']]],
     ['pr','FOR + *цена, причина*','за (сколько, что)','Цена или причина: <b>for $10</b> = за 10 долларов, <b>thanks for the help</b> = спасибо за помощь.',[['цена, причина','число или существительное','noun']]],
+    ['sp','FOR + *что (поддерживаю)*','за (а не против)','В пользу чего-то: <b>I\'m for it</b> = я за. Обратное against = против.',[['что','существительное или it','noun']]],
   ], rows:[
     ['for *you*','для тебя, тебе','w','This is for you.','Это тебе.',''],
     ['for *my sister*','для сестры','w','I bought it for my sister.','Я купил это для сестры.',''],
@@ -1019,6 +1069,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['for *$10*','за 10 долларов','pr','I got it for ten dollars.','Я купил это за десять долларов.',''],
     ['for *the help*','за помощь','pr','Thanks for the help!','Спасибо за помощь!','thanks for help you'],
     ['for *being late*','за опоздание','pr','Sorry for being late.','Извини за опоздание.','for be late'],
+    ['arrested for *stealing*','арестован за кражу','pr','He was arrested for stealing.','Его арестовали за кражу.','arrested because stealing'],
+    ['work for *free*','работать бесплатно','pr','I\'m not working for free.','Я не буду работать бесплатно.',''],
+    ['for *or against*','за или против','sp','Are you for or against it?','Ты за или против?',''],
   ], note:'<b>For = ради, в пользу, в обмен.</b> Для кого (for you), сколько длилось (for two hours), за чем (for a walk), за сколько (for $10), за что (thanks for). После for глагол с -ing: thanks for <b>coming</b>.'},
 
   {id:'p-of', pos:'prep', verb:true, title:'OF', ru:'Предлог-хамелеон: часть, мера, чей, какой', forms:[
@@ -1035,10 +1088,12 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     ['a group *of bikers*','группа байкеров','m','A group of bikers stopped to help.','Группа байкеров остановилась помочь.',''],
     ['a photo *of me*','фото меня (где я)','o','Can you take a photo of me?','Можешь меня сфотографировать?','a photo with me'],
     ['the name *of the song*','название песни','o','What\'s the name of this song?','Как называется эта песня?',''],
+    ['the door *of the car*','дверь машины','o','The door of the car won\'t open.','Дверь машины не открывается.',''],
+    ['my friend\'s *car*','машина друга (про людей \'s)','o','I borrowed my friend\'s car.','Я взял машину друга.','the car of my friend|так можно, но звучит канцелярски: про людей говорят \'s'],
     ['a friend *of mine*','мой друг (один из)','o','He\'s a friend of mine.','Он мой друг.','a friend of me'],
     ['afraid *of*','боится','c','I\'m not afraid of dogs.','Я не боюсь собак.','afraid from'],
     ['sick *of*','надоело (до тошноты)','c','I\'m sick of this rain.','Достал этот дождь.',''],
-  ], note:'<b>Of = «чего».</b> Почти всё, что по-русски стоит в родительном падеже («кусок <b>торта</b>», «конец <b>ролика</b>», «один из <b>друзей</b>»), по-английски идёт через of. Мера всегда с of: <b>a cup of coffee</b>, без of не говорят.'},
+  ], note:'<b>Of = «чего».</b> Почти всё, что по-русски стоит в родительном падеже («кусок <b>торта</b>», «конец <b>ролика</b>», «один из <b>друзей</b>»), по-английски идёт через of. Мера всегда с of: <b>a cup of coffee</b>, без of не говорят. <b>Чьё:</b> у вещи of (the door of the car), у человека \'s (my friend\'s car). The car of my friend грамматически верно, но так не говорят.'},
 
   {id:'p-with', pos:'prep', verb:true, title:'WITH', ru:'Предлог-хамелеон: с кем, чем, с чем, как', forms:[
     ['c','WITH + *кем*','с кем (вместе)','Вместе с кем-то: with friends, with her.',[['кем','существительное или местоимение','object']]],
@@ -4827,7 +4882,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   const noHTML = no=>{const [w,why]=no.split('|'); return `не так: <s>${w}</s>${why?`, ${why}`:''}`};
   const verbRow = (d,[ph,ru,,ex,exru,no])=>`<button class="row pv vr" data-id="${d.id}|${plain(ph).replace(/"/g,'')}" data-say="${(plain(ph)+'. '+ex).replace(/"/g,'&quot;')}"><span class="txt"><span class="en">${slot(ph)}</span><span class="ru">${ru}</span><span class="ex">${ex}</span><span class="ru">${exru}</span>${no?`<span class="no">${noHTML(no)}</span>`:''}</span>${SPK_ICON}</button>`;
   // a chameleon verb deck shows how the verb itself changes, once, under the map of its first step
-  const vTop = (p,d)=>d.pos==='verb' && p===d.parts[0] ? `<div class="vforms"><h4>Как меняется ${d.title}</h4>${listHTML(verbForms(d.title))}${(FAM[d.title.toLowerCase()]||[]).length?`<h4>Семья слова</h4>${famHTML(FAM[d.title.toLowerCase()])}`:''}</div>` : '';
+  const vTop = (p,d)=>d.pos==='verb' && p===d.parts[0] ? `<div class="vforms"><h4>Как меняется ${d.title}</h4>${listHTML(verbForms(d.title), d.title)}${(FAM[d.title.toLowerCase()]||[]).length?`<h4>Семья слова</h4>${famHTML(FAM[d.title.toLowerCase()], d.title)}`:''}${SX_LEGEND}</div>` : '';
   const verbBody = (p,d)=>vTop(p,d)+`<div class="vmap">${p.forms.map((f,i)=>`<button class="vm" data-k="${f[0]}"${vc(i)}><span class="vf">${slot(f[1])}</span><span class="vmr">${f[2]}</span>${posHTML(f[4])}<i>${p.items.filter(t=>t[2]===f[0]).length}</i></button>`).join('')}</div><p class="vhint">Нажми на формулу, и откроются её фразы</p>`
     + p.forms.map((f,i)=>{const rs=p.items.filter(t=>t[2]===f[0]); return rs.length?`<div class="vg" data-k="${f[0]}"${vc(i)}><div class="vh vf">${slot(f[1])}<small>${f[2]}</small>${posHTML(f[4])}</div>${f[3]?`<p class="vrule">${f[3]}</p>`:''}<div class="rows">${rs.map(t=>verbRow(d,t)).join('')}</div></div>`:''}).join('');
   // pick:true — look-alike words: situations to guess first (quiz:[[ситуация, [варианты], правильный, почему]]),
@@ -4978,8 +5033,44 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   }
   const FAM_DECKS = ['hear','see','saytell','feelings','opposites','weather','money','gym','road','moving','place'];
   const famOf = (it,id)=>it.form || !FAM_DECKS.includes(it.d.id) ? null : it.en.split(' · ').flatMap(w=>FAM[w.toLowerCase()]||[]);
-  const listHTML = rows=>`<ul class="pex fl">${rows.map(([e,r,d,x])=>`<li>${x?`<s>${e}</s>`:`<b>${e}</b>`}<span>${r}</span>${d?`<em class="fd">${d}</em>`:''}</li>`).join('')}</ul>`;
-  const famHTML = rows=>listHTML(rows.map(([k,f,ru])=>[f, `${(PARTS[k]||[k])[0]} · ${ru}`]));
+  // ---------- colour of what changed in the word (его слово 11.11: «подсвечивай цветами изменения в слове, er, ing,
+  // чтобы понимать, что это изменённое слово, а не само по себе такое»). mark() colours the ending or prefix a form got
+  // from its base; an irregular form (went, gotten, better) is coloured whole with a dotted line. Legend: SX_LEGEND.
+  const SX = [['ing','ing'],['ed','ed'],['d','ed'],['es','s'],['s','s'],['ies','s'],['er','cmp'],['est','cmp'],['ier','cmp'],['iest','cmp'],
+    ['ly','ly'],['ily','ly'],['ness','n'],['iness','n'],['ion','n'],['tion','n'],['ment','n'],['dom','n'],['ence','n'],['ance','n'],['ity','n'],['th','n'],['ure','n'],['al','n'],['ist','n'],['or','n'],
+    ['ful','a'],['less','a'],['y','a'],['ous','a'],['able','a'],['ive','a'],['en','v']];
+  const PFX = [['un','neg'],['dis','neg'],['in','neg'],['im','neg'],['re','v'],['over','v']];
+  const IRRSET = ()=>{const m={}; for(const [b,[a,c]] of Object.entries(IRR)){m[a]=b; m[c]=b} for(const [b,[a,c]] of Object.entries(IRRC)){m[a]=b; m[c.replace(/^the /,'')]=b} return m};
+  let IRRMAP = null;
+  const SKIPW = new Set(['a','an','the','to','it','my','me','her','him','them','his','up','on','in','of','at','for','i','you','he','she','we','they']);
+  function mark(text, base){
+    if(!base) return text; IRRMAP = IRRMAP || IRRSET();
+    const bases = String(base).toLowerCase().replace(/[^a-z' ]/g,' ').split(/\s+/).filter(w=>w.length>1 && !SKIPW.has(w));
+    if(!bases.length) return text;
+    return text.replace(/<[^>]*>|[A-Za-z]+/g, t=>{
+      if(t[0]==='<') return t;
+      const lo = t.toLowerCase();
+      for(const b of bases){
+        if(lo===b) return t;
+        if(IRRMAP[lo]===b) return `<span class="sx sx-irr" title="неправильная форма ${b}">${t}</span>`;
+        // stems a form can grow from: get → gett(ing), make → mak(ing), happy → happi(ness), bored → bore(dom)
+        const stems = [b, b.replace(/e$/,''), b.replace(/y$/,'i'), b+b.slice(-1), b.replace(/(ed|d)$/,''), b.replace(/(ed|ing)$/,''), b.replace(/(ed|ing)$/,'')+'e'].filter((x,i,a)=>x.length>1 && a.indexOf(x)===i).sort((x,y)=>y.length-x.length);
+        for(const st of stems){
+          if(lo.length<=st.length || !lo.startsWith(st)) continue;
+          const rest = lo.slice(st.length), hit = SX.find(([sf])=>sf===rest);
+          if(!hit) continue;
+          const keep = Math.min(b.length, st.length), dbl = st.length>b.length; // the doubled letter of get → getting goes with the ending
+          return t.slice(0, dbl ? b.length : keep) + `<span class="sx sx-${hit[1]}">${t.slice(dbl ? b.length : keep)}</span>`;
+        }
+        for(const [pf,k] of PFX) if(lo===pf+b) return `<span class="sx sx-${k}">${t.slice(0,pf.length)}</span>${t.slice(pf.length)}`;
+      }
+      return t;
+    });
+  }
+  window.EIC_MARK = mark; // for checking which part of a form gets coloured
+  const SX_LEGEND = `<p class="sxl"><span class="sx sx-ing">-ing</span> идёт, процесс · <span class="sx sx-ed">-ed</span> прошлое, сделано · <span class="sx sx-irr">went</span> неправильная форма · <span class="sx sx-s">-s</span> he, she, it или много · <span class="sx sx-cmp">-er</span> сравнение · <span class="sx sx-ly">-ly</span> как? · <span class="sx sx-n">-ness</span> вещь · <span class="sx sx-a">-ful</span> какой · <span class="sx sx-neg">un-</span> наоборот</p>`;
+  const listHTML = (rows, base)=>`<ul class="pex fl">${rows.map(([e,r,d,x])=>`<li>${x?`<s>${e}</s>`:`<b>${mark(e, base)}</b>`}<span>${r}</span>${d?`<em class="fd">${d}</em>`:''}</li>`).join('')}</ul>`;
+  const famHTML = (rows, base)=>listHTML(rows.map(([k,f,ru])=>[f, `${(PARTS[k]||[k])[0]} · ${ru}`]), base);
   window.EIC_FORMS = (id)=>{const it=ITEMS[id]; return it ? {forms:formsOf(it,id), fam:famOf(it,id)} : null}; // for checking every generated form at once
   // part of speech: a deck (or step) carries pos:'key' or pos:['key','key'] for a mixed deck;
   // PARTS gives [one ru, one en, many ru, many en]. A word that differs from its deck gets WPOS['deck|WORD'] = key or [ru, en].
@@ -4996,7 +5087,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     q:['вопросительное слово','question word','вопросительные слова','question words'], ipron:['неопределённое местоимение','indefinite pronoun','неопределённые местоимения','indefinite pronouns'],
     poss:['притяжательное местоимение','possessive','притяжательные местоимения','possessives'], qty:['слово количества','quantifier','слова количества','quantifiers'],
     conj:['союз','conjunction','союзы','conjunctions'], vphr:['глагол + направление','verb phrase','команды: глагол + направление','verb phrases'],
-    phr:['готовая фраза','phrase','готовые фразы','phrases'], idiom:['устойчивое выражение','idiom','устойчивые выражения','idioms'],
+    phr:['готовая фраза','phrase','готовые фразы','phrases'], idiom:['устойчивое выражение','idiom','устойчивые выражения','idioms'], red:['разговорное сокращение','reduction','разговорные сокращения','reductions'],
     num:['числительное','number','числительные','numbers'], ord:['порядковое числительное','ordinal number','порядковые числительные','ordinal numbers'],
     say:['число в речи','spoken number','числа в речи','spoken numbers'], math:['слово для счёта','math word','слова для счёта','math words'],
     approx:['слово «примерно»','approximator','слова «примерно»','approximators'], abbr:['сокращение','abbreviation','сокращения','abbreviations'],
@@ -5590,7 +5681,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       ['Зал: железо, хваты, упражнения', ['gym-gear','gym-grips','gym-moves']],
     ],
     talk:[
-      ['Каждый день', ['rescue','everyday','idioms']],
+      ['Каждый день', ['rescue','everyday','idioms','reduced']],
       ['С людьми', ['smalltalk','choice']],
       ['Кафе, магазин, зал', ['cafe','store','gym']],
       ['Транспорт и улица', ['transport']],
@@ -5634,6 +5725,22 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // Each chunk explains two things for a beginner: what role it plays and why English puts it this way
   // (what a Russian speaker would do differently). Every new example of a chameleon or a phrase in a step gets one.
   const PARSE = {
+    "Ben is working at his desk.": [["Ben is working", "Ben + is + working: идёт прямо сейчас, поэтому is + -ing."], ["at his desk", "at + точка: он у стола, за ним. On his desk значило бы «сидит на столе сверху». His, потому что стол его: в английском чей почти всегда называют."]],
+    "Please sign at the bottom.": [["Please sign", "просьба: please + глагол без you. Sign = подписать."], ["at the bottom", "at + точка на странице: внизу. The, потому что низ у страницы один. Так же at the top (вверху), at the end (в конце)."]],
+    "I'm at the café, where are you?": [["I'm at the café,", "I am + at + место встречи. Говорю, где я, а не что сижу внутри."], ["where are you?", "вопрос: где + are + you. Are встаёт перед you, по-русски порядок не меняется."]],
+    "I can't sleep on the plane.": [["I can't sleep", "can't + глагол без to: не могу спать."], ["on the plane", "on: в самолёте можно встать, как в автобусе. В машине было бы in the car."]],
+    "She's on a horse.": [["She's", "she is: is обязателен, по-русски «она на лошади» без глагола."], ["on a horse", "on: сидит верхом, как на мотоцикле. A, потому что лошадь упомянута впервые."]],
+    "I heard it on the radio.": [["I heard it", "heard = прошедшее от hear, неправильное. It обязателен: слышал что? это."], ["on the radio", "on + канал связи: радио, TV, YouTube, телефон. In the radio значило бы «внутри приёмника»."]],
+    "I'm on vacation next week.": [["I'm on vacation", "on + режим: в отпуске, как on sale и on fire. In vacation не говорят."], ["next week", "перед next предлога нет: next week, а не on next week."]],
+    "I'm reading a book on history.": [["I'm reading", "am + reading: читаю сейчас, в эти дни."], ["a book on history", "on + тема: книга по истории. Of history значило бы «книга истории», чья-то."]],
+    "He made a video on editing.": [["He made", "made = прошедшее от make: снял, сделал."], ["a video on editing", "on + тема. Editing = монтаж, существительное на -ing: после предлога глагол берёт -ing."]],
+    "You're in a good mood today!": [["You're", "you are: are обязателен."], ["in a good mood", "in + состояние: ты внутри настроения. With a good mood не говорят."], ["today", "сегодня: слово времени в конце."]],
+    "Can you send it in writing?": [["Can you send it", "вопрос: can встаёт перед you. It обязателен: прислать что? это."], ["in writing", "in + форма: письменно. Так же in English, in cash."]],
+    "Are you for or against it?": [["Are you", "вопрос: are перед you."], ["for or against", "for = за, against = против, пара."], ["it?", "это: за или против чего. It в конце обязателен."]],
+    "He was arrested for stealing.": [["He was arrested", "was + arrested: с ним это сделали, его арестовали. Кто арестовал, не важно."], ["for stealing", "for + причина: за что. После for глагол берёт -ing: stealing."]],
+    "I'm not working for free.": [["I'm not working", "am not + working: отказ о ближайшем, «не буду». Not после am."], ["for free", "for + цена: за бесплатно. Free без for тоже говорят, но for free частое."]],
+    "The door of the car won't open.": [["The door of the car", "of = «чего»: дверь машины. У вещей так, у людей 's."], ["won't open", "will not = won't: «никак не хочет открываться». Про упрямую вещь так и говорят."]],
+    "I borrowed my friend's car.": [["I borrowed", "borrowed = взял на время, с -ed. Обратное lend = дать на время."], ["my friend's car", "'s = чей: машина друга. Про людей 's, а не of."]],
     "Here, take my seat.": [["Here,", "«вот»: так начинают, когда что-то протягиваешь или предлагаешь."], ["take", "«возьмите». Повелительная форма: глагол без you."], ["my seat", "«моё место». Seat = сиденье, место, где сидят. My обязательно, просто take seat не говорят."]],
     "It's okay, I'm getting off at the next stop.": [["It's okay,", "it is okay = «всё нормально». It нужен: в английском у фразы всегда есть подлежащее."], ["I'm getting off", "I am + getting: -ing для решённого и близкого. По-русски «я выхожу» тоже в настоящем."], ["at the next stop", "at + точка на маршруте. The, потому что следующая остановка одна."]],
     "Yes, really. This is my stop.": [["Yes, really.", "«да, правда». Really усиливает: сказал всерьёз."], ["This is", "«это есть». Is обязателен: по-русски «это моя остановка» без глагола, по-английски без is нельзя."], ["my stop", "моя остановка = где я выхожу. Остановку называют своей: my stop, your stop."]],
@@ -5892,6 +5999,34 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   })));
   // PARSE keys must match an example sentence of some word, otherwise the breakdown is never shown (read by Tools/english-cards-check.js)
   window.EIC_PARSE_BAD = ()=>{const ex=new Set(); [...Object.values(INFO), ...Object.values(ITEMS)].forEach(x=>{(x.ex||[]).forEach(e=>ex.add(e[0])); if(x.p && x.p.kind==='talk') ex.add(x.en)}); return Object.keys(PARSE).filter(k=>!ex.has(k))};
+  // ---------- «Вслух сокращают»: how a phrase and its examples sound in real speech (его запрос 08.11: «ко всем словам и фразам
+  // добавляй сокращённые версии»). RED_W are written contractions (пишут и говорят), RED_S are spoken reductions (вслух,
+  // в переписке, в плашках). Rules run in order on the whole sentence; gonna only before a verb (GVERB), not before a place.
+  const GVERB = 'be|get|do|make|take|have|go|see|call|buy|eat|need|try|tell|say|give|come|leave|stay|work|watch|ask|help|miss|win|lose|fall|love|like|happen|rain|cry|stop|start|wait|pay|sleep|die|break|crash|hit|run|ride|drive|fix|find|show|keep|let|put|change|meet|play|talk|check|look|text|send|grab|order|fly|walk|kill|hurt|regret|cook|clean|wash|post|upload|film|edit|explain|answer|use|live|move|sell|read|write|learn|study|forget|remember|think|believe|wear|open|close|turn|pick|throw|catch|jump|fight|scream|laugh|smile';
+  const RED_W = [[/\b(I) am\b/gi,"$1'm"],[/\b(you|we|they) are\b/gi,"$1're"],[/\b(he|she|it|that|what|there|who|where|how) is\b/gi,"$1's"],
+    [/\b(I|you|we|they) have (been|got|gotten|done|seen|made|had|lost|finished|never|already|just|told|heard)\b/gi,"$1've $2"],
+    [/\b(he|she|it) has (been|got|gotten|done|seen|made|had|lost|finished|never|already|just)\b/gi,"$1's $2"],
+    [/\b(I|you|we|they|he|she|it|that) will\b/gi,"$1'll"],[/\b(I|you|we|they|he|she) would\b/gi,"$1'd"],
+    [/\bdo not\b/gi,"don't"],[/\bdoes not\b/gi,"doesn't"],[/\bdid not\b/gi,"didn't"],[/\bis not\b/gi,"isn't"],[/\bare not\b/gi,"aren't"],
+    [/\bwas not\b/gi,"wasn't"],[/\bwere not\b/gi,"weren't"],[/\bhave not\b/gi,"haven't"],[/\bhas not\b/gi,"hasn't"],[/\bwill not\b/gi,"won't"],
+    [/\bcan ?not\b/gi,"can't"],[/\bcould not\b/gi,"couldn't"],[/\bshould not\b/gi,"shouldn't"],[/\bwould not\b/gi,"wouldn't"],[/\blet us\b/gi,"let's"]];
+  const RED_S = [[new RegExp("\\bgoing to (?=(?:"+GVERB+")\\b)",'gi'),'gonna '],[/\bwant to\b/gi,'wanna'],[/(?:'ve| have) got to\b/gi,' gotta'],[/\bgot to\b/gi,'gotta'],
+    [/\bI don't know\b/gi,'I dunno'],[/\bwhat are you\b/gi,'whatcha'],[/\bwhat do you\b/gi,'whaddaya'],[/\bdon't you\b/gi,'dontcha'],[/\bdid you\b/gi,'didja'],
+    [/\blet me\b/gi,'lemme'],[/\bgive me\b/gi,'gimme'],[/\bkind of\b/gi,'kinda'],[/\bsort of\b/gi,'sorta'],[/\bout of\b/gi,'outta'],[/\ba lot of\b/gi,'a lotta'],
+    [/\btrying to\b/gi,'tryna'],[/\bhave to\b/gi,'hafta'],[/\b(should|could|would|must) have\b/gi,'$1a'],[/\bcome on\b/gi,"c'mon"],[/\byou know(?=[,.!?]|$)/gi,"y'know"],
+    [/\bbecause\b/gi,"'cause"],[/\b(?:I )?got you(?=[,.!?]|$)/gi,'gotcha'],[/\b(see|thank|love|miss|get|got|told|tell) you\b/gi,'$1 ya'],[/\b(let|tell|ask|call|get|show) them\b/gi,"$1 'em"]];
+  // one rule on a sentence; a match at the very start keeps its capital letter (What are you → Whatcha)
+  const runRed = (t,rules)=>{const r = rules.reduce((x,[re,to])=>x.replace(re,to),t); return /^[A-Z]/.test(t) && /^[a-z]/.test(r) ? r[0].toUpperCase()+r.slice(1) : r};
+  function spokenHTML(lines){
+    const out=[], seen=new Set();
+    for(const e of lines){
+      if(!e || seen.has(e)) continue; seen.add(e);
+      const w = runRed(e, RED_W), sp = runRed(w, RED_S);
+      if(sp!==e) out.push(`<li><i>${sp!==w?'вслух':'пишут и говорят'}</i><b>${sp}</b><span>полностью: ${e}${sp!==w && w!==e?` · на письме: ${w}`:''}</span></li>`);
+    }
+    return out.length ? `<ul class="pex">${out.join('')}</ul>` : '';
+  }
+  window.EIC_SPOKEN = t=>runRed(runRed(t,RED_W),RED_S); // for checking the rules on any sentence
   function detailHTML(t){
     const id=t.dataset.id, it=ITEMS[id]; if(!it) return '';
     const x=INFO[id]||{}, sec=(h,c,cls='')=>c?`<section class="ps ${cls}"><h4>${h}</h4><div>${c}</div></section>`:'';
@@ -5906,12 +6041,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
          : sec('Почему так', WHY[id], 'why'))
       + sec('Как ещё сказать', x.alt ? `<ul class="pex">${x.alt.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span></li>`).join('')}</ul>` : '')
       + (it.form ? '' : sec('Часть речи', posOne(id, it.p.pos)))
-      + ((f=>f && f.length ? sec('Как меняется', listHTML(f), 'gr') : '')(formsOf(it,id)))
-      + ((f=>f && f.length ? sec('Семья слова: то же слово другой частью речи', famHTML(f)) : '')(famOf(it,id)))
+      + ((f=>f && f.length ? sec('Как меняется', listHTML(f, it.en)+SX_LEGEND, 'gr') : '')(formsOf(it,id)))
+      + ((f=>f && f.length ? sec('Семья слова: то же слово другой частью речи', famHTML(f, it.en)) : '')(famOf(it,id)))
       + sec('Что значит', x.m!==it.ru && x.m)
       + sec('Когда так говорят', x.when)
       + sec('Предлоги и грамматика', x.gr, 'gr')
       + sec('Примеры', exs.length ? `<ul class="pex">${exs.map(([e,r,tag])=>`<li>${tag?`<i>${tag}</i>`:''}<b>${e}</b><span>${r}</span>${parseHTML(e)}</li>`).join('')}</ul>` : '')
+      + (it.d.id==='reduced' ? '' : sec('Вслух сокращают', spokenHTML([it.en, it.q, ...exs.map(e=>e[0])].map(e=>e && e.replace(/\*/g,'')))))
       + sec('На чём ошибаются', x.no || (it.no ? `Не так: <s>${it.no}</s>` : it.vno ? noHTML(it.vno).replace(/^не/,'Не') : ''), 'warn')
       + sec('Похожие слова: в чём разница', x.like)
       + (x.reg ? `<p class="preg">Звучит: ${x.reg}</p>` : '')
