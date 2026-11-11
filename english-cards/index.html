@@ -6815,8 +6815,12 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     const mine=Object.entries(fixes).filter(([,f])=>f.id===id).sort(([,a],[,b])=>(a.added||0)-(b.added||0));
     const kindName=k=>(FX_KINDS.find(x=>x[0]===k)||['',''])[1];
     return `<div class="pfx" data-fxid="${esc(id)}">${mine.map(([,f])=>`<div class="fxitem${f.status==='done'?' done':''}"><b>${kindName(f.kind)}:</b> ${esc(f.note)}${f.status==='done'?`<br><b>Ответ:</b> ${esc(f.reply||'исправлено')}`:'<br><span class="hint">ждёт ответа: разберу пачкой</span>'}</div>`).join('')}
-      <button class="open" data-fx="open">✎ Не ясно или правка</button></div>`;
+      <button class="open" data-fx="open">✎ Не ясно или правка</button>${fxCopyBtn()}</div>`;
   };
+  // without the page's store (Лёля's copy on GitHub Pages) questions stay in the browser: one button copies every unsent one,
+  // she sends the text to him in Telegram, he forwards it to the chat (его просьба 11.11)
+  const fxUnsent=()=>Object.values(fixes).filter(f=>f.status==='new' && !f.sent);
+  function fxCopyBtn(){ const n=fxUnsent().length; return !fixCol && n ? `<button class="vbtn alt" data-fx="copy">Скопировать вопросы · ${n}</button><p class="hint">Вставь текст в сообщение Вале: так вопросы дойдут до разбора.</p>` : '' }
   function fxForm(box){
     box.querySelector('[data-fx="open"]').outerHTML=`<div class="chips">${FX_KINDS.map(([k,t])=>`<button data-fxk="${k}" aria-pressed="${fxKind===k}">${t}</button>`).join('')}</div>
       <textarea placeholder="Что именно не ясно или что поправить" maxlength="600"></textarea>
@@ -6829,12 +6833,19 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     if(b.dataset.fx==='open'){fxForm(box); return true}
     if(b.dataset.fxk){fxKind=b.dataset.fxk; box.querySelectorAll('[data-fxk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); return true}
     if(b.dataset.fx==='cancel'){box.outerHTML=window.EIC_FIXHTML(id); return true}
+    if(b.dataset.fx==='copy'){
+      const list=fxUnsent(), kindName=k=>(FX_KINDS.find(x=>x[0]===k)||['',''])[1];
+      const txt='Вопросы по карточкам английского:\n'+list.map(f=>`• ${f.w} (${kindName(f.kind)}): ${f.note}`).join('\n');
+      const done=()=>{list.forEach(f=>{f.sent=true}); fxLocal(); box.outerHTML=window.EIC_FIXHTML(id); try{toast('Скопировано, отправь Вале')}catch(err){}};
+      try{navigator.clipboard.writeText(txt).then(done, ()=>{window.prompt('Скопируй текст:', txt); done()})}catch(err){window.prompt('Скопируй текст:', txt); done()}
+      return true;
+    }
     if(b.dataset.fx==='send'){
       const note=box.querySelector('textarea').value.trim(); if(!note){box.querySelector('textarea').focus(); return true}
       const it=ITEMS[id]||{}, fid='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
       const doc={id, w:it.en||id, deck:(it.d||{}).id||'', kind:fxKind, note, status:'new', added:Date.now()};
       fixes[fid]=doc; fxLocal(); if(fixCol) fixCol.doc(fid).set(doc).catch(()=>{});
-      box.outerHTML=window.EIC_FIXHTML(id) + (fixCol ? '' : '<p class="hint">Без входа в аккаунт правка сохранилась только в этом браузере.</p>');
+      box.outerHTML=window.EIC_FIXHTML(id);
       try{toast('Правка отправлена')}catch(err){}
       return true;
     }
