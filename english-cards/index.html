@@ -258,6 +258,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .dmarks button{font:700 13px var(--display);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;cursor:pointer}
 .dmarks button[aria-pressed="true"]{border-color:var(--blue);box-shadow:inset 0 0 0 1.5px var(--blue)}
 .guide summary{cursor:pointer;font-weight:700;color:var(--blue)}
+/* «✎ Не ясно» under every word: his question goes to the page's store, the chat answers in a batch */
+.pfx{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.pfx>button.open{align-self:flex-start;font:700 13px var(--display);color:var(--warn-fg);background:var(--warn-bg);border:0;border-radius:9px;padding:8px 12px;cursor:pointer}
+.pfx textarea{box-sizing:border-box;width:100%;min-height:72px;font:15px var(--display);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.pfx .fxitem{font-size:13.5px;line-height:1.45;background:var(--bg);border-radius:10px;padding:8px 10px}
+.pfx .fxitem b{color:var(--ink)} .pfx .fxitem.done{background:var(--soft)}
+@media (pointer:coarse){.pfx textarea,.dform input{font-size:16px}}
 .guide ol{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5}
 
 .vforms{background:var(--soft);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
@@ -2431,6 +2438,31 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   ], note:'Один вопрос решает почти всё: <b>когда</b>? Каждый день или вообще, значит V1. Вчера и закончилось, значит V2. Прямо сейчас, значит am / is / are + -ing. Уже, и результат виден сейчас, значит have + V3. Решил только что, значит will. Решил заранее или видно по признакам, значит going to. Слово-маркер в предложении (yesterday, now, already, every day) подсказывает ответ раньше, чем ты вспомнишь правило.'},
 
   // частицы: карта формул это сами частицы, строки это разные глаголы с ней; тест прячет частицу
+  {id:'gerinf', pos:'gerinf', group:'gram', verb:true, title:'Want To · Enjoy -ing', ru:'Второй глагол: с to или с -ing', forms:[
+    ['to','*глагол* + TO + делать','хочу, надо, решил сделать','После want, need, hope, plan, decide, try, learn, promise, forget второй глагол идёт с <b>to</b>. Эти глаголы смотрят вперёд: действие ещё не случилось, к нему только идёшь. Отсюда и to: стрелка к цели.',[['делать','глагол в начальной форме с to','infinitive']]],
+    ['ing','*глагол* + делать-ING','нравится, перестал, закончил','После enjoy, mind, stop, finish, keep, can\'t stand второй глагол с <b>-ing</b>. Здесь действие уже идёт или его видишь целиком как занятие: нравится само монтирование, перестали драку, которая шла.',[['делать-ing','глагол с -ing','gerund']]],
+    ['prep','*предлог* + делать-ING','думаю о, спасибо за, хорошо умеет','После любого предлога (about, for, at, of, without) глагол всегда с -ing. Русское «спасибо, что помог» по-английски «спасибо за помогание»: thanks for <b>helping</b>.',[['делать-ing','глагол с -ing','gerund']]],
+    ['bare','MAKE · LET + *кого* + делать','заставил, разрешил','После make (заставить) и let (дать, разрешить) глагол голый, без to и без -ing: made me <b>work</b>, let me <b>see</b>.',[['кого','me, him, her, them','object'],['делать','глагол без to','bare infinitive']]],
+    ['goal','TO + делать = чтобы','пришёл, чтобы помочь','«Чтобы» по-английски это просто <b>to</b> + глагол: I came to help = я пришёл, чтобы помочь. Не for help и не for to help.',[['делать','глагол в начальной форме с to','infinitive']]],
+  ], rows:[
+    ['I want *to help*','хочу помочь','to','I want to help you.','Я хочу тебе помочь.','I want help you|без to звучит как «я хочу помощи»',['helping','help']],
+    ['I need *to go*','мне надо идти','to','Sorry, I need to go.','Извини, мне надо идти.','I need go',['going','go']],
+    ['I decided *to stay*','я решил остаться','to','I decided to stay home.','Я решил остаться дома.','I decided staying',['staying','stay']],
+    ['I\'m trying *to sleep*','пытаюсь уснуть','to','I\'m trying to sleep, be quiet.','Я пытаюсь уснуть, тише.','',['sleeping','sleep']],
+    ['I forgot *to call*','забыл позвонить','to','I forgot to call her back.','Я забыл ей перезвонить.','',['calling','call']],
+    ['I enjoy *editing*','мне нравится монтировать','ing','I really enjoy editing videos.','Мне правда нравится монтировать ролики.','I enjoy to edit',['to edit','edit']],
+    ['stop *fighting*','перестаньте драться','ing','Please stop fighting!','Пожалуйста, перестаньте драться!','stop to fight|так значит «остановитесь, чтобы подраться»',['to fight','fight']],
+    ['I finished *eating*','я доел','ing','Wait, I haven\'t finished eating.','Подожди, я ещё не доел.','finished to eat',['to eat','eat']],
+    ['Do you mind *waiting*?','не против подождать?','ing','Do you mind waiting a minute?','Не против подождать минутку?','mind to wait',['to wait','wait']],
+    ['keep *going*','продолжай','ing','Don\'t stop, keep going!','Не останавливайся, продолжай!','keep to go',['to go','go']],
+    ['thinking about *buying*','думаю купить','prep','I\'m thinking about buying a bike.','Думаю купить мотоцикл.','thinking about buy',['to buy','buy']],
+    ['thanks for *helping*','спасибо, что помог','prep','Thanks for helping me with the video.','Спасибо, что помог с роликом.','thanks for help me',['to help','help']],
+    ['good at *drawing*','хорошо рисует','prep','She\'s really good at drawing.','Она очень хорошо рисует.','good at draw',['to draw','draw']],
+    ['made me *work*','заставил меня работать','bare','He made me work all day.','Он заставил меня работать весь день.','made me to work',['to work','working']],
+    ['let me *see*','дай посмотреть','bare','Let me see the video.','Дай посмотреть ролик.','let me to see',['to see','seeing']],
+    ['went out *to buy*','вышел, чтобы купить','goal','I went out to buy some bread.','Я вышел купить хлеба.','for buy|для «чтобы» всегда to',['for buying','buying']],
+  ], note:'<b>Как выбрать.</b> Смотришь вперёд, на то, чего ещё нет (хочу, надо, решил, забыл сделать): <b>to</b>. Говоришь о действии как о занятии, которое идёт или закончилось (нравится, перестал, закончил, не против): <b>-ing</b>. После предлога всегда <b>-ing</b>. После make и let голый глагол. Сомневаешься, проверь по примеру из карточки, а не по правилу: носитель слышит пару целиком, как want to и enjoy -ing. <b>Ловушка с mind:</b> на «Do you mind waiting?» (не против подождать?) согласие это <b>No, not at all</b> (нет, не против). Ответ Yes значит «да, я против». <b>Ловушка с stop:</b> stop smoking = бросить курить, stop to smoke = остановиться, чтобы покурить. Из урока курса Murphy (Essential Grammar in Use), тема герундия и инфинитива.'},
+
   {id:'particles', pos:'phv', group:'gram', verb:true, title:'Up · Out · Off · Back', ru:'Частицы: что они добавляют к глаголу', forms:[
     ['up','глагол + *up*','вверх · до конца · появиться','У up три смысла, и все растут из «вверх». Первый буквальный: <b>get up</b> встать, <b>pick up</b> поднять, <b>wake up</b> проснуться (из сна наверх). Второй «до упора, полностью»: <b>eat up</b> доесть, <b>clean up</b> прибрать, <b>fill up</b> заполнить бак. Третий «появиться, стать больше»: <b>show up</b> прийти, <b>turn up</b> громче, <b>speed up</b> быстрее. Сравни с down: <b>turn up</b> громче, <b>turn down</b> тише.', [['up','частица: вверх, до конца, появиться','particle']]],
     ['down','глагол + *down*','вниз · меньше · остановиться','Down это зеркало up. Буквально вниз: <b>sit down</b> сесть, <b>write down</b> записать (ручка вниз на бумагу). Меньше: <b>turn down</b> тише, <b>slow down</b> медленнее, <b>calm down</b> успокоиться (напряжение вниз). Остановиться, упасть: <b>break down</b> сломаться. Сравни: <b>sit down</b> сесть, <b>stand up</b> встать.', [['down','частица: вниз, меньше, остановиться','particle']]],
@@ -5148,7 +5180,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     q:['вопросительное слово','question word','вопросительные слова','question words'], ipron:['неопределённое местоимение','indefinite pronoun','неопределённые местоимения','indefinite pronouns'],
     poss:['притяжательное местоимение','possessive','притяжательные местоимения','possessives'], qty:['слово количества','quantifier','слова количества','quantifiers'],
     conj:['союз','conjunction','союзы','conjunctions'], vphr:['глагол + направление','verb phrase','команды: глагол + направление','verb phrases'],
-    phr:['готовая фраза','phrase','готовые фразы','phrases'], idiom:['устойчивое выражение','idiom','устойчивые выражения','idioms'], red:['разговорное сокращение','reduction','разговорные сокращения','reductions'],
+    phr:['готовая фраза','phrase','готовые фразы','phrases'], idiom:['устойчивое выражение','idiom','устойчивые выражения','idioms'], red:['разговорное сокращение','reduction','разговорные сокращения','reductions'], gerinf:['глагол после глагола','gerund · infinitive','глаголы после глагола','gerunds and infinitives'],
     num:['числительное','number','числительные','numbers'], ord:['порядковое числительное','ordinal number','порядковые числительные','ordinal numbers'],
     say:['число в речи','spoken number','числа в речи','spoken numbers'], math:['слово для счёта','math word','слова для счёта','math words'],
     approx:['слово «примерно»','approximator','слова «примерно»','approximators'], abbr:['сокращение','abbreviation','сокращения','abbreviations'],
@@ -5760,6 +5792,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     gram:[
       ['Строение фразы: кто, что делает, какой', ['order','pspeech','pronouns']],
       ['Времена: когда какое', ['tenses']],
+      ['Второй глагол: to или -ing', ['gerinf']],
       ['Частицы: up, out, off, back', ['particles']],
       ['Описать, что видишь', ['picture']],
     ],
@@ -5786,6 +5819,22 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   // Each chunk explains two things for a beginner: what role it plays and why English puts it this way
   // (what a Russian speaker would do differently). Every new example of a chameleon or a phrase in a step gets one.
   const PARSE = {
+    "I want to help you.": [["I want", "я хочу: want смотрит вперёд, на то, чего ещё нет."], ["to help", "to + глагол: хочу (к чему?) помочь. Без to получится «хочу помощь»."], ["you.", "тебе. Help без предлога: help you, а не help to you."]],
+    "Sorry, I need to go.": [["Sorry,", "извини: так смягчают уход."], ["I need to go.", "need + to + глагол = мне надо. Need go без to ошибка."]],
+    "I decided to stay home.": [["I decided", "решил, прошедшее с -ed."], ["to stay home.", "to + глагол: решение о будущем шаге. Home без to: stay home, go home."]],
+    "I'm trying to sleep, be quiet.": [["I'm trying", "am + trying: пытаюсь прямо сейчас."], ["to sleep,", "try + to + глагол = пытаться что-то сделать."], ["be quiet.", "просьба: be + «какой»: будь тихим."]],
+    "I forgot to call her back.": [["I forgot", "забыл, неправильная форма forget."], ["to call her back.", "forget + to = забыл сделать (звонка не было). Forgot calling значило бы «звонил, но забыл об этом»."]],
+    "I really enjoy editing videos.": [["I really enjoy", "really усиливает: правда нравится."], ["editing videos.", "enjoy + -ing: само занятие нравится. Enjoy to edit не говорят."]],
+    "Please stop fighting!": [["Please stop", "просьба: please + глагол без you."], ["fighting!", "stop + -ing: прекратить то, что уже идёт. Stop to fight = остановиться, чтобы драться."]],
+    "Wait, I haven't finished eating.": [["Wait,", "подожди."], ["I haven't finished", "have not + V3: ещё не закончил, результат важен сейчас."], ["eating.", "finish + -ing: закончить занятие."]],
+    "Do you mind waiting a minute?": [["Do you mind", "вы не против: вопрос через do."], ["waiting", "mind + -ing. Ответ «не против» = No, not at all."], ["a minute?", "минутку. Без предлога: wait a minute."]],
+    "Don't stop, keep going!": [["Don't stop,", "не + глагол: просьба не делать."], ["keep going!", "keep + -ing = продолжай делать. Keep to go не говорят."]],
+    "I'm thinking about buying a bike.": [["I'm thinking about", "am + thinking: думаю в эти дни. Think about = думать о."], ["buying a bike.", "после предлога about глагол с -ing. Bike = мотоцикл или велосипед по ситуации."]],
+    "Thanks for helping me with the video.": [["Thanks for", "спасибо за: после for что-то с -ing или вещь."], ["helping me", "-ing после предлога: за помогание мне. Thanks for help me ошибка."], ["with the video.", "with = с чем помог."]],
+    "She's really good at drawing.": [["She's really good at", "good at = хорошо умеет. Предлог at, не in."], ["drawing.", "после at глагол с -ing."]],
+    "He made me work all day.": [["He made me", "made = заставил (прошедшее от make)."], ["work", "после make + кого глагол голый, без to."], ["all day.", "весь день, без предлога."]],
+    "Let me see the video.": [["Let me", "let = дай, позволь. В речи часто lemme."], ["see the video.", "после let + кого голый глагол, без to."]],
+    "I went out to buy some bread.": [["I went out", "вышел, went от go, out = наружу."], ["to buy", "to + глагол = чтобы купить. For buy ошибка."], ["some bread.", "some = немного: хлеб не считают штуками."]],
     "Ben is working at his desk.": [["Ben is working", "Ben + is + working: идёт прямо сейчас, поэтому is + -ing."], ["at his desk", "at + точка: он у стола, за ним. On his desk значило бы «сидит на столе сверху». His, потому что стол его: в английском чей почти всегда называют."]],
     "Please sign at the bottom.": [["Please sign", "просьба: please + глагол без you. Sign = подписать."], ["at the bottom", "at + точка на странице: внизу. The, потому что низ у страницы один. Так же at the top (вверху), at the end (в конце)."]],
     "I'm at the café, where are you?": [["I'm at the café,", "I am + at + место встречи. Говорю, где я, а не что сижу внутри."], ["where are you?", "вопрос: где + are + you. Are встаёт перед you, по-русски порядок не меняется."]],
@@ -6345,7 +6394,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     syncEl.textContent = ok ? 'Отметки сохраняются в аккаунте: одни и те же на всех устройствах, у каждого свои.' : 'Отметки пока хранятся только на этом устройстве. Войди в аккаунт Claude, чтобы они не потерялись.';
     document.getElementById('backup').hidden = ok;
   }
-  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; pbody.innerHTML=detailHTML(t); pbody.scrollTop=0;
+  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; pbody.innerHTML=detailHTML(t)+(window.EIC_FIXHTML?window.EIC_FIXHTML(t.dataset.id):''); pbody.scrollTop=0;
     pbody.querySelectorAll('b').forEach(b=>{ if(/[a-z]/i.test(b.textContent) && !/[а-яё]/i.test(b.textContent)) b.classList.add('say') });
     sheet.hidden=false; scrim.hidden=false; markSheet()}
   function hideSheet(){sheet.hidden=true; scrim.hidden=true}
@@ -6385,7 +6434,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     } else {sheet.style.transform=''; scrim.style.opacity=''; setTimeout(()=>{sheet.style.transition=''},200)}
   };
   sheet.addEventListener('touchend',dragEnd); sheet.addEventListener('touchcancel',dragEnd);
-  pbody.addEventListener('click',e=>{const t=e.target.closest('.pbt'); if(t){const u=t.nextElementSibling; u.hidden=!u.hidden; t.textContent=u.hidden?'Как построено':'Свернуть'; return}
+  pbody.addEventListener('click',e=>{if(window.EIC_FIXCLICK && window.EIC_FIXCLICK(e)) return; const t=e.target.closest('.pbt'); if(t){const u=t.nextElementSibling; u.hidden=!u.hidden; t.textContent=u.hidden?'Как построено':'Свернуть'; return}
     const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); hideSheet(); cur=null; applyFilter()}));
   // backup for viewers without an account: progress lives only in this browser
@@ -6753,6 +6802,58 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     }catch(e){}
   })();
   if(curGroup==='drill') drHome(); if(curGroup==='dict') dictRender();
+
+  // ========== «✎ Не ясно» на каждом слове (его слово 11.11: «на каждые слова правки в карточках, чтобы если мне что-то
+  // не ясно, я сразу по этому мог написать»). Правка ложится в базу страницы, у каждого своя: data/users/<id>/fixes/items/<fid> =
+  // {id, w, deck, kind, note, status:'new'|'done', reply, added}. Разбираю пачкой по «правки английского»: Learning/english.md,
+  // «Правки со страницы». Ответ виден под словом. Без базы правка в браузере и кнопка «Скопировать».
+  const FX_KINDS=[['unclear','Не понимаю'],['example','Нужен пример'],['wrong','Кажется, ошибка'],['other','Другое']];
+  let fixes={}, fixCol=null, fxKind='unclear';
+  try{fixes=JSON.parse(localStorage.getItem('cards-fixes')||'{}')||{}}catch(e){}
+  const fxLocal=()=>{try{localStorage.setItem('cards-fixes',JSON.stringify(fixes))}catch(e){}};
+  window.EIC_FIXHTML=id=>{
+    const mine=Object.entries(fixes).filter(([,f])=>f.id===id).sort(([,a],[,b])=>(a.added||0)-(b.added||0));
+    const kindName=k=>(FX_KINDS.find(x=>x[0]===k)||['',''])[1];
+    return `<div class="pfx" data-fxid="${esc(id)}">${mine.map(([,f])=>`<div class="fxitem${f.status==='done'?' done':''}"><b>${kindName(f.kind)}:</b> ${esc(f.note)}${f.status==='done'?`<br><b>Ответ:</b> ${esc(f.reply||'исправлено')}`:'<br><span class="hint">ждёт ответа: разберу пачкой</span>'}</div>`).join('')}
+      <button class="open" data-fx="open">✎ Не ясно или правка</button></div>`;
+  };
+  function fxForm(box){
+    box.querySelector('[data-fx="open"]').outerHTML=`<div class="chips">${FX_KINDS.map(([k,t])=>`<button data-fxk="${k}" aria-pressed="${fxKind===k}">${t}</button>`).join('')}</div>
+      <textarea placeholder="Что именно не ясно или что поправить" maxlength="600"></textarea>
+      <div class="vrow"><button class="vbtn" data-fx="send">Отправить</button><button class="vbtn alt" data-fx="cancel">Отмена</button></div>`;
+    box.querySelector('textarea').focus();
+  }
+  window.EIC_FIXCLICK=e=>{
+    const box=e.target.closest('.pfx'); if(!box) return false;
+    const id=box.dataset.fxid, b=e.target.closest('button'); if(!b) return true;
+    if(b.dataset.fx==='open'){fxForm(box); return true}
+    if(b.dataset.fxk){fxKind=b.dataset.fxk; box.querySelectorAll('[data-fxk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); return true}
+    if(b.dataset.fx==='cancel'){box.outerHTML=window.EIC_FIXHTML(id); return true}
+    if(b.dataset.fx==='send'){
+      const note=box.querySelector('textarea').value.trim(); if(!note){box.querySelector('textarea').focus(); return true}
+      const it=ITEMS[id]||{}, fid='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+      const doc={id, w:it.en||id, deck:(it.d||{}).id||'', kind:fxKind, note, status:'new', added:Date.now()};
+      fixes[fid]=doc; fxLocal(); if(fixCol) fixCol.doc(fid).set(doc).catch(()=>{});
+      box.outerHTML=window.EIC_FIXHTML(id) + (fixCol ? '' : '<p class="hint">Без входа в аккаунт правка сохранилась только в этом браузере.</p>');
+      try{toast('Правка отправлена')}catch(err){}
+      return true;
+    }
+    return true;
+  };
+  (async()=>{
+    try{
+      if(!window.claude || !window.claude.use) return;
+      const db=await window.claude.use('db'); if(!db) return;
+      const user=await window.claude.use('user'); const uid=user ? await user.id() : null; if(!uid) return;
+      fixCol=db.doc('data/users/'+uid+'/fixes').collection('items');
+      const local=Object.assign({}, fixes);
+      fixCol.onSnapshot(qs=>{
+        const remote={}; qs.docs.forEach(d=>{remote[d.id]=d.data()});
+        Object.entries(local).forEach(([k,v])=>{if(!remote[k]){remote[k]=v; fixCol.doc(k).set(v).catch(()=>{})}}); for(const k in local) delete local[k];
+        fixes=remote; fxLocal();
+      }, ()=>{fixCol=null});
+    }catch(e){}
+  })();
 
   drawGame(); haveB=badgesNow();
 
