@@ -380,6 +380,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .rows{display:flex;flex-direction:column;gap:6px}
 .row{all:unset;position:relative;box-sizing:border-box;display:flex;align-items:center;gap:16px;padding:10px 4px;border-top:1px solid var(--line);cursor:pointer;min-width:0}
 .row:first-child{border-top:0}
+/* drawn scenes for phrases: simple flat pictures like in word apps; a row with one turns sideways, the sheet shows it big */
+.row.haspic{flex-direction:row;align-items:center;gap:12px}
+.row .pic{flex:none;width:84px;height:56px;border-radius:10px}
+.pic-big{display:block;width:100%;max-width:300px;height:auto;margin:0 auto;border-radius:14px;flex:none}
 .row:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
 .row .ico{width:132px;height:48px;flex:none}
 .row .txt{display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -6393,6 +6397,47 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   const sheet = document.getElementById('sheet'), pbody = document.getElementById('pbody'), scrim = document.getElementById('scrim'), sw = document.getElementById('sw'), syncEl = document.getElementById('sync');
   const sheetBtns = [...sheet.querySelectorAll('.sb button')];
   const fbtns = [...document.querySelectorAll('#filt button')];
+  // ---------- drawn scenes: PICS[id] is the inner SVG of a 120x80 picture, built from a few shared parts ----------
+  const PICS=(()=>{
+    const K='#2B2F3A', SKIN='#F5CBA7', W=`stroke="${K}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"`, FONT='font-family="Montserrat,sans-serif" font-weight="800"';
+    const face=(x,y,m)=>`<circle cx="${x-3}" cy="${y}" r="1.2" fill="${K}"/><circle cx="${x+3}" cy="${y}" r="1.2" fill="${K}"/>`+
+      ({smile:`<path d="M${x-3} ${y+3.5}q3 3 6 0" fill="none" ${W}/>`, sad:`<path d="M${x-3} ${y+5.5}q3 -3 6 0" fill="none" ${W}/>`,
+        o:`<circle cx="${x}" cy="${y+4.5}" r="1.6" fill="${K}"/>`, flat:`<path d="M${x-2.5} ${y+4.5}h5" ${W}/>`}[m||'smile']);
+    const head=(x,y,hair,m)=>`<circle cx="${x}" cy="${y}" r="9" fill="${SKIN}" ${W}/><path d="M${x-9} ${y-1}q0-10 9-10q9 0 9 10q-4-5-9-5q-5 0-9 5z" fill="${hair||'#5A3B28'}" ${W}/>`+face(x,y+1,m);
+    const body=(x,y,c)=>`<path d="M${x-14} ${y+32}q0-22 14-22q14 0 14 22z" fill="${c}" ${W}/>`;
+    const man=(x,y,c,hair,m)=>body(x,y,c)+head(x,y,hair,m);
+    const bub=(x,y,w,t,tail)=>`<rect x="${x}" y="${y}" width="${w}" height="16" rx="8" fill="#fff" ${W}/><path d="M${x+(tail==='r'?w-14:8)} ${y+16}l${tail==='r'?6:-2} 6l4-6" fill="#fff" ${W}/><text x="${x+w/2}" y="${y+12}" font-size="10" text-anchor="middle" fill="${K}" ${FONT}>${t}</text>`;
+    const bg=c=>`<rect width="120" height="80" rx="10" fill="${c||'#E6EDFF'}"/>`;
+    const txt=(x,y,size,c,t)=>`<text x="${x}" y="${y}" font-size="${size}" fill="${c}" ${FONT}>${t}</text>`;
+    return {
+      'prep-verbs|discuss': bg()+man(34,42,'#1F5BFF','#5A3B28','o')+man(86,42,'#FF8A3D','#2B2F3A','smile')+bub(6,8,40,'• • •')+bub(70,6,44,'!?','r'),
+      'get|get a taxi': bg('#E3F4FF')+`<path d="M40 54l8-24" ${W}/><circle cx="48" cy="28" r="3.5" fill="${SKIN}" ${W}/>`+man(30,44,'#2FB37A','#5A3B28','o')+
+        `<path d="M60 64v-13l8-12h32l8 12v13z" fill="#FFC93C" ${W}/><rect x="70" y="42" width="13" height="9" rx="2" fill="#BFE3FF" ${W}/><rect x="86" y="42" width="13" height="9" rx="2" fill="#BFE3FF" ${W}/><rect x="75" y="30" width="20" height="8" rx="2" fill="${K}"/>`+
+        `<text x="85" y="36.2" font-size="6" text-anchor="middle" fill="#FFC93C" ${FONT}>TAXI</text><circle cx="71" cy="65" r="6" fill="${K}"/><circle cx="98" cy="65" r="6" fill="${K}"/>`,
+      'take|take a shower': bg('#E0F6FA')+`<path d="M14 4v72" ${W}/><path d="M14 6q9 10 0 20q9 10 0 20q9 10 0 20" fill="#9BB7FF" opacity=".7"/><path d="M62 4v8h12" fill="none" ${W}/><path d="M68 12h16l-3 6h-10z" fill="#C9CFDB" ${W}/>`+
+        [64,70,76,82,88].map((x,i)=>`<path d="M${x+4} ${24+i%2*3}l-4 12" stroke="#3BA9E0" stroke-width="2" stroke-linecap="round"/>`).join('')+man(74,54,SKIN,'#5A3B28','smile')+
+        `<circle cx="58" cy="46" r="4" fill="#fff" ${W}/><circle cx="92" cy="42" r="3" fill="#fff" ${W}/><circle cx="96" cy="52" r="2.5" fill="#fff" ${W}/>`,
+      'do|do the dishes': bg('#FFF2E0')+man(60,26,'#1F5BFF','#5A3B28','smile')+`<rect x="10" y="56" width="100" height="20" rx="3" fill="#C9CFDB" ${W}/><path d="M34 56q0 10 10 10h32q10 0 10-10z" fill="#9AD4F5" ${W}/>`+
+        `<ellipse cx="50" cy="54" rx="10" ry="4" fill="#fff" ${W}/><ellipse cx="52" cy="50" rx="10" ry="4" fill="#fff" ${W}/><rect x="70" y="47" width="12" height="8" rx="2" fill="#FFC93C" ${W}/>`+
+        [38,44,88,94].map((x,i)=>`<circle cx="${x}" cy="${46-i%2*6}" r="${2.5+i%2}" fill="#fff" ${W}/>`).join(''),
+      'break|break up': bg('#FFE8EC')+man(24,42,'#1F5BFF','#5A3B28','sad')+man(96,42,'#E5484D','#2B2F3A','sad')+
+        `<g transform="translate(60 26)"><path d="M-2 14q-13-8-13-16q0-6 6-6q5 0 6 5l2 6-3 4z" fill="#E5484D" ${W}/><path d="M3 14q12-8 12-16q0-6-6-6q-4 0-6 4l3 6-3 5z" fill="#E5484D" ${W}/></g>`,
+      'get|get lost': bg('#EAF7E6')+man(60,40,'#FF8A3D','#5A3B28','o')+`<rect x="48" y="58" width="24" height="15" rx="1" fill="#FFF7D6" ${W}/><path d="M56 58v15M64 58v15" stroke="${K}" stroke-width="1"/>`+
+        txt(38,28,16,'#1F5BFF','?')+txt(76,22,12,'#1F5BFF','?')+
+        `<path d="M14 76v-50" ${W}/><path d="M8 28h20l5 5-5 5h-20z" fill="#2FB37A" ${W}/><path d="M106 76v-46" ${W}/><path d="M112 32h-20l-5 5 5 5h20z" fill="#2FB37A" ${W}/>`,
+      'run|run out of': bg('#F1EBFF')+man(30,42,'#1F5BFF','#5A3B28','sad')+`<g transform="rotate(160 84 34)"><path d="M74 20h20v30h-20z" fill="#fff" ${W}/><path d="M74 20l4-8h12l4 8z" fill="#3BA9E0" ${W}/><rect x="78" y="30" width="12" height="9" fill="#3BA9E0"/></g>`+
+        `<path d="M82 52q-3 5 0 7q3-2 0-7z" fill="#3BA9E0" ${W}/><path d="M70 62h24l-3 14h-18z" fill="#fff" ${W}/>`,
+      'look|look for': bg('#FFF6D9')+man(34,36,'#2FB37A','#5A3B28','flat')+`<path d="M50 50l8 6" stroke="${K}" stroke-width="4" stroke-linecap="round"/><circle cx="64" cy="60" r="9" fill="#DDF1FF" ${W}/>`+
+        `<g transform="rotate(-20 94 68)"><circle cx="86" cy="68" r="5" fill="none" stroke="#E0A400" stroke-width="3"/><path d="M91 68h12m-4 0v4m-4-4v3" fill="none" stroke="#E0A400" stroke-width="3" stroke-linecap="round"/></g>`,
+      'keep|keep a secret': bg('#E8F0FF')+man(40,40,'#7A5CFF','#5A3B28','flat')+`<path d="M40 54v-9" stroke="${SKIN}" stroke-width="4.5" stroke-linecap="round"/>`+
+        `<rect x="74" y="38" width="26" height="22" rx="4" fill="#FFC93C" ${W}/><path d="M79 38v-6a8 8 0 0 1 16 0v6" fill="none" stroke="${K}" stroke-width="3"/><circle cx="87" cy="48" r="3" fill="${K}"/><path d="M87 50v5" stroke="${K}" stroke-width="2"/>`+txt(56,22,11,'#7A5CFF','shh'),
+      'make|make a mistake': bg('#FFECE0')+man(36,42,'#1F5BFF','#5A3B28','sad')+`<path d="M20 52q-2-14 8-20" fill="none" stroke="#1F5BFF" stroke-width="5" stroke-linecap="round"/><ellipse cx="34" cy="34" rx="8" ry="3.5" fill="${SKIN}" ${W}/>`+
+        `<rect x="66" y="14" width="38" height="52" rx="3" fill="#fff" ${W}/><path d="M72 24h26M72 31h20M72 38h24" stroke="#C9CFDB" stroke-width="2"/><path d="M76 44l14 14M90 44l-14 14" stroke="#E5484D" stroke-width="4" stroke-linecap="round"/>`,
+    };
+  })();
+  window.EIC_PICS=PICS;
+  const picSVG=(id,cls)=>PICS[id]?`<svg class="${cls}" viewBox="0 0 120 80" aria-hidden="true">${PICS[id]}</svg>`:'';
+  document.querySelectorAll('.row').forEach(r=>{const h=picSVG(r.dataset.id,'pic'); if(h && !r.querySelector('svg.ico')){r.insertAdjacentHTML('afterbegin',h); r.classList.add('haspic')}});
   const allItems = [...document.querySelectorAll('.tile,.row')];
   function paint(){
     allItems.forEach(t=>{const s=(prog[t.dataset.id]||{}).s; if(s) t.dataset.st=s; else delete t.dataset.st});
@@ -6409,7 +6454,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     syncEl.textContent = ok ? 'Отметки сохраняются в аккаунте: одни и те же на всех устройствах, у каждого свои.' : 'Отметки пока хранятся только на этом устройстве. Войди в аккаунт Claude, чтобы они не потерялись.';
     document.getElementById('backup').hidden = ok;
   }
-  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; pbody.innerHTML=detailHTML(t)+(window.EIC_FIXHTML?window.EIC_FIXHTML(t.dataset.id):''); pbody.scrollTop=0;
+  function openSheet(t){cur=t; sw.textContent=t.querySelector('.en').textContent; pbody.innerHTML=picSVG(t.dataset.id,'pic-big')+detailHTML(t)+(window.EIC_FIXHTML?window.EIC_FIXHTML(t.dataset.id):''); pbody.scrollTop=0;
     pbody.querySelectorAll('b').forEach(b=>{ if(/[a-z]/i.test(b.textContent) && !/[а-яё]/i.test(b.textContent)) b.classList.add('say') });
     sheet.hidden=false; scrim.hidden=false; markSheet()}
   function hideSheet(){sheet.hidden=true; scrim.hidden=true}
