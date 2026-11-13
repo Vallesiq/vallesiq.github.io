@@ -61,6 +61,20 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
 .topics button{flex:none;font:600 13px var(--display);color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer;white-space:nowrap}
 .topics button[aria-current="true"]{background:var(--blue);border-color:var(--blue);color:var(--card)}
 .topics button[hidden],.in-deck .topics{display:none}
+/* word search: one field under the sections, results drop below it, a tap opens the word's sheet */
+.srch{position:relative}
+.srch input{width:100%;box-sizing:border-box;font:500 15px var(--display);color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 36px 10px 12px;outline:none}
+.srch input:focus{border-color:var(--blue)}
+.srch input::-webkit-search-cancel-button{display:none}
+.srch .sclr{position:absolute;right:4px;top:4px;width:32px;height:32px;border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer}
+.sres{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:8;background:var(--card);border:1px solid var(--line);border-radius:10px;max-height:60vh;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.sres button{display:block;width:100%;text-align:left;font:500 14px var(--display);color:var(--ink);background:none;border:0;border-bottom:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.sres button:last-child{border-bottom:0}
+.sres button:hover,.sres button:focus{background:var(--soft)}
+.sres b{font-weight:700}
+.sres small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.sres p{margin:0;padding:12px;color:var(--muted);font-size:14px}
+.sres p button{display:inline;width:auto;border:0;padding:0;color:var(--blue);font-weight:600;background:none}
 .lsg{scroll-margin-top:var(--toph,110px)}
 
 .decks{display:flex;flex-direction:column;gap:26px}
@@ -404,6 +418,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
       <button id="g-dict" data-group="dict" aria-pressed="false">Словарь</button>
     </div>
   </div>
+  <div class="srch" role="search"><input id="sq" type="search" placeholder="Найти слово: по-английски или по-русски" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Поиск по слову"><button class="sclr" id="sclr" aria-label="Очистить" hidden>×</button><div class="sres" id="sres" hidden></div></div>
   <div class="topics" id="topics" role="navigation" aria-label="Темы"></div>
   </div>
   <details class="opts" id="opts">
@@ -6436,6 +6451,35 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
   sheet.addEventListener('touchend',dragEnd); sheet.addEventListener('touchcancel',dragEnd);
   pbody.addEventListener('click',e=>{if(window.EIC_FIXCLICK && window.EIC_FIXCLICK(e)) return; const t=e.target.closest('.pbt'); if(t){const u=t.nextElementSibling; u.hidden=!u.hidden; t.textContent=u.hidden?'Как построено':'Свернуть'; return}
     const b=e.target.closest('b.say,.pspk'); if(b) speak(b.dataset.say||b.textContent,b)});
+  // ---------- word search: English or Russian, every deck; a tap opens the word's sheet wherever it lives ----------
+  (function(){
+    const sq=document.getElementById('sq'), sres=document.getElementById('sres'), sclr=document.getElementById('sclr');
+    const norm=x=>String(x||'').toLowerCase().replace(/ё/g,'е').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim();
+    let idx=null;
+    const build=()=>idx=allItems.map(t=>{const en=(t.querySelector('.en')||{}).textContent||'', ru=(t.querySelector('.ru')||{}).textContent||'', dk=t.closest('.deck'), h=dk&&dk.querySelector('h2');
+      return {t, en:en.trim(), ru:ru.trim(), ne:norm(en), nr:norm(ru), deck:h?(h.firstChild.textContent||'').trim():''}});
+    const esc=x=>x.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const score=(h,q)=>{if(h===q) return 0; if(h.startsWith(q)) return 1; const i=h.indexOf(q); if(i<0) return 9; return /[\s'(\/-]/.test(h[i-1]) ? 2 : 3};
+    let hits=[];
+    function run(){
+      const q=norm(sq.value); sclr.hidden=!q;
+      if(!q){sres.hidden=true; return}
+      if(!idx) build();
+      hits=idx.map(x=>({x, s:Math.min(score(x.ne,q), score(x.nr,q)+0.5)})).filter(h=>h.s<9).sort((a,b)=>a.s-b.s || a.x.en.length-b.x.en.length).slice(0,40);
+      sres.innerHTML = hits.length ? hits.map((h,i)=>`<button data-i="${i}"><b>${esc(h.x.en)}</b> · ${esc(h.x.ru)}<small>${esc(h.x.deck)}${h.x.t.dataset.st==='known'?' · знаю':h.x.t.dataset.st==='learn'?' · учу':h.x.t.dataset.st==='repeat'?' · повторить':''}</small></button>`).join('')
+        : `<p>В карточках нет. <button id="s2dict">Добавить в словарь</button></p>`;
+      sres.hidden=false;
+    }
+    sq.addEventListener('input',run);
+    sq.addEventListener('focus',()=>{if(sq.value) run()});
+    sq.addEventListener('keydown',e=>{if(e.key==='Enter' && hits[0]){e.preventDefault(); pick(0)} if(e.key==='Escape'){sres.hidden=true; sq.blur()}});
+    sclr.addEventListener('click',()=>{sq.value=''; run(); sq.focus()});
+    function pick(i){const h=hits[i]; if(!h) return; sres.hidden=true; sq.blur(); openSheet(h.x.t)}
+    sres.addEventListener('click',e=>{
+      if(e.target.closest('#s2dict')){const w=sq.value.trim(); sres.hidden=true; setGroup('dict'); setTimeout(()=>{const dw=document.getElementById('dw'); if(dw){dw.value=w; dw.focus(); dw.scrollIntoView({block:'center'})}},50); return}
+      const b=e.target.closest('button[data-i]'); if(b) pick(+b.dataset.i)});
+    document.addEventListener('click',e=>{if(!e.target.closest('.srch')) sres.hidden=true});
+  })();
   fbtns.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.f; fbtns.forEach(x=>x.setAttribute('aria-pressed',String(x===b))); hideSheet(); cur=null; applyFilter()}));
   // backup for viewers without an account: progress lives only in this browser
   const bkMsg=document.getElementById('bk-msg'), bkIn=document.getElementById('bk-in');
