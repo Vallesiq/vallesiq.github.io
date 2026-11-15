@@ -6408,8 +6408,18 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offse
     bs.forEach(b=>{ if(document.getElementById(b.dataset.sec).getBoundingClientRect().top <= h+40) on=b });
     bs.forEach(b=>{ const c = b===on; if(c && b.getAttribute('aria-current')!=='true'){ topicsEl.scrollTo({left:b.offsetLeft-16-(topicsEl.clientWidth-b.offsetWidth)/2, behavior:'smooth'}) } b.setAttribute('aria-current', String(c)) });
   }
+  // short tab (e.g. «Каналы»): the last sections can't reach the top, so a spacer under the decks gives the page room to scroll
+  const topicPad = document.createElement('div'); topicPad.id='topic-pad'; decksEl.after(topicPad);
   topicsEl.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
-    document.getElementById(b.dataset.sec).scrollIntoView({behavior:'smooth', block:'start'}) });
+    const sec = document.getElementById(b.dataset.sec); topicPad.style.height='0px';
+    const need = sec.getBoundingClientRect().top + window.scrollY - (topEl.offsetHeight+12);
+    // the page is never shorter than the screen, so one pass undercounts: add room until the section can reach the top
+    let pad = 0;
+    for(let k=0;k<4;k++){ const max = document.documentElement.scrollHeight - window.innerHeight; if(need <= max) break;
+      pad += Math.ceil(need-max+2); topicPad.style.height = pad+'px'; }
+    topicsEl.querySelectorAll('button').forEach(x=>x.setAttribute('aria-current', String(x===b)));
+    window.scrollTo({top: Math.max(0, need), behavior:'smooth'}) });
+  document.addEventListener('click',e=>{ if(e.target.closest('[data-group]') && !e.target.closest('#topics')) topicPad.style.height='0px' });
   let spyRaf=0; window.addEventListener('scroll',()=>{ if(!spyRaf) spyRaf=requestAnimationFrame(()=>{spyRaf=0; spy()}) }, {passive:true});
   window.addEventListener('resize',spy);
 
